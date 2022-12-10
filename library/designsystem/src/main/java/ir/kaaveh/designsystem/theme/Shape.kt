@@ -1,4 +1,4 @@
-package ir.kaaveh.composenews.ui.theme
+package ir.kaaveh.designsystem.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

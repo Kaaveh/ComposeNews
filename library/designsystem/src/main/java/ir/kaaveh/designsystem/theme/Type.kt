@@ -1,4 +1,4 @@
-package ir.kaaveh.composenews.ui.theme
+package ir.kaaveh.designsystem.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

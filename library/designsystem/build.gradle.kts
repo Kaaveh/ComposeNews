@@ -1,6 +1,6 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    id("com.android.library")
+    id("kotlin-android")
 }
 
 android {
@@ -8,11 +8,8 @@ android {
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "ir.kaaveh.designsystem"
         minSdk = 23
         targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -33,14 +30,19 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.2.0"
+    }
 }
 
 dependencies {
-
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.appcompat:appcompat:1.5.1")
-    implementation("com.google.android.material:material:1.7.0")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.4")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.0")
+    api(platform("androidx.compose:compose-bom:2022.11.00"))
+    api("androidx.compose.ui:ui")
+    api("androidx.compose.ui:ui-tooling-preview")
+    api("androidx.compose.material:material")
+    debugApi("androidx.compose.ui:ui-tooling")
+    debugApi("androidx.compose.ui:ui-test-manifest")
 }
