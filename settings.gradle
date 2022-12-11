@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 rootProject.name = "Compose News"
 include ':app'
 include ':library:designsystem'
+include ':core:domain'
