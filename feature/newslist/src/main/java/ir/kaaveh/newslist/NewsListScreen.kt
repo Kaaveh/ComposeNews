@@ -19,7 +19,8 @@ import ir.kaaveh.newslist.component.NewsListItem
 
 @Composable
 fun NewsListScreen(
-    viewModel: NewsListViewModel = hiltViewModel()
+    viewModel: NewsListViewModel = hiltViewModel(),
+    onNavigateToDetailScreen: () -> Unit,
 ) {
 
     val state = viewModel.state.value
@@ -32,7 +33,7 @@ fun NewsListScreen(
                 NewsListItem(
                     news = news,
                     onItemClick = {
-                        // TODO: navigate to detail screen
+                        onNavigateToDetailScreen()
                     },
                     onFavoriteClick = {
                         viewModel.onFavoriteClick(news)
