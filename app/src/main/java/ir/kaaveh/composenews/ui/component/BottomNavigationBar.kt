@@ -8,8 +8,6 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import ir.kaaveh.composenews.navigation.BottomNavItem
 import ir.kaaveh.composenews.navigation.Destinations
 
@@ -29,17 +27,16 @@ val items = listOf(
 @Composable
 fun BottomNavigationBar(
     items: List<BottomNavItem>,
-    navController: NavController,
+    currentScreenRoute: String?,
     modifier: Modifier = Modifier,
     onItemClick: (BottomNavItem) -> Unit
 ) {
-    val backStackEntry = navController.currentBackStackEntryAsState()
     BottomNavigation(
         modifier = modifier,
         elevation = 5.dp
     ) {
         items.forEach { item ->
-            val selected = item.route == backStackEntry.value?.destination?.route
+            val selected = item.route == currentScreenRoute
             BottomNavigationItem(
                 selected = selected,
                 onClick = { onItemClick(item) },

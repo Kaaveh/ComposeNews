@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import ir.kaaveh.designsystem.component.NewsItem
 import ir.kaaveh.newslist.component.NewsListItem
 
 @Composable
