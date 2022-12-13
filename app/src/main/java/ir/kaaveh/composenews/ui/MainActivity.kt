@@ -15,20 +15,8 @@ import ir.kaaveh.composenews.navigation.BottomNavItem
 import ir.kaaveh.composenews.navigation.ComposeNewsNavHost
 import ir.kaaveh.composenews.navigation.Destinations
 import ir.kaaveh.composenews.ui.component.BottomNavigationBar
+import ir.kaaveh.composenews.ui.component.items
 import ir.kaaveh.designsystem.theme.ComposeNewsTheme
-
-val items = listOf(
-    BottomNavItem(
-        name = "News",
-        route = Destinations.NewsListScreen.route,
-        icon = Icons.Default.Home
-    ),
-    BottomNavItem(
-        name = "Favorite",
-        route = Destinations.FavoriteNewsScreen.route,
-        icon = Icons.Default.Favorite,
-    ),
-)
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
