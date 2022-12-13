@@ -13,18 +13,19 @@ import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ir.kaaveh.composenews.navigation.BottomNavItem
 import ir.kaaveh.composenews.navigation.ComposeNewsNavHost
+import ir.kaaveh.composenews.navigation.Destinations
 import ir.kaaveh.composenews.ui.component.BottomNavigationBar
 import ir.kaaveh.designsystem.theme.ComposeNewsTheme
 
 val items = listOf(
     BottomNavItem(
-        name = "Home",
-        route = "home",
+        name = "News",
+        route = Destinations.NewsListScreen.route,
         icon = Icons.Default.Home
     ),
     BottomNavItem(
         name = "Favorite",
-        route = "favorite",
+        route = Destinations.FavoriteNewsScreen.route,
         icon = Icons.Default.Favorite,
     ),
 )
