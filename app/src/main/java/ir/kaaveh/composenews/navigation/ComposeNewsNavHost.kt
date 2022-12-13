@@ -29,7 +29,12 @@ fun ComposeNewsNavHost(navController: NavHostController, modifier: Modifier) {
             )
         }
         composable(Destinations.FavoriteNewsScreen.route) {
-            FavoriteNewsScreen()
+            FavoriteNewsScreen(
+                onNavigateToDetailScreen = { arg ->
+                    val encodedUrl = URLEncoder.encode(arg, StandardCharsets.UTF_8.toString())
+                    navController.navigate(Destinations.NewsDetailScreen.route + "/$encodedUrl")
+                }
+            )
         }
         composable(
             route = Destinations.NewsDetailScreen.route + "/{news_link}",

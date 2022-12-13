@@ -8,10 +8,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import ir.kaaveh.favoritenews.component.FavoriteNewsItem
 
 @Composable
 fun FavoriteNewsScreen(
-    viewModel: FavoriteNewsViewModel = hiltViewModel()
+    viewModel: FavoriteNewsViewModel = hiltViewModel(),
+    onNavigateToDetailScreen: (arg: String) -> Unit,
 ) {
 
     val state = viewModel.state.value
@@ -21,10 +23,10 @@ fun FavoriteNewsScreen(
     ) {
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
             items(state.news) { news ->
-                NewsListItem(
+                FavoriteNewsItem(
                     news = news,
                     onItemClick = {
-                        // TODO: Navigate to detail screen
+                        onNavigateToDetailScreen(news.url)
                     },
                     onFavoriteClick = {
                         viewModel.onFavoriteClick(news)
