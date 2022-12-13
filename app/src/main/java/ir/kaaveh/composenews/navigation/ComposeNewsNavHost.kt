@@ -10,7 +10,8 @@ import androidx.navigation.navArgument
 import ir.kaaveh.favoritenews.FavoriteNewsScreen
 import ir.kaaveh.newsdetail.NewsDetailScreen
 import ir.kaaveh.newslist.NewsListScreen
-
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 @Composable
 fun ComposeNewsNavHost(navController: NavHostController, modifier: Modifier) {
@@ -21,8 +22,9 @@ fun ComposeNewsNavHost(navController: NavHostController, modifier: Modifier) {
     ) {
         composable(Destinations.NewsListScreen.route) {
             NewsListScreen(
-                onNavigateToDetailScreen = {
-                    navController.navigate(Destinations.NewsDetailScreen.route)
+                onNavigateToDetailScreen = { arg ->
+                    val encodedUrl = URLEncoder.encode(arg, StandardCharsets.UTF_8.toString())
+                    navController.navigate(Destinations.NewsDetailScreen.route + "/$encodedUrl")
                 }
             )
         }
@@ -38,7 +40,7 @@ fun ComposeNewsNavHost(navController: NavHostController, modifier: Modifier) {
                     nullable = false
                 }
             )
-        ) {entry ->
+        ) { entry ->
             NewsDetailScreen(newsLink = entry.arguments?.getString("news_link") ?: "")
         }
     }
