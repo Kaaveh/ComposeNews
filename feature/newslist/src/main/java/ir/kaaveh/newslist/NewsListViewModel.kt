@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewsListViewModel @Inject constructor(
-    private val getJsonNewsUseCase: GetNewsUseCase,
+    private val getNewsUseCase: GetNewsUseCase,
     private val addFavoriteNewsUseCase: AddFavoriteNewsUseCase,
     private val removeFavoriteNewsUseCase: RemoveFavoriteNewsUseCase,
     private val getFavoriteNewsUseCase: GetFavoriteNewsUseCase,
@@ -33,7 +33,7 @@ class NewsListViewModel @Inject constructor(
         getFavoriteNews()
     }
 
-    private fun getNewsList() = getJsonNewsUseCase().onEach { result ->
+    private fun getNewsList() = getNewsUseCase().onEach { result ->
         when (result) {
             is Resource.Loading -> {
                 _state.value = NewsListState(isLoading = true)

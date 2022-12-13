@@ -1,6 +1,6 @@
 package ir.kaaveh.remotedatasource.dto
 
 data class SourceDto(
-    val id: Any,
-    val name: String,
+    val id: Any?,
+    val name: String?,
 )
