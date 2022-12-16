@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "ir.kaaveh.data"
+    namespace = "ir.kaaveh.localdatasource"
     compileSdk = 33
 
     defaultConfig {
@@ -36,9 +36,10 @@ android {
 }
 
 dependencies {
-    api(project(":core:domain"))
-    api(project(":core:remotedatasource"))
-    api(project(":core:localdatasource"))
+    api(project(":domain:news"))
+    implementation("androidx.room:room-runtime:2.4.3")
+    implementation("androidx.room:room-ktx:2.4.3")
+    kapt("androidx.room:room-compiler:2.4.3")
     implementation("com.google.dagger:hilt-android:2.42")
     kapt("com.google.dagger:hilt-compiler:2.42")
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")

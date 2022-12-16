@@ -1,12 +1,13 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-parcelize")
     id("dagger.hilt.android.plugin")
     id("kotlin-kapt")
 }
 
 android {
-    namespace = "ir.kaaveh.remotedatasource"
+    namespace = "ir.kaaveh.domain"
     compileSdk = 33
 
     defaultConfig {
@@ -36,16 +37,12 @@ android {
 }
 
 dependencies {
-    api(project(":core:domain"))
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
-    implementation("com.google.dagger:hilt-android:2.42")
-    kapt("com.google.dagger:hilt-compiler:2.42")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
-    debugImplementation("com.github.chuckerteam.chucker:library:3.5.2")
-    releaseImplementation("com.github.chuckerteam.chucker:library-no-op:3.5.2")
+    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.appcompat:appcompat:1.5.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.4")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.0")
+    implementation("com.google.dagger:hilt-android:2.42")
+    kapt("com.google.dagger:hilt-compiler:2.42")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 }
