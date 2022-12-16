@@ -43,7 +43,7 @@ android {
 
 dependencies {
     implementation(project(":library:designsystem"))
-    api(project(":core:data"))
+    api(project(":data:news-repository"))
     implementation("com.google.dagger:hilt-android:2.42")
     kapt("com.google.dagger:hilt-compiler:2.42")
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
