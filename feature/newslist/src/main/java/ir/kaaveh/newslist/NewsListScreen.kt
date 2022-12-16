@@ -16,12 +16,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ir.kaaveh.designsystem.component.NewsItem
+import ir.kaaveh.domain.model.News
 import ir.kaaveh.newslist.component.NewsListItem
 
 @Composable
 fun NewsListScreen(
     viewModel: NewsListViewModel = hiltViewModel(),
-    onNavigateToDetailScreen: (arg: String) -> Unit,
+    onNavigateToDetailScreen: (news: News) -> Unit,
 ) {
 
     val state = viewModel.state.value
@@ -34,7 +35,7 @@ fun NewsListScreen(
                 NewsListItem(
                     news = news,
                     onItemClick = {
-                        onNavigateToDetailScreen(news.url)
+                        onNavigateToDetailScreen(news)
                     },
                     onFavoriteClick = {
                         viewModel.onFavoriteClick(news)

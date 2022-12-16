@@ -16,12 +16,14 @@ class NewsDetailViewModel @Inject constructor(
     private val removeFavoriteNewsUseCase: RemoveFavoriteNewsUseCase,
 ) : ViewModel() {
 
-    fun onFavoriteClick(news: News) {
-        viewModelScope.launch(Dispatchers.IO) {
-            if (!news.isFavorite) {
-                addFavoriteNewsUseCase(news)
-            } else {
-                removeFavoriteNewsUseCase(news)
+    fun onFavoriteClick(news: News?) {
+        news?.let {
+            viewModelScope.launch(Dispatchers.IO) {
+                if (!news.isFavorite) {
+                    addFavoriteNewsUseCase(news)
+                } else {
+                    removeFavoriteNewsUseCase(news)
+                }
             }
         }
     }
