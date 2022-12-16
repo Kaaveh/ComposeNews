@@ -8,12 +8,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import ir.kaaveh.domain.model.News
 import ir.kaaveh.favoritenews.component.FavoriteNewsItem
 
 @Composable
 fun FavoriteNewsScreen(
     viewModel: FavoriteNewsViewModel = hiltViewModel(),
-    onNavigateToDetailScreen: (arg: String) -> Unit,
+    onNavigateToDetailScreen: (news: News) -> Unit,
 ) {
 
     val state = viewModel.state.value
@@ -26,7 +27,7 @@ fun FavoriteNewsScreen(
                 FavoriteNewsItem(
                     news = news,
                     onItemClick = {
-                        onNavigateToDetailScreen(news.url)
+                        onNavigateToDetailScreen(news)
                     },
                     onFavoriteClick = {
                         viewModel.onFavoriteClick(news)

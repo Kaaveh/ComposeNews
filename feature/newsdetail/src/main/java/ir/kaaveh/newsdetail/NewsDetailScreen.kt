@@ -17,11 +17,11 @@ import ir.kaaveh.domain.model.News
 
 @Composable
 fun NewsDetailScreen(
-    newsLink: String,
+    news: News?,
     viewModel: NewsDetailViewModel = hiltViewModel(),
 ) {
 
-    val webviewState = rememberWebViewState(newsLink)
+    val webviewState = rememberWebViewState(news?.url ?: "")
     var favorite by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -36,7 +36,7 @@ fun NewsDetailScreen(
                 .align(Alignment.BottomEnd)
                 .padding(16.dp),
             onClick = {
-//                viewModel.onFavoriteClick(news)
+                viewModel.onFavoriteClick(news)
                 favorite = !favorite
             },
             backgroundColor = Color.White,

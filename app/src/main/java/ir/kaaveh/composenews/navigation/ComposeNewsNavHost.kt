@@ -2,16 +2,14 @@ package ir.kaaveh.composenews.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.core.os.bundleOf
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
+import ir.kaaveh.domain.model.News
 import ir.kaaveh.favoritenews.FavoriteNewsScreen
 import ir.kaaveh.newsdetail.NewsDetailScreen
 import ir.kaaveh.newslist.NewsListScreen
-import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
 
 @Composable
 fun ComposeNewsNavHost(navController: NavHostController, modifier: Modifier) {
@@ -22,31 +20,29 @@ fun ComposeNewsNavHost(navController: NavHostController, modifier: Modifier) {
     ) {
         composable(Destinations.NewsListScreen.route) {
             NewsListScreen(
-                onNavigateToDetailScreen = { arg ->
-                    val encodedUrl = URLEncoder.encode(arg, StandardCharsets.UTF_8.toString())
-                    navController.navigate(Destinations.NewsDetailScreen.route + "/$encodedUrl")
+                onNavigateToDetailScreen = { news ->
+                    navController.navigate(
+                        route = Destinations.NewsDetailScreen().route,
+                        args = bundleOf(Destinations.NewsDetailScreen().news to news)
+                    )
                 }
             )
         }
         composable(Destinations.FavoriteNewsScreen.route) {
             FavoriteNewsScreen(
-                onNavigateToDetailScreen = { arg ->
-                    val encodedUrl = URLEncoder.encode(arg, StandardCharsets.UTF_8.toString())
-                    navController.navigate(Destinations.NewsDetailScreen.route + "/$encodedUrl")
+                onNavigateToDetailScreen = { news ->
+                    navController.navigate(
+                        route = Destinations.NewsDetailScreen().route,
+                        args = bundleOf(Destinations.NewsDetailScreen().news to news)
+                    )
                 }
             )
         }
         composable(
-            route = Destinations.NewsDetailScreen.route + "/{news_link}",
-            arguments = listOf(
-                navArgument("news_link") {
-                    type = NavType.StringType
-                    defaultValue = ""
-                    nullable = false
-                }
-            )
+            route = Destinations.NewsDetailScreen().route,
         ) { entry ->
-            NewsDetailScreen(newsLink = entry.arguments?.getString("news_link") ?: "")
+            val news = entry.parcelableData<News>(Destinations.NewsDetailScreen().news)
+            NewsDetailScreen(news = news)
         }
     }
 }
