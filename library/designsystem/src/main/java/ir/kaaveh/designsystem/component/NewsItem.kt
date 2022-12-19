@@ -13,6 +13,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import ir.kaaveh.designsystem.preview.ThemePreviews
+import ir.kaaveh.designsystem.theme.ComposeNewsTheme
 
 @Composable
 fun NewsItem(
@@ -87,5 +89,22 @@ fun NewsItem(
         Spacer(modifier = Modifier.height(8.dp))
         Divider(color = Color.Black)
         Spacer(modifier = Modifier.height(8.dp))
+    }
+}
+
+@ThemePreviews
+@Composable
+private fun NewsItemPrev() {
+    ComposeNewsTheme {
+        NewsItem(
+            title = "Title",
+            urlToImage = "",
+            description = "This is a sample description.",
+            source = "My Aunt",
+            publishedAt = "2022/02.10",
+            isFavorite = false,
+            onItemClick = {},
+            onFavoriteClick = {}
+        )
     }
 }

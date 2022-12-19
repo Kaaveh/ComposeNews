@@ -7,9 +7,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import ir.kaaveh.domain.model.News
-import ir.kaaveh.favoritenews.FavoriteNewsScreen
-import ir.kaaveh.newsdetail.NewsDetailScreen
-import ir.kaaveh.newslist.NewsListScreen
+import ir.kaaveh.favoritenews.FavoriteNewsRoute
+import ir.kaaveh.newsdetail.NewsDetailRoute
+import ir.kaaveh.newslist.NewsListRoute
 
 @Composable
 fun ComposeNewsNavHost(navController: NavHostController, modifier: Modifier) {
@@ -19,7 +19,7 @@ fun ComposeNewsNavHost(navController: NavHostController, modifier: Modifier) {
         modifier = modifier
     ) {
         composable(Destinations.NewsListScreen.route) {
-            NewsListScreen(
+            NewsListRoute(
                 onNavigateToDetailScreen = { news ->
                     navController.navigate(
                         route = Destinations.NewsDetailScreen().route,
@@ -29,7 +29,7 @@ fun ComposeNewsNavHost(navController: NavHostController, modifier: Modifier) {
             )
         }
         composable(Destinations.FavoriteNewsScreen.route) {
-            FavoriteNewsScreen(
+            FavoriteNewsRoute(
                 onNavigateToDetailScreen = { news ->
                     navController.navigate(
                         route = Destinations.NewsDetailScreen().route,
@@ -42,7 +42,7 @@ fun ComposeNewsNavHost(navController: NavHostController, modifier: Modifier) {
             route = Destinations.NewsDetailScreen().route,
         ) { entry ->
             val news = entry.parcelableData<News>(Destinations.NewsDetailScreen().news)
-            NewsDetailScreen(news = news)
+            NewsDetailRoute(news = news)
         }
     }
 }
