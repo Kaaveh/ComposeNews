@@ -25,14 +25,15 @@ import ir.kaaveh.newslist.preview_provider.NewsListStateProvider
 fun NewsListRoute(
     viewModel: NewsListViewModel = hiltViewModel(),
     onNavigateToDetailScreen: (news: News) -> Unit,
-    onFavoriteClick: (news: News) -> Unit,
 ) {
     val state = viewModel.state.value
 
     NewsListScreen(
         newsListState = state,
         onNavigateToDetailScreen = onNavigateToDetailScreen,
-        onFavoriteClick = onFavoriteClick,
+        onFavoriteClick = { news ->
+            viewModel.onFavoriteClick(news)
+        },
     )
 }
 

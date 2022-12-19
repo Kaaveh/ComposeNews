@@ -20,6 +20,7 @@ val newsList = listOf(
         title = "Title",
         url = "",
         urlToImage = "",
+        isFavorite = true,
     ),
     News(
         author = "Kaaveh Mohamedi",
@@ -38,6 +39,7 @@ val newsList = listOf(
         title = "Title",
         url = "",
         urlToImage = "",
+        isFavorite = true,
     ),
     News(
         author = "Kaaveh Mohamedi",
