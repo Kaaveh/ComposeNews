@@ -1,0 +1,78 @@
+package ir.kaaveh.domain.model_provider
+
+import ir.kaaveh.domain.model.News
+
+val newsList = listOf(
+    News(
+        author = "Kaaveh Mohamedi",
+        description = "This is a sample description.",
+        publishedAt = "2022/02.10",
+        source = "My Aunt",
+        title = "Title",
+        url = "",
+        urlToImage = "",
+    ),
+    News(
+        author = "Kaaveh Mohamedi",
+        description = "This is a sample description.",
+        publishedAt = "2022/02.10",
+        source = "My Aunt",
+        title = "Title",
+        url = "",
+        urlToImage = "",
+    ),
+    News(
+        author = "Kaaveh Mohamedi",
+        description = "This is a sample description.",
+        publishedAt = "2022/02.10",
+        source = "My Aunt",
+        title = "Title",
+        url = "",
+        urlToImage = "",
+    ),
+    News(
+        author = "Kaaveh Mohamedi",
+        description = "This is a sample description.",
+        publishedAt = "2022/02.10",
+        source = "My Aunt",
+        title = "Title",
+        url = "",
+        urlToImage = "",
+    ),
+    News(
+        author = "Kaaveh Mohamedi",
+        description = "This is a sample description.",
+        publishedAt = "2022/02.10",
+        source = "My Aunt",
+        title = "Title",
+        url = "",
+        urlToImage = "",
+    ),
+    News(
+        author = "Kaaveh Mohamedi",
+        description = "This is a sample description.",
+        publishedAt = "2022/02.10",
+        source = "My Aunt",
+        title = "Title",
+        url = "",
+        urlToImage = "",
+    ),
+    News(
+        author = "Kaaveh Mohamedi",
+        description = "This is a sample description.",
+        publishedAt = "2022/02.10",
+        source = "My Aunt",
+        title = "Title",
+        url = "",
+        urlToImage = "",
+    ),
+    News(
+        author = "Kaaveh Mohamedi",
+        description = "This is a sample description.",
+        publishedAt = "2022/02.10",
+        source = "My Aunt",
+        title = "Title",
+        url = "",
+        urlToImage = "",
+    ),
+)
