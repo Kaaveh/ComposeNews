@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.hilt.navigation.compose.hiltViewModel
 import ir.kaaveh.designsystem.preview.ThemePreviews
-import ir.kaaveh.designsystem.use
 import ir.kaaveh.domain.model.News
 import ir.kaaveh.favoritenews.component.FavoriteNewsItem
 import ir.kaaveh.favoritenews.preview_provider.FavoriteNewsStateProvider
@@ -20,20 +19,20 @@ fun FavoriteNewsRoute(
     viewModel: FavoriteNewsViewModel = hiltViewModel(),
     onNavigateToDetailScreen: (news: News) -> Unit,
 ) {
-    val (state, event) = use(viewModel = viewModel)
+    val state = viewModel.state.value
 
     FavoriteNewsScreen(
         favoriteNewsState = state,
         onNavigateToDetailScreen = onNavigateToDetailScreen,
         onFavoriteClick = { news ->
-            event.invoke(FavoriteNewsContract.Event.OnFavoriteClick(news = news))
+            viewModel.onFavoriteClick(news)
         }
     )
 }
 
 @Composable
 fun FavoriteNewsScreen(
-    favoriteNewsState: FavoriteNewsContract.State,
+    favoriteNewsState: FavoriteNewsState,
     onNavigateToDetailScreen: (news: News) -> Unit,
     onFavoriteClick: (news: News) -> Unit,
 ) {
@@ -60,7 +59,7 @@ fun FavoriteNewsScreen(
 @Composable
 private fun FavoriteNewsScreenPrev(
     @PreviewParameter(FavoriteNewsStateProvider::class)
-    favoriteNewsState: FavoriteNewsContract.State
+    favoriteNewsState: FavoriteNewsState
 ) {
     FavoriteNewsScreen(
         favoriteNewsState = favoriteNewsState,

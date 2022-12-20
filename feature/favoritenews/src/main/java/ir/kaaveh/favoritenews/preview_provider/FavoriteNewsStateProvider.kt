@@ -2,21 +2,21 @@ package ir.kaaveh.favoritenews.preview_provider
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import ir.kaaveh.domain.model_provider.newsList
-import ir.kaaveh.favoritenews.FavoriteNewsContract
+import ir.kaaveh.favoritenews.FavoriteNewsState
 
-class FavoriteNewsStateProvider: PreviewParameterProvider<FavoriteNewsContract.State> {
-    override val values: Sequence<FavoriteNewsContract.State> = sequenceOf(
-        FavoriteNewsContract.State(
+class FavoriteNewsStateProvider: PreviewParameterProvider<FavoriteNewsState> {
+    override val values: Sequence<FavoriteNewsState> = sequenceOf(
+        FavoriteNewsState(
             isLoading = false,
             news = newsList,
             error = ""
         ),
-        FavoriteNewsContract.State(
+        FavoriteNewsState(
             isLoading = true,
             news = newsList,
             error = ""
         ),
-        FavoriteNewsContract.State(
+        FavoriteNewsState(
             isLoading = false,
             news = newsList,
             error = "An Error Occurred!"

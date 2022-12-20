@@ -1,6 +1,5 @@
 package ir.kaaveh.newsdetail
 
-import android.app.Activity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -9,53 +8,36 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.web.WebView
 import com.google.accompanist.web.rememberWebViewState
-import ir.kaaveh.designsystem.collectInLaunchedEffect
 import ir.kaaveh.designsystem.component.FavoriteIcon
 import ir.kaaveh.designsystem.preview.ThemePreviews
-import ir.kaaveh.designsystem.useWithEffect
 import ir.kaaveh.domain.model.News
-import ir.kaaveh.newsdetail.preview_provider.NewsDetailStateProvider
+import ir.kaaveh.newsdetail.preview_provider.NewsProvider
 
 @Composable
 fun NewsDetailRoute(
     news: News?,
     viewModel: NewsDetailViewModel = hiltViewModel(),
 ) {
-    val (state, effect, event) = useWithEffect(viewModel = viewModel)
-    val activity = LocalContext.current as? Activity
-
-    LaunchedEffect(key1 = news) {
-        event.invoke(NewsDetailContract.Event.SetNews(news = news))
-    }
-
-    effect.collectInLaunchedEffect {
-        when (it) {
-            NewsDetailContract.Effect.OnBackPressed -> {
-                activity?.onBackPressed()
-            }
-        }
-    }
-
     NewsDetailScreen(
-        newsDetailState = state,
+        news = news,
         onFavoriteClick = {
-            event.invoke(NewsDetailContract.Event.OnFavoriteClick(news = it))
+            viewModel.onFavoriteClick(news)
         },
     )
 }
 
 @Composable
 fun NewsDetailScreen(
-    newsDetailState: NewsDetailContract.State,
+    news: News?,
     onFavoriteClick: (news: News?) -> Unit,
 ) {
-    val webViewState = rememberWebViewState(newsDetailState.news?.url ?: "")
+    val webViewState = rememberWebViewState(news?.url ?: "")
+    var favorite by remember { mutableStateOf(news?.isFavorite ?: false) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         WebView(
@@ -68,12 +50,13 @@ fun NewsDetailScreen(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(16.dp),
-            onClick = {},
+            onClick = {
+                onFavoriteClick(news)
+                favorite = !favorite
+            },
             backgroundColor = Color.White,
         ) {
-            FavoriteIcon(isFavorite = newsDetailState.news?.isFavorite ?: false) {
-                onFavoriteClick(newsDetailState.news)
-            }
+            FavoriteIcon(isFavorite = favorite) {}
         }
     }
 
@@ -82,8 +65,8 @@ fun NewsDetailScreen(
 @ThemePreviews
 @Composable
 private fun NewsDetailScreenPrev(
-    @PreviewParameter(NewsDetailStateProvider::class)
-    newsDetailState: NewsDetailContract.State
+    @PreviewParameter(NewsProvider::class)
+    news: News
 ) {
-    NewsDetailScreen(newsDetailState = newsDetailState, onFavoriteClick = {})
+    NewsDetailScreen(news = news, onFavoriteClick = {})
 }
