@@ -1,7 +1,5 @@
 package ir.kaaveh.newslist
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,8 +10,7 @@ import ir.kaaveh.domain.use_case.GetFavoriteNewsUseCase
 import ir.kaaveh.domain.use_case.GetNewsUseCase
 import ir.kaaveh.domain.use_case.RemoveFavoriteNewsUseCase
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,46 +20,61 @@ class NewsListViewModel @Inject constructor(
     private val addFavoriteNewsUseCase: AddFavoriteNewsUseCase,
     private val removeFavoriteNewsUseCase: RemoveFavoriteNewsUseCase,
     private val getFavoriteNewsUseCase: GetFavoriteNewsUseCase,
-) : ViewModel() {
+) : ViewModel(), NewsListContract {
 
-    private val _state = mutableStateOf(NewsListState())
-    val state: State<NewsListState> = _state
+    private val mutableState = MutableStateFlow(NewsListContract.State())
+    override val state: StateFlow<NewsListContract.State> = mutableState.asStateFlow()
 
     init {
         getNewsList()
         getFavoriteNews()
     }
 
+    override fun event(event: NewsListContract.Event) = when (event) {
+        is NewsListContract.Event.OnFavoriteClick -> onFavoriteClick(news = event.news)
+    }
+
     private fun getNewsList() = getNewsUseCase().onEach { result ->
         when (result) {
             is Resource.Loading -> {
-                _state.value = NewsListState(isLoading = true)
+                mutableState.update {
+                    NewsListContract.State(isLoading = true)
+                }
             }
             is Resource.Success -> {
-                _state.value = NewsListState(news = result.data ?: listOf())
+                mutableState.update {
+                    NewsListContract.State(
+                        news = result.data ?: listOf()
+                    )
+                }
             }
             is Resource.Error -> {
-                _state.value = NewsListState(
-                    error = result.exception?.localizedMessage ?: "An unexpected error occurred."
-                )
+                mutableState.update {
+                    NewsListContract.State(
+                        error = result.exception?.localizedMessage
+                            ?: "An unexpected error occurred."
+                    )
+                }
             }
         }
     }.launchIn(viewModelScope)
 
     private fun getFavoriteNews() = getFavoriteNewsUseCase().onEach { favoriteList ->
-        val updatedList = _state.value.news.map { article ->
-            val temp = favoriteList.find { it.title == article.title }
-            temp?.copy(isFavorite = true) ?: article.copy(isFavorite = false)
+        val updatedList = mutableState.value.news.map { news ->
+            val temp = favoriteList.find { it.title == news.title }
+            temp?.copy(isFavorite = true) ?: news.copy(isFavorite = false)
         }
-        _state.value = _state.value.copy(news = updatedList)
+        mutableState.update {
+            it.copy(news = updatedList)
+        }
     }.launchIn(viewModelScope)
 
-    fun onFavoriteClick(article: News) {
+    private fun onFavoriteClick(news: News) {
         viewModelScope.launch(Dispatchers.IO) {
-            if (!article.isFavorite)
-                addFavoriteNewsUseCase(article)
+            if (!news.isFavorite)
+                addFavoriteNewsUseCase(news)
             else
-                removeFavoriteNewsUseCase(article)
+                removeFavoriteNewsUseCase(news)
         }
     }
 
