@@ -8,7 +8,6 @@ import ir.kaaveh.domain.use_case.AddFavoriteNewsUseCase
 import ir.kaaveh.domain.use_case.GetFavoriteNewsUseCase
 import ir.kaaveh.domain.use_case.RemoveFavoriteNewsUseCase
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,11 +19,9 @@ class FavoriteNewsViewModel @Inject constructor(
     private val getFavoriteNewsUseCase: GetFavoriteNewsUseCase,
 ) : ViewModel(), FavoriteNewsContract {
 
-    private val effectChannel = Channel<FavoriteNewsContract.Effect>(Channel.UNLIMITED)
     private val mutableState = MutableStateFlow(FavoriteNewsContract.State())
 
     override val state: StateFlow<FavoriteNewsContract.State> = mutableState.asStateFlow()
-    override val effect: Flow<FavoriteNewsContract.Effect> = effectChannel.receiveAsFlow()
 
     init {
         getFavoriteNews()

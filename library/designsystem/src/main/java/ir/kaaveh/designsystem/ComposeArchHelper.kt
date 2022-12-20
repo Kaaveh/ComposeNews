@@ -14,9 +14,14 @@ data class StateEffectDispatch<STATE, EFFECT, EVENT>(
     val dispatch: (EVENT) -> Unit,
 )
 
+data class StateDispatch<STATE, EVENT>(
+    val state: STATE,
+    val dispatch: (EVENT) -> Unit,
+)
+
 @Composable
-inline fun <reified STATE, EFFECT, EVENT> use(
-    viewModel: UnidirectionalViewModel<EVENT, EFFECT, STATE>,
+inline fun <reified STATE, EFFECT, EVENT> useWithEffect(
+    viewModel: UnidirectionalViewModelWithEffect<EVENT, EFFECT, STATE>,
 ): StateEffectDispatch<STATE, EFFECT, EVENT> {
     val state by viewModel.state.collectAsState()
 
@@ -30,9 +35,29 @@ inline fun <reified STATE, EFFECT, EVENT> use(
     )
 }
 
-interface UnidirectionalViewModel<EVENT, EFFECT, STATE> {
+@Composable
+inline fun <reified STATE, EVENT> use(
+    viewModel: UnidirectionalViewModel<EVENT, STATE>,
+): StateDispatch<STATE, EVENT> {
+    val state by viewModel.state.collectAsState()
+
+    val dispatch: (EVENT) -> Unit = { event ->
+        viewModel.event(event)
+    }
+    return StateDispatch(
+        state = state,
+        dispatch = dispatch
+    )
+}
+
+interface UnidirectionalViewModelWithEffect<EVENT, EFFECT, STATE> {
     val state: StateFlow<STATE>
     val effect: Flow<EFFECT>
+    fun event(event: EVENT)
+}
+
+interface UnidirectionalViewModel<EVENT, STATE> {
+    val state: StateFlow<STATE>
     fun event(event: EVENT)
 }
 

@@ -16,8 +16,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import ir.kaaveh.designsystem.collectInLaunchedEffect
-import ir.kaaveh.designsystem.preview.DevicesPreviews
 import ir.kaaveh.designsystem.preview.ThemePreviews
 import ir.kaaveh.designsystem.use
 import ir.kaaveh.domain.model.News
@@ -29,13 +27,7 @@ fun NewsListRoute(
     viewModel: NewsListViewModel = hiltViewModel(),
     onNavigateToDetailScreen: (news: News) -> Unit,
 ) {
-    val (state, effect, event) = use(viewModel = viewModel)
-
-    effect.collectInLaunchedEffect {
-        when (it) {
-            else -> {}
-        }
-    }
+    val (state, event) = use(viewModel = viewModel)
 
     NewsListScreen(
         newsListState = state,

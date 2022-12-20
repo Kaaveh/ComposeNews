@@ -4,7 +4,7 @@ import ir.kaaveh.designsystem.UnidirectionalViewModel
 import ir.kaaveh.domain.model.News
 
 interface NewsListContract :
-    UnidirectionalViewModel<NewsListContract.Event, NewsListContract.Effect, NewsListContract.State> {
+    UnidirectionalViewModel<NewsListContract.Event, NewsListContract.State> {
 
     data class State(
         val isLoading: Boolean = false,
@@ -15,7 +15,5 @@ interface NewsListContract :
     sealed class Event {
         data class OnFavoriteClick(val news: News) : Event()
     }
-
-    sealed class Effect
 
 }

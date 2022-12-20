@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.hilt.navigation.compose.hiltViewModel
-import ir.kaaveh.designsystem.collectInLaunchedEffect
 import ir.kaaveh.designsystem.preview.ThemePreviews
 import ir.kaaveh.designsystem.use
 import ir.kaaveh.domain.model.News
@@ -21,13 +20,7 @@ fun FavoriteNewsRoute(
     viewModel: FavoriteNewsViewModel = hiltViewModel(),
     onNavigateToDetailScreen: (news: News) -> Unit,
 ) {
-    val (state, effect, event) = use(viewModel = viewModel)
-
-    effect.collectInLaunchedEffect {
-        when (it) {
-            else -> {}
-        }
-    }
+    val (state, event) = use(viewModel = viewModel)
 
     FavoriteNewsScreen(
         favoriteNewsState = state,
