@@ -23,7 +23,6 @@ class NewsListViewModel @Inject constructor(
 ) : ViewModel(), NewsListContract {
 
     private val mutableState = MutableStateFlow(NewsListContract.State())
-
     override val state: StateFlow<NewsListContract.State> = mutableState.asStateFlow()
 
     init {
@@ -39,12 +38,14 @@ class NewsListViewModel @Inject constructor(
         when (result) {
             is Resource.Loading -> {
                 mutableState.update {
-                    it.copy(isLoading = true)
+                    NewsListContract.State(isLoading = true)
                 }
             }
             is Resource.Success -> {
                 mutableState.update {
-                    it.copy(news = result.data ?: listOf())
+                    NewsListContract.State(
+                        news = result.data ?: listOf()
+                    )
                 }
             }
             is Resource.Error -> {

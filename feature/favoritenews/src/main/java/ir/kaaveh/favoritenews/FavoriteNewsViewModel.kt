@@ -20,7 +20,6 @@ class FavoriteNewsViewModel @Inject constructor(
 ) : ViewModel(), FavoriteNewsContract {
 
     private val mutableState = MutableStateFlow(FavoriteNewsContract.State())
-
     override val state: StateFlow<FavoriteNewsContract.State> = mutableState.asStateFlow()
 
     init {
