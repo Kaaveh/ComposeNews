@@ -16,7 +16,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import ir.kaaveh.designsystem.collectInLaunchedEffect
+import ir.kaaveh.designsystem.preview.DevicesPreviews
 import ir.kaaveh.designsystem.preview.ThemePreviews
+import ir.kaaveh.designsystem.use
 import ir.kaaveh.domain.model.News
 import ir.kaaveh.newslist.component.NewsListItem
 import ir.kaaveh.newslist.preview_provider.NewsListStateProvider
@@ -26,20 +29,26 @@ fun NewsListRoute(
     viewModel: NewsListViewModel = hiltViewModel(),
     onNavigateToDetailScreen: (news: News) -> Unit,
 ) {
-    val state = viewModel.state.value
+    val (state, effect, event) = use(viewModel = viewModel)
+
+    effect.collectInLaunchedEffect {
+        when (it) {
+            else -> {}
+        }
+    }
 
     NewsListScreen(
         newsListState = state,
         onNavigateToDetailScreen = onNavigateToDetailScreen,
         onFavoriteClick = { news ->
-            viewModel.onFavoriteClick(news)
+            event.invoke(NewsListContract.Event.OnFavoriteClick(news = news))
         },
     )
 }
 
 @Composable
 fun NewsListScreen(
-    newsListState: NewsListState,
+    newsListState: NewsListContract.State,
     onNavigateToDetailScreen: (news: News) -> Unit,
     onFavoriteClick: (news: News) -> Unit,
 ) {
@@ -84,7 +93,7 @@ fun NewsListScreen(
 @Composable
 private fun NewsListScreenPrev(
     @PreviewParameter(NewsListStateProvider::class)
-    newsListState: NewsListState
+    newsListState: NewsListContract.State
 ) {
     NewsListScreen(
         newsListState = newsListState,
