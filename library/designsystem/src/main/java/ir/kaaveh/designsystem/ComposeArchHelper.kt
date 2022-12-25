@@ -50,6 +50,22 @@ inline fun <reified STATE, EVENT> use(
     )
 }
 
+@Composable
+inline fun <reified BASE_STATE, BASE_EFFECT, BASE_EVENT> useBase(
+    viewModel: BaseUnidirectionalViewModel<BASE_EVENT, BASE_EFFECT, BASE_STATE>,
+): StateEffectDispatch<BASE_STATE, BASE_EFFECT, BASE_EVENT> {
+    val state by viewModel.baseState.collectAsState()
+
+    val dispatch: (BASE_EVENT) -> Unit = { event ->
+        viewModel.baseEvent(event)
+    }
+    return StateEffectDispatch(
+        state = state,
+        effectFlow = viewModel.baseEffect,
+        dispatch = dispatch
+    )
+}
+
 interface UnidirectionalViewModelWithEffect<EVENT, EFFECT, STATE> {
     val state: StateFlow<STATE>
     val effect: Flow<EFFECT>
@@ -59,6 +75,12 @@ interface UnidirectionalViewModelWithEffect<EVENT, EFFECT, STATE> {
 interface UnidirectionalViewModel<EVENT, STATE> {
     val state: StateFlow<STATE>
     fun event(event: EVENT)
+}
+
+interface BaseUnidirectionalViewModel<BASE_EVENT, BASE_EFFECT, BASE_STATE> {
+    val baseState: StateFlow<BASE_STATE>
+    val baseEffect: Flow<BASE_EFFECT>
+    fun baseEvent(event: BASE_EVENT)
 }
 
 @Suppress("ComposableNaming")
