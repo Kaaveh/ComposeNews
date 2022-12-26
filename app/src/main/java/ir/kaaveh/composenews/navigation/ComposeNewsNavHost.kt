@@ -53,7 +53,12 @@ fun ComposeNewsNavHost(
             route = Destinations.NewsDetailScreen().route,
         ) { entry ->
             val news = entry.parcelableData<News>(Destinations.NewsDetailScreen().news)
-            NewsDetailRoute(news = news)
+            NewsDetailRoute(
+                news = news,
+                onProvideBaseViewModel = {
+                    onProvideBaseViewModel(it)
+                },
+            )
         }
     }
 }
