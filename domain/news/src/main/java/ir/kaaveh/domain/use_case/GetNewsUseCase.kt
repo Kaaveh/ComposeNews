@@ -14,9 +14,9 @@ class GetNewsUseCase @Inject constructor(
     operator fun invoke(): Flow<Resource<List<News>>> = flow {
         try {
             emit(Resource.Loading())
-            val articles =
+            val newsList =
                 repository.getNews().map { it.copy(isFavorite = repository.isFavoriteNews(it)) }
-            emit(Resource.Success(articles))
+            emit(Resource.Success(newsList))
         } catch (e: Exception) {
             emit(Resource.Error(e))
         }

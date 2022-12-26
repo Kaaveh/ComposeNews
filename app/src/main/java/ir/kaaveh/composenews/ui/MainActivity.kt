@@ -12,10 +12,16 @@ import dagger.hilt.android.AndroidEntryPoint
 import ir.kaaveh.composenews.navigation.ComposeNewsNavHost
 import ir.kaaveh.composenews.ui.component.BottomNavigationBar
 import ir.kaaveh.composenews.ui.component.items
+import ir.kaaveh.designsystem.base.BaseRoute
+import ir.kaaveh.designsystem.base.BaseViewModel
 import ir.kaaveh.designsystem.theme.ComposeNewsTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    // TODO: handle viewModel more properly
+    private var baseViewModel: BaseViewModel = BaseViewModel()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -39,10 +45,17 @@ class MainActivity : ComponentActivity() {
                             }
                     }
                 ) { paddingValues ->
-                    ComposeNewsNavHost(
-                        navController = navController,
-                        modifier = Modifier.padding(bottom = paddingValues.calculateBottomPadding())
-                    )
+                    BaseRoute(
+                        baseViewModel = baseViewModel
+                    ) {
+                        ComposeNewsNavHost(
+                            navController = navController,
+                            modifier = Modifier.padding(bottom = paddingValues.calculateBottomPadding()),
+                            onProvideBaseViewModel = { viewModel ->
+                                baseViewModel = viewModel
+                            }
+                        )
+                    }
                 }
             }
         }

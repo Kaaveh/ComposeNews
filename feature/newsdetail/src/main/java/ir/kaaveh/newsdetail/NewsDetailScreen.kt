@@ -1,6 +1,5 @@
 package ir.kaaveh.newsdetail
 
-import android.app.Activity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -9,16 +8,15 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.web.WebView
 import com.google.accompanist.web.rememberWebViewState
-import ir.kaaveh.designsystem.collectInLaunchedEffect
+import ir.kaaveh.designsystem.base.BaseViewModel
 import ir.kaaveh.designsystem.component.FavoriteIcon
 import ir.kaaveh.designsystem.preview.ThemePreviews
-import ir.kaaveh.designsystem.useWithEffect
+import ir.kaaveh.designsystem.use
 import ir.kaaveh.domain.model.News
 import ir.kaaveh.newsdetail.preview_provider.NewsDetailStateProvider
 
@@ -26,20 +24,16 @@ import ir.kaaveh.newsdetail.preview_provider.NewsDetailStateProvider
 fun NewsDetailRoute(
     news: News?,
     viewModel: NewsDetailViewModel = hiltViewModel(),
+    onProvideBaseViewModel: (baseViewModel: BaseViewModel) -> Unit,
 ) {
-    val (state, effect, event) = useWithEffect(viewModel = viewModel)
-    val activity = LocalContext.current as? Activity
+    val (state, event) = use(viewModel = viewModel)
 
     LaunchedEffect(key1 = news) {
         event.invoke(NewsDetailContract.Event.SetNews(news = news))
     }
 
-    effect.collectInLaunchedEffect {
-        when (it) {
-            NewsDetailContract.Effect.OnBackPressed -> {
-                activity?.onBackPressed()
-            }
-        }
+    LaunchedEffect(key1 = Unit) {
+        onProvideBaseViewModel(viewModel)
     }
 
     NewsDetailScreen(
@@ -51,7 +45,7 @@ fun NewsDetailRoute(
 }
 
 @Composable
-fun NewsDetailScreen(
+private fun NewsDetailScreen(
     newsDetailState: NewsDetailContract.State,
     onFavoriteClick: (news: News?) -> Unit,
 ) {

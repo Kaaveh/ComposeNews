@@ -7,19 +7,7 @@ import ir.kaaveh.favoritenews.FavoriteNewsContract
 class FavoriteNewsStateProvider: PreviewParameterProvider<FavoriteNewsContract.State> {
     override val values: Sequence<FavoriteNewsContract.State> = sequenceOf(
         FavoriteNewsContract.State(
-            isLoading = false,
             news = newsList,
-            error = ""
-        ),
-        FavoriteNewsContract.State(
-            isLoading = true,
-            news = newsList,
-            error = ""
-        ),
-        FavoriteNewsContract.State(
-            isLoading = false,
-            news = newsList,
-            error = "An Error Occurred!"
         ),
     )
 }
