@@ -33,7 +33,7 @@ fun ComposeNewsNavHost(
                 },
                 onProvideBaseViewModel = {
                     onProvideBaseViewModel(it)
-                }
+                },
             )
         }
         composable(Destinations.FavoriteNewsScreen.route) {
@@ -43,7 +43,10 @@ fun ComposeNewsNavHost(
                         route = Destinations.NewsDetailScreen().route,
                         args = bundleOf(Destinations.NewsDetailScreen().news to news)
                     )
-                }
+                },
+                onProvideBaseViewModel = {
+                    onProvideBaseViewModel(it)
+                },
             )
         }
         composable(

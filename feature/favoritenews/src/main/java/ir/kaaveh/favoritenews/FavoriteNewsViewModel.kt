@@ -1,8 +1,8 @@
 package ir.kaaveh.favoritenews
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import ir.kaaveh.designsystem.base.BaseViewModel
 import ir.kaaveh.domain.model.News
 import ir.kaaveh.domain.use_case.AddFavoriteNewsUseCase
 import ir.kaaveh.domain.use_case.GetFavoriteNewsUseCase
@@ -17,7 +17,7 @@ class FavoriteNewsViewModel @Inject constructor(
     private val addFavoriteNewsUseCase: AddFavoriteNewsUseCase,
     private val removeFavoriteNewsUseCase: RemoveFavoriteNewsUseCase,
     private val getFavoriteNewsUseCase: GetFavoriteNewsUseCase,
-) : ViewModel(), FavoriteNewsContract {
+) : BaseViewModel(), FavoriteNewsContract {
 
     private val mutableState = MutableStateFlow(FavoriteNewsContract.State())
     override val state: StateFlow<FavoriteNewsContract.State> = mutableState.asStateFlow()

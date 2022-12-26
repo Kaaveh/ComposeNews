@@ -6,9 +6,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.hilt.navigation.compose.hiltViewModel
+import ir.kaaveh.designsystem.base.BaseViewModel
 import ir.kaaveh.designsystem.preview.ThemePreviews
 import ir.kaaveh.designsystem.use
 import ir.kaaveh.domain.model.News
@@ -19,8 +21,13 @@ import ir.kaaveh.favoritenews.preview_provider.FavoriteNewsStateProvider
 fun FavoriteNewsRoute(
     viewModel: FavoriteNewsViewModel = hiltViewModel(),
     onNavigateToDetailScreen: (news: News) -> Unit,
+    onProvideBaseViewModel: (baseViewModel: BaseViewModel) -> Unit,
 ) {
     val (state, event) = use(viewModel = viewModel)
+
+    LaunchedEffect(key1 = Unit) {
+        onProvideBaseViewModel(viewModel)
+    }
 
     FavoriteNewsScreen(
         favoriteNewsState = state,
