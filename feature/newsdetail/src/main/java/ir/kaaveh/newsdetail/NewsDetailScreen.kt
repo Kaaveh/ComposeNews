@@ -51,7 +51,7 @@ fun NewsDetailRoute(
 }
 
 @Composable
-fun NewsDetailScreen(
+private fun NewsDetailScreen(
     newsDetailState: NewsDetailContract.State,
     onFavoriteClick: (news: News?) -> Unit,
 ) {

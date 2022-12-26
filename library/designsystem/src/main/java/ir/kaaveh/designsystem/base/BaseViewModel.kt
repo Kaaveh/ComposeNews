@@ -4,13 +4,13 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 
-abstract class BaseViewModel : ViewModel(), BaseContract {
+open class BaseViewModel : ViewModel(), BaseContract {
 
-    private val _baseState: MutableStateFlow<BaseContract.BaseState> =
-        MutableStateFlow(BaseContract.BaseState.OnLoading)
-    override val baseState: StateFlow<BaseContract.BaseState> = _baseState.asStateFlow()
+    protected val mutableBaseState: MutableStateFlow<BaseContract.BaseState> =
+        MutableStateFlow(BaseContract.BaseState.OnSuccess)
+    override val baseState: StateFlow<BaseContract.BaseState> = mutableBaseState.asStateFlow()
 
-    private val baseEffectChannel = Channel<BaseContract.BaseEffect>(Channel.UNLIMITED)
+    protected val baseEffectChannel = Channel<BaseContract.BaseEffect>(Channel.UNLIMITED)
     override val baseEffect: Flow<BaseContract.BaseEffect> = baseEffectChannel.receiveAsFlow()
 
     override fun baseEvent(event: BaseContract.BaseEvent) = when (event) {

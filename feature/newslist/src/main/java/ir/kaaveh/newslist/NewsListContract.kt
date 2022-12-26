@@ -7,9 +7,7 @@ interface NewsListContract :
     UnidirectionalViewModel<NewsListContract.Event, NewsListContract.State> {
 
     data class State(
-        val isLoading: Boolean = false,
         val news: List<News> = listOf(),
-        val error: String = "",
     )
 
     sealed class Event {

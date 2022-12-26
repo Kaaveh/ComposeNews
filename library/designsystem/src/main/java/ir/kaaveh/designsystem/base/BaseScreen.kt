@@ -8,13 +8,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import ir.kaaveh.designsystem.collectInLaunchedEffect
 import ir.kaaveh.designsystem.useBase
+import ir.kaaveh.designsystem.widget.ErrorView
 import ir.kaaveh.designsystem.widget.LoadingView
 
 @Composable
-fun BaseScreen(
+fun BaseRoute(
     baseViewModel: BaseViewModel,
     content: @Composable () -> Unit,
 ) {
+
     val (baseState, baseEffect, baseEvent)
             = useBase(viewModel = baseViewModel)
 
@@ -29,13 +31,28 @@ fun BaseScreen(
         }
     }
 
+    BaseScreen(
+        baseState = baseState,
+        content = content,
+    )
+
+}
+
+@Composable
+private fun BaseScreen(
+    baseState: BaseContract.BaseState,
+    content: @Composable () -> Unit,
+) {
+
     Box(modifier = Modifier.fillMaxSize()) {
         when (baseState) {
             BaseContract.BaseState.OnLoading -> {
-                LoadingView()
+                LoadingView(modifier = Modifier.fillMaxSize())
             }
             BaseContract.BaseState.OnLoadingDialog -> TODO()
-            is BaseContract.BaseState.OnError -> TODO()
+            is BaseContract.BaseState.OnError -> {
+                ErrorView(errorMessage = baseState.errorMessage)
+            }
             BaseContract.BaseState.OnSuccess -> content()
         }
     }

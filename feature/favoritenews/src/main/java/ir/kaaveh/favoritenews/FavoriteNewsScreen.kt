@@ -32,7 +32,7 @@ fun FavoriteNewsRoute(
 }
 
 @Composable
-fun FavoriteNewsScreen(
+private fun FavoriteNewsScreen(
     favoriteNewsState: FavoriteNewsContract.State,
     onNavigateToDetailScreen: (news: News) -> Unit,
     onFavoriteClick: (news: News) -> Unit,

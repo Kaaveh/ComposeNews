@@ -6,13 +6,18 @@ import androidx.core.os.bundleOf
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import ir.kaaveh.designsystem.base.BaseViewModel
 import ir.kaaveh.domain.model.News
 import ir.kaaveh.favoritenews.FavoriteNewsRoute
 import ir.kaaveh.newsdetail.NewsDetailRoute
 import ir.kaaveh.newslist.NewsListRoute
 
 @Composable
-fun ComposeNewsNavHost(navController: NavHostController, modifier: Modifier) {
+fun ComposeNewsNavHost(
+    navController: NavHostController,
+    modifier: Modifier,
+    onProvideBaseViewModel: (baseViewModel: BaseViewModel) -> Unit,
+) {
     NavHost(
         navController = navController,
         startDestination = Destinations.NewsListScreen.route,
@@ -25,6 +30,9 @@ fun ComposeNewsNavHost(navController: NavHostController, modifier: Modifier) {
                         route = Destinations.NewsDetailScreen().route,
                         args = bundleOf(Destinations.NewsDetailScreen().news to news)
                     )
+                },
+                onProvideBaseViewModel = {
+                    onProvideBaseViewModel(it)
                 }
             )
         }

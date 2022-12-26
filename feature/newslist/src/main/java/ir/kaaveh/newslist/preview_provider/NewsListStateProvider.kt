@@ -7,19 +7,7 @@ import ir.kaaveh.newslist.NewsListContract
 class NewsListStateProvider : PreviewParameterProvider<NewsListContract.State> {
     override val values: Sequence<NewsListContract.State> = sequenceOf(
         NewsListContract.State(
-            isLoading = false,
             news = newsList,
-            error = ""
-        ),
-        NewsListContract.State(
-            isLoading = true,
-            news = newsList,
-            error = ""
-        ),
-        NewsListContract.State(
-            isLoading = false,
-            news = newsList,
-            error = "An Error Occurred!"
         ),
     )
 }

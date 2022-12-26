@@ -8,21 +8,21 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 
-data class StateEffectDispatch<STATE, EFFECT, EVENT>(
+data class StateEffectDispatch<EVENT, EFFECT, STATE>(
     val state: STATE,
     val effectFlow: Flow<EFFECT>,
     val dispatch: (EVENT) -> Unit,
 )
 
-data class StateDispatch<STATE, EVENT>(
+data class StateDispatch<EVENT, STATE>(
     val state: STATE,
     val dispatch: (EVENT) -> Unit,
 )
 
 @Composable
-inline fun <reified STATE, EFFECT, EVENT> useWithEffect(
+inline fun <reified EVENT, EFFECT, STATE> useWithEffect(
     viewModel: UnidirectionalViewModelWithEffect<EVENT, EFFECT, STATE>,
-): StateEffectDispatch<STATE, EFFECT, EVENT> {
+): StateEffectDispatch<EVENT, EFFECT, STATE> {
     val state by viewModel.state.collectAsState()
 
     val dispatch: (EVENT) -> Unit = { event ->
@@ -36,9 +36,9 @@ inline fun <reified STATE, EFFECT, EVENT> useWithEffect(
 }
 
 @Composable
-inline fun <reified STATE, EVENT> use(
+inline fun <reified EVENT, STATE> use(
     viewModel: UnidirectionalViewModel<EVENT, STATE>,
-): StateDispatch<STATE, EVENT> {
+): StateDispatch<EVENT, STATE> {
     val state by viewModel.state.collectAsState()
 
     val dispatch: (EVENT) -> Unit = { event ->
@@ -51,9 +51,9 @@ inline fun <reified STATE, EVENT> use(
 }
 
 @Composable
-inline fun <reified BASE_STATE, BASE_EFFECT, BASE_EVENT> useBase(
+inline fun <reified BASE_EVENT, BASE_EFFECT, BASE_STATE> useBase(
     viewModel: BaseUnidirectionalViewModel<BASE_EVENT, BASE_EFFECT, BASE_STATE>,
-): StateEffectDispatch<BASE_STATE, BASE_EFFECT, BASE_EVENT> {
+): StateEffectDispatch<BASE_EVENT, BASE_EFFECT, BASE_STATE> {
     val state by viewModel.baseState.collectAsState()
 
     val dispatch: (BASE_EVENT) -> Unit = { event ->

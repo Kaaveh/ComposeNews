@@ -1,8 +1,9 @@
 package ir.kaaveh.newslist
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import ir.kaaveh.designsystem.base.BaseContract
+import ir.kaaveh.designsystem.base.BaseViewModel
 import ir.kaaveh.domain.model.News
 import ir.kaaveh.domain.model.Resource
 import ir.kaaveh.domain.use_case.AddFavoriteNewsUseCase
@@ -20,7 +21,7 @@ class NewsListViewModel @Inject constructor(
     private val addFavoriteNewsUseCase: AddFavoriteNewsUseCase,
     private val removeFavoriteNewsUseCase: RemoveFavoriteNewsUseCase,
     private val getFavoriteNewsUseCase: GetFavoriteNewsUseCase,
-) : ViewModel(), NewsListContract {
+) : BaseViewModel(), NewsListContract {
 
     private val mutableState = MutableStateFlow(NewsListContract.State())
     override val state: StateFlow<NewsListContract.State> = mutableState.asStateFlow()
@@ -37,11 +38,14 @@ class NewsListViewModel @Inject constructor(
     private fun getNewsList() = getNewsUseCase().onEach { result ->
         when (result) {
             is Resource.Loading -> {
-                mutableState.update {
-                    NewsListContract.State(isLoading = true)
+                mutableBaseState.update {
+                    BaseContract.BaseState.OnLoading
                 }
             }
             is Resource.Success -> {
+                mutableBaseState.update {
+                    BaseContract.BaseState.OnSuccess
+                }
                 mutableState.update {
                     NewsListContract.State(
                         news = result.data ?: listOf()
@@ -49,9 +53,9 @@ class NewsListViewModel @Inject constructor(
                 }
             }
             is Resource.Error -> {
-                mutableState.update {
-                    NewsListContract.State(
-                        error = result.exception?.localizedMessage
+                mutableBaseState.update {
+                    BaseContract.BaseState.OnError(
+                        errorMessage = result.exception?.localizedMessage
                             ?: "An unexpected error occurred."
                     )
                 }
