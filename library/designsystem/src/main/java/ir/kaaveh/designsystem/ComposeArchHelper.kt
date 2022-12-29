@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -20,22 +22,6 @@ data class StateDispatch<EVENT, STATE>(
 )
 
 @Composable
-inline fun <reified EVENT, EFFECT, STATE> useWithEffect(
-    viewModel: UnidirectionalViewModelWithEffect<EVENT, EFFECT, STATE>,
-): StateEffectDispatch<EVENT, EFFECT, STATE> {
-    val state by viewModel.state.collectAsState()
-
-    val dispatch: (EVENT) -> Unit = { event ->
-        viewModel.event(event)
-    }
-    return StateEffectDispatch(
-        state = state,
-        effectFlow = viewModel.effect,
-        dispatch = dispatch
-    )
-}
-
-@Composable
 inline fun <reified EVENT, STATE> use(
     viewModel: UnidirectionalViewModel<EVENT, STATE>,
 ): StateDispatch<EVENT, STATE> {
@@ -50,11 +36,12 @@ inline fun <reified EVENT, STATE> use(
     )
 }
 
+@ExperimentalLifecycleComposeApi
 @Composable
 inline fun <reified BASE_EVENT, BASE_EFFECT, BASE_STATE> useBase(
     viewModel: BaseUnidirectionalViewModel<BASE_EVENT, BASE_EFFECT, BASE_STATE>,
 ): StateEffectDispatch<BASE_EVENT, BASE_EFFECT, BASE_STATE> {
-    val state by viewModel.baseState.collectAsState()
+    val state by viewModel.baseState.collectAsStateWithLifecycle()
 
     val dispatch: (BASE_EVENT) -> Unit = { event ->
         viewModel.baseEvent(event)
@@ -64,12 +51,6 @@ inline fun <reified BASE_EVENT, BASE_EFFECT, BASE_STATE> useBase(
         effectFlow = viewModel.baseEffect,
         dispatch = dispatch
     )
-}
-
-interface UnidirectionalViewModelWithEffect<EVENT, EFFECT, STATE> {
-    val state: StateFlow<STATE>
-    val effect: Flow<EFFECT>
-    fun event(event: EVENT)
 }
 
 interface UnidirectionalViewModel<EVENT, STATE> {

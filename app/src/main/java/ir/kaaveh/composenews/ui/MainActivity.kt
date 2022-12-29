@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,6 +17,7 @@ import ir.kaaveh.designsystem.base.BaseRoute
 import ir.kaaveh.designsystem.base.BaseViewModel
 import ir.kaaveh.designsystem.theme.ComposeNewsTheme
 
+@ExperimentalLifecycleComposeApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
