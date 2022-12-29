@@ -1,7 +1,6 @@
 package ir.kaaveh.newsdetail
 
 import ir.kaaveh.designsystem.UnidirectionalViewModel
-import ir.kaaveh.designsystem.UnidirectionalViewModelWithEffect
 import ir.kaaveh.domain.model.News
 
 interface NewsDetailContract :
