@@ -8,10 +8,12 @@ interface NewsListContract :
 
     data class State(
         val news: List<News> = listOf(),
+        val refreshing: Boolean = false,
     )
 
     sealed class Event {
         data class OnFavoriteClick(val news: News) : Event()
+        object OnRefresh: Event()
     }
 
 }
