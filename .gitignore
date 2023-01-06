@@ -14,8 +14,6 @@
 /captures
 .externalNativeBuild
 .cxx
-local.properties
-gradle.properties
 debug\
 release\
 /app/debug/

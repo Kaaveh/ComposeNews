@@ -27,25 +27,44 @@ class NewsListViewModel @Inject constructor(
     override val state: StateFlow<NewsListContract.State> = mutableState.asStateFlow()
 
     init {
-        getNewsList()
-        getFavoriteNews()
+        getData()
     }
 
     override fun event(event: NewsListContract.Event) = when (event) {
         is NewsListContract.Event.OnFavoriteClick -> onFavoriteClick(news = event.news)
+        NewsListContract.Event.OnRefresh -> getData(isRefreshing = true)
     }
 
-    private fun getNewsList() = getNewsUseCase().onEach { result ->
+    private fun getData(isRefreshing: Boolean = false) {
+        if (isRefreshing)
+            mutableState.update {
+                NewsListContract.State(
+                    refreshing = true,
+                )
+            }
+        getNewsList(isRefreshing = isRefreshing)
+        getFavoriteNews()
+    }
+
+    private fun getNewsList(isRefreshing: Boolean = false) = getNewsUseCase().onEach { result ->
         when (result) {
             is Resource.Loading -> {
-                mutableBaseState.update {
-                    BaseContract.BaseState.OnLoading
-                }
+                if (!isRefreshing)
+                    mutableBaseState.update {
+                        BaseContract.BaseState.OnLoading
+                    }
             }
             is Resource.Success -> {
-                mutableBaseState.update {
-                    BaseContract.BaseState.OnSuccess
-                }
+                if (!isRefreshing)
+                    mutableBaseState.update {
+                        BaseContract.BaseState.OnSuccess
+                    }
+                else
+                    mutableState.update {
+                        NewsListContract.State(
+                            refreshing = false,
+                        )
+                    }
                 mutableState.update {
                     NewsListContract.State(
                         news = result.data ?: listOf()

@@ -1,8 +1,8 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id("dagger.hilt.android.plugin")
-    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
+    kotlin("kapt")
 }
 
 android {
@@ -44,10 +44,14 @@ android {
 dependencies {
     implementation(project(":library:designsystem"))
     api(project(":data:news-repository"))
-    implementation("com.google.dagger:hilt-android:2.42")
-    kapt("com.google.dagger:hilt-compiler:2.42")
+    implementation("com.google.dagger:hilt-android:2.44.2")
+    kapt("com.google.dagger:hilt-compiler:2.44.2")
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.4")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.0")
+}
+
+kapt {
+    correctErrorTypes = true
 }
