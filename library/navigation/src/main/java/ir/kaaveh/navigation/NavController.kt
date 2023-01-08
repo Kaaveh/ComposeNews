@@ -1,4 +1,4 @@
-package ir.kaaveh.composenews.navigation
+package ir.kaaveh.navigation
 
 import android.os.Bundle
 import androidx.core.net.toUri

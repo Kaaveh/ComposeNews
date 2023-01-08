@@ -4,10 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import ir.kaaveh.composenews.navigation.graph.favoriteNews
-import ir.kaaveh.composenews.navigation.graph.newsDetail
-import ir.kaaveh.composenews.navigation.graph.newsList
+import ir.kaaveh.navigation.graph.favoriteNews
+import ir.kaaveh.navigation.graph.newsDetail
+import ir.kaaveh.navigation.graph.newsList
 import ir.kaaveh.designsystem.base.BaseViewModel
+import ir.kaaveh.navigation.Destinations
 
 @Composable
 fun ComposeNewsNavHost(

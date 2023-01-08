@@ -1,9 +1,9 @@
-package ir.kaaveh.composenews.navigation.graph
+package ir.kaaveh.navigation.graph
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import ir.kaaveh.composenews.navigation.Destinations
-import ir.kaaveh.composenews.navigation.parcelableData
+import ir.kaaveh.navigation.Destinations
+import ir.kaaveh.navigation.parcelableData
 import ir.kaaveh.designsystem.base.BaseViewModel
 import ir.kaaveh.domain.model.News
 import ir.kaaveh.newsdetail.NewsDetailRoute

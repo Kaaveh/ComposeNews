@@ -1,4 +1,4 @@
-package ir.kaaveh.composenews.navigation
+package ir.kaaveh.navigation
 
 import androidx.navigation.NavBackStackEntry
 

@@ -1,20 +1,20 @@
-package ir.kaaveh.composenews.navigation.graph
+package ir.kaaveh.navigation.graph
 
 import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import ir.kaaveh.composenews.navigation.Destinations
-import ir.kaaveh.composenews.navigation.navigate
+import ir.kaaveh.navigation.Destinations
+import ir.kaaveh.navigation.navigate
 import ir.kaaveh.designsystem.base.BaseViewModel
-import ir.kaaveh.newslist.NewsListRoute
+import ir.kaaveh.favoritenews.FavoriteNewsRoute
 
-fun NavGraphBuilder.newsList(
+fun NavGraphBuilder.favoriteNews(
     navController: NavController,
     onProvideBaseViewModel: (baseViewModel: BaseViewModel) -> Unit,
 ) {
-    composable(Destinations.NewsListScreen.route) {
-        NewsListRoute(
+    composable(Destinations.FavoriteNewsScreen.route) {
+        FavoriteNewsRoute(
             onNavigateToDetailScreen = { news ->
                 navController.navigate(
                     route = Destinations.NewsDetailScreen().route,
