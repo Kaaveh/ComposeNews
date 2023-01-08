@@ -1,4 +1,4 @@
-package ir.kaaveh.navigation
+package ir.kaaveh.navigation.extension_function
 
 import androidx.navigation.NavBackStackEntry
 
