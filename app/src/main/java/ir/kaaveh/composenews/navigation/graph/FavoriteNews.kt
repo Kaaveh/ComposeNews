@@ -26,5 +26,4 @@ fun NavGraphBuilder.favoriteNews(
             },
         )
     }
-    newsDetail(onProvideBaseViewModel)
 }

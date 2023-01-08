@@ -26,5 +26,4 @@ fun NavGraphBuilder.newsList(
             },
         )
     }
-    newsDetail(onProvideBaseViewModel)
 }

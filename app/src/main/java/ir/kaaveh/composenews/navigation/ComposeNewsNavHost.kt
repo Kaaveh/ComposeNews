@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import ir.kaaveh.composenews.navigation.graph.favoriteNews
+import ir.kaaveh.composenews.navigation.graph.newsDetail
 import ir.kaaveh.composenews.navigation.graph.newsList
 import ir.kaaveh.designsystem.base.BaseViewModel
 
@@ -21,5 +22,6 @@ fun ComposeNewsNavHost(
     ) {
         newsList(navController, onProvideBaseViewModel)
         favoriteNews(navController, onProvideBaseViewModel)
+        newsDetail(onProvideBaseViewModel)
     }
 }
