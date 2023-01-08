@@ -1,12 +1,10 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id("com.google.dagger.hilt.android")
-    kotlin("kapt")
 }
 
 android {
-    namespace = "ir.kaaveh.data"
+    namespace = "ir.kaaveh.navigation"
     compileSdk = 33
 
     defaultConfig {
@@ -33,20 +31,17 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.2.0"
+    }
 }
 
 dependencies {
-    api(project(":domain:news"))
-    api(project(":data:news-remote"))
-    api(project(":data:news-local"))
-    implementation("com.google.dagger:hilt-android:2.44.2")
-    kapt("com.google.dagger:hilt-compiler:2.44.2")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-}
-
-kapt {
-    correctErrorTypes = true
+    api(project(":feature:newslist"))
+    api(project(":feature:newsdetail"))
+    api(project(":feature:favoritenews"))
+    api("androidx.navigation:navigation-compose:2.5.3")
 }

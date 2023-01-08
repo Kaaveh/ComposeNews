@@ -1,4 +1,4 @@
-package ir.kaaveh.composenews.ui.component
+package ir.kaaveh.designsystem.component.bottom_navigation
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.BadgedBox
