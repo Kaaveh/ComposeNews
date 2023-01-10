@@ -14,6 +14,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ir.kaaveh.composenews.navigation.ComposeNewsNavHost
+import ir.kaaveh.composenews.permission.PermissionManager
+import ir.kaaveh.composenews.permission.PermissionManagerImpl
 import ir.kaaveh.composenews.ui.component.BottomNavigationBar
 import ir.kaaveh.designsystem.base.BaseRoute
 import ir.kaaveh.designsystem.base.BaseViewModel
@@ -23,7 +25,7 @@ import ir.kaaveh.navigation.Destinations
 
 @ExperimentalLifecycleComposeApi
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity(), PermissionManager by PermissionManagerImpl() {
 
     // TODO: handle viewModel more properly
     private var baseViewModel: BaseViewModel = BaseViewModel()
@@ -43,6 +45,11 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        registerPermissionLauncher(this)
+
+        if (!hasNotificationPermission(this))
+            requestNotificationPermission()
+
         setContent {
             ComposeNewsTheme {
 
