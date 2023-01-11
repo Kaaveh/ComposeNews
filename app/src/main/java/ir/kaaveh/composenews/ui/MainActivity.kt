@@ -3,6 +3,7 @@ package ir.kaaveh.composenews.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.*
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
@@ -55,13 +56,18 @@ class MainActivity : ComponentActivity() {
 
                 Scaffold(
                     bottomBar = {
-                        if (bottomNavVisible)
+                        AnimatedVisibility(
+                            visible = bottomNavVisible,
+                            enter = slideInVertically { it },
+                            exit = slideOutVertically { it },
+                        ) {
                             BottomNavigationBar(
                                 items = items,
                                 currentScreenRoute = currentScreenRoute
                             ) {
                                 navController.navigate(it.route)
                             }
+                        }
                     }
                 ) { paddingValues ->
                     BaseRoute(
