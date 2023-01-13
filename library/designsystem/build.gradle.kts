@@ -40,7 +40,7 @@ android {
 
 dependencies {
     api("androidx.lifecycle:lifecycle-runtime-compose:2.6.0-alpha03")
-    api(platform("androidx.compose:compose-bom:2022.11.00"))
+    api(platform("androidx.compose:compose-bom:2023.01.00"))
     api("androidx.compose.ui:ui")
     api("androidx.compose.ui:ui-tooling-preview")
     api("androidx.compose.material:material")
