@@ -5,6 +5,7 @@ import ir.kaaveh.domain.repository.NewsRepository
 import ir.kaaveh.localdatasource.database.FavoriteNewsDao
 import ir.kaaveh.localdatasource.mapper.toFavoriteNewsDto
 import ir.kaaveh.localdatasource.mapper.toNews
+import ir.kaaveh.localdatasource.mapper.toNewsDto
 import ir.kaaveh.remotedatasource.api.NewsApi
 import ir.kaaveh.remotedatasource.mapper.toNews
 import kotlinx.coroutines.flow.Flow
@@ -16,8 +17,20 @@ class NewsRepositoryImpl @Inject constructor(
     private val dao: FavoriteNewsDao,
 ) : NewsRepository {
 
-    override suspend fun getNews(): List<News> =
-        api.getNews().news.map { it.toNews() }
+    override fun getNews(): Flow<List<News>> =
+        dao.getAllNews().map { list -> list.map { it.toNews() } }
+
+    override suspend fun updateNews(): Boolean = try {
+        println("xxxxxxxxxxxxxxxx work")
+        api.getNews().news
+            .map { it.toNews().toNewsDto() }
+            .onEach {
+                dao.insertNews(it)
+            }
+        true
+    } catch (e: Exception) {
+        false
+    }
 
     override suspend fun insertFavoriteNews(news: News) =
         dao.insertFavoriteNews(news = news.toFavoriteNewsDto())
