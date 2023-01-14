@@ -2,10 +2,14 @@ package ir.kaaveh.localdatasource.database
 
 import androidx.room.*
 import ir.kaaveh.localdatasource.dto.FavoriteNewsDto
+import ir.kaaveh.localdatasource.dto.NewsDto
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FavoriteNewsDao {
+
+    @Query("SELECT * FROM news")
+    fun getAllNews(): Flow<List<NewsDto>>
 
     @Query("SELECT * FROM favorites")
     fun getAllFavoriteNews(): Flow<List<FavoriteNewsDto>>
