@@ -11,6 +11,9 @@ interface FavoriteNewsDao {
     @Query("SELECT * FROM news")
     fun getAllNews(): Flow<List<NewsDto>>
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertNews(news: NewsDto)
+
     @Query("SELECT * FROM favorites")
     fun getAllFavoriteNews(): Flow<List<FavoriteNewsDto>>
 
