@@ -2,14 +2,12 @@ package ir.kaaveh.sync.worker
 
 import android.content.Context
 import androidx.hilt.work.HiltWorker
-import androidx.work.CoroutineWorker
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.OutOfQuotaPolicy
-import androidx.work.WorkerParameters
+import androidx.work.*
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import ir.kaaveh.domain.use_case.UpdateNewsUseCase
 import ir.kaaveh.sync.SyncConstraints
+import ir.kaaveh.sync.syncForegroundInfo
 
 @HiltWorker
 class SyncWorker @AssistedInject constructor(
@@ -21,6 +19,9 @@ class SyncWorker @AssistedInject constructor(
     override suspend fun doWork(): Result {
         return if (updateNewsUseCase()) Result.success() else Result.retry()
     }
+
+    override suspend fun getForegroundInfo(): ForegroundInfo =
+        appContext.syncForegroundInfo()
 
     companion object {
         fun startUpSyncWork() = OneTimeWorkRequestBuilder<DelegatingWorker>()
