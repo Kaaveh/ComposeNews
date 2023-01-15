@@ -1,4 +1,4 @@
-package ir.kaaveh.domain
+package ir.kaaveh.navigation
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("ir.kaaveh.domain.test", appContext.packageName)
+        assertEquals("ir.kaaveh.navigation.test", appContext.packageName)
     }
 }

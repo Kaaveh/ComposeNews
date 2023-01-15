@@ -1,10 +1,10 @@
 plugins {
     id("com.android.library")
-    id("kotlin-android")
+    id("org.jetbrains.kotlin.android")
 }
 
 android {
-    namespace = "ir.kaaveh.designsystem"
+    namespace = "ir.kaaveh.navigation"
     compileSdk = 33
 
     defaultConfig {
@@ -12,6 +12,7 @@ android {
         targetSdk = 33
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -28,7 +29,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = "1.8"
     }
     buildFeatures {
         compose = true
@@ -39,12 +40,9 @@ android {
 }
 
 dependencies {
-    api("androidx.lifecycle:lifecycle-runtime-compose:2.6.0-alpha03")
-    api(platform("androidx.compose:compose-bom:2023.01.00"))
-    api("androidx.compose.ui:ui")
-    api("androidx.compose.ui:ui-tooling-preview")
-    api("androidx.compose.material:material")
-    implementation("io.coil-kt:coil-compose:2.2.2")
-    debugApi("androidx.compose.ui:ui-tooling")
-    debugApi("androidx.compose.ui:ui-test-manifest")
+    implementation(project(":feature:newslist"))
+    implementation(project(":feature:newsdetail"))
+    implementation(project(":feature:favoritenews"))
+    implementation(project(":domain:news"))
+    api("androidx.navigation:navigation-compose:2.5.3")
 }

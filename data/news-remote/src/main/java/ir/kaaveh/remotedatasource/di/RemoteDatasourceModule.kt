@@ -20,24 +20,31 @@ object RemoteDatasourceModule {
 
     @Singleton
     @Provides
-    fun provideOkHttpClient(app: Application): OkHttpClient = OkHttpClient.Builder()
+    fun provideOkHttpClient(
+        app: Application
+    ): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(ChuckerInterceptor(app))
         .addNetworkInterceptor(HttpLoggingInterceptor { message ->
-                println("LOG-NET: $message")
-            }.apply {
-                level= HttpLoggingInterceptor.Level.BODY
-            })
+            println("LOG-NET: $message")
+        }.apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        })
+        .build()
+
+    @Singleton
+    @Provides
+    fun provideRetrofit(
+        client: OkHttpClient
+    ): Retrofit = Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .client(client)
+        .addConverterFactory(GsonConverterFactory.create())
         .build()
 
     @Singleton
     @Provides
     fun provideNewsApi(
-        client: OkHttpClient,
-    ): NewsApi = Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .client(client)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-        .create(NewsApi::class.java)
+        retrofit: Retrofit
+    ): NewsApi = retrofit.create(NewsApi::class.java)
 
 }
