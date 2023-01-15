@@ -24,8 +24,6 @@ val SyncConstraints = Constraints.Builder()
     .setRequiresBatteryNotLow(false)
     .build()
 
-
-
 /**
  * Foreground information for sync on lower API levels when sync workers are being
  * run with a foreground service
@@ -55,14 +53,10 @@ private fun Context.syncWorkNotification(): Notification {
         notificationManager?.createNotificationChannel(channel)
     }
 
-    return NotificationCompat.Builder(
-        this,
-        SyncNotificationChannelID
-    )
-        .setSmallIcon(
-            androidx.hilt.work.R.drawable.notification_action_background
-        )
-        .setContentTitle("COMPOSE NEWS")
+    return NotificationCompat
+        .Builder(this, SyncNotificationChannelID)
+        .setSmallIcon(androidx.hilt.work.R.drawable.notification_action_background)
+        .setContentTitle("Background tasks for Compose News")
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         .build()
 }
