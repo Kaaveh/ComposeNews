@@ -40,8 +40,9 @@ android {
 }
 
 dependencies {
-    api(project(":feature:newslist"))
-    api(project(":feature:newsdetail"))
-    api(project(":feature:favoritenews"))
+    implementation(project(":feature:newslist"))
+    implementation(project(":feature:newsdetail"))
+    implementation(project(":feature:favoritenews"))
+    implementation(project(":domain:news"))
     api("androidx.navigation:navigation-compose:2.5.3")
 }
