@@ -4,9 +4,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.kaaveh.designsystem.base.BaseViewModel
 import ir.kaaveh.domain.model.News
-import ir.kaaveh.domain.use_case.AddFavoriteNewsUseCase
+import ir.kaaveh.domain.use_case.SetFavoriteNewsUseCase
 import ir.kaaveh.domain.use_case.GetFavoriteNewsUseCase
-import ir.kaaveh.domain.use_case.RemoveFavoriteNewsUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -14,8 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FavoriteNewsViewModel @Inject constructor(
-    private val addFavoriteNewsUseCase: AddFavoriteNewsUseCase,
-    private val removeFavoriteNewsUseCase: RemoveFavoriteNewsUseCase,
+    private val setFavoriteNewsUseCase: SetFavoriteNewsUseCase,
     private val getFavoriteNewsUseCase: GetFavoriteNewsUseCase,
 ) : BaseViewModel(), FavoriteNewsContract {
 
@@ -38,10 +36,7 @@ class FavoriteNewsViewModel @Inject constructor(
 
     private fun onFavoriteClick(news: News) {
         viewModelScope.launch(Dispatchers.IO) {
-            if (!news.isFavorite)
-                addFavoriteNewsUseCase(news)
-            else
-                removeFavoriteNewsUseCase(news)
+            setFavoriteNewsUseCase(news)
         }
     }
 
