@@ -1,9 +1,9 @@
 package ir.kaaveh.localdatasource.mapper
 
 import ir.kaaveh.domain.model.News
-import ir.kaaveh.localdatasource.dto.FavoriteNewsDto
+import ir.kaaveh.localdatasource.dto.LocalNewsDto
 
-fun FavoriteNewsDto.toNews(): News = News(
+fun LocalNewsDto.toNews(): News = News(
     author = author,
     description = description,
     publishedAt = publishedAt,
@@ -11,10 +11,10 @@ fun FavoriteNewsDto.toNews(): News = News(
     title = title,
     url = url,
     urlToImage = urlToImage,
-    isFavorite = true,
+    isFavorite = isFavorite,
 )
 
-fun News.toFavoriteNewsDto(): FavoriteNewsDto = FavoriteNewsDto(
+fun News.toLocalNewsDto(): LocalNewsDto = LocalNewsDto(
     title = title,
     author = author,
     description = description,
@@ -22,4 +22,5 @@ fun News.toFavoriteNewsDto(): FavoriteNewsDto = FavoriteNewsDto(
     source = source,
     url = url,
     urlToImage = urlToImage,
+    isFavorite = isFavorite
 )

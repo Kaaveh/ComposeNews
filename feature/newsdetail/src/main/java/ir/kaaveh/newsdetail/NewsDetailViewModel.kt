@@ -4,8 +4,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.kaaveh.designsystem.base.BaseViewModel
 import ir.kaaveh.domain.model.News
-import ir.kaaveh.domain.use_case.AddFavoriteNewsUseCase
-import ir.kaaveh.domain.use_case.RemoveFavoriteNewsUseCase
+import ir.kaaveh.domain.use_case.SetFavoriteNewsUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,8 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewsDetailViewModel @Inject constructor(
-    private val addFavoriteNewsUseCase: AddFavoriteNewsUseCase,
-    private val removeFavoriteNewsUseCase: RemoveFavoriteNewsUseCase,
+    private val setFavoriteNewsUseCase: SetFavoriteNewsUseCase
 ) : BaseViewModel(), NewsDetailContract {
 
     private val mutableState = MutableStateFlow(NewsDetailContract.State())
@@ -31,11 +29,7 @@ class NewsDetailViewModel @Inject constructor(
     private fun onFavoriteClick(news: News?) {
         news?.let {
             viewModelScope.launch(Dispatchers.IO) {
-                if (!news.isFavorite) {
-                    addFavoriteNewsUseCase(news)
-                } else {
-                    removeFavoriteNewsUseCase(news)
-                }
+                setFavoriteNewsUseCase(news)
                 toggleFavoriteState()
             }
         }

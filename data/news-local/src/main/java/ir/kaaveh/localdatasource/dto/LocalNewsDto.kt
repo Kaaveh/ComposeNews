@@ -2,8 +2,8 @@ package ir.kaaveh.localdatasource.dto
 
 import androidx.room.Entity
 
-@Entity(tableName = "favorites", primaryKeys = ["title", "source"])
-data class FavoriteNewsDto(
+@Entity(tableName = "news", primaryKeys = ["title", "source"])
+data class LocalNewsDto(
     val title: String,
     val author: String,
     val description: String,
@@ -11,4 +11,5 @@ data class FavoriteNewsDto(
     val source: String,
     val url: String,
     val urlToImage: String,
+    val isFavorite: Boolean
 )
