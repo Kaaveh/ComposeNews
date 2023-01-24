@@ -9,6 +9,10 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -25,9 +29,6 @@ import ir.kaaveh.navigation.Destinations
 @ExperimentalLifecycleComposeApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    // TODO: handle viewModel more properly
-    private var baseViewModel: BaseViewModel = BaseViewModel()
 
     private val items = listOf(
         BottomNavItem(
@@ -47,6 +48,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             ComposeNewsTheme {
 
+                // TODO: handle viewModel more properly
+                var baseViewModel: BaseViewModel by remember {
+                    mutableStateOf(BaseViewModel())
+                }
                 val navController = rememberNavController()
                 val backStackEntry = navController.currentBackStackEntryAsState()
                 val currentScreenRoute = backStackEntry.value?.destination?.route
