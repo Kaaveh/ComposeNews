@@ -42,15 +42,15 @@ class NewsDaoTest {
     }
 
     @Test
-    @kotlin.jvm.Throws(Exception::class)
-    fun emptyInitTable() = runTest {
+    @Throws(Exception::class)
+    fun emptyTableAtDbInitialization() = runTest {
         val newsList = newsDao.getAllNews().first()
         assertTrue(newsList.isEmpty())
     }
 
     @Test
     @Throws(Exception::class)
-    fun insertNews() = runTest {
+    fun insertNewsToDb() = runTest {
         newsDao.insertNews(localNewsDto)
         val newsList = newsDao.getAllNews().first()
         assertTrue(newsList.isNotEmpty())
@@ -58,7 +58,7 @@ class NewsDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun isFavoriteNews() = runTest {
+    fun setFavoriteNewsThenCheckIsFavorite() = runTest {
         newsDao.insertNews(localNewsDto)
         assertTrue(newsDao.isFavoriteNews(title = localNewsDto.title, source = localNewsDto.source))
     }
