@@ -5,7 +5,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.kaaveh.designsystem.base.BaseContract
 import ir.kaaveh.designsystem.base.BaseViewModel
 import ir.kaaveh.domain.model.News
-import ir.kaaveh.domain.use_case.SetFavoriteNewsUseCase
+import ir.kaaveh.domain.use_case.ToggleFavoriteNewsUseCase
 import ir.kaaveh.domain.use_case.GetFavoriteNewsUseCase
 import ir.kaaveh.domain.use_case.GetNewsUseCase
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class NewsListViewModel @Inject constructor(
     private val getNewsUseCase: GetNewsUseCase,
-    private val setFavoriteNewsUseCase: SetFavoriteNewsUseCase,
+    private val toggleFavoriteNewsUseCase: ToggleFavoriteNewsUseCase,
     private val getFavoriteNewsUseCase: GetFavoriteNewsUseCase,
 ) : BaseViewModel(), NewsListContract {
 
@@ -43,6 +43,7 @@ class NewsListViewModel @Inject constructor(
         getFavoriteNews()
     }
 
+    // TODO: remove isRefreshing parameter
     private fun getNewsList(isRefreshing: Boolean = false) = getNewsUseCase()
         .catch { exception ->
             mutableBaseState.update {
@@ -61,6 +62,7 @@ class NewsListViewModel @Inject constructor(
         }
         .launchIn(viewModelScope)
 
+    // TODO: remove these comments
 //    private fun getNewsList(isRefreshing: Boolean = false) = getNewsUseCase().onEach { result ->
 //        when (result) {
 //            is Resource.Loading -> {
@@ -109,7 +111,7 @@ class NewsListViewModel @Inject constructor(
 
     private fun onFavoriteClick(news: News) {
         viewModelScope.launch(Dispatchers.IO) {
-            setFavoriteNewsUseCase(news)
+            toggleFavoriteNewsUseCase(news)
         }
     }
 

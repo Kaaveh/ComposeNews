@@ -14,7 +14,7 @@ interface NewsDao {
     suspend fun insertNews(news: LocalNewsDto)
 
     @Update(entity = LocalNewsDto::class)
-    suspend fun updateFavoriteNews(news: LocalNewsDto)
+    suspend fun toggleFavoriteNews(news: LocalNewsDto)
 
     @Query("SELECT EXISTS(SELECT * FROM news WHERE title = :title AND source = :source AND isFavorite = :isFavorite)")
     suspend fun isFavoriteNews(title: String, source: String, isFavorite: Boolean = true): Boolean

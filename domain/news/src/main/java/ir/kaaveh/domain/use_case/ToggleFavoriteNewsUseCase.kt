@@ -4,11 +4,11 @@ import ir.kaaveh.domain.model.News
 import ir.kaaveh.domain.repository.NewsRepository
 import javax.inject.Inject
 
-class SetFavoriteNewsUseCase @Inject constructor(
+class ToggleFavoriteNewsUseCase @Inject constructor(
     private val repository: NewsRepository,
 ) {
 
     suspend operator fun invoke(news: News) =
-        repository.setFavoriteNews(news.copy(isFavorite = !news.isFavorite))
+        repository.toggleFavoriteNews(news.copy(isFavorite = !news.isFavorite))
 
 }

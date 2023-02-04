@@ -22,9 +22,10 @@ class NewsRepositoryImpl @Inject constructor(
     override suspend fun updateNews(): Boolean = try {
         api.getNews()
             .news
-            .map {
-                it.toNews().toLocalNewsDto().copy(
-                    isFavorite = isFavoriteNews(it.toNews())
+            .map { newsDto ->
+                val news = newsDto.toNews()
+                news.toLocalNewsDto().copy(
+                    isFavorite = isFavoriteNews(news)
                 )
             }
             .onEach {
@@ -35,8 +36,9 @@ class NewsRepositoryImpl @Inject constructor(
         false
     }
 
-    override suspend fun setFavoriteNews(news: News) = dao.updateFavoriteNews(news.toLocalNewsDto())
+    override suspend fun toggleFavoriteNews(news: News) = dao.toggleFavoriteNews(news.toLocalNewsDto())
 
+    // TODO: Make isFavoriteNews private
     override suspend fun isFavoriteNews(news: News): Boolean =
         dao.isFavoriteNews(
             title = news.title,
