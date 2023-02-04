@@ -53,7 +53,7 @@ class NewsDaoTest {
     fun insertNewsToDb() = runTest {
         newsDao.insertNews(localNewsDto)
         val newsList = newsDao.getAllNews().first()
-        assertTrue(newsList.isNotEmpty())
+        assertTrue(newsList.contains(localNewsDto))
     }
 
     @Test
