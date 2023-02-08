@@ -38,7 +38,7 @@ class NewsRepositoryImpl @Inject constructor(
 
     override suspend fun toggleFavoriteNews(oldNews: News) {
         val news = oldNews.toLocalNewsDto().copy(isFavorite = !oldNews.isFavorite)
-        dao.toggleFavoriteNews(news)
+        dao.insertNews(news)
     }
 
     // TODO: Make isFavoriteNews private
