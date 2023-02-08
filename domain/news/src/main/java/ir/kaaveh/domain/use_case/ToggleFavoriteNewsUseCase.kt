@@ -9,6 +9,6 @@ class ToggleFavoriteNewsUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(news: News) =
-        repository.toggleFavoriteNews(news.copy(isFavorite = !news.isFavorite))
+        repository.toggleFavoriteNews(news)
 
 }
