@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface NewsRepository {
     fun getNews(): Flow<List<News>>
-    suspend fun updateNews(): Boolean
+    suspend fun syncNews(): Boolean
     suspend fun toggleFavoriteNews(oldNews: News)
     suspend fun isFavoriteNews(news: News): Boolean
 }

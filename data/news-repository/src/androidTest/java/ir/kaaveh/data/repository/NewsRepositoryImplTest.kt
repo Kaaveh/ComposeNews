@@ -67,7 +67,7 @@ class NewsRepositoryImplTest {
     @Test
     @Throws(Exception::class)
     fun getNewsFromInternet_thenReadItFromDb() = runTest {
-        val result = repositoryImpl.updateNews()
+        val result = repositoryImpl.syncNews()
         assertTrue(result)
 
         val news = repositoryImpl.getNews().first()
@@ -77,7 +77,7 @@ class NewsRepositoryImplTest {
     @Test
     @Throws(Exception::class)
     fun toggleFavoriteNewsState() = runTest {
-        repositoryImpl.updateNews()
+        repositoryImpl.syncNews()
 
         val oldNews = repositoryImpl.getNews().first().first()
         assertFalse(oldNews.isFavorite)
@@ -90,7 +90,7 @@ class NewsRepositoryImplTest {
     @Test
     @Throws(Exception::class)
     fun toggleFavoriteNewsState_thenVerifyItsState() = runTest {
-        repositoryImpl.updateNews()
+        repositoryImpl.syncNews()
 
         val oldNews = repositoryImpl.getNews().first().first()
 

@@ -19,7 +19,7 @@ class NewsRepositoryImpl @Inject constructor(
     override fun getNews(): Flow<List<News>> =
         dao.getAllNews().map { list -> list.map { it.toNews() } }
 
-    override suspend fun updateNews(): Boolean = try {
+    override suspend fun syncNews(): Boolean = try {
         api.getNews()
             .news
             .map { newsDto ->
