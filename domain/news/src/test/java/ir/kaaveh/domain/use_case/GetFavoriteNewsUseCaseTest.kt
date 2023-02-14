@@ -1,7 +1,8 @@
 package ir.kaaveh.domain.use_case
 
-import ir.kaaveh.domain.model.News
 import ir.kaaveh.domain.repository.NewsRepository
+import ir.kaaveh.domain.test.favoriteNews
+import ir.kaaveh.domain.test.notFavoriteNews
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
@@ -17,32 +18,12 @@ class GetFavoriteNewsUseCaseTest {
 
     private lateinit var mockRepository: NewsRepository
     private lateinit var getFavoriteNewsUseCase: GetFavoriteNewsUseCase
-    private val news = News(
-        author = "",
-        description = "",
-        publishedAt = "",
-        source = "",
-        title = "",
-        url = "",
-        urlToImage = "",
-        isFavorite = true,
-    )
-    private val notFavoriteNews = News(
-        author = "",
-        description = "",
-        publishedAt = "",
-        source = "",
-        title = "",
-        url = "",
-        urlToImage = "",
-        isFavorite = false,
-    )
 
     @Before
     fun provideRepository(){
         mockRepository = mock {
             on { getNews() } doReturn flow {
-                emit(listOf(news, notFavoriteNews))
+                emit(listOf(favoriteNews, notFavoriteNews))
             }
         }
         getFavoriteNewsUseCase = GetFavoriteNewsUseCase(repository = mockRepository)

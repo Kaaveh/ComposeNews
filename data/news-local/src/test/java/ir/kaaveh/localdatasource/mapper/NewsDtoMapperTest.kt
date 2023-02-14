@@ -1,43 +1,21 @@
 package ir.kaaveh.localdatasource.mapper
 
-import ir.kaaveh.domain.model.News
-import ir.kaaveh.localdatasource.dto.LocalNewsDto
+import ir.kaaveh.domain.test.notFavoriteNews
+import ir.kaaveh.localdatasource.test.localNewsDto
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class NewsDtoMapperTest {
 
-    private val news = News(
-        author = "",
-        description = "",
-        publishedAt = "",
-        source = "",
-        title = "",
-        url = "",
-        urlToImage = "",
-        isFavorite = false,
-    )
-
-    private val localNewsDto = LocalNewsDto(
-        title = "",
-        author = "",
-        description = "",
-        publishedAt = "",
-        source = "",
-        url = "",
-        urlToImage = "",
-        isFavorite = false,
-    )
-
     @Test
     fun localNewsDtoToNews() {
         val mappedNews = localNewsDto.toNews()
-        assertEquals(mappedNews, news)
+        assertEquals(mappedNews, notFavoriteNews)
     }
 
     @Test
     fun newsToLocalNewsDto() {
-        val mappedLocalNews = news.toLocalNewsDto()
+        val mappedLocalNews = notFavoriteNews.toLocalNewsDto()
         assertEquals(mappedLocalNews, localNewsDto)
     }
 }
