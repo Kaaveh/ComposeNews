@@ -36,6 +36,7 @@ android {
 
 dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
     implementation("javax.inject:javax.inject:1")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
