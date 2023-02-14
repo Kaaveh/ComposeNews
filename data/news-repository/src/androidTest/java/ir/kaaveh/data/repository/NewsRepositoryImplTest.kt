@@ -5,8 +5,7 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import ir.kaaveh.localdatasource.database.NewsDao
 import ir.kaaveh.localdatasource.database.NewsDatabase
-import ir.kaaveh.localdatasource.dto.LocalNewsDto
-import ir.kaaveh.remotedatasource.dto.NewsDto
+import ir.kaaveh.remotedatasource.test.FakeNewsApi
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -23,25 +22,6 @@ class NewsRepositoryImplTest {
     private lateinit var db: NewsDatabase
     private val api = FakeNewsApi()
     private lateinit var repositoryImpl: NewsRepositoryImpl
-    private val localNewsDto = LocalNewsDto(
-        author = "",
-        description = "",
-        publishedAt = "",
-        source = "",
-        title = "",
-        url = "",
-        urlToImage = "",
-        isFavorite = false,
-    )
-    private val newsDto = NewsDto(
-        author = "",
-        description = "",
-        publishedAt = "",
-        source = null,
-        title = "",
-        url = "",
-        urlToImage = "",
-    )
 
     @Before
     fun createDb() {
