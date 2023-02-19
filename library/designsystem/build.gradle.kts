@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = projectApplicationId
+    namespace = "ir.kaaveh.designsystem"
     compileSdk = projectCompileSdkVersion
 
     defaultConfig {

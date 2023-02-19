@@ -7,11 +7,11 @@ plugins {
 
 android {
     namespace = "ir.kaaveh.localdatasource"
-    compileSdk = 33
+    compileSdk = projectCompileSdkVersion
 
     defaultConfig {
-        minSdk = 23
-        targetSdk = 33
+        minSdk = projectMinSdkVersion
+        targetSdk = projectTargetSdkVersion
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -31,21 +31,26 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 }
 
 dependencies {
     implementation(project(":domain:news"))
-    implementation("androidx.room:room-runtime:2.5.0")
-    implementation("androidx.room:room-ktx:2.5.0")
-    kapt("androidx.room:room-compiler:2.5.0")
-    implementation("com.google.dagger:hilt-android:2.44.2")
-    kapt("com.google.dagger:hilt-compiler:2.44.2")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
+    RoomDependencies.apply {
+        implementation(roomRuntime)
+        implementation(roomKtx)
+        kapt(roomCompiler)
+    }
+    DIDependencies.apply {
+        implementation(hiltAndroid)
+        kapt(hiltCompiler)
+    }
+    TestDependencies.apply {
+        testImplementation(junit)
+        androidTestImplementation(junitExt)
+        androidTestImplementation(coroutinesTest)
+    }
 }
 
 kapt {

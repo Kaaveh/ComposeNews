@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = projectApplicationId
+    namespace = "ir.kaaveh.remotedatasource"
     compileSdk = projectCompileSdkVersion
 
     defaultConfig {

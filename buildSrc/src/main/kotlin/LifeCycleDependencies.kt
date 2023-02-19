@@ -8,7 +8,7 @@ object LifeCycleDependencies {
     const val lifeCycleRuntimeKtx =
         "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifeCycleVersion}"
     const val lifeCycleRuntimeCompose =
-        "androidx.lifecycle:lifecycle-runtime-compose:${Versions.lifeCycleVersion}"
+        "androidx.lifecycle:lifecycle-runtime-compose:${Versions.lifeCycleRuntimeCompose}"
     const val lifeCycleViewModelKtx =
         "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifeCycleViewModelKtx}"
 }
