@@ -4,12 +4,12 @@ plugins {
 }
 
 android {
-    namespace = "ir.kaaveh.designsystem"
-    compileSdk = 33
+    namespace = projectApplicationId
+    compileSdk = projectCompileSdkVersion
 
     defaultConfig {
-        minSdk = 23
-        targetSdk = 33
+        minSdk = projectMinSdkVersion
+        targetSdk = projectTargetSdkVersion
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -34,18 +34,22 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.2"
+        kotlinCompilerExtensionVersion = ComposeDependencies.kotlinCompilerExtensionVersion
     }
 }
 
 dependencies {
-    api("androidx.lifecycle:lifecycle-runtime-compose:2.6.0-beta01")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
-    api(platform("androidx.compose:compose-bom:2023.01.00"))
-    api("androidx.compose.ui:ui")
-    api("androidx.compose.ui:ui-tooling-preview")
-    api("androidx.compose.material:material")
-    implementation("io.coil-kt:coil-compose:2.2.2")
-    debugApi("androidx.compose.ui:ui-tooling")
-    debugApi("androidx.compose.ui:ui-test-manifest")
+    ComposeDependencies.apply {
+        api(platform(composeBOM))
+        api(composeUi)
+        api(composeUiPreview)
+        api(composeUiTooling)
+        api(composeUiTestManifest)
+        api(composeMaterial)
+        implementation(composeCoil)
+    }
+    LifeCycleDependencies.apply {
+        api(lifeCycleRuntimeCompose)
+        implementation(lifeCycleViewModelKtx)
+    }
 }
