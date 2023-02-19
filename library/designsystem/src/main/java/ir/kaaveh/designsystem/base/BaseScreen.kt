@@ -6,13 +6,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import ir.kaaveh.designsystem.collectInLaunchedEffect
 import ir.kaaveh.designsystem.useBase
 import ir.kaaveh.designsystem.widget.ErrorView
 import ir.kaaveh.designsystem.widget.LoadingView
 
-@ExperimentalLifecycleComposeApi
 @Composable
 fun BaseRoute(
     baseViewModel: BaseViewModel,
