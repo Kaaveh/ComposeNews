@@ -1,9 +1,9 @@
 object ComposeDependencies {
-
     object Version {
         const val composeBOM = "2023.01.00"
         const val composeActivity = "1.6.1"
         const val composeCoil = "2.2.2"
+        const val accompanist = "0.24.11-rc"
     }
 
     const val kotlinCompilerExtensionVersion = "1.4.2"
@@ -15,5 +15,7 @@ object ComposeDependencies {
     const val composeMaterial = "androidx.compose.material:material"
     const val composeActivity = "androidx.activity:activity-compose:${Version.composeActivity}"
     const val composeCoil = "io.coil-kt:coil-compose:${Version.composeCoil}"
+    const val accompanistWebview =
+        "com.google.accompanist:accompanist-webview:${Version.accompanist}"
 
 }
