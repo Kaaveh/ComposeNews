@@ -57,8 +57,8 @@ dependencies {
     implementation(project(":library:designsystem"))
     DIDependencies.apply {
         implementation(hiltAndroid)
-        kapt(hiltCompiler)
-        implementation(hiltWorke)
+        kapt(dagerHiltCompiler)
+        implementation(hiltWork)
     }
     TestDependencies.apply {
         testImplementation(junit)

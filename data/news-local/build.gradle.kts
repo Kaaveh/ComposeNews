@@ -44,7 +44,7 @@ dependencies {
     }
     DIDependencies.apply {
         implementation(hiltAndroid)
-        kapt(hiltCompiler)
+        kapt(dagerHiltCompiler)
     }
     TestDependencies.apply {
         testImplementation(junit)

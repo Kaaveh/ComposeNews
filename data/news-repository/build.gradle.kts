@@ -42,7 +42,7 @@ dependencies {
     implementation(LifeCycleDependencies.lifeCycleViewModelKtx)
     DIDependencies.apply {
         implementation(hiltAndroid)
-        kapt(hiltCompiler)
+        kapt(dagerHiltCompiler)
     }
     RoomDependencies.apply {
         implementation(roomRuntime)
