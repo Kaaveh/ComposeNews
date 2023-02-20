@@ -42,7 +42,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.2"
+        kotlinCompilerExtensionVersion = ComposeDependencies.kotlinCompilerExtensionVersion
     }
     packagingOptions {
         resources {
@@ -67,7 +67,7 @@ dependencies {
     implementation(ComposeDependencies.composeActivity)
     implementation(LifeCycleDependencies.lifeCycleRuntimeKtx)
     implementation(AndroidxDependencies.coreKtx)
-    implementation("androidx.work:work-runtime-ktx:2.8.0")
+    implementation(WorkDependencies.workRuntimeKtx)
 }
 
 kapt {
