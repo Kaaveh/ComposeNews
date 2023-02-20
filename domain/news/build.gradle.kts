@@ -6,11 +6,11 @@ plugins {
 
 android {
     namespace = "ir.kaaveh.domain"
-    compileSdk = 33
+    compileSdk = projectCompileSdkVersion
 
     defaultConfig {
-        minSdk = 23
-        targetSdk = 33
+        minSdk = projectMinSdkVersion
+        targetSdk = projectTargetSdkVersion
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -30,15 +30,17 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
-    implementation("javax.inject:javax.inject:1")
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
+    implementation(KotlinxDependencies.coroutinesCore)
+    implementation(LifeCycleDependencies.lifeCycleViewModelKtx)
+    implementation(DIDependencies.javaxInject)
+    TestDependencies.apply {
+        testImplementation(junit)
+        testImplementation(coroutinesTest)
+        testImplementation(mokitoKotlin)
+    }
 }
