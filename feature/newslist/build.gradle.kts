@@ -7,11 +7,11 @@ plugins {
 
 android {
     namespace = "ir.kaaveh.newslist"
-    compileSdk = 33
+    compileSdk = projectCompileSdkVersion
 
     defaultConfig {
-        minSdk = 23
-        targetSdk = 33
+        minSdk = projectMinSdkVersion
+        targetSdk = projectTargetSdkVersion
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -37,19 +37,18 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.2.0"
+        kotlinCompilerExtensionVersion = ComposeDependencies.kotlinCompilerExtensionVersion
     }
 }
 
 dependencies {
     api(project(":library:designsystem"))
     implementation(project(":data:news-repository"))
-    implementation("com.google.dagger:hilt-android:2.44.2")
-    kapt("com.google.dagger:hilt-compiler:2.44.2")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    DIDependencies.apply {
+        implementation(hiltAndroid)
+        kapt(dagerHiltCompiler)
+        implementation(hiltNavigationCompose)
+    }
 }
 
 kapt {

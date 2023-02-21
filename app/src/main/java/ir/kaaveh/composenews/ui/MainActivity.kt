@@ -16,7 +16,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,7 +27,6 @@ import ir.kaaveh.designsystem.theme.ComposeNewsTheme
 import ir.kaaveh.navigation.BottomNavItem
 import ir.kaaveh.navigation.Destinations
 
-@ExperimentalLifecycleComposeApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
