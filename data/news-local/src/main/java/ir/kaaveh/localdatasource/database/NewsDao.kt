@@ -2,6 +2,7 @@ package ir.kaaveh.localdatasource.database
 
 import androidx.room.*
 import ir.kaaveh.localdatasource.dto.LocalNewsDto
+import ir.kaaveh.localdatasource.dto.RemoteNewsDto
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -16,7 +17,7 @@ interface NewsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertNews(news: LocalNewsDto)
 
-    @Query("SELECT EXISTS(SELECT * FROM news WHERE title = :title AND source = :source AND isFavorite)")
-    suspend fun isFavoriteNews(title: String, source: String): Boolean
+    @Upsert(entity = LocalNewsDto::class)
+    fun upsertNews(news: RemoteNewsDto)
 
 }

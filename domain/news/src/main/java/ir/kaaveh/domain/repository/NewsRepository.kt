@@ -8,5 +8,4 @@ interface NewsRepository {
     fun getFavoriteNews(): Flow<List<News>>
     suspend fun syncNews(): Boolean
     suspend fun toggleFavoriteNews(oldNews: News)
-    suspend fun isFavoriteNews(news: News): Boolean
 }

@@ -67,16 +67,4 @@ class NewsRepositoryImplTest {
         assertTrue(news.isFavorite)
     }
 
-    @Test
-    @Throws(Exception::class)
-    fun toggleFavoriteNewsState_thenVerifyItsState() = runTest {
-        repositoryImpl.syncNews()
-
-        val oldNews = repositoryImpl.getNews().first().first()
-
-        repositoryImpl.toggleFavoriteNews(oldNews)
-        val isFavorite = repositoryImpl.isFavoriteNews(oldNews)
-        assertTrue(isFavorite)
-    }
-
 }

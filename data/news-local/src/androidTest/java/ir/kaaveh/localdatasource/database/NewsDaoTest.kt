@@ -47,11 +47,4 @@ class NewsDaoTest {
         assertTrue(newsList.contains(favoriteLocalNewsDto))
     }
 
-    @Test
-    @Throws(Exception::class)
-    fun setFavoriteNewsThenCheckIsFavorite() = runTest {
-        newsDao.insertNews(favoriteLocalNewsDto)
-        assertTrue(newsDao.isFavoriteNews(title = favoriteLocalNewsDto.title, source = favoriteLocalNewsDto.source))
-    }
-
 }
