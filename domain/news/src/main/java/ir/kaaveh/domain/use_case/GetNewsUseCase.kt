@@ -9,6 +9,9 @@ class GetNewsUseCase @Inject constructor(
     private val repository: NewsRepository,
 ) {
 
-    operator fun invoke(): Flow<List<News>> = repository.getNews()
+    suspend operator fun invoke(): Flow<List<News>> {
+        repository.syncNews()
+        return repository.getNews()
+    }
 
 }

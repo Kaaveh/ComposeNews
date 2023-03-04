@@ -39,25 +39,23 @@ class NewsListViewModel @Inject constructor(
                     refreshing = true,
                 )
             }
-        getNewsList(isRefreshing = isRefreshing)
+        viewModelScope.launch {
+            getNewsList()
+        }
         getFavoriteNews()
     }
 
-    // TODO: remove isRefreshing parameter
-    private fun getNewsList(isRefreshing: Boolean = false) = getNewsUseCase()
+    private suspend fun getNewsList() = getNewsUseCase()
         .catch { exception ->
             mutableBaseState.update {
                 BaseContract.BaseState.OnError(
-                    errorMessage = exception.localizedMessage
-                        ?: "An unexpected error occurred."
+                    errorMessage = exception.localizedMessage ?: "An unexpected error occurred."
                 )
             }
         }
         .onEach { result ->
             mutableState.update {
-                NewsListContract.State(
-                    news = result
-                )
+                NewsListContract.State(news = result)
             }
         }
         .launchIn(viewModelScope)
