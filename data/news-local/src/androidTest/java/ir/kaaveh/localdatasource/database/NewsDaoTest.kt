@@ -35,7 +35,7 @@ class NewsDaoTest {
     @Test
     @Throws(Exception::class)
     fun emptyTableAtDbInitialization() = runTest {
-        val newsList = newsDao.getAllNews().first()
+        val newsList = newsDao.getNews().first()
         assertTrue(newsList.isEmpty())
     }
 
@@ -43,15 +43,8 @@ class NewsDaoTest {
     @Throws(Exception::class)
     fun insertNewsToDb() = runTest {
         newsDao.insertNews(favoriteLocalNewsDto)
-        val newsList = newsDao.getAllNews().first()
+        val newsList = newsDao.getNews().first()
         assertTrue(newsList.contains(favoriteLocalNewsDto))
-    }
-
-    @Test
-    @Throws(Exception::class)
-    fun setFavoriteNewsThenCheckIsFavorite() = runTest {
-        newsDao.insertNews(favoriteLocalNewsDto)
-        assertTrue(newsDao.isFavoriteNews(title = favoriteLocalNewsDto.title, source = favoriteLocalNewsDto.source))
     }
 
 }

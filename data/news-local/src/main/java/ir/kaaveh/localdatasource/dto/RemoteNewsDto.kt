@@ -1,10 +1,6 @@
 package ir.kaaveh.localdatasource.dto
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-
-@Entity(tableName = "news", primaryKeys = ["title", "source"])
-data class LocalNewsDto(
+data class RemoteNewsDto(
     val title: String,
     val author: String,
     val description: String,
@@ -12,5 +8,4 @@ data class LocalNewsDto(
     val source: String,
     val url: String,
     val urlToImage: String,
-    @ColumnInfo(defaultValue = "false") val isFavorite: Boolean,
 )
