@@ -17,7 +17,10 @@ class NewsRepositoryImpl @Inject constructor(
 ) : NewsRepository {
 
     override fun getNews(): Flow<List<News>> =
-        dao.getAllNews().map { list -> list.map { it.toNews() } }
+        dao.getNews().map { list -> list.map { it.toNews() } }
+
+    override fun getFavoriteNews(): Flow<List<News>> =
+        dao.getFavoriteNews().map { list -> list.map { it.toNews() } }
 
     override suspend fun syncNews(): Boolean = try {
         api.getNews()
@@ -41,12 +44,11 @@ class NewsRepositoryImpl @Inject constructor(
         dao.insertNews(news)
     }
 
-    // TODO: Make isFavoriteNews private
+    // TODO: delete it
     override suspend fun isFavoriteNews(news: News): Boolean =
         dao.isFavoriteNews(
             title = news.title,
             source = news.source,
-            isFavorite = true
         )
 
 }

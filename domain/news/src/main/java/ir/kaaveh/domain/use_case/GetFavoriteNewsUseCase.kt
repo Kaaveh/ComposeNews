@@ -10,8 +10,6 @@ class GetFavoriteNewsUseCase @Inject constructor(
     private val repository: NewsRepository,
 ) {
 
-    operator fun invoke(): Flow<List<News>> = repository.getNews().map { newsList ->
-        newsList.filter { it.isFavorite }
-    }
+    operator fun invoke(): Flow<List<News>> = repository.getFavoriteNews()
 
 }

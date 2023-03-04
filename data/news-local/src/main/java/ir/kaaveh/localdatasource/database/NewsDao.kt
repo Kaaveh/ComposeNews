@@ -8,12 +8,15 @@ import kotlinx.coroutines.flow.Flow
 interface NewsDao {
 
     @Query("SELECT * FROM news")
-    fun getAllNews(): Flow<List<LocalNewsDto>>
+    fun getNews(): Flow<List<LocalNewsDto>>
+
+    @Query("SELECT * FROM news WHERE isFavorite")
+    fun getFavoriteNews(): Flow<List<LocalNewsDto>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertNews(news: LocalNewsDto)
 
-    @Query("SELECT EXISTS(SELECT * FROM news WHERE title = :title AND source = :source AND isFavorite = :isFavorite)")
-    suspend fun isFavoriteNews(title: String, source: String, isFavorite: Boolean = true): Boolean
+    @Query("SELECT EXISTS(SELECT * FROM news WHERE title = :title AND source = :source AND isFavorite)")
+    suspend fun isFavoriteNews(title: String, source: String): Boolean
 
 }
