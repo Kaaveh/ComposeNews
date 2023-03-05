@@ -42,7 +42,6 @@ android {
 dependencies {
     implementation(project(":feature:newslist"))
     implementation(project(":feature:newsdetail"))
-    implementation(project(":feature:favoritenews"))
     implementation(project(":domain:news"))
     api(NavigationDependencies.navigationCompose)
 }

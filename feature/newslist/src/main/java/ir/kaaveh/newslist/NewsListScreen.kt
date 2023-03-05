@@ -26,6 +26,7 @@ import ir.kaaveh.newslist.preview_provider.NewsListStateProvider
 @Composable
 fun NewsListRoute(
     viewModel: NewsListViewModel = hiltViewModel(),
+    showFavoriteList: Boolean = false,
     onNavigateToDetailScreen: (news: News) -> Unit,
     onProvideBaseViewModel: (baseViewModel: BaseViewModel) -> Unit,
 ) {
@@ -33,6 +34,8 @@ fun NewsListRoute(
 
     LaunchedEffect(key1 = Unit) {
         onProvideBaseViewModel(viewModel)
+        event.invoke(NewsListContract.Event.OnSetShowFavoriteList(showFavoriteList = showFavoriteList))
+        event.invoke(NewsListContract.Event.OnGetNewsList(showFavoriteList = showFavoriteList))
     }
 
     NewsListScreen(
