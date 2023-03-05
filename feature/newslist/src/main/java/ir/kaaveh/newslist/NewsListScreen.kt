@@ -35,7 +35,7 @@ fun NewsListRoute(
     LaunchedEffect(key1 = Unit) {
         onProvideBaseViewModel(viewModel)
         event.invoke(NewsListContract.Event.OnSetShowFavoriteList(showFavoriteList = showFavoriteList))
-        event.invoke(NewsListContract.Event.OnGetNewsList(showFavoriteList = showFavoriteList))
+        event.invoke(NewsListContract.Event.OnGetNewsList)
     }
 
     NewsListScreen(
