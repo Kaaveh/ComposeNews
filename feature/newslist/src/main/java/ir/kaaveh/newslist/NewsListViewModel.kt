@@ -5,6 +5,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.kaaveh.designsystem.base.BaseContract
 import ir.kaaveh.designsystem.base.BaseViewModel
 import ir.kaaveh.domain.model.News
+import ir.kaaveh.domain.use_case.GetFavoriteNewsUseCase
 import ir.kaaveh.domain.use_case.GetNewsUseCase
 import ir.kaaveh.domain.use_case.ToggleFavoriteNewsUseCase
 import kotlinx.coroutines.Dispatchers
@@ -15,22 +16,27 @@ import javax.inject.Inject
 @HiltViewModel
 class NewsListViewModel @Inject constructor(
     private val getNewsUseCase: GetNewsUseCase,
+    private val getFavoriteNewsUseCase: GetFavoriteNewsUseCase,
     private val toggleFavoriteNewsUseCase: ToggleFavoriteNewsUseCase,
 ) : BaseViewModel(), NewsListContract {
 
     private val mutableState = MutableStateFlow(NewsListContract.State())
     override val state: StateFlow<NewsListContract.State> = mutableState.asStateFlow()
 
-    init {
-        getData()
-    }
-
     override fun event(event: NewsListContract.Event) = when (event) {
+        is NewsListContract.Event.OnSetShowFavoriteList -> onSetShowFavoriteList(showFavoriteList = event.showFavoriteList)
+        is NewsListContract.Event.OnGetNewsList -> getData(showFavoriteList = mutableState.value.showFavoriteList)
         is NewsListContract.Event.OnFavoriteClick -> onFavoriteClick(news = event.news)
         NewsListContract.Event.OnRefresh -> getData(isRefreshing = true)
     }
 
-    private fun getData(isRefreshing: Boolean = false) {
+    private fun onSetShowFavoriteList(showFavoriteList: Boolean) {
+        mutableState.update {
+            it.copy(showFavoriteList = showFavoriteList)
+        }
+    }
+
+    private fun getData(isRefreshing: Boolean = false, showFavoriteList: Boolean = false) {
         if (isRefreshing)
             mutableState.update {
                 NewsListContract.State(
@@ -38,7 +44,10 @@ class NewsListViewModel @Inject constructor(
                 )
             }
         viewModelScope.launch {
-            getNewsList()
+            if (showFavoriteList)
+                getFavoriteNews()
+            else
+                getNewsList()
         }
     }
 
@@ -56,6 +65,12 @@ class NewsListViewModel @Inject constructor(
             }
         }
         .launchIn(viewModelScope)
+
+    private fun getFavoriteNews() = getFavoriteNewsUseCase().onEach { newList ->
+        mutableState.update {
+            it.copy(news = newList)
+        }
+    }.launchIn(viewModelScope)
 
     // TODO: remove these comments
 //    private fun getNewsList(isRefreshing: Boolean = false) = getNewsUseCase().onEach { result ->
