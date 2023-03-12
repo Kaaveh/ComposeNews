@@ -1,5 +1,6 @@
 package ir.kaaveh.newslist
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Scaffold
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
@@ -18,6 +20,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.hilt.navigation.compose.hiltViewModel
 import ir.kaaveh.designsystem.base.BaseViewModel
 import ir.kaaveh.designsystem.preview.ThemePreviews
+import ir.kaaveh.designsystem.theme.ComposeNewsTheme
 import ir.kaaveh.designsystem.use
 import ir.kaaveh.domain.model.News
 import ir.kaaveh.newslist.component.NewsListItem
@@ -93,16 +96,21 @@ private fun NewsListScreen(
     }
 }
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ThemePreviews
 @Composable
 private fun NewsListScreenPrev(
     @PreviewParameter(NewsListStateProvider::class)
     newsListState: NewsListContract.State
 ) {
-    NewsListScreen(
-        newsListState = newsListState,
-        onNavigateToDetailScreen = {},
-        onFavoriteClick = {},
-        onRefresh = {},
-    )
+    ComposeNewsTheme {
+        Scaffold {
+            NewsListScreen(
+                newsListState = newsListState,
+                onNavigateToDetailScreen = {},
+                onFavoriteClick = {},
+                onRefresh = {},
+            )
+        }
+    }
 }
