@@ -1,9 +1,11 @@
 package ir.kaaveh.newsdetail
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,6 +18,7 @@ import com.google.accompanist.web.rememberWebViewState
 import ir.kaaveh.designsystem.base.BaseViewModel
 import ir.kaaveh.designsystem.component.FavoriteIcon
 import ir.kaaveh.designsystem.preview.ThemePreviews
+import ir.kaaveh.designsystem.theme.ComposeNewsTheme
 import ir.kaaveh.designsystem.use
 import ir.kaaveh.domain.model.News
 import ir.kaaveh.newsdetail.preview_provider.NewsDetailStateProvider
@@ -73,11 +76,16 @@ private fun NewsDetailScreen(
 
 }
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ThemePreviews
 @Composable
 private fun NewsDetailScreenPrev(
     @PreviewParameter(NewsDetailStateProvider::class)
     newsDetailState: NewsDetailContract.State
 ) {
-    NewsDetailScreen(newsDetailState = newsDetailState, onFavoriteClick = {})
+    ComposeNewsTheme {
+        Scaffold {
+            NewsDetailScreen(newsDetailState = newsDetailState, onFavoriteClick = {})
+        }
+    }
 }

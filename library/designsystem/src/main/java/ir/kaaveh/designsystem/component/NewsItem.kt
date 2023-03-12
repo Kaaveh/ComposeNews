@@ -1,9 +1,12 @@
 package ir.kaaveh.designsystem.component
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -87,24 +90,27 @@ fun NewsItem(
             onFavoriteClick()
         }
         Spacer(modifier = Modifier.height(8.dp))
-        Divider(color = Color.Black)
+        Divider(color = MaterialTheme.colors.onSurface)
         Spacer(modifier = Modifier.height(8.dp))
     }
 }
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ThemePreviews
 @Composable
 private fun NewsItemPrev() {
     ComposeNewsTheme {
-        NewsItem(
-            title = "Title",
-            urlToImage = "",
-            description = "This is a sample description.",
-            source = "My Aunt",
-            publishedAt = "2022/02.10",
-            isFavorite = false,
-            onItemClick = {},
-            onFavoriteClick = {}
-        )
+        Scaffold {
+            NewsItem(
+                title = "Title",
+                urlToImage = "",
+                description = "This is a sample description.",
+                source = "My Aunt",
+                publishedAt = "2022/02.10",
+                isFavorite = false,
+                onItemClick = {},
+                onFavoriteClick = {}
+            )
+        }
     }
 }
