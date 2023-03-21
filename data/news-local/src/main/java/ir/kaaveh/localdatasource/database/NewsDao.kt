@@ -18,6 +18,6 @@ interface NewsDao {
     suspend fun insertNews(news: LocalNewsDto)
 
     @Upsert(entity = LocalNewsDto::class)
-    fun upsertNews(news: RemoteNewsDto)
+    suspend fun upsertNews(news: RemoteNewsDto)
 
 }
