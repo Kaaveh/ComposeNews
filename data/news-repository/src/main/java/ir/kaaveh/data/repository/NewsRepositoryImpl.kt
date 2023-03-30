@@ -4,10 +4,9 @@ import ir.kaaveh.data.mapper.toRemoteNewsDto
 import ir.kaaveh.domain.model.News
 import ir.kaaveh.domain.repository.NewsRepository
 import ir.kaaveh.localdatasource.database.NewsDao
-import ir.kaaveh.localdatasource.mapper.toNews
 import ir.kaaveh.localdatasource.mapper.toLocalNewsDto
+import ir.kaaveh.localdatasource.mapper.toNews
 import ir.kaaveh.remotedatasource.api.NewsApi
-import ir.kaaveh.remotedatasource.mapper.toNews
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
