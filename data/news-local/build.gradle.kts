@@ -36,7 +36,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain:news"))
     RoomDependencies.apply {
         implementation(roomRuntime)
         implementation(roomKtx)

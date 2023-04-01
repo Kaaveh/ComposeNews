@@ -8,7 +8,7 @@ import ir.kaaveh.remotedatasource.test.newsDto
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class NewsDtoMapperKtTest{
+class NewsDtoMapperTest{
 
     @Test
     fun newsDtoToNews() {
