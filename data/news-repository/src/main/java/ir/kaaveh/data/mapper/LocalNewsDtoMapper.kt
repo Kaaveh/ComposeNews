@@ -1,4 +1,4 @@
-package ir.kaaveh.localdatasource.mapper
+package ir.kaaveh.data.mapper
 
 import ir.kaaveh.domain.model.News
 import ir.kaaveh.localdatasource.dto.LocalNewsDto

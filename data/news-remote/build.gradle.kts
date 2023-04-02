@@ -36,7 +36,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain:news"))
     NetworkDependencies.apply {
         implementation(retrofit)
         implementation(gson)
@@ -47,10 +46,6 @@ dependencies {
     DIDependencies.apply {
         implementation(hiltAndroid)
         kapt(dagerHiltCompiler)
-    }
-    TestDependencies.apply {
-        testImplementation(junit)
-        androidTestImplementation(junitExt)
     }
 }
 

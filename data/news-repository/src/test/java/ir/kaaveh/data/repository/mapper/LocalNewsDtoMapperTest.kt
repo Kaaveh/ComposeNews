@@ -1,11 +1,13 @@
-package ir.kaaveh.localdatasource.mapper
+package ir.kaaveh.data.repository.mapper
 
 import ir.kaaveh.domain.test.notFavoriteNews
+import ir.kaaveh.data.mapper.toLocalNewsDto
+import ir.kaaveh.data.mapper.toNews
 import ir.kaaveh.localdatasource.test.localNewsDto
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class NewsDtoMapperTest {
+class LocalNewsDtoMapperTest {
 
     @Test
     fun localNewsDtoToNews() {
