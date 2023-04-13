@@ -52,7 +52,7 @@ private fun NewsDetailScreen(
     newsDetailState: NewsDetailContract.State,
     onFavoriteClick: (news: News?) -> Unit,
 ) {
-    val webViewState = rememberWebViewState(newsDetailState.news?.url ?: "")
+    val webViewState = rememberWebViewState(newsDetailState.news?.url.orEmpty())
 
     Box(modifier = Modifier.fillMaxSize()) {
         WebView(
