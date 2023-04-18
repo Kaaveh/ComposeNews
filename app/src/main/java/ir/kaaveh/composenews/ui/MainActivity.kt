@@ -20,6 +20,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ir.kaaveh.composenews.navigation.ComposeNewsNavHost
+import ir.kaaveh.composenews.permission.enum.PermissionType
+import ir.kaaveh.composenews.permission.manager.PermissionManager
+import ir.kaaveh.composenews.permission.manager.PermissionManagerImpl
 import ir.kaaveh.composenews.ui.component.BottomNavigationBar
 import ir.kaaveh.designsystem.base.BaseRoute
 import ir.kaaveh.designsystem.base.BaseViewModel
@@ -28,7 +31,7 @@ import ir.kaaveh.navigation.BottomNavItem
 import ir.kaaveh.navigation.Destinations
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity(), PermissionManager by PermissionManagerImpl() {
 
     private val items = listOf(
         BottomNavItem(
@@ -45,6 +48,12 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        performPermission(
+            PermissionType.POST_NOTIFICATIONS,
+            this
+        )
+
         setContent {
             ComposeNewsTheme {
 
