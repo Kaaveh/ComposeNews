@@ -52,7 +52,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":sync"))
+    implementation(project(":library:sync"))
     implementation(project(":library:navigation"))
     implementation(project(":library:designsystem"))
     DIDependencies.apply {
