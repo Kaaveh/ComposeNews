@@ -25,7 +25,7 @@ class NewsListViewModel @Inject constructor(
 
     override fun event(event: NewsListContract.Event) = when (event) {
         is NewsListContract.Event.OnSetShowFavoriteList -> onSetShowFavoriteList(showFavoriteList = event.showFavoriteList)
-        is NewsListContract.Event.OnGetNewsList -> getData(showFavoriteList = mutableState.value.showFavoriteList)
+        NewsListContract.Event.OnGetNewsList -> getData()
         is NewsListContract.Event.OnFavoriteClick -> onFavoriteClick(news = event.news)
         NewsListContract.Event.OnRefresh -> getData(isRefreshing = true)
     }
@@ -36,7 +36,7 @@ class NewsListViewModel @Inject constructor(
         }
     }
 
-    private fun getData(isRefreshing: Boolean = false, showFavoriteList: Boolean = false) {
+    private fun getData(isRefreshing: Boolean = false) {
         if (isRefreshing)
             mutableState.update {
                 NewsListContract.State(
@@ -44,7 +44,7 @@ class NewsListViewModel @Inject constructor(
                 )
             }
         viewModelScope.launch {
-            if (showFavoriteList)
+            if (mutableState.value.showFavoriteList)
                 getFavoriteNews()
             else
                 getNewsList()

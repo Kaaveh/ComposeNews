@@ -13,9 +13,9 @@ interface NewsListContract :
     )
 
     sealed class Event {
-        data class OnFavoriteClick(val news: News) : Event()
-        data class OnGetNewsList(val showFavoriteList: Boolean) : Event()
         data class OnSetShowFavoriteList(val showFavoriteList: Boolean) : Event()
+        data class OnFavoriteClick(val news: News) : Event()
+        object OnGetNewsList : Event()
         object OnRefresh: Event()
     }
 
