@@ -7,7 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ir.kaaveh.remotedatasource.api.BASE_URL
-import ir.kaaveh.remotedatasource.api.NewsApi
+import ir.kaaveh.remotedatasource.api.MarketsApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -43,8 +43,8 @@ object RemoteDatasourceModule {
 
     @Singleton
     @Provides
-    fun provideNewsApi(
+    fun provideMarketsApi(
         retrofit: Retrofit
-    ): NewsApi = retrofit.create(NewsApi::class.java)
+    ): MarketsApi = retrofit.create(MarketsApi::class.java)
 
 }

@@ -1,6 +1,6 @@
 package ir.kaaveh.domain.use_case
 
-import ir.kaaveh.domain.repository.NewsRepository
+import ir.kaaveh.domain.repository.MarketsRepository
 import ir.kaaveh.domain.test.favoriteNews
 import ir.kaaveh.domain.test.notFavoriteNews
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -16,8 +16,8 @@ import org.mockito.kotlin.mock
 @OptIn(ExperimentalCoroutinesApi::class)
 class GetFavoriteNewsUseCaseTest {
 
-    private lateinit var mockRepository: NewsRepository
-    private lateinit var getFavoriteNewsUseCase: GetFavoriteNewsUseCase
+    private lateinit var mockRepository: MarketsRepository
+    private lateinit var getFavoriteNewsUseCase: GetFavoriteMarketsUseCase
 
     @Before
     fun provideRepository(){
@@ -26,7 +26,7 @@ class GetFavoriteNewsUseCaseTest {
                 emit(listOf(favoriteNews, notFavoriteNews))
             }
         }
-        getFavoriteNewsUseCase = GetFavoriteNewsUseCase(repository = mockRepository)
+        getFavoriteNewsUseCase = GetFavoriteMarketsUseCase(repository = mockRepository)
     }
 
     @Test

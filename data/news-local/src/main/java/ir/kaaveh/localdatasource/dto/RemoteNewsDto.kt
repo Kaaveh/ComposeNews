@@ -1,11 +1,8 @@
 package ir.kaaveh.localdatasource.dto
 
-data class RemoteNewsDto(
-    val title: String,
-    val author: String,
-    val description: String,
-    val publishedAt: String,
-    val source: String,
-    val url: String,
-    val urlToImage: String,
+data class RemoteMarketDto(
+    val id: String,
+    val name: String,
+    val currentPrice: Double,
+    val imageUrl: String,
 )

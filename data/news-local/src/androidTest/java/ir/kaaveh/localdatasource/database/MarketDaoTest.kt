@@ -14,15 +14,15 @@ import org.junit.Test
 import java.io.IOException
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class NewsDaoTest {
+class MarketDaoTest {
 
-    private lateinit var newsDao: NewsDao
-    private lateinit var db: NewsDatabase
+    private lateinit var newsDao: MarketDao
+    private lateinit var db: MarketsDatabase
 
     @Before
     fun createDb() {
         val context = ApplicationProvider.getApplicationContext<Context>()
-        db = Room.inMemoryDatabaseBuilder(context, NewsDatabase::class.java).build()
+        db = Room.inMemoryDatabaseBuilder(context, MarketsDatabase::class.java).build()
         newsDao = db.newsDao
     }
 

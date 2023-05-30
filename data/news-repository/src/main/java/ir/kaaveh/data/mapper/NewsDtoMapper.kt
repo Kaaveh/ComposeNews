@@ -1,25 +1,19 @@
 package ir.kaaveh.data.mapper
 
-import ir.kaaveh.domain.model.News
-import ir.kaaveh.localdatasource.dto.RemoteNewsDto
-import ir.kaaveh.remotedatasource.dto.NewsDto
+import ir.kaaveh.domain.model.Market
+import ir.kaaveh.localdatasource.dto.RemoteMarketDto
+import ir.kaaveh.remotedatasource.dto.MarketResponse
 
-fun NewsDto.toRemoteNewsDto(): RemoteNewsDto = RemoteNewsDto(
-    author = author.orEmpty(),
-    description = description.orEmpty(),
-    publishedAt = publishedAt.orEmpty(),
-    source = source?.name.orEmpty(),
-    title = title.orEmpty(),
-    url = url.orEmpty(),
-    urlToImage = urlToImage.orEmpty(),
+fun MarketResponse.toRemoteNewsDto(): RemoteMarketDto = RemoteMarketDto(
+    id = id,
+    name = name,
+    currentPrice = currentPrice,
+    imageUrl = imageUrl
 )
 
-fun NewsDto.toNews(): News = News(
-    author = author.orEmpty(),
-    description = description.orEmpty(),
-    publishedAt = publishedAt.orEmpty(),
-    source = source?.name.orEmpty(),
-    title = title.orEmpty(),
-    url = url.orEmpty(),
-    urlToImage = urlToImage.orEmpty(),
+fun MarketResponse.toMarket(): Market = Market(
+    id = id,
+    name = name,
+    currentPrice = currentPrice,
+    imageUrl = imageUrl
 )

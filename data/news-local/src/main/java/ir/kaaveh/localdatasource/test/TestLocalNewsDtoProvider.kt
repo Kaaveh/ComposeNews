@@ -1,36 +1,27 @@
 package ir.kaaveh.localdatasource.test
 
-import ir.kaaveh.localdatasource.dto.LocalNewsDto
-import ir.kaaveh.localdatasource.dto.RemoteNewsDto
+import ir.kaaveh.localdatasource.dto.LocalMarketsDto
+import ir.kaaveh.localdatasource.dto.RemoteMarketDto
 
-val localNewsDto = LocalNewsDto(
-    author = "Kaaveh Mohamedi",
-    description = "This is a sample description.",
-    publishedAt = "2022/02.10",
-    source = "My Aunt",
-    title = "Title",
-    url = "",
-    urlToImage = "",
+val localNewsDto = LocalMarketsDto(
+    id = "id",
+    name = "name",
+    currentPrice = 100000.0,
+    imageUrl = "some_shit_url.png",
     isFavorite = false,
 )
 
-val favoriteLocalNewsDto = LocalNewsDto(
-    author = "Kaaveh Mohamedi",
-    description = "This is a sample description.",
-    publishedAt = "2022/02.10",
-    source = "My Aunt",
-    title = "Title",
-    url = "",
-    urlToImage = "",
+val favoriteLocalNewsDto = LocalMarketsDto(
+    id = "id",
+    name = "name",
+    currentPrice = 100000.0,
+    imageUrl = "some_shit_url.png",
     isFavorite = true,
 )
 
-val remoteNewsDto = RemoteNewsDto(
-    author = "Kaaveh Mohamedi",
-    description = "This is a sample description.",
-    publishedAt = "2022/02.10",
-    source = "My Aunt",
-    title = "Title",
-    url = "",
-    urlToImage = "",
+val remoteNewsDto = RemoteMarketDto(
+    id = "id",
+    name = "name",
+    currentPrice = 100000.0,
+    imageUrl = "some_shit_url.png",
 )

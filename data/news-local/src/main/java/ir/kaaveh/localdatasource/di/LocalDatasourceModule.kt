@@ -6,8 +6,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ir.kaaveh.localdatasource.database.NewsDao
-import ir.kaaveh.localdatasource.database.NewsDatabase
+import ir.kaaveh.localdatasource.database.MarketDao
+import ir.kaaveh.localdatasource.database.MarketsDatabase
 import javax.inject.Singleton
 
 @Module
@@ -16,18 +16,18 @@ object LocalDatasourceModule {
 
     @Singleton
     @Provides
-    fun provideNewsDatabase(app: Application): NewsDatabase =
+    fun provideMarketsDatabase(app: Application): MarketsDatabase =
         Room.databaseBuilder(
             app,
-            NewsDatabase::class.java,
-            NewsDatabase.DATABASE_NAME,
+            MarketsDatabase::class.java,
+            MarketsDatabase.DATABASE_NAME,
         )
             .fallbackToDestructiveMigration()
             .build()
 
     @Singleton
     @Provides
-    fun provideNewsDao(db: NewsDatabase): NewsDao =
-        db.newsDao
+    fun provideMarketsDao(db: MarketsDatabase): MarketDao =
+        db.marketDao
 
 }

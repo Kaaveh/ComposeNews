@@ -1,25 +1,19 @@
 package ir.kaaveh.domain.test
 
-import ir.kaaveh.domain.model.News
+import ir.kaaveh.domain.model.Market
 
-val notFavoriteNews = News(
-    author = "Kaaveh Mohamedi",
-    description = "This is a sample description.",
-    publishedAt = "2022/02.10",
-    source = "My Aunt",
-    title = "Title",
-    url = "",
-    urlToImage = "",
+val notFavoriteNews = Market(
+    id = "id",
+    name = "name",
+    currentPrice = 100000.0,
+    imageUrl = "some_shit_url.png",
     isFavorite = false,
 )
 
-val favoriteNews = News(
-    author = "Kaaveh Mohamedi",
-    description = "This is a sample description.",
-    publishedAt = "2022/02.10",
-    source = "My Aunt",
-    title = "Title",
-    url = "",
-    urlToImage = "",
+val favoriteNews = Market(
+    id = "id",
+    name = "name",
+    currentPrice = 100000.0,
+    imageUrl = "some_shit_url.png",
     isFavorite = true,
 )

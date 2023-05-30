@@ -1,5 +1,6 @@
 package ir.kaaveh.data.repository.mapper
 
+import ir.kaaveh.data.mapper.toMarket
 import ir.kaaveh.data.mapper.toNews
 import ir.kaaveh.data.mapper.toRemoteNewsDto
 import ir.kaaveh.domain.test.notFavoriteNews
@@ -12,7 +13,7 @@ class NewsDtoMapperTest{
 
     @Test
     fun newsDtoToNews() {
-        val mappedNews = newsDto.toNews()
+        val mappedNews = newsDto.toMarket()
         assertEquals(mappedNews, notFavoriteNews)
     }
 

@@ -1,26 +1,20 @@
 package ir.kaaveh.data.mapper
 
-import ir.kaaveh.domain.model.News
-import ir.kaaveh.localdatasource.dto.LocalNewsDto
+import ir.kaaveh.domain.model.Market
+import ir.kaaveh.localdatasource.dto.LocalMarketsDto
 
-fun LocalNewsDto.toNews(): News = News(
-    author = author,
-    description = description,
-    publishedAt = publishedAt,
-    source = source,
-    title = title,
-    url = url,
-    urlToImage = urlToImage,
+fun LocalMarketsDto.toNews(): Market = Market(
+    id = id,
+    name = name,
+    currentPrice = currentPrice,
+    imageUrl = imageUrl,
     isFavorite = isFavorite,
 )
 
-fun News.toLocalNewsDto(): LocalNewsDto = LocalNewsDto(
-    title = title,
-    author = author,
-    description = description,
-    publishedAt = publishedAt,
-    source = source,
-    url = url,
-    urlToImage = urlToImage,
+fun Market.toLocalNewsDto(): LocalMarketsDto = LocalMarketsDto(
+    id = id,
+    name = name,
+    currentPrice = currentPrice,
+    imageUrl = imageUrl,
     isFavorite = isFavorite
 )

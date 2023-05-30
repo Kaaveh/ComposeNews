@@ -22,7 +22,7 @@ import ir.kaaveh.designsystem.base.BaseViewModel
 import ir.kaaveh.designsystem.preview.ThemePreviews
 import ir.kaaveh.designsystem.theme.ComposeNewsTheme
 import ir.kaaveh.designsystem.use
-import ir.kaaveh.domain.model.News
+import ir.kaaveh.domain.model.Market
 import ir.kaaveh.newslist.component.NewsListItem
 import ir.kaaveh.newslist.preview_provider.NewsListStateProvider
 
@@ -30,7 +30,7 @@ import ir.kaaveh.newslist.preview_provider.NewsListStateProvider
 fun NewsListRoute(
     viewModel: NewsListViewModel = hiltViewModel(),
     showFavoriteList: Boolean = false,
-    onNavigateToDetailScreen: (news: News) -> Unit,
+    onNavigateToDetailScreen: (news: Market) -> Unit,
     onProvideBaseViewModel: (baseViewModel: BaseViewModel) -> Unit,
 ) {
     val (state, event) = use(viewModel = viewModel)
@@ -57,8 +57,8 @@ fun NewsListRoute(
 @Composable
 private fun NewsListScreen(
     newsListState: NewsListContract.State,
-    onNavigateToDetailScreen: (news: News) -> Unit,
-    onFavoriteClick: (news: News) -> Unit,
+    onNavigateToDetailScreen: (news: Market) -> Unit,
+    onFavoriteClick: (news: Market) -> Unit,
     onRefresh: () -> Unit,
 ) {
     val refreshState =

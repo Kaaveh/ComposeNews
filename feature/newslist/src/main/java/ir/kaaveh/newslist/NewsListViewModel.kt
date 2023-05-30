@@ -4,10 +4,10 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.kaaveh.designsystem.base.BaseContract
 import ir.kaaveh.designsystem.base.BaseViewModel
-import ir.kaaveh.domain.model.News
-import ir.kaaveh.domain.use_case.GetFavoriteNewsUseCase
-import ir.kaaveh.domain.use_case.GetNewsUseCase
-import ir.kaaveh.domain.use_case.ToggleFavoriteNewsUseCase
+import ir.kaaveh.domain.model.Market
+import ir.kaaveh.domain.use_case.GetFavoriteMarketsUseCase
+import ir.kaaveh.domain.use_case.GetMarketsUseCase
+import ir.kaaveh.domain.use_case.ToggleFavoriteMarketsUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -15,9 +15,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewsListViewModel @Inject constructor(
-    private val getNewsUseCase: GetNewsUseCase,
-    private val getFavoriteNewsUseCase: GetFavoriteNewsUseCase,
-    private val toggleFavoriteNewsUseCase: ToggleFavoriteNewsUseCase,
+    private val getNewsUseCase: GetMarketsUseCase,
+    private val getFavoriteNewsUseCase: GetFavoriteMarketsUseCase,
+    private val toggleFavoriteMarketsUseCase: ToggleFavoriteMarketsUseCase,
 ) : BaseViewModel(), NewsListContract {
 
     private val mutableState = MutableStateFlow(NewsListContract.State())
@@ -109,9 +109,9 @@ class NewsListViewModel @Inject constructor(
 //        }
 //    }.launchIn(viewModelScope)
 
-    private fun onFavoriteClick(news: News) {
+    private fun onFavoriteClick(news: Market) {
         viewModelScope.launch(Dispatchers.IO) {
-            toggleFavoriteNewsUseCase(news)
+            toggleFavoriteMarketsUseCase(news)
         }
     }
 

@@ -20,12 +20,12 @@ import ir.kaaveh.designsystem.component.FavoriteIcon
 import ir.kaaveh.designsystem.preview.ThemePreviews
 import ir.kaaveh.designsystem.theme.ComposeNewsTheme
 import ir.kaaveh.designsystem.use
-import ir.kaaveh.domain.model.News
+import ir.kaaveh.domain.model.Market
 import ir.kaaveh.newsdetail.preview_provider.NewsDetailStateProvider
 
 @Composable
 fun NewsDetailRoute(
-    news: News?,
+    news: Market?,
     viewModel: NewsDetailViewModel = hiltViewModel(),
     onProvideBaseViewModel: (baseViewModel: BaseViewModel) -> Unit,
 ) {
@@ -50,7 +50,7 @@ fun NewsDetailRoute(
 @Composable
 private fun NewsDetailScreen(
     newsDetailState: NewsDetailContract.State,
-    onFavoriteClick: (news: News?) -> Unit,
+    onFavoriteClick: (news: Market?) -> Unit,
 ) {
     val webViewState = rememberWebViewState(newsDetailState.news?.url.orEmpty())
 

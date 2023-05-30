@@ -2,11 +2,11 @@ package ir.kaaveh.newslist.component
 
 import androidx.compose.runtime.Composable
 import ir.kaaveh.designsystem.component.NewsItem
-import ir.kaaveh.domain.model.News
+import ir.kaaveh.domain.model.Market
 
 @Composable
 fun NewsListItem(
-    news: News,
+    news: Market,
     onItemClick: () -> Unit,
     onFavoriteClick: () -> Unit,
 ) {

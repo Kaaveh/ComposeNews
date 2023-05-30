@@ -1,14 +1,14 @@
 package ir.kaaveh.remotedatasource.test
 
-import ir.kaaveh.remotedatasource.dto.NewsDto
-import ir.kaaveh.remotedatasource.dto.SourceDto
+import ir.kaaveh.remotedatasource.dto.MarketResponse
 
-val newsDto = NewsDto(
-    author = "Kaaveh Mohamedi",
-    description = "This is a sample description.",
-    publishedAt = "2022/02.10",
-    source = SourceDto(id = null, name = "My Aunt"),
-    title = "Title",
-    url = "",
-    urlToImage = "",
+val newsDto = MarketResponse(
+    id = "id",
+    name = "name",
+    symbol = "symbol",
+    currentPrice = 100000.0,
+    marketCap = 100000.0,
+    totalVolume = 100000.0,
+    priceChangePercentage24h = 100000.0,
+    imageUrl = "some_shit_url.png"
 )

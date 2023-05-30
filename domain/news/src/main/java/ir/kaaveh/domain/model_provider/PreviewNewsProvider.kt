@@ -1,80 +1,54 @@
 package ir.kaaveh.domain.model_provider
 
-import ir.kaaveh.domain.model.News
+import ir.kaaveh.domain.model.Market
 
 val newsList = listOf(
-    News(
-        author = "Kaaveh Mohamedi",
-        description = "This is a sample description.",
-        publishedAt = "2022/02.10",
-        source = "My Aunt",
-        title = "Title",
-        url = "",
-        urlToImage = "",
+    Market(
+        id = "id",
+        name = "name",
+        currentPrice = 100000.0,
+        imageUrl = "some_shit_url.png"
     ),
-    News(
-        author = "Kaaveh Mohamedi",
-        description = "This is a sample description.",
-        publishedAt = "2022/02.10",
-        source = "My Aunt",
-        title = "Title",
-        url = "",
-        urlToImage = "",
-        isFavorite = true,
+    Market(
+        id = "id",
+        name = "name",
+        currentPrice = 100000.0,
+        imageUrl = "some_shit_url.png"
     ),
-    News(
-        author = "Kaaveh Mohamedi",
-        description = "This is a sample description.",
-        publishedAt = "2022/02.10",
-        source = "My Aunt",
-        title = "Title",
-        url = "",
-        urlToImage = "",
+    Market(
+        id = "id",
+        name = "name",
+        currentPrice = 100000.0,
+        imageUrl = "some_shit_url.png"
     ),
-    News(
-        author = "Kaaveh Mohamedi",
-        description = "This is a sample description.",
-        publishedAt = "2022/02.10",
-        source = "My Aunt",
-        title = "Title",
-        url = "",
-        urlToImage = "",
-        isFavorite = true,
+    Market(
+        id = "id",
+        name = "name",
+        currentPrice = 100000.0,
+        imageUrl = "some_shit_url.png"
     ),
-    News(
-        author = "Kaaveh Mohamedi",
-        description = "This is a sample description.",
-        publishedAt = "2022/02.10",
-        source = "My Aunt",
-        title = "Title",
-        url = "",
-        urlToImage = "",
+    Market(
+        id = "id",
+        name = "name",
+        currentPrice = 100000.0,
+        imageUrl = "some_shit_url.png"
     ),
-    News(
-        author = "Kaaveh Mohamedi",
-        description = "This is a sample description.",
-        publishedAt = "2022/02.10",
-        source = "My Aunt",
-        title = "Title",
-        url = "",
-        urlToImage = "",
+    Market(
+        id = "id",
+        name = "name",
+        currentPrice = 100000.0,
+        imageUrl = "some_shit_url.png"
     ),
-    News(
-        author = "Kaaveh Mohamedi",
-        description = "This is a sample description.",
-        publishedAt = "2022/02.10",
-        source = "My Aunt",
-        title = "Title",
-        url = "",
-        urlToImage = "",
+    Market(
+        id = "id",
+        name = "name",
+        currentPrice = 100000.0,
+        imageUrl = "some_shit_url.png"
     ),
-    News(
-        author = "Kaaveh Mohamedi",
-        description = "This is a sample description.",
-        publishedAt = "2022/02.10",
-        source = "My Aunt",
-        title = "Title",
-        url = "",
-        urlToImage = "",
+    Market(
+        id = "id",
+        name = "name",
+        currentPrice = 100000.0,
+        imageUrl = "some_shit_url.png"
     ),
 )
