@@ -14,24 +14,24 @@ import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class GetFavoriteNewsUseCaseTest {
+class GetFavoriteMarketListUseCaseTest {
 
     private lateinit var mockRepository: MarketRepository
-    private lateinit var getFavoriteNewsUseCase: GetFavoriteMarketsUseCase
+    private lateinit var getFavoriteMarketListUseCase: GetFavoriteMarketListUseCase
 
     @Before
     fun provideRepository(){
         mockRepository = mock {
-            on { getNews() } doReturn flow {
+            on { getMarketList() } doReturn flow {
                 emit(listOf(favoriteMarket, notFavoriteMarket))
             }
         }
-        getFavoriteNewsUseCase = GetFavoriteMarketsUseCase(repository = mockRepository)
+        getFavoriteMarketListUseCase = GetFavoriteMarketListUseCase(repository = mockRepository)
     }
 
     @Test
     fun checkGetOnlyFavoriteNews() = runTest {
-        val news = getFavoriteNewsUseCase().first()
+        val news = getFavoriteMarketListUseCase().first()
         assertTrue(news.size == 1)
     }
 

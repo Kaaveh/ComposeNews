@@ -5,9 +5,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.kaaveh.designsystem.base.BaseContract
 import ir.kaaveh.designsystem.base.BaseViewModel
 import ir.kaaveh.domain.model.Market
-import ir.kaaveh.domain.use_case.GetFavoriteMarketsUseCase
-import ir.kaaveh.domain.use_case.GetMarketsUseCase
-import ir.kaaveh.domain.use_case.ToggleFavoriteMarketsUseCase
+import ir.kaaveh.domain.use_case.GetFavoriteMarketListUseCase
+import ir.kaaveh.domain.use_case.GetMarketListUseCase
+import ir.kaaveh.domain.use_case.ToggleFavoriteMarketListUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -15,9 +15,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewsListViewModel @Inject constructor(
-    private val getNewsUseCase: GetMarketsUseCase,
-    private val getFavoriteNewsUseCase: GetFavoriteMarketsUseCase,
-    private val toggleFavoriteMarketsUseCase: ToggleFavoriteMarketsUseCase,
+    private val getNewsUseCase: GetMarketListUseCase,
+    private val getFavoriteNewsUseCase: GetFavoriteMarketListUseCase,
+    private val toggleFavoriteMarketListUseCase: ToggleFavoriteMarketListUseCase,
 ) : BaseViewModel(), NewsListContract {
 
     private val mutableState = MutableStateFlow(NewsListContract.State())
@@ -111,7 +111,7 @@ class NewsListViewModel @Inject constructor(
 
     private fun onFavoriteClick(news: Market) {
         viewModelScope.launch(Dispatchers.IO) {
-            toggleFavoriteMarketsUseCase(news)
+            toggleFavoriteMarketListUseCase(news)
         }
     }
 

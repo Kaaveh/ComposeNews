@@ -2,7 +2,7 @@ package ir.kaaveh.domain.model_provider
 
 import ir.kaaveh.domain.model.Market
 
-val newsList = listOf(
+val marketList = listOf(
     Market(
         id = "id",
         name = "name",

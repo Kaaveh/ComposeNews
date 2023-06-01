@@ -5,13 +5,10 @@ import ir.kaaveh.domain.repository.MarketRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetMarketsUseCase @Inject constructor(
+class GetFavoriteMarketListUseCase @Inject constructor(
     private val repository: MarketRepository,
 ) {
 
-    suspend operator fun invoke(): Flow<List<Market>> {
-        repository.syncMarketList()
-        return repository.getMarketList()
-    }
+    operator fun invoke(): Flow<List<Market>> = repository.getFavoriteMarketList()
 
 }

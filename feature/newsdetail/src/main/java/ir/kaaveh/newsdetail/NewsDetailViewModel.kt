@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.kaaveh.designsystem.base.BaseViewModel
 import ir.kaaveh.domain.model.Market
-import ir.kaaveh.domain.use_case.ToggleFavoriteMarketsUseCase
+import ir.kaaveh.domain.use_case.ToggleFavoriteMarketListUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewsDetailViewModel @Inject constructor(
-    private val toggleFavoriteMarketsUseCase: ToggleFavoriteMarketsUseCase
+    private val toggleFavoriteMarketListUseCase: ToggleFavoriteMarketListUseCase
 ) : BaseViewModel(), NewsDetailContract {
 
     private val mutableState = MutableStateFlow(NewsDetailContract.State())
@@ -29,7 +29,7 @@ class NewsDetailViewModel @Inject constructor(
     private fun onFavoriteClick(news: Market?) {
         news?.let {
             viewModelScope.launch(Dispatchers.IO) {
-                toggleFavoriteMarketsUseCase(news)
+                toggleFavoriteMarketListUseCase(news)
                 toggleFavoriteState()
             }
         }
