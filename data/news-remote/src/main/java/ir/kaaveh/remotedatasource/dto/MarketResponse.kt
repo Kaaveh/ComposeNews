@@ -3,9 +3,9 @@ package ir.kaaveh.remotedatasource.dto
 import com.google.gson.annotations.SerializedName
 
 data class MarketResponse(
-    @SerializedName("id") val id: String,
-    @SerializedName("name") val name: String,
-    @SerializedName("symbol") val symbol: String,
+    val id: String,
+    val name: String,
+    val symbol: String,
     @SerializedName("current_price") val currentPrice: Double,
     @SerializedName("market_cap") val marketCap: Double,
     @SerializedName("total_volume") val totalVolume: Double,
