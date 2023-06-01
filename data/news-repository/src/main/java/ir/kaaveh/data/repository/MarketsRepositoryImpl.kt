@@ -17,15 +17,15 @@ class MarketsRepositoryImpl @Inject constructor(
 ) : MarketsRepository {
 
     override fun getMarkets(): Flow<List<Market>> =
-        dao.getNews().map { list -> list.map { it.toNews() } }
+        dao.getMarketList().map { list -> list.map { it.toNews() } }
 
     override fun getFavoriteMarkets(): Flow<List<Market>> =
-        dao.getFavoriteNews().map { list -> list.map { it.toNews() } }
+        dao.getFavoriteMarketList().map { list -> list.map { it.toNews() } }
 
     override suspend fun syncMarkets(): Boolean = try {
         api.getMarkets("usd", "market_cap_desc", 20, 1, false)
             .map { it.toRemoteNewsDto() }
-            .onEach { dao.upsertNews(it) }
+            .onEach { dao.upsertMarket(it) }
         true
     } catch (e: Exception) {
         false
@@ -33,7 +33,7 @@ class MarketsRepositoryImpl @Inject constructor(
 
     override suspend fun toggleFavoriteMarkets(oldMarket: Market) {
         val news = oldMarket.toLocalNewsDto().copy(isFavorite = !oldMarket.isFavorite)
-        dao.insertNews(news)
+        dao.insertMarketList(news)
     }
 
 }

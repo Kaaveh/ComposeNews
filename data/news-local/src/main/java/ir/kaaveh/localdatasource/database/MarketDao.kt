@@ -9,15 +9,15 @@ import kotlinx.coroutines.flow.Flow
 interface MarketDao {
 
     @Query("SELECT * FROM markets")
-    fun getNews(): Flow<List<LocalMarketsDto>>
+    fun getMarketList(): Flow<List<LocalMarketsDto>>
 
     @Query("SELECT * FROM markets WHERE isFavorite")
-    fun getFavoriteNews(): Flow<List<LocalMarketsDto>>
+    fun getFavoriteMarketList(): Flow<List<LocalMarketsDto>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertNews(news: LocalMarketsDto)
+    suspend fun insertMarketList(localMarketsDto: LocalMarketsDto)
 
     @Upsert(entity = LocalMarketsDto::class)
-    suspend fun upsertNews(news: RemoteMarketDto)
+    suspend fun upsertMarket(remoteMarketDto: RemoteMarketDto)
 
 }

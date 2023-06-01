@@ -23,7 +23,7 @@ class MarketDaoTest {
     fun createDb() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(context, MarketsDatabase::class.java).build()
-        newsDao = db.newsDao
+        newsDao = db.marketDao
     }
 
     @After
@@ -35,15 +35,15 @@ class MarketDaoTest {
     @Test
     @Throws(Exception::class)
     fun emptyTableAtDbInitialization() = runTest {
-        val newsList = newsDao.getNews().first()
+        val newsList = newsDao.getMarketList().first()
         assertTrue(newsList.isEmpty())
     }
 
     @Test
     @Throws(Exception::class)
     fun insertNewsToDb() = runTest {
-        newsDao.insertNews(favoriteLocalNewsDto)
-        val newsList = newsDao.getNews().first()
+        newsDao.insertMarketList(favoriteLocalNewsDto)
+        val newsList = newsDao.getMarketList().first()
         assertTrue(newsList.contains(favoriteLocalNewsDto))
     }
 
