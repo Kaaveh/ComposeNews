@@ -3,7 +3,7 @@ package ir.kaaveh.data.repository.mapper
 import ir.kaaveh.data.mapper.toMarket
 import ir.kaaveh.data.mapper.toRemoteNewsDto
 import ir.kaaveh.domain.test.notFavoriteNews
-import ir.kaaveh.localdatasource.test.remoteNewsDto
+import ir.kaaveh.localdatasource.test.remoteMarketDto
 import ir.kaaveh.remotedatasource.test.marketDto
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -19,7 +19,7 @@ class NewsDtoMapperTest{
     @Test
     fun newsDtoToRemoteNewsDto() {
         val mappedRemoteNews = marketDto.toRemoteNewsDto()
-        assertEquals(mappedRemoteNews, remoteNewsDto)
+        assertEquals(mappedRemoteNews, remoteMarketDto)
     }
 
 }

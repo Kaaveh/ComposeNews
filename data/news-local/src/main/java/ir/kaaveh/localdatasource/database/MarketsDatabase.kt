@@ -2,10 +2,10 @@ package ir.kaaveh.localdatasource.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import ir.kaaveh.localdatasource.dto.LocalMarketsDto
+import ir.kaaveh.localdatasource.dto.LocalMarketDto
 
 @Database(
-    entities = [LocalMarketsDto::class],
+    entities = [LocalMarketDto::class],
     version = 3,
 )
 abstract class MarketsDatabase : RoomDatabase() {

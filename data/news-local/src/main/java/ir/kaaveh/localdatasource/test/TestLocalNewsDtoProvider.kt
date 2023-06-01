@@ -1,9 +1,9 @@
 package ir.kaaveh.localdatasource.test
 
-import ir.kaaveh.localdatasource.dto.LocalMarketsDto
+import ir.kaaveh.localdatasource.dto.LocalMarketDto
 import ir.kaaveh.localdatasource.dto.RemoteMarketDto
 
-val localNewsDto = LocalMarketsDto(
+val localMarketDto = LocalMarketDto(
     id = "id",
     name = "name",
     currentPrice = 100000.0,
@@ -11,7 +11,7 @@ val localNewsDto = LocalMarketsDto(
     isFavorite = false,
 )
 
-val favoriteLocalNewsDto = LocalMarketsDto(
+val favoriteLocalMarketDto = LocalMarketDto(
     id = "id",
     name = "name",
     currentPrice = 100000.0,
@@ -19,7 +19,7 @@ val favoriteLocalNewsDto = LocalMarketsDto(
     isFavorite = true,
 )
 
-val remoteNewsDto = RemoteMarketDto(
+val remoteMarketDto = RemoteMarketDto(
     id = "id",
     name = "name",
     currentPrice = 100000.0,

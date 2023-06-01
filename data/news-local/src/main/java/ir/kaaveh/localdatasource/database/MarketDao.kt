@@ -1,7 +1,7 @@
 package ir.kaaveh.localdatasource.database
 
 import androidx.room.*
-import ir.kaaveh.localdatasource.dto.LocalMarketsDto
+import ir.kaaveh.localdatasource.dto.LocalMarketDto
 import ir.kaaveh.localdatasource.dto.RemoteMarketDto
 import kotlinx.coroutines.flow.Flow
 
@@ -9,15 +9,15 @@ import kotlinx.coroutines.flow.Flow
 interface MarketDao {
 
     @Query("SELECT * FROM markets")
-    fun getMarketList(): Flow<List<LocalMarketsDto>>
+    fun getMarketList(): Flow<List<LocalMarketDto>>
 
     @Query("SELECT * FROM markets WHERE isFavorite")
-    fun getFavoriteMarketList(): Flow<List<LocalMarketsDto>>
+    fun getFavoriteMarketList(): Flow<List<LocalMarketDto>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertMarketList(localMarketsDto: LocalMarketsDto)
+    suspend fun insertMarketList(localMarketDto: LocalMarketDto)
 
-    @Upsert(entity = LocalMarketsDto::class)
+    @Upsert(entity = LocalMarketDto::class)
     suspend fun upsertMarket(remoteMarketDto: RemoteMarketDto)
 
 }

@@ -3,8 +3,8 @@ package ir.kaaveh.localdatasource.dto
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 
-@Entity(tableName = "markets", primaryKeys = ["id"])
-data class LocalMarketsDto(
+@Entity(tableName = "market_list", primaryKeys = ["id"])
+data class LocalMarketDto(
     val id: String,
     val name: String,
     val currentPrice: Double,

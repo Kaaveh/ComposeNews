@@ -3,7 +3,7 @@ package ir.kaaveh.localdatasource.database
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import ir.kaaveh.localdatasource.test.favoriteLocalNewsDto
+import ir.kaaveh.localdatasource.test.favoriteLocalMarketDto
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -16,14 +16,14 @@ import java.io.IOException
 @OptIn(ExperimentalCoroutinesApi::class)
 class MarketDaoTest {
 
-    private lateinit var newsDao: MarketDao
+    private lateinit var marketDao: MarketDao
     private lateinit var db: MarketsDatabase
 
     @Before
     fun createDb() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(context, MarketsDatabase::class.java).build()
-        newsDao = db.marketDao
+        marketDao = db.marketDao
     }
 
     @After
@@ -35,16 +35,16 @@ class MarketDaoTest {
     @Test
     @Throws(Exception::class)
     fun emptyTableAtDbInitialization() = runTest {
-        val newsList = newsDao.getMarketList().first()
-        assertTrue(newsList.isEmpty())
+        val marketList = marketDao.getMarketList().first()
+        assertTrue(marketList.isEmpty())
     }
 
     @Test
     @Throws(Exception::class)
     fun insertNewsToDb() = runTest {
-        newsDao.insertMarketList(favoriteLocalNewsDto)
-        val newsList = newsDao.getMarketList().first()
-        assertTrue(newsList.contains(favoriteLocalNewsDto))
+        marketDao.insertMarketList(favoriteLocalMarketDto)
+        val newsList = marketDao.getMarketList().first()
+        assertTrue(newsList.contains(favoriteLocalMarketDto))
     }
 
 }
