@@ -2,7 +2,7 @@ package ir.kaaveh.remotedatasource.test
 
 import ir.kaaveh.remotedatasource.dto.MarketResponse
 
-val newsDto = MarketResponse(
+val marketDto = MarketResponse(
     id = "id",
     name = "name",
     symbol = "symbol",

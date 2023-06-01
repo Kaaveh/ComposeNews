@@ -10,7 +10,5 @@ class FakeMarketsApi : MarketsApi {
         perPage: Int,
         page: Int,
         sparkline: Boolean
-    ): List<MarketResponse> {
-        TODO("Not yet implemented")
-    }
+    ): List<MarketResponse> = listOf(marketDto)
 }

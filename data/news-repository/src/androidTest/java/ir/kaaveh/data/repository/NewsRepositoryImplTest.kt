@@ -27,7 +27,7 @@ class NewsRepositoryImplTest {
     fun createDb() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(context, MarketsDatabase::class.java).build()
-        newsDao = db.newsDao
+        newsDao = db.marketDao
         repositoryImpl = MarketsRepositoryImpl(api = api, dao = newsDao)
     }
 
