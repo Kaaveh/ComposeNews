@@ -52,14 +52,14 @@ private fun NewsDetailScreen(
     newsDetailState: NewsDetailContract.State,
     onFavoriteClick: (news: Market?) -> Unit,
 ) {
-    val webViewState = rememberWebViewState(newsDetailState.news?.url.orEmpty())
+//    val webViewState = rememberWebViewState(newsDetailState.news?.url.orEmpty())
 
     Box(modifier = Modifier.fillMaxSize()) {
-        WebView(
-            state = webViewState,
-            modifier = Modifier.fillMaxSize(),
-            captureBackPresses = false,
-        )
+//        WebView(
+//            state = webViewState,
+//            modifier = Modifier.fillMaxSize(),
+//            captureBackPresses = false,
+//        )
 
         FloatingActionButton(
             modifier = Modifier

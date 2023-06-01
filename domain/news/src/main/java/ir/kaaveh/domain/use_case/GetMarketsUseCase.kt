@@ -1,17 +1,17 @@
 package ir.kaaveh.domain.use_case
 
 import ir.kaaveh.domain.model.Market
-import ir.kaaveh.domain.repository.MarketsRepository
+import ir.kaaveh.domain.repository.MarketRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetMarketsUseCase @Inject constructor(
-    private val repository: MarketsRepository,
+    private val repository: MarketRepository,
 ) {
 
     suspend operator fun invoke(): Flow<List<Market>> {
-        repository.syncMarkets()
-        return repository.getMarkets()
+        repository.syncMarketList()
+        return repository.getMarketList()
     }
 
 }

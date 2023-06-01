@@ -3,7 +3,7 @@ package ir.kaaveh.data.mapper
 import ir.kaaveh.domain.model.Market
 import ir.kaaveh.localdatasource.dto.LocalMarketDto
 
-fun LocalMarketDto.toNews(): Market = Market(
+fun LocalMarketDto.toMarket(): Market = Market(
     id = id,
     name = name,
     currentPrice = currentPrice,
@@ -11,7 +11,7 @@ fun LocalMarketDto.toNews(): Market = Market(
     isFavorite = isFavorite,
 )
 
-fun Market.toLocalNewsDto(): LocalMarketDto = LocalMarketDto(
+fun Market.toLocalMarketDto(): LocalMarketDto = LocalMarketDto(
     id = id,
     name = name,
     currentPrice = currentPrice,

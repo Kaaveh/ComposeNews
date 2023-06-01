@@ -4,7 +4,7 @@ import ir.kaaveh.domain.model.Market
 import ir.kaaveh.localdatasource.dto.RemoteMarketDto
 import ir.kaaveh.remotedatasource.dto.MarketResponse
 
-fun MarketResponse.toRemoteNewsDto(): RemoteMarketDto = RemoteMarketDto(
+fun MarketResponse.toRemoteMarketDto(): RemoteMarketDto = RemoteMarketDto(
     id = id,
     name = name,
     currentPrice = currentPrice,

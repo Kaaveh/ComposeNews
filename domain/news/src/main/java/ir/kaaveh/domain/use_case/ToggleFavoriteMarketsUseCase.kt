@@ -1,14 +1,14 @@
 package ir.kaaveh.domain.use_case
 
 import ir.kaaveh.domain.model.Market
-import ir.kaaveh.domain.repository.MarketsRepository
+import ir.kaaveh.domain.repository.MarketRepository
 import javax.inject.Inject
 
 class ToggleFavoriteMarketsUseCase @Inject constructor(
-    private val repository: MarketsRepository,
+    private val repository: MarketRepository,
 ) {
 
     suspend operator fun invoke(news: Market) =
-        repository.toggleFavoriteMarkets(news)
+        repository.toggleFavoriteMarket(news)
 
 }

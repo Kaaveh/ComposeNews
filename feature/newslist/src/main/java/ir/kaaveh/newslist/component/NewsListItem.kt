@@ -11,15 +11,15 @@ fun NewsListItem(
     onFavoriteClick: () -> Unit,
 ) {
     with(news) {
-        NewsItem(
-            title = title,
-            urlToImage = urlToImage,
-            description = description,
-            source = source,
-            publishedAt = publishedAt,
-            isFavorite = isFavorite,
-            onItemClick = onItemClick,
-            onFavoriteClick = onFavoriteClick
-        )
+//        NewsItem(
+//            title = title,
+//            urlToImage = urlToImage,
+//            description = description,
+//            source = source,
+//            publishedAt = publishedAt,
+//            isFavorite = isFavorite,
+//            onItemClick = onItemClick,
+//            onFavoriteClick = onFavoriteClick
+//        )
     }
 }
