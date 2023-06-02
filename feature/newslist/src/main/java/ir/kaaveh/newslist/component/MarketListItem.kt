@@ -1,16 +1,15 @@
 package ir.kaaveh.newslist.component
 
 import androidx.compose.runtime.Composable
-import ir.kaaveh.designsystem.component.NewsItem
 import ir.kaaveh.domain.model.Market
 
 @Composable
-fun NewsListItem(
-    news: Market,
+fun MarketListItem(
+    market: Market,
     onItemClick: () -> Unit,
     onFavoriteClick: () -> Unit,
 ) {
-    with(news) {
+    with(market) {
 //        NewsItem(
 //            title = title,
 //            urlToImage = urlToImage,

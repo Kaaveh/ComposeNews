@@ -7,14 +7,14 @@ import androidx.navigation.compose.composable
 import ir.kaaveh.designsystem.base.BaseViewModel
 import ir.kaaveh.navigation.Destinations
 import ir.kaaveh.navigation.extension_function.navigate
-import ir.kaaveh.newslist.NewsListRoute
+import ir.kaaveh.newslist.MarketListRoute
 
 fun NavGraphBuilder.favoriteNews(
     navController: NavController,
     onProvideBaseViewModel: (baseViewModel: BaseViewModel) -> Unit,
 ) {
     composable(Destinations.FavoriteNewsScreen.route) {
-        NewsListRoute(
+        MarketListRoute(
             showFavoriteList = true,
             onNavigateToDetailScreen = { news ->
                 navController.navigate(

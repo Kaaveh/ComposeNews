@@ -3,19 +3,19 @@ package ir.kaaveh.newslist
 import ir.kaaveh.designsystem.UnidirectionalViewModel
 import ir.kaaveh.domain.model.Market
 
-interface NewsListContract :
-    UnidirectionalViewModel<NewsListContract.Event, NewsListContract.State> {
+interface MarketListContract :
+    UnidirectionalViewModel<MarketListContract.Event, MarketListContract.State> {
 
     data class State(
-        val news: List<Market> = listOf(),
+        val marketList: List<Market> = listOf(),
         val refreshing: Boolean = false,
         val showFavoriteList: Boolean = false,
     )
 
     sealed class Event {
         data class OnSetShowFavoriteList(val showFavoriteList: Boolean) : Event()
-        data class OnFavoriteClick(val news: Market) : Event()
-        object OnGetNewsList : Event()
+        data class OnFavoriteClick(val market: Market) : Event()
+        object OnGetMarketList : Event()
         object OnRefresh: Event()
     }
 

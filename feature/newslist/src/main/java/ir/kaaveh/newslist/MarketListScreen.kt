@@ -23,46 +23,46 @@ import ir.kaaveh.designsystem.preview.ThemePreviews
 import ir.kaaveh.designsystem.theme.ComposeNewsTheme
 import ir.kaaveh.designsystem.use
 import ir.kaaveh.domain.model.Market
-import ir.kaaveh.newslist.component.NewsListItem
-import ir.kaaveh.newslist.preview_provider.NewsListStateProvider
+import ir.kaaveh.newslist.component.MarketListItem
+import ir.kaaveh.newslist.preview_provider.MarketListStateProvider
 
 @Composable
-fun NewsListRoute(
-    viewModel: NewsListViewModel = hiltViewModel(),
+fun MarketListRoute(
+    viewModel: MarketListViewModel = hiltViewModel(),
     showFavoriteList: Boolean = false,
-    onNavigateToDetailScreen: (news: Market) -> Unit,
+    onNavigateToDetailScreen: (market: Market) -> Unit,
     onProvideBaseViewModel: (baseViewModel: BaseViewModel) -> Unit,
 ) {
     val (state, event) = use(viewModel = viewModel)
 
     LaunchedEffect(key1 = Unit) {
         onProvideBaseViewModel(viewModel)
-        event.invoke(NewsListContract.Event.OnSetShowFavoriteList(showFavoriteList = showFavoriteList))
-        event.invoke(NewsListContract.Event.OnGetNewsList)
+        event.invoke(MarketListContract.Event.OnSetShowFavoriteList(showFavoriteList = showFavoriteList))
+        event.invoke(MarketListContract.Event.OnGetMarketList)
     }
 
-    NewsListScreen(
-        newsListState = state,
+    MarketListScreen(
+        marketListState = state,
         onNavigateToDetailScreen = onNavigateToDetailScreen,
-        onFavoriteClick = { news ->
-            event.invoke(NewsListContract.Event.OnFavoriteClick(news = news))
+        onFavoriteClick = { market ->
+            event.invoke(MarketListContract.Event.OnFavoriteClick(market = market))
         },
         onRefresh = {
-            event.invoke(NewsListContract.Event.OnRefresh)
+            event.invoke(MarketListContract.Event.OnRefresh)
         },
     )
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-private fun NewsListScreen(
-    newsListState: NewsListContract.State,
-    onNavigateToDetailScreen: (news: Market) -> Unit,
-    onFavoriteClick: (news: Market) -> Unit,
+private fun MarketListScreen(
+    marketListState: MarketListContract.State,
+    onNavigateToDetailScreen: (market: Market) -> Unit,
+    onFavoriteClick: (market: Market) -> Unit,
     onRefresh: () -> Unit,
 ) {
     val refreshState =
-        rememberPullRefreshState(refreshing = newsListState.refreshing, onRefresh = onRefresh)
+        rememberPullRefreshState(refreshing = marketListState.refreshing, onRefresh = onRefresh)
 
     Box(
         modifier = Modifier
@@ -70,26 +70,26 @@ private fun NewsListScreen(
             .pullRefresh(refreshState)
     ) {
         AnimatedVisibility(
-            visible = !newsListState.refreshing,
+            visible = !marketListState.refreshing,
             enter = fadeIn(),
             exit = fadeOut(),
         ) {
             LazyColumn(modifier = Modifier.fillMaxWidth()) {
-                items(newsListState.news) { news ->
-                    NewsListItem(
-                        news = news,
+                items(marketListState.marketList) { market ->
+                    MarketListItem(
+                        market = market,
                         onItemClick = {
-                            onNavigateToDetailScreen(news)
+                            onNavigateToDetailScreen(market)
                         },
                         onFavoriteClick = {
-                            onFavoriteClick(news)
+                            onFavoriteClick(market)
                         }
                     )
                 }
             }
         }
         PullRefreshIndicator(
-            newsListState.refreshing,
+            marketListState.refreshing,
             refreshState,
             Modifier.align(Alignment.TopCenter)
         )
@@ -99,14 +99,14 @@ private fun NewsListScreen(
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ThemePreviews
 @Composable
-private fun NewsListScreenPrev(
-    @PreviewParameter(NewsListStateProvider::class)
-    newsListState: NewsListContract.State
+private fun MarketListScreenPrev(
+    @PreviewParameter(MarketListStateProvider::class)
+    marketListState: MarketListContract.State
 ) {
     ComposeNewsTheme {
         Scaffold {
-            NewsListScreen(
-                newsListState = newsListState,
+            MarketListScreen(
+                marketListState = marketListState,
                 onNavigateToDetailScreen = {},
                 onFavoriteClick = {},
                 onRefresh = {},

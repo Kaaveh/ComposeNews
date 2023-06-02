@@ -14,20 +14,20 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class NewsListViewModel @Inject constructor(
-    private val getNewsUseCase: GetMarketListUseCase,
-    private val getFavoriteNewsUseCase: GetFavoriteMarketListUseCase,
+class MarketListViewModel @Inject constructor(
+    private val getMarketListUseCase: GetMarketListUseCase,
+    private val getFavoriteMarketListUseCase: GetFavoriteMarketListUseCase,
     private val toggleFavoriteMarketListUseCase: ToggleFavoriteMarketListUseCase,
-) : BaseViewModel(), NewsListContract {
+) : BaseViewModel(), MarketListContract {
 
-    private val mutableState = MutableStateFlow(NewsListContract.State())
-    override val state: StateFlow<NewsListContract.State> = mutableState.asStateFlow()
+    private val mutableState = MutableStateFlow(MarketListContract.State())
+    override val state: StateFlow<MarketListContract.State> = mutableState.asStateFlow()
 
-    override fun event(event: NewsListContract.Event) = when (event) {
-        is NewsListContract.Event.OnSetShowFavoriteList -> onSetShowFavoriteList(showFavoriteList = event.showFavoriteList)
-        NewsListContract.Event.OnGetNewsList -> getData()
-        is NewsListContract.Event.OnFavoriteClick -> onFavoriteClick(news = event.news)
-        NewsListContract.Event.OnRefresh -> getData(isRefreshing = true)
+    override fun event(event: MarketListContract.Event) = when (event) {
+        is MarketListContract.Event.OnSetShowFavoriteList -> onSetShowFavoriteList(showFavoriteList = event.showFavoriteList)
+        MarketListContract.Event.OnGetMarketList -> getData()
+        is MarketListContract.Event.OnFavoriteClick -> onFavoriteClick(news = event.market)
+        MarketListContract.Event.OnRefresh -> getData(isRefreshing = true)
     }
 
     private fun onSetShowFavoriteList(showFavoriteList: Boolean) {
@@ -39,19 +39,19 @@ class NewsListViewModel @Inject constructor(
     private fun getData(isRefreshing: Boolean = false) {
         if (isRefreshing)
             mutableState.update {
-                NewsListContract.State(
+                MarketListContract.State(
                     refreshing = true,
                 )
             }
         viewModelScope.launch {
             if (mutableState.value.showFavoriteList)
-                getFavoriteNews()
+                getFavoriteMarketList()
             else
-                getNewsList()
+                getMarketList()
         }
     }
 
-    private suspend fun getNewsList() = getNewsUseCase()
+    private suspend fun getMarketList() = getMarketListUseCase()
         .catch { exception ->
             mutableBaseState.update {
                 BaseContract.BaseState.OnError(
@@ -61,14 +61,14 @@ class NewsListViewModel @Inject constructor(
         }
         .onEach { result ->
             mutableState.update {
-                NewsListContract.State(news = result)
+                MarketListContract.State(marketList = result)
             }
         }
         .launchIn(viewModelScope)
 
-    private fun getFavoriteNews() = getFavoriteNewsUseCase().onEach { newList ->
+    private fun getFavoriteMarketList() = getFavoriteMarketListUseCase().onEach { newList ->
         mutableState.update {
-            it.copy(news = newList)
+            it.copy(marketList = newList)
         }
     }.launchIn(viewModelScope)
 
