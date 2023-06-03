@@ -1,4 +1,4 @@
-package ir.kaaveh.newslist
+package ir.kaaveh.marketlist
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
@@ -23,8 +23,8 @@ import ir.kaaveh.designsystem.preview.ThemePreviews
 import ir.kaaveh.designsystem.theme.ComposeNewsTheme
 import ir.kaaveh.designsystem.use
 import ir.kaaveh.domain.model.Market
-import ir.kaaveh.newslist.component.MarketListItem
-import ir.kaaveh.newslist.preview_provider.MarketListStateProvider
+import ir.kaaveh.marketlist.component.MarketListItem
+import ir.kaaveh.marketlist.preview_provider.MarketListStateProvider
 
 @Composable
 fun MarketListRoute(

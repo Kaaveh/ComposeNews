@@ -1,4 +1,4 @@
-package ir.kaaveh.newsdetail
+package ir.kaaveh.marketdetail
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel

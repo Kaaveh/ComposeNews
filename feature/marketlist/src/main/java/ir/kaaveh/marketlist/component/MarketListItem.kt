@@ -1,4 +1,4 @@
-package ir.kaaveh.newslist.component
+package ir.kaaveh.marketlist.component
 
 import androidx.compose.runtime.Composable
 import ir.kaaveh.domain.model.Market

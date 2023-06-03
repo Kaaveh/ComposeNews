@@ -6,7 +6,7 @@ import ir.kaaveh.navigation.Destinations
 import ir.kaaveh.navigation.extension_function.parcelableData
 import ir.kaaveh.designsystem.base.BaseViewModel
 import ir.kaaveh.domain.model.Market
-import ir.kaaveh.newsdetail.NewsDetailRoute
+import ir.kaaveh.marketdetail.NewsDetailRoute
 
 fun NavGraphBuilder.newsDetail(
     onProvideBaseViewModel: (baseViewModel: BaseViewModel) -> Unit,

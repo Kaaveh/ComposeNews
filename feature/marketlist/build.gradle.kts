@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "ir.kaaveh.newsdetail"
+    namespace = "ir.kaaveh.marketlist"
     compileSdk = projectCompileSdkVersion
 
     defaultConfig {
@@ -42,8 +42,7 @@ android {
 
 dependencies {
     api(project(":library:designsystem"))
-    implementation(project(":data:news-repository"))
-    implementation(ComposeDependencies.accompanistWebview)
+    implementation(project(":data:market-repository"))
     DIDependencies.apply {
         implementation(hiltAndroid)
         kapt(dagerHiltCompiler)

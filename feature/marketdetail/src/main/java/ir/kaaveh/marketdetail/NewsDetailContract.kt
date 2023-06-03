@@ -1,4 +1,4 @@
-package ir.kaaveh.newsdetail
+package ir.kaaveh.marketdetail
 
 import ir.kaaveh.designsystem.UnidirectionalViewModel
 import ir.kaaveh.domain.model.Market

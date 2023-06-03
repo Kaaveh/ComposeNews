@@ -1,4 +1,4 @@
-package ir.kaaveh.newsdetail
+package ir.kaaveh.marketdetail
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
@@ -13,15 +13,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.google.accompanist.web.WebView
-import com.google.accompanist.web.rememberWebViewState
 import ir.kaaveh.designsystem.base.BaseViewModel
 import ir.kaaveh.designsystem.component.FavoriteIcon
 import ir.kaaveh.designsystem.preview.ThemePreviews
 import ir.kaaveh.designsystem.theme.ComposeNewsTheme
 import ir.kaaveh.designsystem.use
 import ir.kaaveh.domain.model.Market
-import ir.kaaveh.newsdetail.preview_provider.NewsDetailStateProvider
+import ir.kaaveh.marketdetail.preview_provider.NewsDetailStateProvider
 
 @Composable
 fun NewsDetailRoute(

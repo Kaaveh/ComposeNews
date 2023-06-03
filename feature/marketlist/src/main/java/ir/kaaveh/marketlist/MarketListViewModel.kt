@@ -1,4 +1,4 @@
-package ir.kaaveh.newslist
+package ir.kaaveh.marketlist
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -9,7 +9,13 @@ import ir.kaaveh.domain.use_case.GetFavoriteMarketListUseCase
 import ir.kaaveh.domain.use_case.GetMarketListUseCase
 import ir.kaaveh.domain.use_case.ToggleFavoriteMarketListUseCase
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,10 +30,10 @@ class MarketListViewModel @Inject constructor(
     override val state: StateFlow<MarketListContract.State> = mutableState.asStateFlow()
 
     override fun event(event: MarketListContract.Event) = when (event) {
-        is MarketListContract.Event.OnSetShowFavoriteList -> onSetShowFavoriteList(showFavoriteList = event.showFavoriteList)
         MarketListContract.Event.OnGetMarketList -> getData()
-        is MarketListContract.Event.OnFavoriteClick -> onFavoriteClick(news = event.market)
         MarketListContract.Event.OnRefresh -> getData(isRefreshing = true)
+        is MarketListContract.Event.OnFavoriteClick -> onFavoriteClick(news = event.market)
+        is MarketListContract.Event.OnSetShowFavoriteList -> onSetShowFavoriteList(showFavoriteList = event.showFavoriteList)
     }
 
     private fun onSetShowFavoriteList(showFavoriteList: Boolean) {
@@ -66,48 +72,12 @@ class MarketListViewModel @Inject constructor(
         }
         .launchIn(viewModelScope)
 
-    private fun getFavoriteMarketList() = getFavoriteMarketListUseCase().onEach { newList ->
-        mutableState.update {
-            it.copy(marketList = newList)
-        }
-    }.launchIn(viewModelScope)
-
-    // TODO: remove these comments
-//    private fun getNewsList(isRefreshing: Boolean = false) = getNewsUseCase().onEach { result ->
-//        when (result) {
-//            is Resource.Loading -> {
-//                if (!isRefreshing)
-//                    mutableBaseState.update {
-//                        BaseContract.BaseState.OnLoading
-//                    }
-//            }
-//            is Resource.Success -> {
-//                if (!isRefreshing)
-//                    mutableBaseState.update {
-//                        BaseContract.BaseState.OnSuccess
-//                    }
-//                else
-//                    mutableState.update {
-//                        NewsListContract.State(
-//                            refreshing = false,
-//                        )
-//                    }
-//                mutableState.update {
-//                    NewsListContract.State(
-//                        news = result.data ?: listOf()
-//                    )
-//                }
-//            }
-//            is Resource.Error -> {
-//                mutableBaseState.update {
-//                    BaseContract.BaseState.OnError(
-//                        errorMessage = result.exception?.localizedMessage
-//                            ?: "An unexpected error occurred."
-//                    )
-//                }
-//            }
-//        }
-//    }.launchIn(viewModelScope)
+    private fun getFavoriteMarketList() =
+        getFavoriteMarketListUseCase().onEach { newList ->
+            mutableState.update {
+                it.copy(marketList = newList)
+            }
+        }.launchIn(viewModelScope)
 
     private fun onFavoriteClick(news: Market) {
         viewModelScope.launch(Dispatchers.IO) {

@@ -35,9 +35,9 @@ android {
 }
 
 dependencies {
-    api(project(":domain:news"))
-    implementation(project(":data:news-remote"))
-    implementation(project(":data:news-local"))
+    api(project(":domain:market"))
+    implementation(project(":data:market-remote"))
+    implementation(project(":data:market-local"))
     implementation(LifeCycleDependencies.lifeCycleViewModelKtx)
     DIDependencies.apply {
         implementation(hiltAndroid)

@@ -35,7 +35,7 @@ android {
 }
 
 dependencies {
-    api(project(":domain:news"))
+    api(project(":domain:market"))
     DIDependencies.apply {
         implementation(hiltAndroid)
         implementation(hiltWork)

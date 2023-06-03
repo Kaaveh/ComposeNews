@@ -7,7 +7,7 @@ import androidx.navigation.compose.composable
 import ir.kaaveh.navigation.Destinations
 import ir.kaaveh.navigation.extension_function.navigate
 import ir.kaaveh.designsystem.base.BaseViewModel
-import ir.kaaveh.newslist.MarketListRoute
+import ir.kaaveh.marketlist.MarketListRoute
 
 fun NavGraphBuilder.newsList(
     navController: NavController,
