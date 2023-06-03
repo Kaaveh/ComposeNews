@@ -8,13 +8,13 @@ import ir.kaaveh.designsystem.base.BaseViewModel
 import ir.kaaveh.domain.model.Market
 import ir.kaaveh.marketdetail.NewsDetailRoute
 
-fun NavGraphBuilder.newsDetail(
+fun NavGraphBuilder.marketDetail(
     onProvideBaseViewModel: (baseViewModel: BaseViewModel) -> Unit,
 ) {
     composable(
-        route = Destinations.NewsDetailScreen().route,
+        route = Destinations.MarketDetailScreen().route,
     ) { entry ->
-        val news = entry.parcelableData<Market>(Destinations.NewsDetailScreen().news)
+        val news = entry.parcelableData<Market>(Destinations.MarketDetailScreen().market)
         NewsDetailRoute(
             news = news,
             onProvideBaseViewModel = {

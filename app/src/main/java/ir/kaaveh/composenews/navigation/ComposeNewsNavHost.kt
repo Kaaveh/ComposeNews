@@ -5,8 +5,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import ir.kaaveh.navigation.graph.favoriteNews
-import ir.kaaveh.navigation.graph.newsDetail
-import ir.kaaveh.navigation.graph.newsList
+import ir.kaaveh.navigation.graph.marketDetail
+import ir.kaaveh.navigation.graph.marketList
 import ir.kaaveh.designsystem.base.BaseViewModel
 import ir.kaaveh.navigation.Destinations
 
@@ -18,11 +18,11 @@ fun ComposeNewsNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Destinations.NewsListScreen.route,
+        startDestination = Destinations.MarketListScreen.route,
         modifier = modifier,
     ) {
-        newsList(navController, onProvideBaseViewModel)
+        marketList(navController, onProvideBaseViewModel)
         favoriteNews(navController, onProvideBaseViewModel)
-        newsDetail(onProvideBaseViewModel)
+        marketDetail(onProvideBaseViewModel)
     }
 }

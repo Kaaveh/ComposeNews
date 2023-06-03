@@ -13,13 +13,13 @@ fun NavGraphBuilder.favoriteNews(
     navController: NavController,
     onProvideBaseViewModel: (baseViewModel: BaseViewModel) -> Unit,
 ) {
-    composable(Destinations.FavoriteNewsScreen.route) {
+    composable(Destinations.FavoriteMarketScreen.route) {
         MarketListRoute(
             showFavoriteList = true,
             onNavigateToDetailScreen = { news ->
                 navController.navigate(
-                    route = Destinations.NewsDetailScreen().route,
-                    args = bundleOf(Destinations.NewsDetailScreen().news to news)
+                    route = Destinations.MarketDetailScreen().route,
+                    args = bundleOf(Destinations.MarketDetailScreen().market to news)
                 )
             },
             onProvideBaseViewModel = {

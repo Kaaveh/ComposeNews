@@ -36,12 +36,12 @@ class MainActivity : ComponentActivity(), PermissionManager by PermissionManager
     private val items = listOf(
         BottomNavItem(
             name = "News",
-            route = Destinations.NewsListScreen.route,
+            route = Destinations.MarketListScreen.route,
             icon = Icons.Default.Home
         ),
         BottomNavItem(
             name = "Favorite",
-            route = Destinations.FavoriteNewsScreen.route,
+            route = Destinations.FavoriteMarketScreen.route,
             icon = Icons.Default.Favorite,
         ),
     )
