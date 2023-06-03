@@ -20,6 +20,7 @@ import ir.kaaveh.designsystem.theme.ComposeNewsTheme
 
 @Composable
 fun MarketItem(
+    modifier: Modifier,
     name: String,
     urlToImage: String,
     price: String,
@@ -28,7 +29,7 @@ fun MarketItem(
     onFavoriteClick: () -> Unit,
 ) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .wrapContentHeight()
             .padding(8.dp)
             .clickable { onItemClick() },
@@ -70,6 +71,7 @@ private fun NewsItemPrev() {
     ComposeNewsTheme {
         Scaffold {
             MarketItem(
+                modifier = Modifier,
                 name = "Title",
                 urlToImage = "",
                 price = "100000",

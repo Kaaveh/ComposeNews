@@ -75,8 +75,12 @@ private fun MarketListScreen(
             exit = fadeOut(),
         ) {
             LazyColumn(modifier = Modifier.fillMaxWidth()) {
-                items(marketListState.marketList) { market ->
+                items(
+                    items = marketListState.marketList,
+                    key = { it.name },
+                ) { market ->
                     MarketListItem(
+                        modifier = Modifier,
                         market = market,
                         onItemClick = {
                             onNavigateToDetailScreen(market)
