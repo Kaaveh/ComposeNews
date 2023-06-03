@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface MarketDao {
 
-    @Query("SELECT * FROM market_list")
+    @Query("SELECT * FROM market_list ORDER BY name ASC")
     fun getMarketList(): Flow<List<LocalMarketDto>>
 
-    @Query("SELECT * FROM market_list WHERE isFavorite")
+    @Query("SELECT * FROM market_list WHERE isFavorite ORDER BY name ASC")
     fun getFavoriteMarketList(): Flow<List<LocalMarketDto>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
