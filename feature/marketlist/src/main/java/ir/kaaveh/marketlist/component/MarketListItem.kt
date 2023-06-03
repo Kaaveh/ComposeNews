@@ -1,6 +1,7 @@
 package ir.kaaveh.marketlist.component
 
 import androidx.compose.runtime.Composable
+import ir.kaaveh.designsystem.component.MarketItem
 import ir.kaaveh.domain.model.Market
 
 @Composable
@@ -10,15 +11,13 @@ fun MarketListItem(
     onFavoriteClick: () -> Unit,
 ) {
     with(market) {
-//        NewsItem(
-//            title = title,
-//            urlToImage = urlToImage,
-//            description = description,
-//            source = source,
-//            publishedAt = publishedAt,
-//            isFavorite = isFavorite,
-//            onItemClick = onItemClick,
-//            onFavoriteClick = onFavoriteClick
-//        )
+        MarketItem(
+            name = name,
+            urlToImage = imageUrl,
+            price = currentPrice.toString(),
+            isFavorite = isFavorite,
+            onItemClick = onItemClick,
+            onFavoriteClick = onFavoriteClick
+        )
     }
 }
