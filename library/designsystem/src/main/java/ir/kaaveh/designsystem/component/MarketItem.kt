@@ -67,7 +67,7 @@ fun MarketItem(
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ThemePreviews
 @Composable
-private fun NewsItemPrev() {
+private fun MarketItemPrev() {
     ComposeNewsTheme {
         Scaffold {
             MarketItem(

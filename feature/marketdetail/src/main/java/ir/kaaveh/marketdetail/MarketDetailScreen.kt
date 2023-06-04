@@ -19,39 +19,37 @@ import ir.kaaveh.designsystem.preview.ThemePreviews
 import ir.kaaveh.designsystem.theme.ComposeNewsTheme
 import ir.kaaveh.designsystem.use
 import ir.kaaveh.domain.model.Market
-import ir.kaaveh.marketdetail.preview_provider.NewsDetailStateProvider
+import ir.kaaveh.marketdetail.preview_provider.MarketDetailStateProvider
 
 @Composable
-fun NewsDetailRoute(
-    news: Market?,
-    viewModel: NewsDetailViewModel = hiltViewModel(),
+fun MarketDetailRoute(
+    market: Market?,
+    viewModel: MarketDetailViewModel = hiltViewModel(),
     onProvideBaseViewModel: (baseViewModel: BaseViewModel) -> Unit,
 ) {
     val (state, event) = use(viewModel = viewModel)
 
-    LaunchedEffect(key1 = news) {
-        event.invoke(NewsDetailContract.Event.SetNews(news = news))
+    LaunchedEffect(key1 = market) {
+        event.invoke(MarketDetailContract.Event.SetMarket(market = market))
     }
 
     LaunchedEffect(key1 = Unit) {
         onProvideBaseViewModel(viewModel)
     }
 
-    NewsDetailScreen(
-        newsDetailState = state,
+    MarketDetailScreen(
+        marketDetailState = state,
         onFavoriteClick = {
-            event.invoke(NewsDetailContract.Event.OnFavoriteClick(news = it))
+            event.invoke(MarketDetailContract.Event.OnFavoriteClick(market = it))
         },
     )
 }
 
 @Composable
-private fun NewsDetailScreen(
-    newsDetailState: NewsDetailContract.State,
-    onFavoriteClick: (news: Market?) -> Unit,
+private fun MarketDetailScreen(
+    marketDetailState: MarketDetailContract.State,
+    onFavoriteClick: (market: Market?) -> Unit,
 ) {
-//    val webViewState = rememberWebViewState(newsDetailState.news?.url.orEmpty())
-
     Box(modifier = Modifier.fillMaxSize()) {
 //        WebView(
 //            state = webViewState,
@@ -66,8 +64,8 @@ private fun NewsDetailScreen(
             onClick = {},
             backgroundColor = Color.White,
         ) {
-            FavoriteIcon(isFavorite = newsDetailState.news?.isFavorite ?: false) {
-                onFavoriteClick(newsDetailState.news)
+            FavoriteIcon(isFavorite = marketDetailState.market?.isFavorite ?: false) {
+                onFavoriteClick(marketDetailState.market)
             }
         }
     }
@@ -77,13 +75,13 @@ private fun NewsDetailScreen(
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ThemePreviews
 @Composable
-private fun NewsDetailScreenPrev(
-    @PreviewParameter(NewsDetailStateProvider::class)
-    newsDetailState: NewsDetailContract.State
+private fun MarketDetailScreenPrev(
+    @PreviewParameter(MarketDetailStateProvider::class)
+    marketDetailState: MarketDetailContract.State
 ) {
     ComposeNewsTheme {
         Scaffold {
-            NewsDetailScreen(newsDetailState = newsDetailState, onFavoriteClick = {})
+            MarketDetailScreen(marketDetailState = marketDetailState, onFavoriteClick = {})
         }
     }
 }

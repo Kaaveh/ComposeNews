@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity(), PermissionManager by PermissionManager
 
     private val items = listOf(
         BottomNavItem(
-            name = "News",
+            name = "Markets",
             route = Destinations.MarketListScreen.route,
             icon = Icons.Default.Home
         ),

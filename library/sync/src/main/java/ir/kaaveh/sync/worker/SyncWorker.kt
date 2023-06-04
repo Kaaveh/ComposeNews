@@ -2,11 +2,14 @@ package ir.kaaveh.sync.worker
 
 import android.content.Context
 import androidx.hilt.work.HiltWorker
-import androidx.work.*
+import androidx.work.CoroutineWorker
+import androidx.work.ForegroundInfo
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.OutOfQuotaPolicy
+import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import ir.kaaveh.domain.use_case.SyncMarketListUseCase
-//import ir.kaaveh.domain.use_case.SyncNewsUseCase
 import ir.kaaveh.sync.SyncConstraints
 import ir.kaaveh.sync.syncForegroundInfo
 
