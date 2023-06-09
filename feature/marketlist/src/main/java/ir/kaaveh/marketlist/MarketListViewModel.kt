@@ -58,16 +58,16 @@ class MarketListViewModel @Inject constructor(
     }
 
     private suspend fun getMarketList() = getMarketListUseCase()
+        .onEach { result ->
+            mutableState.update {
+                MarketListContract.State(marketList = result)
+            }
+        }
         .catch { exception ->
             mutableBaseState.update {
                 BaseContract.BaseState.OnError(
                     errorMessage = exception.localizedMessage ?: "An unexpected error occurred."
                 )
-            }
-        }
-        .onEach { result ->
-            mutableState.update {
-                MarketListContract.State(marketList = result)
             }
         }
         .launchIn(viewModelScope)

@@ -1,20 +1,32 @@
 package ir.kaaveh.marketdetail
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.rememberAsyncImagePainter
 import ir.kaaveh.designsystem.base.BaseViewModel
 import ir.kaaveh.designsystem.component.FavoriteIcon
+import ir.kaaveh.designsystem.component.QuadLineChart
 import ir.kaaveh.designsystem.preview.ThemePreviews
 import ir.kaaveh.designsystem.theme.ComposeNewsTheme
 import ir.kaaveh.designsystem.use
@@ -31,6 +43,9 @@ fun MarketDetailRoute(
 
     LaunchedEffect(key1 = market) {
         event.invoke(MarketDetailContract.Event.SetMarket(market = market))
+        market?.let {
+            event.invoke(MarketDetailContract.Event.GetMarketChart(marketId = market.id))
+        }
     }
 
     LaunchedEffect(key1 = Unit) {
@@ -51,11 +66,44 @@ private fun MarketDetailScreen(
     onFavoriteClick: (market: Market?) -> Unit,
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
-//        WebView(
-//            state = webViewState,
-//            modifier = Modifier.fillMaxSize(),
-//            captureBackPresses = false,
-//        )
+
+        Column(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        painter = rememberAsyncImagePainter(model = marketDetailState.market?.imageUrl),
+                        contentDescription = marketDetailState.market?.name,
+                        modifier = Modifier
+                            .size(48.dp)
+                            .clip(CircleShape)
+                    )
+                    Column(
+                        modifier = Modifier.weight(1F)
+                    ) {
+                        Text(
+                            text = marketDetailState.market?.name ?: "--",
+                            style = MaterialTheme.typography.h5
+                        )
+                        Text(
+                            text = "${marketDetailState.market?.currentPrice} $",
+                            style = MaterialTheme.typography.body1
+                        )
+                    }
+                }
+            }
+
+            QuadLineChart(data = marketDetailState.marketChart.prices)
+        }
 
         FloatingActionButton(
             modifier = Modifier

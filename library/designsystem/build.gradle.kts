@@ -45,7 +45,7 @@ dependencies {
         api(composeUiTooling)
         api(composeUiTestManifest)
         api(composeMaterial)
-        implementation(composeCoil)
+        api(composeCoil)
     }
     LifeCycleDependencies.apply {
         api(lifeCycleRuntimeCompose)
