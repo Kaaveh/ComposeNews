@@ -1,6 +1,5 @@
 package ir.kaaveh.marketdetail
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,7 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -120,7 +119,6 @@ private fun MarketDetailScreen(
 
 }
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ThemePreviews
 @Composable
 private fun MarketDetailScreenPrev(
@@ -128,7 +126,7 @@ private fun MarketDetailScreenPrev(
     marketDetailState: MarketDetailContract.State
 ) {
     ComposeNewsTheme {
-        Scaffold {
+        Surface {
             MarketDetailScreen(marketDetailState = marketDetailState, onFavoriteClick = {})
         }
     }

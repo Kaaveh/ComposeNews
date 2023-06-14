@@ -1,6 +1,5 @@
 package ir.kaaveh.marketlist
 
-import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -9,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
@@ -100,7 +99,6 @@ private fun MarketListScreen(
     }
 }
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ThemePreviews
 @Composable
 private fun MarketListScreenPrev(
@@ -108,7 +106,7 @@ private fun MarketListScreenPrev(
     marketListState: MarketListContract.State
 ) {
     ComposeNewsTheme {
-        Scaffold {
+        Surface {
             MarketListScreen(
                 marketListState = marketListState,
                 onNavigateToDetailScreen = {},
