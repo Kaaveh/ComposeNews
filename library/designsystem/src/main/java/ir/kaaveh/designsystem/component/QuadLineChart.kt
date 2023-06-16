@@ -2,15 +2,28 @@ package ir.kaaveh.designsystem.component
 
 import android.graphics.Paint
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.asAndroidPath
+import androidx.compose.ui.graphics.asComposePath
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ir.kaaveh.designsystem.theme.graphColor
+import ir.kaaveh.designsystem.theme.lightGraphColor
 import kotlin.math.round
 import kotlin.math.roundToInt
 
@@ -19,15 +32,16 @@ fun QuadLineChart(
     data: List<Pair<Int, Double>> = emptyList(),
 ) {
     val spacing = 100f
-    val graphColor = Color(0xFF6750A4)
-    val transparentGraphColor = remember { graphColor.copy(alpha = 0.5f) }
-    val upperValue = remember(key1 = data) { (data.maxOfOrNull { it.second }?.plus(1))?.roundToInt() ?: 0 }
+    val columnTextColor = MaterialTheme.colors.onSurface.toArgb()
+    val upperValue = remember(key1 = data) {
+        (data.maxOfOrNull { it.second }?.plus(1))?.roundToInt() ?: 0
+    }
     val lowerValue = remember(key1 = data) { (data.minOfOrNull { it.second }?.toInt() ?: 0) }
     val density = LocalDensity.current
 
     val textPaint = remember(density) {
         Paint().apply {
-            color = android.graphics.Color.BLACK
+            color = columnTextColor
             textAlign = Paint.Align.CENTER
             textSize = density.run { 8.sp.toPx() }
         }
@@ -44,19 +58,8 @@ fun QuadLineChart(
                 .height(300.dp)
         ) {
             val spacePerHour = (size.width - spacing) / data.size
-//            (data.indices step 2).forEach { i ->
-//                val hour = data[i].first
-//                drawContext.canvas.nativeCanvas.apply {
-//                    drawText(
-//                        hour.toString(),
-//                        spacing + i * spacePerHour,
-//                        size.height,
-//                        textPaint
-//                    )
-//                }
-//            }
-//
             val priceStep = (upperValue - lowerValue) / 5f
+
             (0..4).forEach { i ->
                 drawContext.canvas.nativeCanvas.apply {
                     drawText(
@@ -110,8 +113,8 @@ fun QuadLineChart(
                 path = fillPath,
                 brush = Brush.verticalGradient(
                     colors = listOf(
-                        transparentGraphColor,
-                        Color.Transparent
+                        lightGraphColor,
+                        Color.Transparent,
                     ),
                     endY = size.height - spacing
                 )
