@@ -21,8 +21,8 @@ fun QuadLineChart(
     val spacing = 100f
     val graphColor = Color(0xFF6750A4)
     val transparentGraphColor = remember { graphColor.copy(alpha = 0.5f) }
-    val upperValue = remember { (data.maxOfOrNull { it.second }?.plus(1))?.roundToInt() ?: 0 }
-    val lowerValue = remember { (data.minOfOrNull { it.second }?.toInt() ?: 0) }
+    val upperValue = remember(key1 = data) { (data.maxOfOrNull { it.second }?.plus(1))?.roundToInt() ?: 0 }
+    val lowerValue = remember(key1 = data) { (data.minOfOrNull { it.second }?.toInt() ?: 0) }
     val density = LocalDensity.current
 
     val textPaint = remember(density) {
