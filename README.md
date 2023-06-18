@@ -4,7 +4,7 @@ This repo is a playground about best practices, using updated libraries and solu
 
 ## ⚙️ Architecture
 
-![Architecture diagram](asset/architecture.jpg?)
+
 
 The main architecture of code based on MVI + CLEAN architecture. The division criteria is a hybrid strategy based on Feature + Layer by module.
 For the detail of architecture, please read [this article](https://medium.com/@kaaveh/migrate-from-mvvm-to-mvi-f938c27c214f).
