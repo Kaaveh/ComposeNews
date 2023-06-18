@@ -5,18 +5,18 @@ import androidx.navigation.compose.composable
 import ir.kaaveh.navigation.Destinations
 import ir.kaaveh.navigation.extension_function.parcelableData
 import ir.kaaveh.designsystem.base.BaseViewModel
-import ir.kaaveh.domain.model.News
-import ir.kaaveh.newsdetail.NewsDetailRoute
+import ir.kaaveh.domain.model.Market
+import ir.kaaveh.marketdetail.MarketDetailRoute
 
-fun NavGraphBuilder.newsDetail(
+fun NavGraphBuilder.marketDetail(
     onProvideBaseViewModel: (baseViewModel: BaseViewModel) -> Unit,
 ) {
     composable(
-        route = Destinations.NewsDetailScreen().route,
+        route = Destinations.MarketDetailScreen().route,
     ) { entry ->
-        val news = entry.parcelableData<News>(Destinations.NewsDetailScreen().news)
-        NewsDetailRoute(
-            news = news,
+        val market = entry.parcelableData<Market>(Destinations.MarketDetailScreen().market)
+        MarketDetailRoute(
+            market = market,
             onProvideBaseViewModel = {
                 onProvideBaseViewModel(it)
             },

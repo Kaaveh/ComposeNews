@@ -9,7 +9,6 @@ android {
 
     defaultConfig {
         minSdk = projectMinSdkVersion
-        targetSdk = projectTargetSdkVersion
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -40,8 +39,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature:newslist"))
-    implementation(project(":feature:newsdetail"))
-    implementation(project(":domain:news"))
+    implementation(project(":feature:marketlist"))
+    implementation(project(":feature:marketdetail"))
+    implementation(project(":domain:market"))
     api(NavigationDependencies.navigationCompose)
 }

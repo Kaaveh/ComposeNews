@@ -9,7 +9,6 @@ android {
 
     defaultConfig {
         minSdk = projectMinSdkVersion
-        targetSdk = projectTargetSdkVersion
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -46,7 +45,7 @@ dependencies {
         api(composeUiTooling)
         api(composeUiTestManifest)
         api(composeMaterial)
-        implementation(composeCoil)
+        api(composeCoil)
     }
     LifeCycleDependencies.apply {
         api(lifeCycleRuntimeCompose)

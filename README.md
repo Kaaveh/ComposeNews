@@ -17,6 +17,38 @@ For the detail of navigation implementations, please read [this article](https:/
 
 For the detail of handling preview of composable functions in this code-base, please read [this article](https://proandroiddev.com/an-introduction-about-preview-in-jetpack-compose-b72a96daac35).
 
+## 🛠 Technologies
+
+- Jetpack Compose
+- CLEAN architecture
+- MVI architectural pattern
+- Coroutine Flow
+- Room database
+- Dagger Hilt
+- Navigation
+- Retrofit
+- Work manager
+- Unit test
+
+## 📸 Screenshots
+
+Light theme
+
+
+<p float="left">
+  <img src="asset/1.png" width="350"/>
+  <img src="asset/2.png" width="350"/>
+</p>
+
+
+Datrk theme
+
+
+<p float="left">
+  <img src="asset/3.png" width="350"/>
+  <img src="asset/4.png" width="350"/>
+</p>
+
 ## 🤝🏻 Contribute
 
 Any PRs are very welcome! 😍 You can fix a bug, add a feature, optimize performance and even propose a new cool approach in code-base architecture. Feel free and make a PR! 😌

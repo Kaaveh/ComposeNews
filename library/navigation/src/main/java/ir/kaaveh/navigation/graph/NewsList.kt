@@ -7,18 +7,18 @@ import androidx.navigation.compose.composable
 import ir.kaaveh.navigation.Destinations
 import ir.kaaveh.navigation.extension_function.navigate
 import ir.kaaveh.designsystem.base.BaseViewModel
-import ir.kaaveh.newslist.NewsListRoute
+import ir.kaaveh.marketlist.MarketListRoute
 
-fun NavGraphBuilder.newsList(
+fun NavGraphBuilder.marketList(
     navController: NavController,
     onProvideBaseViewModel: (baseViewModel: BaseViewModel) -> Unit,
 ) {
-    composable(Destinations.NewsListScreen.route) {
-        NewsListRoute(
-            onNavigateToDetailScreen = { news ->
+    composable(Destinations.MarketListScreen.route) {
+        MarketListRoute(
+            onNavigateToDetailScreen = { market ->
                 navController.navigate(
-                    route = Destinations.NewsDetailScreen().route,
-                    args = bundleOf(Destinations.NewsDetailScreen().news to news)
+                    route = Destinations.MarketDetailScreen().route,
+                    args = bundleOf(Destinations.MarketDetailScreen().market to market)
                 )
             },
             onProvideBaseViewModel = {

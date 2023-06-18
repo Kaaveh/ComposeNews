@@ -11,7 +11,6 @@ android {
 
     defaultConfig {
         minSdk = projectMinSdkVersion
-        targetSdk = projectTargetSdkVersion
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -36,7 +35,7 @@ android {
 }
 
 dependencies {
-    api(project(":domain:news"))
+    api(project(":domain:market"))
     DIDependencies.apply {
         implementation(hiltAndroid)
         implementation(hiltWork)
