@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
-
 plugins {
     id("com.android.library")
     id("kotlin-android")
@@ -40,7 +38,7 @@ dependencies {
         api(junit)
         api(junitExt)
         api(coroutinesTest)
-        api(mokitoKotlin)
+        api(mockk)
     }
     DIDependencies.apply {
         implementation(hiltAndroid)
