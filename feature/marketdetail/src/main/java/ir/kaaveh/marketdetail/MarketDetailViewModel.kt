@@ -1,7 +1,7 @@
 package ir.kaaveh.marketdetail
 
 import androidx.lifecycle.viewModelScope
-import com.github.mohammadsianaki.core_test.DispatcherProvider
+import com.github.mohammadsianaki.core_test.dispatcher.DispatcherProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.kaaveh.designsystem.base.BaseContract
 import ir.kaaveh.designsystem.base.BaseViewModel
