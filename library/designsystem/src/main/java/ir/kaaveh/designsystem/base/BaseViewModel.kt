@@ -1,10 +1,19 @@
 package ir.kaaveh.designsystem.base
 
 import androidx.lifecycle.ViewModel
+import com.github.mohammadsianaki.core_test.DispatcherProvider
+import com.github.mohammadsianaki.core_test.PlatformDispatcherProvider
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.withContext
 
-open class BaseViewModel : ViewModel(), BaseContract {
+open class BaseViewModel(
+    protected val dispatcherProvider: DispatcherProvider = PlatformDispatcherProvider()
+) : ViewModel(), BaseContract {
 
     protected val mutableBaseState: MutableStateFlow<BaseContract.BaseState> =
         MutableStateFlow(BaseContract.BaseState.OnSuccess)
@@ -24,6 +33,24 @@ open class BaseViewModel : ViewModel(), BaseContract {
 
     private fun onRetryPressed() {
 
+    }
+
+    protected suspend inline fun <T> onUI(crossinline action: suspend () -> T): T {
+        return withContext(dispatcherProvider.ui) {
+            action()
+        }
+    }
+
+    protected suspend inline fun <T> onBg(crossinline action: suspend () -> T): T {
+        return withContext(dispatcherProvider.bg) {
+            action()
+        }
+    }
+
+    protected suspend inline fun <T> onIO(crossinline action: suspend () -> T): T {
+        return withContext(dispatcherProvider.io) {
+            action()
+        }
     }
 
 }

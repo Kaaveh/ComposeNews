@@ -38,6 +38,7 @@ android {
 }
 
 dependencies {
+    api(project(":library:core-test"))
     ComposeDependencies.apply {
         api(platform(composeBOM))
         api(composeUi)
