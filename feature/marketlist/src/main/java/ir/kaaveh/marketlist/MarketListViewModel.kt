@@ -44,41 +44,44 @@ class MarketListViewModel @Inject constructor(
     }
 
     private fun getData(isRefreshing: Boolean = false) {
-        if (isRefreshing)
+        if (isRefreshing) {
             mutableState.update {
-                MarketListContract.State(
-                    refreshing = true,
-                )
+                it.copy(refreshing = true)
             }
+        }
         viewModelScope.launch {
-            if (mutableState.value.showFavoriteList)
+            if (mutableState.value.showFavoriteList) {
                 getFavoriteMarketList()
-            else
+            } else {
                 getMarketList()
+            }
         }
     }
 
-    private suspend fun getMarketList() = getMarketListUseCase()
-        .onEach { result ->
-            mutableState.update {
-                MarketListContract.State(marketList = result)
+    private suspend fun getMarketList() {
+        getMarketListUseCase()
+            .onEach { result ->
+                mutableState.update {
+                    it.copy(marketList = result, refreshing = false)
+                }
             }
-        }
-        .catch { exception ->
-            mutableBaseState.update {
-                BaseContract.BaseState.OnError(
-                    errorMessage = exception.localizedMessage ?: "An unexpected error occurred."
-                )
+            .catch { exception ->
+                mutableBaseState.update {
+                    BaseContract.BaseState.OnError(
+                        errorMessage = exception.localizedMessage ?: "An unexpected error occurred."
+                    )
+                }
             }
-        }
-        .launchIn(viewModelScope)
+            .launchIn(viewModelScope)
+    }
 
-    private fun getFavoriteMarketList() =
+    private fun getFavoriteMarketList() {
         getFavoriteMarketListUseCase().onEach { newList ->
             mutableState.update {
-                it.copy(marketList = newList)
+                it.copy(marketList = newList, refreshing = false)
             }
         }.launchIn(viewModelScope)
+    }
 
     private fun onFavoriteClick(news: Market) {
         viewModelScope.launch {
