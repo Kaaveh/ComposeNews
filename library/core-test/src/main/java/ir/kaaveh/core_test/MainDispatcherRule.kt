@@ -1,6 +1,6 @@
-package com.github.mohammadsianaki.core_test
+package ir.kaaveh.core_test
 
-import com.github.mohammadsianaki.core_test.dispatcher.DispatcherProvider
+import ir.kaaveh.core_test.dispatcher.DispatcherProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.resetMain

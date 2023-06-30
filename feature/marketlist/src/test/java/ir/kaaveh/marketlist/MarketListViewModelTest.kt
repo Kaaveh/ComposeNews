@@ -1,7 +1,7 @@
 package ir.kaaveh.marketlist
 
-import com.github.mohammadsianaki.core_test.MainDispatcherRule
-import com.github.mohammadsianaki.core_test.dispatcher.TestDispatcherProvider
+import ir.kaaveh.core_test.MainDispatcherRule
+import ir.kaaveh.core_test.dispatcher.TestDispatcherProvider
 import io.mockk.coEvery
 import io.mockk.mockk
 import ir.kaaveh.domain.model.Market

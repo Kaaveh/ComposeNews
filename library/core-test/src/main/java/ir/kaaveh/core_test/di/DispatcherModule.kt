@@ -1,7 +1,7 @@
-package com.github.mohammadsianaki.core_test.di
+package ir.kaaveh.core_test.di
 
-import com.github.mohammadsianaki.core_test.dispatcher.DispatcherProvider
-import com.github.mohammadsianaki.core_test.dispatcher.PlatformDispatcherProvider
+import ir.kaaveh.core_test.dispatcher.DispatcherProvider
+import ir.kaaveh.core_test.dispatcher.PlatformDispatcherProvider
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -1,4 +1,4 @@
-package com.github.mohammadsianaki.core_test.dispatcher
+package ir.kaaveh.core_test.dispatcher
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

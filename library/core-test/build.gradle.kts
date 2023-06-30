@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.github.mohammadsianaki.core_test"
+    namespace = "ir.kaaveh.core_test"
     compileSdk = projectCompileSdkVersion
 
     defaultConfig {

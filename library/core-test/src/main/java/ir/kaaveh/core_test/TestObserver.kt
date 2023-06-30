@@ -1,8 +1,8 @@
 @file:OptIn(ExperimentalCoroutinesApi::class)
 
-package com.github.mohammadsianaki.core_test
+package ir.kaaveh.core_test
 
-import com.github.mohammadsianaki.core_test.dispatcher.TestDispatcherProvider
+import ir.kaaveh.core_test.dispatcher.TestDispatcherProvider
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
