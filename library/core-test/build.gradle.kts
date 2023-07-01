@@ -1,10 +1,12 @@
 plugins {
     id("com.android.library")
     id("kotlin-android")
+    id("com.google.dagger.hilt.android")
+    kotlin("kapt")
 }
 
 android {
-    namespace = "ir.kaaveh.designsystem"
+    namespace = "ir.kaaveh.core_test"
     compileSdk = projectCompileSdkVersion
 
     defaultConfig {
@@ -29,27 +31,17 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = ComposeDependencies.kotlinCompilerExtensionVersion
-    }
 }
 
 dependencies {
-    api(project(":library:core-test"))
-    ComposeDependencies.apply {
-        api(platform(composeBOM))
-        api(composeUi)
-        api(composeUiPreview)
-        api(composeUiTooling)
-        api(composeUiTestManifest)
-        api(composeMaterial)
-        api(composeCoil)
+    TestDependencies.apply {
+        api(junit)
+        api(junitExt)
+        api(coroutinesTest)
+        api(mockk)
     }
-    LifeCycleDependencies.apply {
-        api(lifeCycleRuntimeCompose)
-        implementation(lifeCycleViewModelKtx)
+    DIDependencies.apply {
+        implementation(hiltAndroid)
+        kapt(dagerHiltCompiler)
     }
 }
