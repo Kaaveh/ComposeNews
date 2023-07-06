@@ -4,10 +4,10 @@ import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import ir.kaaveh.base.BaseViewModel
+import ir.kaaveh.marketlist.MarketListRoute
 import ir.kaaveh.navigation.Destinations
 import ir.kaaveh.navigation.extension_function.navigate
-import ir.kaaveh.designsystem.base.BaseViewModel
-import ir.kaaveh.marketlist.MarketListRoute
 
 fun NavGraphBuilder.marketList(
     navController: NavController,

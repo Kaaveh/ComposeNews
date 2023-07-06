@@ -17,10 +17,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.hilt.navigation.compose.hiltViewModel
-import ir.kaaveh.designsystem.base.BaseViewModel
+import ir.kaaveh.base.BaseViewModel
 import ir.kaaveh.designsystem.preview.ThemePreviews
 import ir.kaaveh.designsystem.theme.ComposeNewsTheme
-import ir.kaaveh.designsystem.use
+import ir.kaaveh.base.use
 import ir.kaaveh.domain.model.Market
 import ir.kaaveh.marketlist.component.MarketListItem
 import ir.kaaveh.marketlist.preview_provider.MarketListStateProvider

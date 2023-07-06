@@ -42,6 +42,7 @@ android {
 
 dependencies {
     api(project(":library:designsystem"))
+    api(project(":library:base"))
     implementation(project(":data:market-repository"))
     DIDependencies.apply {
         implementation(hiltAndroid)

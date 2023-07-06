@@ -1,6 +1,6 @@
 package ir.kaaveh.marketdetail
 
-import ir.kaaveh.designsystem.UnidirectionalViewModel
+import ir.kaaveh.base.UnidirectionalViewModel
 import ir.kaaveh.domain.model.Chart
 import ir.kaaveh.domain.model.Market
 

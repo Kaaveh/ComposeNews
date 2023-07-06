@@ -38,7 +38,6 @@ android {
 }
 
 dependencies {
-    api(project(":library:core-test"))
     ComposeDependencies.apply {
         api(platform(composeBOM))
         api(composeUi)
@@ -50,6 +49,5 @@ dependencies {
     }
     LifeCycleDependencies.apply {
         api(lifeCycleRuntimeCompose)
-        implementation(lifeCycleViewModelKtx)
     }
 }

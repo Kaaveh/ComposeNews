@@ -1,6 +1,4 @@
-package ir.kaaveh.designsystem.base
-
-import ir.kaaveh.designsystem.BaseUnidirectionalViewModel
+package ir.kaaveh.base
 
 interface BaseContract :
     BaseUnidirectionalViewModel<BaseContract.BaseEvent, BaseContract.BaseEffect, BaseContract.BaseState> {
