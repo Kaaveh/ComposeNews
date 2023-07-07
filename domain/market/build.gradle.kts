@@ -34,6 +34,7 @@ android {
 }
 
 dependencies {
+    api(project(":library:core-test"))
     implementation(KotlinxDependencies.coroutinesCore)
     implementation(LifeCycleDependencies.lifeCycleViewModelKtx)
     implementation(DIDependencies.javaxInject)

@@ -1,38 +1,34 @@
 package ir.kaaveh.domain.use_case
 
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
 import ir.kaaveh.domain.repository.MarketRepository
-import ir.kaaveh.domain.test.favoriteMarket
-import ir.kaaveh.domain.test.notFavoriteMarket
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
-import org.mockito.kotlin.doReturn
-import org.mockito.kotlin.mock
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class GetFavoriteMarketListUseCaseTest {
 
-    private lateinit var mockRepository: MarketRepository
+    private val marketRepository: MarketRepository = mockk(relaxed = true)
     private lateinit var getFavoriteMarketListUseCase: GetFavoriteMarketListUseCase
 
     @Before
-    fun provideRepository(){
-        mockRepository = mock {
-            on { getMarketList() } doReturn flow {
-                emit(listOf(favoriteMarket, notFavoriteMarket))
-            }
-        }
-        getFavoriteMarketListUseCase = GetFavoriteMarketListUseCase(repository = mockRepository)
+    fun provideRepository() {
+        getFavoriteMarketListUseCase = GetFavoriteMarketListUseCase(repository = marketRepository)
     }
 
     @Test
     fun checkGetOnlyFavoriteNews() = runTest {
-        val news = getFavoriteMarketListUseCase().first()
-        assertTrue(news.size == 1)
+        every { marketRepository.getFavoriteMarketList() } returns flowOf(emptyList())
+        getFavoriteMarketListUseCase.invoke()
+        verify(exactly = 1) {
+            marketRepository.getFavoriteMarketList()
+        }
     }
 
 }
