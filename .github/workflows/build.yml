@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - main
+      - master
     tags:
       - v*
   pull_request:
@@ -31,9 +31,13 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - run: echo "Building Debug APK."
-      - name: Build with Gradle
-        run: ./gradlew build
+      - run: echo "Run unit tests"
+      - name: Test
+        run: ./gradlew test
+
+      - run: echo "Assembling main outputs"
+      - name: Assemble
+        run: ./gradlew assemble
       - run: echo "Build status report=${{ job.status }}."
 
       - run: echo "Uploading build artifacts"
