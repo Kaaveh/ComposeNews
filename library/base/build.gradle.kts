@@ -1,16 +1,17 @@
 plugins {
     id("com.android.library")
-    id("kotlin-android")
+    id("org.jetbrains.kotlin.android")
 }
 
 android {
-    namespace = "ir.kaaveh.designsystem"
+    namespace = "ir.kaaveh.base"
     compileSdk = projectCompileSdkVersion
 
     defaultConfig {
         minSdk = projectMinSdkVersion
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -38,16 +39,11 @@ android {
 }
 
 dependencies {
-    ComposeDependencies.apply {
-        api(platform(composeBOM))
-        api(composeUi)
-        api(composeUiPreview)
-        api(composeUiTooling)
-        api(composeUiTestManifest)
-        api(composeMaterial)
-        api(composeCoil)
-    }
+    
+    api(project(":library:core-test"))
+    implementation(project(":library:designsystem"))
+
     LifeCycleDependencies.apply {
-        api(lifeCycleRuntimeCompose)
+        implementation(lifeCycleViewModelKtx)
     }
 }

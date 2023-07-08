@@ -1,4 +1,4 @@
-package ir.kaaveh.designsystem
+package ir.kaaveh.base
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect

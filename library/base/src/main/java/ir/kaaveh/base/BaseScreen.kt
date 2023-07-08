@@ -1,4 +1,4 @@
-package ir.kaaveh.designsystem.base
+package ir.kaaveh.base
 
 import android.app.Activity
 import androidx.compose.foundation.layout.Box
@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import ir.kaaveh.designsystem.collectInLaunchedEffect
-import ir.kaaveh.designsystem.useBase
 import ir.kaaveh.designsystem.widget.ErrorView
 import ir.kaaveh.designsystem.widget.LoadingView
 
@@ -49,10 +47,12 @@ private fun BaseScreen(
             BaseContract.BaseState.OnLoading -> {
                 LoadingView(modifier = Modifier.fillMaxSize())
             }
+
             BaseContract.BaseState.OnLoadingDialog -> TODO()
             is BaseContract.BaseState.OnError -> {
                 ErrorView(errorMessage = baseState.errorMessage)
             }
+
             BaseContract.BaseState.OnSuccess -> content()
         }
     }

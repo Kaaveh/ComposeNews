@@ -1,4 +1,4 @@
-package ir.kaaveh.designsystem.base
+package ir.kaaveh.base
 
 import androidx.lifecycle.ViewModel
 import ir.kaaveh.core_test.dispatcher.DispatcherProvider

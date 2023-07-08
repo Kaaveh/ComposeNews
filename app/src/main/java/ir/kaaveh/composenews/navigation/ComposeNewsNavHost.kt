@@ -7,7 +7,7 @@ import androidx.navigation.compose.NavHost
 import ir.kaaveh.navigation.graph.favoriteMarketList
 import ir.kaaveh.navigation.graph.marketDetail
 import ir.kaaveh.navigation.graph.marketList
-import ir.kaaveh.designsystem.base.BaseViewModel
+import ir.kaaveh.base.BaseViewModel
 import ir.kaaveh.navigation.Destinations
 
 @Composable

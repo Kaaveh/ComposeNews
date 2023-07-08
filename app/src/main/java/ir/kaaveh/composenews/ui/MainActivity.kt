@@ -24,8 +24,8 @@ import ir.kaaveh.composenews.permission.enum.PermissionType
 import ir.kaaveh.composenews.permission.manager.PermissionManager
 import ir.kaaveh.composenews.permission.manager.PermissionManagerImpl
 import ir.kaaveh.composenews.ui.component.BottomNavigationBar
-import ir.kaaveh.designsystem.base.BaseRoute
-import ir.kaaveh.designsystem.base.BaseViewModel
+import ir.kaaveh.base.BaseRoute
+import ir.kaaveh.base.BaseViewModel
 import ir.kaaveh.designsystem.theme.ComposeNewsTheme
 import ir.kaaveh.navigation.BottomNavItem
 import ir.kaaveh.navigation.Destinations
