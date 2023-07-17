@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -22,6 +23,8 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ir.kaaveh.designsystem.preview.ThemePreviews
+import ir.kaaveh.designsystem.theme.ComposeNewsTheme
 import ir.kaaveh.designsystem.theme.graphColor
 import ir.kaaveh.designsystem.theme.lightGraphColor
 import kotlin.math.round
@@ -125,4 +128,21 @@ fun QuadLineChart(
     }
 }
 
-// TODO: Implement preview
+@ThemePreviews
+@Composable
+fun QuadLineChartPreview() {
+    ComposeNewsTheme {
+        Surface {
+            QuadLineChart(
+                listOf(
+                    Pair(0, 5.2),
+                    Pair(1, 12.1),
+                    Pair(2, 2.3),
+                    Pair(3, 6.1),
+                    Pair(4, 7.2),
+                    Pair(5, 3.0),
+                )
+            )
+        }
+    }
+}
