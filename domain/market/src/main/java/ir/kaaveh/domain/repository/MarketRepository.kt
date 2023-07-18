@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 interface MarketRepository {
     fun getMarketList(): Flow<List<Market>>
     fun getFavoriteMarketList(): Flow<List<Market>>
-    suspend fun syncMarketList(): Boolean
+    suspend fun syncMarketList()
     suspend fun toggleFavoriteMarket(oldMarket: Market)
     fun fetchChart(id: String): Flow<Resource<Chart>>
 }

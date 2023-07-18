@@ -21,7 +21,12 @@ class SyncWorker @AssistedInject constructor(
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
-        return if (syncMarketListUseCase()) Result.success() else Result.retry()
+        return try {
+            syncMarketListUseCase()
+            Result.success()
+        } catch (e: Exception) {
+            Result.retry()
+        }
     }
 
     override suspend fun getForegroundInfo(): ForegroundInfo =

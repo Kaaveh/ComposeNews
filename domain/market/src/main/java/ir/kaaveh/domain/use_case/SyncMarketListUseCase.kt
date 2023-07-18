@@ -7,6 +7,6 @@ class SyncMarketListUseCase @Inject constructor(
     private val repository: MarketRepository
 ) {
 
-    suspend operator fun invoke(): Boolean = repository.syncMarketList()
+    suspend operator fun invoke() = repository.syncMarketList()
 
 }
