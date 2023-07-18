@@ -63,6 +63,7 @@ class MarketDetailViewModel @Inject constructor(
     }
 
     private fun getMarketChart(id: String, isRefreshing: Boolean = false) {
+        mutableBaseState.update { BaseContract.BaseState.OnLoading }
         getMarketChartUseCase(id = id)
             .onEach { result ->
                 when (result) {
