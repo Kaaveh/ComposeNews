@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.hilt.navigation.compose.hiltViewModel
+import ir.kaaveh.base.BaseRoute
 import ir.kaaveh.base.BaseViewModel
 import ir.kaaveh.designsystem.preview.ThemePreviews
 import ir.kaaveh.designsystem.theme.ComposeNewsTheme
@@ -40,16 +41,18 @@ fun MarketListRoute(
         event.invoke(MarketListContract.Event.OnGetMarketList)
     }
 
-    MarketListScreen(
-        marketListState = state,
-        onNavigateToDetailScreen = onNavigateToDetailScreen,
-        onFavoriteClick = { market ->
-            event.invoke(MarketListContract.Event.OnFavoriteClick(market = market))
-        },
-        onRefresh = {
-            event.invoke(MarketListContract.Event.OnRefresh)
-        },
-    )
+    BaseRoute(baseViewModel = viewModel) {
+        MarketListScreen(
+            marketListState = state,
+            onNavigateToDetailScreen = onNavigateToDetailScreen,
+            onFavoriteClick = { market ->
+                event.invoke(MarketListContract.Event.OnFavoriteClick(market = market))
+            },
+            onRefresh = {
+                event.invoke(MarketListContract.Event.OnRefresh)
+            },
+        )
+    }
 }
 
 @OptIn(ExperimentalMaterialApi::class)
