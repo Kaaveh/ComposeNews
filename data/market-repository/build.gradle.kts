@@ -32,6 +32,9 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
+    packaging {
+        resources.excludes.add("META-INF/*")
+    }
 }
 
 dependencies {
@@ -52,6 +55,7 @@ dependencies {
         testImplementation(junit)
         androidTestImplementation(junitExt)
         androidTestImplementation(coroutinesTest)
+        androidTestImplementation(runner)
     }
 }
 

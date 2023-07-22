@@ -19,13 +19,12 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
+import ir.kaaveh.base.BaseViewModel
 import ir.kaaveh.composenews.navigation.ComposeNewsNavHost
 import ir.kaaveh.composenews.permission.enum.PermissionType
 import ir.kaaveh.composenews.permission.manager.PermissionManager
 import ir.kaaveh.composenews.permission.manager.PermissionManagerImpl
 import ir.kaaveh.composenews.ui.component.BottomNavigationBar
-import ir.kaaveh.base.BaseRoute
-import ir.kaaveh.base.BaseViewModel
 import ir.kaaveh.designsystem.theme.ComposeNewsTheme
 import ir.kaaveh.navigation.BottomNavItem
 import ir.kaaveh.navigation.Destinations
@@ -84,17 +83,13 @@ class MainActivity : ComponentActivity(), PermissionManager by PermissionManager
                         }
                     }
                 ) { paddingValues ->
-                    BaseRoute(
-                        baseViewModel = baseViewModel
-                    ) {
-                        ComposeNewsNavHost(
-                            navController = navController,
-                            modifier = Modifier.padding(bottom = paddingValues.calculateBottomPadding()),
-                            onProvideBaseViewModel = { viewModel ->
-                                baseViewModel = viewModel
-                            }
-                        )
-                    }
+                    ComposeNewsNavHost(
+                        navController = navController,
+                        modifier = Modifier.padding(bottom = paddingValues.calculateBottomPadding()),
+                        onProvideBaseViewModel = { viewModel ->
+                            baseViewModel = viewModel
+                        }
+                    )
                 }
             }
         }

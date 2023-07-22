@@ -9,8 +9,7 @@ class GetMarketListUseCase @Inject constructor(
     private val repository: MarketRepository,
 ) {
 
-    suspend operator fun invoke(): Flow<List<Market>> {
-        repository.syncMarketList()
+    operator fun invoke(): Flow<List<Market>> {
         return repository.getMarketList()
     }
 

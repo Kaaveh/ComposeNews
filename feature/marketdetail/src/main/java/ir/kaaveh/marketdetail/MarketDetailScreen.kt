@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
+import ir.kaaveh.base.BaseRoute
 import ir.kaaveh.base.BaseViewModel
 import ir.kaaveh.designsystem.component.FavoriteIcon
 import ir.kaaveh.designsystem.component.QuadLineChart
@@ -51,12 +52,14 @@ fun MarketDetailRoute(
         onProvideBaseViewModel(viewModel)
     }
 
-    MarketDetailScreen(
-        marketDetailState = state,
-        onFavoriteClick = {
-            event.invoke(MarketDetailContract.Event.OnFavoriteClick(market = it))
-        },
-    )
+    BaseRoute(baseViewModel = viewModel) {
+        MarketDetailScreen(
+            marketDetailState = state,
+            onFavoriteClick = {
+                event.invoke(MarketDetailContract.Event.OnFavoriteClick(market = it))
+            },
+        )
+    }
 }
 
 @Composable
