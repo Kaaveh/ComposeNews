@@ -1,12 +1,13 @@
 package ir.kaaveh.marketlist
 
-import ir.kaaveh.core_test.MainDispatcherRule
-import ir.kaaveh.core_test.dispatcher.TestDispatcherProvider
 import io.mockk.coEvery
 import io.mockk.mockk
+import ir.kaaveh.core_test.MainDispatcherRule
+import ir.kaaveh.core_test.dispatcher.TestDispatcherProvider
 import ir.kaaveh.domain.model.Market
 import ir.kaaveh.domain.use_case.GetFavoriteMarketListUseCase
 import ir.kaaveh.domain.use_case.GetMarketListUseCase
+import ir.kaaveh.domain.use_case.SyncMarketListUseCase
 import ir.kaaveh.domain.use_case.ToggleFavoriteMarketListUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -24,6 +25,7 @@ import kotlin.random.Random
 @OptIn(ExperimentalCoroutinesApi::class)
 class MarketListViewModelTest {
     private val getMarketListUseCase: GetMarketListUseCase = mockk(relaxed = true)
+    private val syncMarketListUseCase: SyncMarketListUseCase = mockk(relaxed = true)
     private val getFavoriteMarketListUseCase: GetFavoriteMarketListUseCase = mockk(relaxed = true)
     private val toggleFavoriteMarketListUseCase: ToggleFavoriteMarketListUseCase =
         mockk(relaxed = true)
@@ -39,6 +41,7 @@ class MarketListViewModelTest {
     fun setup() {
         sut = MarketListViewModel(
             getMarketListUseCase,
+            syncMarketListUseCase,
             getFavoriteMarketListUseCase,
             toggleFavoriteMarketListUseCase,
             dispatcherProvider
