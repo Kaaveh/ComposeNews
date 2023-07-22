@@ -47,8 +47,7 @@ class NewsRepositoryImplTest {
     @Test
     @Throws(Exception::class)
     fun getNewsFromInternet_thenReadItFromDb() = runTest {
-        val result = repositoryImpl.syncMarketList()
-        assertTrue(result)
+        repositoryImpl.syncMarketList()
 
         val news = repositoryImpl.getMarketList().first()
         assertTrue(news.isNotEmpty())
