@@ -52,6 +52,7 @@ dependencies {
         testImplementation(junit)
         androidTestImplementation(junitExt)
         androidTestImplementation(coroutinesTest)
+        androidTestImplementation(runner)
     }
 }
 
