@@ -27,9 +27,10 @@ class MarketRepositoryImpl @Inject constructor(
         dao.getFavoriteMarketList().map { list -> list.map { it.toMarket() } }
 
     override suspend fun syncMarketList() {
-        api.getMarkets("usd", "market_cap_desc", 20, 1, false)
+        val marketList = api.getMarkets("usd", "market_cap_desc", 20, 1, false)
             .map { it.toRemoteMarketDto() }
-            .onEach { dao.upsertMarket(it) }
+
+        dao.upsertMarket(marketList)
     }
 
     override suspend fun toggleFavoriteMarket(oldMarket: Market) {
