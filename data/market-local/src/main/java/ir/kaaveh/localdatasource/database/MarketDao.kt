@@ -18,6 +18,6 @@ interface MarketDao {
     suspend fun insertMarketList(localMarketDto: LocalMarketDto)
 
     @Upsert(entity = LocalMarketDto::class)
-    suspend fun upsertMarket(remoteMarketDto: RemoteMarketDto)
+    suspend fun upsertMarket(remoteMarketDto: List<RemoteMarketDto>)
 
 }
