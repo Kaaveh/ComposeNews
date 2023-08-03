@@ -40,6 +40,8 @@ workRuntimeKtx = "2.8.0"
 
 androidGradlePlugin = "8.0.2"
 
+kotlin="1.8.10"
+
 [libraries]
 androidx-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "ktx" }
 
@@ -92,3 +94,5 @@ work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }

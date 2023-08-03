@@ -1,6 +1,8 @@
 plugins {
-    alias(libs.plugins.android.application) apply false
-    alias(libs.plugins.android.library) apply false
-    kotlin("android") version "1.8.10" apply false
-    id("com.google.dagger.hilt.android") version "2.44.2" apply false
+    libs.plugins.apply {
+        alias(android.application) apply false
+        alias(android.library) apply false
+        alias(kotlin.android) apply false
+        alias(hilt.android) apply false
+    }
 }
