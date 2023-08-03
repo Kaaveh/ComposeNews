@@ -36,14 +36,14 @@ android {
 
 dependencies {
     api(project(":domain:market"))
-    DIDependencies.apply {
-        implementation(hiltAndroid)
-        implementation(hiltWork)
-        kapt(dagerHiltCompiler)
-        kapt(androidHiltCompiler)
+    libs.apply {
+        implementation(hilt.android)
+        implementation(hilt.work)
+        kapt(dager.hilt.compiler)
+        kapt(android.hilt.compiler)
+        implementation(startup.runtime)
+        implementation(work.runtime.ktx)
     }
-    implementation(WorkDependencies.workRuntimeKtx)
-    implementation(StartupDependencies.startupRuntime)
 }
 
 kapt {

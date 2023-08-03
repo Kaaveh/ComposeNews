@@ -54,19 +54,17 @@ dependencies {
     implementation(project(":library:base"))
     implementation(project(":library:navigation"))
     implementation(project(":library:designsystem"))
-    DIDependencies.apply {
-        implementation(hiltAndroid)
-        kapt(dagerHiltCompiler)
-        implementation(hiltWork)
-    }
-    TestDependencies.apply {
+    libs.apply {
+        implementation(compose.activity)
+        implementation(androidx.ktx)
+        implementation(hilt.android)
+        kapt(dager.hilt.compiler)
+        implementation(hilt.work)
+        implementation(lifecycle.runtime.ktx)
         testImplementation(junit)
-        androidTestImplementation(junitExt)
+        androidTestImplementation(junit.ext)
+        implementation(work.runtime.ktx)
     }
-    implementation(ComposeDependencies.composeActivity)
-    implementation(LifeCycleDependencies.lifeCycleRuntimeKtx)
-    implementation(AndroidxDependencies.coreKtx)
-    implementation(WorkDependencies.workRuntimeKtx)
 }
 
 kapt {

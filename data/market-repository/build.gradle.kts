@@ -41,20 +41,16 @@ dependencies {
     api(project(":domain:market"))
     implementation(project(":data:market-remote"))
     implementation(project(":data:market-local"))
-    implementation(LifeCycleDependencies.lifeCycleViewModelKtx)
-    DIDependencies.apply {
-        implementation(hiltAndroid)
-        kapt(dagerHiltCompiler)
-    }
-    RoomDependencies.apply {
-        implementation(roomRuntime)
-        implementation(roomKtx)
-        kapt(roomCompiler)
-    }
-    TestDependencies.apply {
+    libs.apply {
+        implementation(lifecycle.viewmodel.ktx)
+        implementation(hilt.android)
+        kapt(dager.hilt.compiler)
+        implementation(room.runtime)
+        implementation(room.ktx)
+        kapt(room.compiler)
         testImplementation(junit)
-        androidTestImplementation(junitExt)
-        androidTestImplementation(coroutinesTest)
+        androidTestImplementation(junit.ext)
+        androidTestImplementation(coroutines.test)
         androidTestImplementation(runner)
     }
 }

@@ -35,19 +35,15 @@ android {
 }
 
 dependencies {
-    RoomDependencies.apply {
-        implementation(roomRuntime)
-        implementation(roomKtx)
-        kapt(roomCompiler)
-    }
-    DIDependencies.apply {
-        implementation(hiltAndroid)
-        kapt(dagerHiltCompiler)
-    }
-    TestDependencies.apply {
+    libs.apply {
+        implementation(hilt.android)
+        kapt(dager.hilt.compiler)
+        implementation(room.runtime)
+        implementation(room.ktx)
+        kapt(room.compiler)
         testImplementation(junit)
-        androidTestImplementation(junitExt)
-        androidTestImplementation(coroutinesTest)
+        androidTestImplementation(junit.ext)
+        androidTestImplementation(coroutines.test)
     }
 }
 

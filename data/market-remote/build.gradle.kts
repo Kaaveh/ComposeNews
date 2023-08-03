@@ -35,16 +35,16 @@ android {
 }
 
 dependencies {
-    NetworkDependencies.apply {
+    libs.apply {
         implementation(retrofit)
-        implementation(gson)
-        implementation(loggingInterceptor)
+        implementation(converter.gson)
+        implementation(logging.interceptor)
         debugImplementation(chucker)
-        releaseImplementation(chuckerNoOp)
+        releaseImplementation(chucker.no.op)
     }
-    DIDependencies.apply {
-        implementation(hiltAndroid)
-        kapt(dagerHiltCompiler)
+    libs.apply {
+        implementation(hilt.android)
+        kapt(dager.hilt.compiler)
     }
 }
 

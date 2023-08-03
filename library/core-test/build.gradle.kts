@@ -34,14 +34,12 @@ android {
 }
 
 dependencies {
-    TestDependencies.apply {
+    libs.apply {
         api(junit)
-        api(junitExt)
-        api(coroutinesTest)
+        api(junit.ext)
+        api(coroutines.test)
         api(mockk)
-    }
-    DIDependencies.apply {
-        implementation(hiltAndroid)
-        kapt(dagerHiltCompiler)
+        implementation(hilt.android)
+        kapt(dager.hilt.compiler)
     }
 }

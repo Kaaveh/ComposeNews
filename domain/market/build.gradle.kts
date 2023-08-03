@@ -35,12 +35,12 @@ android {
 
 dependencies {
     api(project(":library:core-test"))
-    implementation(KotlinxDependencies.coroutinesCore)
-    implementation(LifeCycleDependencies.lifeCycleViewModelKtx)
-    implementation(DIDependencies.javaxInject)
-    TestDependencies.apply {
+    libs.apply {
+        implementation(javax.inject)
+        implementation(coroutines)
+        implementation(lifecycle.viewmodel.ktx)
         testImplementation(junit)
-        testImplementation(coroutinesTest)
-        testImplementation(mokitoKotlin)
+        testImplementation(coroutines.test)
+        testImplementation(mokito.kotlin)
     }
 }

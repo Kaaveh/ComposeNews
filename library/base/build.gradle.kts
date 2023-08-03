@@ -43,7 +43,7 @@ dependencies {
     api(project(":library:core-test"))
     implementation(project(":library:designsystem"))
 
-    LifeCycleDependencies.apply {
-        implementation(lifeCycleViewModelKtx)
+    libs.apply {
+        implementation(lifecycle.viewmodel.ktx)
     }
 }

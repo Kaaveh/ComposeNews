@@ -42,5 +42,5 @@ dependencies {
     implementation(project(":feature:marketlist"))
     implementation(project(":feature:marketdetail"))
     implementation(project(":domain:market"))
-    api(NavigationDependencies.navigationCompose)
+    api(libs.navigation.compose)
 }

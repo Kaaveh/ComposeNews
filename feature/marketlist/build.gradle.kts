@@ -44,10 +44,10 @@ dependencies {
     api(project(":library:designsystem"))
     api(project(":library:base"))
     implementation(project(":data:market-repository"))
-    DIDependencies.apply {
-        implementation(hiltAndroid)
-        kapt(dagerHiltCompiler)
-        implementation(hiltNavigationCompose)
+    libs.apply {
+        implementation(hilt.android)
+        kapt(dager.hilt.compiler)
+        implementation(hilt.navigation.compose)
     }
 }
 
