@@ -38,6 +38,8 @@ startupRuntime = "1.1.1"
 
 workRuntimeKtx = "2.8.0"
 
+androidGradlePlugin = "8.0.2"
+
 [libraries]
 androidx-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "ktx" }
 
@@ -88,3 +90,5 @@ startup-runtime = { group = "androidx.startup", name = "startup-runtime", versio
 work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "workRuntimeKtx" }
 
 [plugins]
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
