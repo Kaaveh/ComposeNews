@@ -1,8 +1,8 @@
 [versions]
-ktx = "1.9.0"
+ktx = "1.10.1"
 
-composeBOM = "2023.01.00"
-composeActivity = "1.6.1"
+composeBOM = "2023.06.01"
+composeActivity = "1.7.2"
 composeCoil = "2.2.2"
 accompanist = "0.24.11-rc"
 
@@ -14,29 +14,29 @@ javaxInject = "1"
 
 coroutinesCore = "1.6.4"
 
-lifeCycle = "2.5.1"
-lifeCycleViewModelKtx = "2.5.1"
-lifeCycleRuntimeCompose = "2.6.0-beta01"
+lifeCycle = "2.6.1"
+lifeCycleViewModelKtx = "2.6.1"
+lifeCycleRuntimeCompose = "2.6.1"
 
-navigationCompose = "2.5.3"
+navigationCompose = "2.6.0"
 
 retrofit = "2.9.0"
 gson = "2.9.0"
 loggingInterceptor = "4.10.0"
 chucker = "3.5.2"
 
-room = "2.5.0"
+room = "2.5.2"
 
 junit = "4.13.2"
 junitExt = "1.1.5"
 coroutinesTest = "1.6.4"
 mockitoKotlin = "4.1.0"
 mockk = "1.13.5"
-runner = "1.4.0"
+runner = "1.5.2"
 
 startupRuntime = "1.1.1"
 
-workRuntimeKtx = "2.8.0"
+workRuntimeKtx = "2.8.1"
 
 androidGradlePlugin = "8.0.2"
 
