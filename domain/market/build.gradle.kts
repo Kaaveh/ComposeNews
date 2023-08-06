@@ -8,10 +8,10 @@ plugins {
 
 android {
     namespace = "ir.kaaveh.domain"
-    compileSdk = projectCompileSdkVersion
+    compileSdk = 33
 
     defaultConfig {
-        minSdk = projectMinSdkVersion
+        minSdk = 23
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
