@@ -9,10 +9,10 @@ plugins {
 
 android {
     namespace = "ir.kaaveh.core_test"
-    compileSdk = 33
+    compileSdk = projectCompileSdkVersion
 
     defaultConfig {
-        minSdk = 23
+        minSdk = projectMinSdkVersion
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

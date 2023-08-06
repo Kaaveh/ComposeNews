@@ -1,7 +1,4 @@
 [versions]
-projectApplicationId = "ir.kaaveh.composenews"
-projectVersionName = "1.0"
-
 ktx = "1.10.1"
 
 composeBOM = "2023.06.01"
