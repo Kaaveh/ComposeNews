@@ -1,14 +1,16 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    libs.plugins.apply {
+        alias(android.library)
+        alias(kotlin.android)
+    }
 }
 
 android {
     namespace = "ir.kaaveh.base"
-    compileSdk = projectCompileSdkVersion
+    compileSdk = libs.versions.projectCompileSdkVersion.get().toInt()
 
     defaultConfig {
-        minSdk = projectMinSdkVersion
+        minSdk = libs.versions.projectMinSdkVersion.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -34,7 +36,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = ComposeDependencies.kotlinCompilerExtensionVersion
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 }
 
@@ -43,7 +45,7 @@ dependencies {
     api(project(":library:core-test"))
     implementation(project(":library:designsystem"))
 
-    LifeCycleDependencies.apply {
-        implementation(lifeCycleViewModelKtx)
+    libs.apply {
+        implementation(lifecycle.viewmodel.ktx)
     }
 }

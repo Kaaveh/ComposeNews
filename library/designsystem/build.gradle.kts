@@ -1,14 +1,16 @@
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
+    libs.plugins.apply {
+        alias(android.library)
+        alias(kotlin.android)
+    }
 }
 
 android {
     namespace = "ir.kaaveh.designsystem"
-    compileSdk = projectCompileSdkVersion
+    compileSdk = libs.versions.projectCompileSdkVersion.get().toInt()
 
     defaultConfig {
-        minSdk = projectMinSdkVersion
+        minSdk = libs.versions.projectMinSdkVersion.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -33,21 +35,20 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = ComposeDependencies.kotlinCompilerExtensionVersion
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 }
 
 dependencies {
-    ComposeDependencies.apply {
-        api(platform(composeBOM))
-        api(composeUi)
-        api(composeUiPreview)
-        api(composeUiTooling)
-        api(composeUiTestManifest)
-        api(composeMaterial)
-        api(composeCoil)
-    }
-    LifeCycleDependencies.apply {
-        api(lifeCycleRuntimeCompose)
+    libs.apply {
+        api(platform(compose.bom))
+        api(compose.ui)
+        api(compose.ui.preview)
+        api(compose.ui.tooling)
+        api(compose.ui.test.manifest)
+        api(compose.material)
+        api(compose.coil)
+
+        api(lifecycle.runtime.compose)
     }
 }

@@ -1,14 +1,16 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    libs.plugins.apply {
+        alias(android.library)
+        alias(kotlin.android)
+    }
 }
 
 android {
     namespace = "ir.kaaveh.navigation"
-    compileSdk = projectCompileSdkVersion
+    compileSdk = libs.versions.projectCompileSdkVersion.get().toInt()
 
     defaultConfig {
-        minSdk = projectMinSdkVersion
+        minSdk = libs.versions.projectMinSdkVersion.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -34,7 +36,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = ComposeDependencies.kotlinCompilerExtensionVersion
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 }
 
@@ -42,5 +44,5 @@ dependencies {
     implementation(project(":feature:marketlist"))
     implementation(project(":feature:marketdetail"))
     implementation(project(":domain:market"))
-    api(NavigationDependencies.navigationCompose)
+    api(libs.navigation.compose)
 }

@@ -1,20 +1,22 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("com.google.dagger.hilt.android")
-    kotlin("kapt")
+    libs.plugins.apply {
+        alias(android.application)
+        alias(kotlin.android)
+        alias(hilt.android)
+        alias(kapt)
+    }
 }
 
 android {
-    namespace = projectApplicationId
-    compileSdk = projectCompileSdkVersion
+    namespace = libs.versions.projectApplicationId.get()
+    compileSdk = libs.versions.projectCompileSdkVersion.get().toInt()
 
     defaultConfig {
-        applicationId = projectApplicationId
-        minSdk = projectMinSdkVersion
-        targetSdk = projectTargetSdkVersion
-        versionCode = projectVersionCode
-        versionName = projectVersionName
+        applicationId = libs.versions.projectApplicationId.get()
+        minSdk = libs.versions.projectMinSdkVersion.get().toInt()
+        targetSdk = libs.versions.projectTargetSdkVersion.get().toInt()
+        versionCode = libs.versions.projectVersionCode.get().toInt()
+        versionName = libs.versions.projectVersionName.get()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -42,7 +44,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = ComposeDependencies.kotlinCompilerExtensionVersion
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
     packagingOptions {
         resources.excludes.add("META-INF/*")
@@ -54,19 +56,17 @@ dependencies {
     implementation(project(":library:base"))
     implementation(project(":library:navigation"))
     implementation(project(":library:designsystem"))
-    DIDependencies.apply {
-        implementation(hiltAndroid)
-        kapt(dagerHiltCompiler)
-        implementation(hiltWork)
-    }
-    TestDependencies.apply {
+    libs.apply {
+        implementation(compose.activity)
+        implementation(androidx.ktx)
+        implementation(hilt.android)
+        kapt(dager.hilt.compiler)
+        implementation(hilt.work)
+        implementation(lifecycle.runtime.ktx)
         testImplementation(junit)
-        androidTestImplementation(junitExt)
+        androidTestImplementation(junit.ext)
+        implementation(work.runtime.ktx)
     }
-    implementation(ComposeDependencies.composeActivity)
-    implementation(LifeCycleDependencies.lifeCycleRuntimeKtx)
-    implementation(AndroidxDependencies.coreKtx)
-    implementation(WorkDependencies.workRuntimeKtx)
 }
 
 kapt {

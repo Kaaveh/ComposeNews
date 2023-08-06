@@ -1,16 +1,18 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    id("com.google.dagger.hilt.android")
-    kotlin("kapt")
+    libs.plugins.apply {
+        alias(android.library)
+        alias(kotlin.android)
+        alias(hilt.android)
+        alias(kapt)
+    }
 }
 
 android {
     namespace = "ir.kaaveh.localdatasource"
-    compileSdk = projectCompileSdkVersion
+    compileSdk = libs.versions.projectCompileSdkVersion.get().toInt()
 
     defaultConfig {
-        minSdk = projectMinSdkVersion
+        minSdk = libs.versions.projectMinSdkVersion.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -35,19 +37,15 @@ android {
 }
 
 dependencies {
-    RoomDependencies.apply {
-        implementation(roomRuntime)
-        implementation(roomKtx)
-        kapt(roomCompiler)
-    }
-    DIDependencies.apply {
-        implementation(hiltAndroid)
-        kapt(dagerHiltCompiler)
-    }
-    TestDependencies.apply {
+    libs.apply {
+        implementation(hilt.android)
+        kapt(dager.hilt.compiler)
+        implementation(room.runtime)
+        implementation(room.ktx)
+        kapt(room.compiler)
         testImplementation(junit)
-        androidTestImplementation(junitExt)
-        androidTestImplementation(coroutinesTest)
+        androidTestImplementation(junit.ext)
+        androidTestImplementation(coroutines.test)
     }
 }
 

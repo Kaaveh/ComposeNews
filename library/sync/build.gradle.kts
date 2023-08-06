@@ -1,16 +1,18 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    id("com.google.dagger.hilt.android")
-    kotlin("kapt")
+    libs.plugins.apply {
+        alias(android.library)
+        alias(kotlin.android)
+        alias(hilt.android)
+        alias(kapt)
+    }
 }
 
 android {
     namespace = "ir.kaaveh.sync"
-    compileSdk = projectCompileSdkVersion
+    compileSdk = libs.versions.projectCompileSdkVersion.get().toInt()
 
     defaultConfig {
-        minSdk = projectMinSdkVersion
+        minSdk = libs.versions.projectMinSdkVersion.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -36,14 +38,14 @@ android {
 
 dependencies {
     api(project(":domain:market"))
-    DIDependencies.apply {
-        implementation(hiltAndroid)
-        implementation(hiltWork)
-        kapt(dagerHiltCompiler)
-        kapt(androidHiltCompiler)
+    libs.apply {
+        implementation(hilt.android)
+        implementation(hilt.work)
+        kapt(dager.hilt.compiler)
+        kapt(android.hilt.compiler)
+        implementation(startup.runtime)
+        implementation(work.runtime.ktx)
     }
-    implementation(WorkDependencies.workRuntimeKtx)
-    implementation(StartupDependencies.startupRuntime)
 }
 
 kapt {

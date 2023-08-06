@@ -1,16 +1,18 @@
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
-    id("com.google.dagger.hilt.android")
-    kotlin("kapt")
+    libs.plugins.apply {
+        alias(android.library)
+        alias(kotlin.android)
+        alias(hilt.android)
+        alias(kapt)
+    }
 }
 
 android {
     namespace = "ir.kaaveh.core_test"
-    compileSdk = projectCompileSdkVersion
+    compileSdk = libs.versions.projectCompileSdkVersion.get().toInt()
 
     defaultConfig {
-        minSdk = projectMinSdkVersion
+        minSdk = libs.versions.projectMinSdkVersion.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -34,14 +36,12 @@ android {
 }
 
 dependencies {
-    TestDependencies.apply {
+    libs.apply {
         api(junit)
-        api(junitExt)
-        api(coroutinesTest)
+        api(junit.ext)
+        api(coroutines.test)
         api(mockk)
-    }
-    DIDependencies.apply {
-        implementation(hiltAndroid)
-        kapt(dagerHiltCompiler)
+        implementation(hilt.android)
+        kapt(dager.hilt.compiler)
     }
 }

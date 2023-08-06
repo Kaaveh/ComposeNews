@@ -1,16 +1,18 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    id("com.google.dagger.hilt.android")
-    kotlin("kapt")
+    libs.plugins.apply {
+        alias(android.library)
+        alias(kotlin.android)
+        alias(hilt.android)
+        alias(kapt)
+    }
 }
 
 android {
     namespace = "ir.kaaveh.newsdetail"
-    compileSdk = projectCompileSdkVersion
+    compileSdk = libs.versions.projectCompileSdkVersion.get().toInt()
 
     defaultConfig {
-        minSdk = projectMinSdkVersion
+        minSdk = libs.versions.projectMinSdkVersion.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -36,7 +38,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = ComposeDependencies.kotlinCompilerExtensionVersion
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 }
 
@@ -44,11 +46,11 @@ dependencies {
     api(project(":library:designsystem"))
     api(project(":library:base"))
     implementation(project(":data:market-repository"))
-    implementation(ComposeDependencies.accompanistWebview)
-    DIDependencies.apply {
-        implementation(hiltAndroid)
-        kapt(dagerHiltCompiler)
-        implementation(hiltNavigationCompose)
+    libs.apply {
+        implementation(hilt.android)
+        kapt(dager.hilt.compiler)
+        implementation(hilt.navigation.compose)
+        implementation(accompanist.webview)
     }
 }
 

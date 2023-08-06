@@ -1,15 +1,17 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    id("kotlin-parcelize")
+    libs.plugins.apply {
+        alias(android.library)
+        alias(kotlin.android)
+        alias(kotlin.parcelize)
+    }
 }
 
 android {
     namespace = "ir.kaaveh.domain"
-    compileSdk = projectCompileSdkVersion
+    compileSdk = libs.versions.projectCompileSdkVersion.get().toInt()
 
     defaultConfig {
-        minSdk = projectMinSdkVersion
+        minSdk = libs.versions.projectMinSdkVersion.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -35,12 +37,12 @@ android {
 
 dependencies {
     api(project(":library:core-test"))
-    implementation(KotlinxDependencies.coroutinesCore)
-    implementation(LifeCycleDependencies.lifeCycleViewModelKtx)
-    implementation(DIDependencies.javaxInject)
-    TestDependencies.apply {
+    libs.apply {
+        implementation(javax.inject)
+        implementation(coroutines)
+        implementation(lifecycle.viewmodel.ktx)
         testImplementation(junit)
-        testImplementation(coroutinesTest)
-        testImplementation(mokitoKotlin)
+        testImplementation(coroutines.test)
+        testImplementation(mokito.kotlin)
     }
 }

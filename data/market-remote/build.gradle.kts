@@ -1,16 +1,18 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    id("com.google.dagger.hilt.android")
-    kotlin("kapt")
+    libs.plugins.apply {
+        alias(android.library)
+        alias(kotlin.android)
+        alias(hilt.android)
+        alias(kapt)
+    }
 }
 
 android {
     namespace = "ir.kaaveh.remotedatasource"
-    compileSdk = projectCompileSdkVersion
+    compileSdk = libs.versions.projectCompileSdkVersion.get().toInt()
 
     defaultConfig {
-        minSdk = projectMinSdkVersion
+        minSdk = libs.versions.projectMinSdkVersion.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -35,16 +37,16 @@ android {
 }
 
 dependencies {
-    NetworkDependencies.apply {
+    libs.apply {
         implementation(retrofit)
-        implementation(gson)
-        implementation(loggingInterceptor)
+        implementation(converter.gson)
+        implementation(logging.interceptor)
         debugImplementation(chucker)
-        releaseImplementation(chuckerNoOp)
+        releaseImplementation(chucker.no.op)
     }
-    DIDependencies.apply {
-        implementation(hiltAndroid)
-        kapt(dagerHiltCompiler)
+    libs.apply {
+        implementation(hilt.android)
+        kapt(dager.hilt.compiler)
     }
 }
 
