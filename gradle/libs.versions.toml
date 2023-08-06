@@ -5,7 +5,7 @@ composeBOM = "2023.06.01"
 composeActivity = "1.7.2"
 composeCoil = "2.2.2"
 accompanist = "0.24.11-rc"
-kotlinCompilerExtensionVersion = "1.4.2"
+composeCompiler = "1.4.4"
 
 hilt = "2.44.2"
 androidHiltCompiler = "1.0.0"
