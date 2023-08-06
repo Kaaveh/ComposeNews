@@ -8,15 +8,15 @@ plugins {
 }
 
 android {
-    namespace = projectApplicationId
-    compileSdk = projectCompileSdkVersion
+    namespace = libs.versions.projectApplicationId.get()
+    compileSdk = libs.versions.projectCompileSdkVersion.get().toInt()
 
     defaultConfig {
-        applicationId = projectApplicationId
-        minSdk = projectMinSdkVersion
-        targetSdk = projectTargetSdkVersion
-        versionCode = projectVersionCode
-        versionName = projectVersionName
+        applicationId = libs.versions.projectApplicationId.get()
+        minSdk = libs.versions.projectMinSdkVersion.get().toInt()
+        targetSdk = libs.versions.projectTargetSdkVersion.get().toInt()
+        versionCode = libs.versions.projectVersionCode.get().toInt()
+        versionName = libs.versions.projectVersionName.get()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
