@@ -41,6 +41,18 @@ dependencies {
 
 gradlePlugin {
     plugins {
+        register("androidApplication") {
+            id = "composenews.android.application"
+            implementationClass = "AndroidApplicationConventionPlugin"
+        }
+        register("androidApplicationCompose") {
+            id = "composenews.android.application.compose"
+            implementationClass = "AndroidApplicationComposeConventionPlugin"
+        }
 
+        register("androidHilt") {
+            id = "composenews.android.hilt"
+            implementationClass = "AndroidHiltConventionPlugin"
+        }
     }
 }
