@@ -40,8 +40,7 @@ dependencies {
     libs.apply {
         implementation(hilt.android)
         kapt(dager.hilt.compiler)
-        implementation(room.runtime)
-        implementation(room.ktx)
+        implementation(bundles.room)
         kapt(room.compiler)
         testImplementation(junit)
         androidTestImplementation(junit.ext)
