@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     `kotlin-dsl`
 }
@@ -27,11 +25,6 @@ group = "ir.kaaveh.composenews.buildlogic"
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
-}
-tasks.withType<KotlinCompile>().configureEach {
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-    }
 }
 
 dependencies {
@@ -62,9 +55,9 @@ gradlePlugin {
             id = "composenews.android.library.compose"
             implementationClass = "AndroidLibraryComposeConventionPlugin"
         }
-        register("androidFeature") {
-            id = "composenews.android.feature"
-            implementationClass = "AndroidFeatureConventionPlugin"
+        register("androidPresentationLayer") {
+            id = "composenews.android.feature.presentation"
+            implementationClass = "AndroidPresentationLayerConventionPlugin"
         }
     }
 }
