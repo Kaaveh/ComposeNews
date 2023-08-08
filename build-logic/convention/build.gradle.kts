@@ -54,5 +54,17 @@ gradlePlugin {
             id = "composenews.android.hilt"
             implementationClass = "AndroidHiltConventionPlugin"
         }
+        register("androidLibrary") {
+            id = "composenews.android.library"
+            implementationClass = "AndroidLibraryConventionPlugin"
+        }
+        register("androidLibraryCompose") {
+            id = "composenews.android.library.compose"
+            implementationClass = "AndroidLibraryComposeConventionPlugin"
+        }
+        register("androidFeature") {
+            id = "composenews.android.feature"
+            implementationClass = "AndroidFeatureConventionPlugin"
+        }
     }
 }
