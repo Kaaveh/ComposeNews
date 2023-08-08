@@ -1,6 +1,7 @@
 plugins {
     id("composenews.android.library")
     id("composenews.android.hilt")
+    id("composenews.android.room")
 }
 
 android {
@@ -9,9 +10,6 @@ android {
 
 dependencies {
     libs.apply {
-        implementation(room.runtime)
-        implementation(room.ktx)
-        kapt(room.compiler)
         testImplementation(junit)
         androidTestImplementation(junit.ext)
         androidTestImplementation(coroutines.test)

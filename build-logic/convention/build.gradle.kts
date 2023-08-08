@@ -59,5 +59,9 @@ gradlePlugin {
             id = "composenews.android.feature.presentation"
             implementationClass = "AndroidPresentationLayerConventionPlugin"
         }
+        register("androidRoom") {
+            id = "composenews.android.room"
+            implementationClass = "AndroidRoomConventionPlugin"
+        }
     }
 }
