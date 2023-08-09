@@ -111,3 +111,16 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize",  version.ref = "kotlin"  }
 kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+
+[bundles]
+compose = [
+    "compose-ui",
+    "compose-ui-preview",
+    "compose-ui-tooling",
+    "compose-ui-test-manifest",
+    "compose-material",
+]
+room = [
+    "room-ktx",
+    "room-runtime",
+]
