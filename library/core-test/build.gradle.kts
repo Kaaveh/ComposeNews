@@ -5,6 +5,9 @@ plugins {
 
 android {
     namespace = "ir.kaaveh.core_test"
+    defaultConfig {
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
 }
 
 dependencies {

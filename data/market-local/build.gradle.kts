@@ -5,6 +5,9 @@ plugins {
 }
 
 android {
+    defaultConfig {
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
     namespace = "ir.kaaveh.localdatasource"
 }
 
@@ -13,5 +16,6 @@ dependencies {
         testImplementation(junit)
         androidTestImplementation(junit.ext)
         androidTestImplementation(coroutines.test)
+        androidTestImplementation(runner)
     }
 }

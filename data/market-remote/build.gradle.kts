@@ -4,6 +4,9 @@ plugins {
 }
 
 android {
+    defaultConfig {
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
     namespace = "ir.kaaveh.remotedatasource"
 }
 
@@ -14,5 +17,6 @@ dependencies {
         implementation(logging.interceptor)
         debugImplementation(chucker)
         releaseImplementation(chucker.no.op)
+        androidTestImplementation(runner)
     }
 }
