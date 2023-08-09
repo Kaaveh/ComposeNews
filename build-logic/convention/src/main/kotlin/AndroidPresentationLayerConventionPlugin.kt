@@ -9,9 +9,9 @@ class AndroidPresentationLayerConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             pluginManager.apply {
-                apply("composenews.android.hilt")
                 apply("composenews.android.library")
                 apply("composenews.android.library.compose")
+                apply("composenews.android.hilt")
             }
             extensions.configure<LibraryExtension> {
                 defaultConfig {
@@ -20,11 +20,7 @@ class AndroidPresentationLayerConventionPlugin : Plugin<Project> {
             }
 
             dependencies {
-                add("implementation", libs.findLibrary("hilt.android").get())
                 add("implementation", libs.findLibrary("hilt.navigation.compose").get())
-                add("kapt", libs.findLibrary("dager.hilt.compiler").get())
-
-
                 add("testImplementation", project(":library:core-test"))
                 add("api", project(":library:designsystem"))
                 add("api", project(":library:base"))
