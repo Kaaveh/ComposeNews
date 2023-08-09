@@ -7,8 +7,7 @@ class AndroidRoomConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             dependencies {
-                add("implementation", libs.findLibrary("room.runtime").get())
-                add("implementation", libs.findLibrary("room.ktx").get())
+                add("implementation", libs.findBundle("room").get())
                 add("kapt", libs.findLibrary("room.compiler").get())
             }
         }
