@@ -42,7 +42,7 @@ Light theme
 </p>
 
 
-Datrk theme
+Dark theme
 
 
 <p float="left">
