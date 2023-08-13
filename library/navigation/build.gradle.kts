@@ -8,8 +8,10 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature:marketlist"))
-    implementation(project(":feature:marketdetail"))
-    implementation(project(":domain:market"))
+    projects.apply {
+        implementation(feature.marketlist)
+        implementation(feature.marketdetail)
+        implementation(domain.market)
+    }
     api(libs.navigation.compose)
 }

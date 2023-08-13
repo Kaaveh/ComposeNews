@@ -7,5 +7,5 @@ android {
 }
 
 dependencies {
-    implementation(project(":data:market-repository"))
+    implementation(projects.data.marketRepository)
 }

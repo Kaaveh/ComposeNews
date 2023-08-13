@@ -19,16 +19,21 @@ android {
     buildTypes {
         val release by getting {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 }
 
 dependencies {
-    implementation(project(":library:sync"))
-    implementation(project(":library:base"))
-    implementation(project(":library:navigation"))
-    implementation(project(":library:designsystem"))
+    projects.library.apply {
+        implementation(sync)
+        implementation(base)
+        implementation(navigation)
+        implementation(designsystem)
+    }
     libs.apply {
         implementation(compose.activity)
         implementation(androidx.ktx)
