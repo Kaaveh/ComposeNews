@@ -15,7 +15,7 @@ android {
             useSupportLibrary = true
         }
     }
-
+    @Suppress("UnstableApiUsage")
     buildTypes {
         val release by getting {
             isMinifyEnabled = false
