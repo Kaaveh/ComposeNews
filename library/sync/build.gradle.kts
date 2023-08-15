@@ -8,7 +8,7 @@ android {
 }
 
 dependencies {
-    api(project(":domain:market"))
+    api(projects.domain.market)
     libs.apply {
         implementation(hilt.work)
         implementation(startup.runtime)

@@ -12,9 +12,11 @@ android {
 }
 
 dependencies {
-    api(project(":domain:market"))
-    implementation(project(":data:market-remote"))
-    implementation(project(":data:market-local"))
+    projects.apply {
+        api(domain.market)
+        implementation(data.marketRemote)
+        implementation(data.marketLocal)
+    }
     libs.apply {
         testImplementation(junit)
         androidTestImplementation(junit.ext)

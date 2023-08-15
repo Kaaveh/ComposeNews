@@ -7,7 +7,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":data:market-repository"))
+    implementation(projects.data.marketRepository)
     libs.apply {
         implementation(accompanist.webview)
     }

@@ -13,7 +13,8 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "Compose News"
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+rootProject.name = "ComposeNews"
 include ':app'
 include ':library:designsystem'
 include ':domain:market'

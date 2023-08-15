@@ -8,10 +8,10 @@ android {
 }
 
 dependencies {
-    
-    api(project(":library:core-test"))
-    implementation(project(":library:designsystem"))
-
+    projects.library.apply {
+        api(projects.library.coreTest)
+        implementation(projects.library.designsystem)
+    }
     libs.apply {
         implementation(lifecycle.viewmodel.ktx)
     }
