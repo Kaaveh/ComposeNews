@@ -1,4 +1,4 @@
-package ir.kaaveh.marketlist
+package ir.composenews.marketlist
 
 import ir.composenews.base.UnidirectionalViewModel
 import ir.kaaveh.domain.model.Market

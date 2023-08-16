@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "ir.kaaveh.marketlist"
+    namespace = "ir.composenews.marketlist"
 }
 
 dependencies {

@@ -1,9 +1,11 @@
-package ir.kaaveh.marketlist
+package ir.composenews.marketlist
 
 import io.mockk.coEvery
 import io.mockk.mockk
 import ir.composenews.core_test.MainDispatcherRule
 import ir.composenews.core_test.dispatcher.TestDispatcherProvider
+import ir.composenews.marketlist.MarketListContract
+import ir.composenews.marketlist.MarketListViewModel
 import ir.kaaveh.domain.model.Market
 import ir.kaaveh.domain.use_case.GetFavoriteMarketListUseCase
 import ir.kaaveh.domain.use_case.GetMarketListUseCase
