@@ -1,4 +1,4 @@
-package ir.kaaveh.navigation.extension_function
+package ir.composenews.navigation.extension_function
 
 import android.os.Build
 import android.os.Bundle

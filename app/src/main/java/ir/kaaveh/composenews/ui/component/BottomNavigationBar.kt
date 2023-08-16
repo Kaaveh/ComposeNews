@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import ir.kaaveh.designsystem.component.BottomNavigationIcon
-import ir.kaaveh.navigation.BottomNavItem
+import ir.composenews.navigation.BottomNavItem
 
 @Composable
 fun BottomNavigationBar(

@@ -1,4 +1,4 @@
-package ir.kaaveh.navigation
+package ir.composenews.navigation
 
 import androidx.compose.ui.graphics.vector.ImageVector
 

@@ -26,8 +26,8 @@ import ir.kaaveh.composenews.permission.manager.PermissionManager
 import ir.kaaveh.composenews.permission.manager.PermissionManagerImpl
 import ir.kaaveh.composenews.ui.component.BottomNavigationBar
 import ir.kaaveh.designsystem.theme.ComposeNewsTheme
-import ir.kaaveh.navigation.BottomNavItem
-import ir.kaaveh.navigation.Destinations
+import ir.composenews.navigation.BottomNavItem
+import ir.composenews.navigation.Destinations
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity(), PermissionManager by PermissionManagerImpl() {

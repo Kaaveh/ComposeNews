@@ -1,12 +1,12 @@
-package ir.kaaveh.navigation.graph
+package ir.composenews.navigation.graph
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import ir.kaaveh.base.BaseViewModel
 import ir.kaaveh.domain.model.Market
 import ir.kaaveh.marketdetail.MarketDetailRoute
-import ir.kaaveh.navigation.Destinations
-import ir.kaaveh.navigation.extension_function.parcelableData
+import ir.composenews.navigation.Destinations
+import ir.composenews.navigation.extension_function.parcelableData
 
 fun NavGraphBuilder.marketDetail(
     onProvideBaseViewModel: (baseViewModel: BaseViewModel) -> Unit,

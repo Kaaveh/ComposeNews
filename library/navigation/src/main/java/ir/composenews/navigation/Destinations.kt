@@ -1,4 +1,4 @@
-package ir.kaaveh.navigation
+package ir.composenews.navigation
 
 sealed class Destinations(val route: String) {
     object MarketListScreen : Destinations("market_list_screen")
