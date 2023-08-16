@@ -1,7 +1,7 @@
 package ir.kaaveh.data.mapper
 
 import ir.composenews.domain.model.Market
-import ir.kaaveh.localdatasource.dto.LocalMarketDto
+import ir.composenews.localdatasource.dto.LocalMarketDto
 
 fun LocalMarketDto.toMarket(): Market = Market(
     id = id,

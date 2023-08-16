@@ -8,7 +8,7 @@ android {
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-    namespace = "ir.kaaveh.localdatasource"
+    namespace = "ir.composenews.localdatasource"
 }
 
 dependencies {

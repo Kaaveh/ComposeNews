@@ -1,7 +1,7 @@
-package ir.kaaveh.localdatasource.test
+package ir.composenews.localdatasource.test
 
-import ir.kaaveh.localdatasource.dto.LocalMarketDto
-import ir.kaaveh.localdatasource.dto.RemoteMarketDto
+import ir.composenews.localdatasource.dto.LocalMarketDto
+import ir.composenews.localdatasource.dto.RemoteMarketDto
 
 val localMarketDto = LocalMarketDto(
     id = "id",

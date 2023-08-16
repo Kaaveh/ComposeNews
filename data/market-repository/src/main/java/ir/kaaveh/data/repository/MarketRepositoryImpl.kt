@@ -8,7 +8,7 @@ import ir.composenews.domain.model.Chart
 import ir.composenews.domain.model.Market
 import ir.composenews.domain.model.Resource
 import ir.composenews.domain.repository.MarketRepository
-import ir.kaaveh.localdatasource.database.MarketDao
+import ir.composenews.localdatasource.database.MarketDao
 import ir.kaaveh.remotedatasource.api.MarketsApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

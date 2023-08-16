@@ -1,8 +1,8 @@
-package ir.kaaveh.localdatasource.database
+package ir.composenews.localdatasource.database
 
 import androidx.room.*
-import ir.kaaveh.localdatasource.dto.LocalMarketDto
-import ir.kaaveh.localdatasource.dto.RemoteMarketDto
+import ir.composenews.localdatasource.dto.LocalMarketDto
+import ir.composenews.localdatasource.dto.RemoteMarketDto
 import kotlinx.coroutines.flow.Flow
 
 @Dao

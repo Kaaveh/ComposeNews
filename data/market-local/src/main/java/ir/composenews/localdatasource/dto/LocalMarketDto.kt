@@ -1,4 +1,4 @@
-package ir.kaaveh.localdatasource.dto
+package ir.composenews.localdatasource.dto
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

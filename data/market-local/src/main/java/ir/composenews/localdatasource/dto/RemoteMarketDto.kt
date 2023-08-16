@@ -1,4 +1,4 @@
-package ir.kaaveh.localdatasource.dto
+package ir.composenews.localdatasource.dto
 
 data class RemoteMarketDto(
     val id: String,

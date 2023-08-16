@@ -3,8 +3,8 @@ package ir.kaaveh.data.repository
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import ir.kaaveh.localdatasource.database.MarketDao
-import ir.kaaveh.localdatasource.database.MarketsDatabase
+import ir.composenews.localdatasource.database.MarketDao
+import ir.composenews.localdatasource.database.MarketsDatabase
 import ir.kaaveh.remotedatasource.test.FakeMarketsApi
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first

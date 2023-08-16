@@ -1,8 +1,8 @@
-package ir.kaaveh.localdatasource.database
+package ir.composenews.localdatasource.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import ir.kaaveh.localdatasource.dto.LocalMarketDto
+import ir.composenews.localdatasource.dto.LocalMarketDto
 
 @Database(
     entities = [LocalMarketDto::class],
