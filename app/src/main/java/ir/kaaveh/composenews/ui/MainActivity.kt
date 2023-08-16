@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import ir.kaaveh.base.BaseViewModel
+import ir.composenews.base.BaseViewModel
 import ir.kaaveh.composenews.navigation.ComposeNewsNavHost
 import ir.kaaveh.composenews.permission.enum.PermissionType
 import ir.kaaveh.composenews.permission.manager.PermissionManager

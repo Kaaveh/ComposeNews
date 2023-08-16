@@ -1,6 +1,6 @@
 package ir.kaaveh.marketlist
 
-import ir.kaaveh.base.UnidirectionalViewModel
+import ir.composenews.base.UnidirectionalViewModel
 import ir.kaaveh.domain.model.Market
 
 interface MarketListContract :

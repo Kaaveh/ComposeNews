@@ -1,4 +1,4 @@
-package ir.kaaveh.base
+package ir.composenews.base
 
 import androidx.lifecycle.ViewModel
 import ir.composenews.core_test.dispatcher.DispatcherProvider

@@ -4,7 +4,7 @@ import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import ir.kaaveh.base.BaseViewModel
+import ir.composenews.base.BaseViewModel
 import ir.kaaveh.marketlist.MarketListRoute
 import ir.composenews.navigation.Destinations
 import ir.composenews.navigation.extension_function.navigate

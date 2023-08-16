@@ -5,7 +5,7 @@ import ir.composenews.core_test.dispatcher.TestDispatcherProvider
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import ir.kaaveh.base.BaseContract
+import ir.composenews.base.BaseContract
 import ir.kaaveh.domain.model.Chart
 import ir.kaaveh.domain.model.Market
 import ir.kaaveh.domain.model.Resource

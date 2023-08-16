@@ -1,4 +1,4 @@
-package ir.kaaveh.base
+package ir.composenews.base
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect

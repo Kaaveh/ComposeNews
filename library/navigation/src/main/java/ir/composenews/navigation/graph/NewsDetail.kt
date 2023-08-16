@@ -2,7 +2,7 @@ package ir.composenews.navigation.graph
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import ir.kaaveh.base.BaseViewModel
+import ir.composenews.base.BaseViewModel
 import ir.kaaveh.domain.model.Market
 import ir.kaaveh.marketdetail.MarketDetailRoute
 import ir.composenews.navigation.Destinations

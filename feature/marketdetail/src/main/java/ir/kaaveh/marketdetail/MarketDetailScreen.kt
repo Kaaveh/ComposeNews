@@ -23,13 +23,13 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
-import ir.kaaveh.base.BaseRoute
-import ir.kaaveh.base.BaseViewModel
+import ir.composenews.base.BaseRoute
+import ir.composenews.base.BaseViewModel
 import ir.composenews.designsystem.component.FavoriteIcon
 import ir.composenews.designsystem.component.QuadLineChart
 import ir.composenews.designsystem.preview.ThemePreviews
 import ir.composenews.designsystem.theme.ComposeNewsTheme
-import ir.kaaveh.base.use
+import ir.composenews.base.use
 import ir.kaaveh.domain.model.Market
 import ir.kaaveh.marketdetail.preview_provider.MarketDetailStateProvider
 

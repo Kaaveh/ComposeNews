@@ -3,8 +3,8 @@ package ir.kaaveh.marketdetail
 import androidx.lifecycle.viewModelScope
 import ir.composenews.core_test.dispatcher.DispatcherProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
-import ir.kaaveh.base.BaseContract
-import ir.kaaveh.base.BaseViewModel
+import ir.composenews.base.BaseContract
+import ir.composenews.base.BaseViewModel
 import ir.kaaveh.domain.model.Market
 import ir.kaaveh.domain.model.Resource
 import ir.kaaveh.domain.use_case.GetMarketChartUseCase

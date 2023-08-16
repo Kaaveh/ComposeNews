@@ -1,4 +1,4 @@
-package ir.kaaveh.base
+package ir.composenews.base
 
 interface BaseContract :
     BaseUnidirectionalViewModel<BaseContract.BaseEvent, BaseContract.BaseEffect, BaseContract.BaseState> {

@@ -1,4 +1,4 @@
-package ir.kaaveh.base
+package ir.composenews.base
 
 import android.app.Activity
 import androidx.compose.foundation.layout.Box
