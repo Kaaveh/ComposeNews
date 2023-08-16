@@ -1,4 +1,4 @@
-package ir.kaaveh.marketdetail
+package ir.composenews.marketdetail
 
 import ir.composenews.base.UnidirectionalViewModel
 import ir.kaaveh.domain.model.Chart

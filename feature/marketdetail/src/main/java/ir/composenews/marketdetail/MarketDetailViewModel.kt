@@ -1,4 +1,4 @@
-package ir.kaaveh.marketdetail
+package ir.composenews.marketdetail
 
 import androidx.lifecycle.viewModelScope
 import ir.composenews.core_test.dispatcher.DispatcherProvider

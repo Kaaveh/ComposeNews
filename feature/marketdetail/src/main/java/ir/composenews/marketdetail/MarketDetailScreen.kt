@@ -1,4 +1,4 @@
-package ir.kaaveh.marketdetail
+package ir.composenews.marketdetail
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -31,7 +31,7 @@ import ir.composenews.designsystem.preview.ThemePreviews
 import ir.composenews.designsystem.theme.ComposeNewsTheme
 import ir.composenews.base.use
 import ir.kaaveh.domain.model.Market
-import ir.kaaveh.marketdetail.preview_provider.MarketDetailStateProvider
+import ir.composenews.marketdetail.preview_provider.MarketDetailStateProvider
 
 @Composable
 fun MarketDetailRoute(
