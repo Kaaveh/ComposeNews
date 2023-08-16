@@ -1,8 +1,8 @@
-package ir.kaaveh.domain.repository
+package ir.composenews.domain.repository
 
-import ir.kaaveh.domain.model.Chart
-import ir.kaaveh.domain.model.Market
-import ir.kaaveh.domain.model.Resource
+import ir.composenews.domain.model.Chart
+import ir.composenews.domain.model.Market
+import ir.composenews.domain.model.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface MarketRepository {

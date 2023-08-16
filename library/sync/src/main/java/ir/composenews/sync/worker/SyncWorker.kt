@@ -9,7 +9,7 @@ import androidx.work.OutOfQuotaPolicy
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import ir.kaaveh.domain.use_case.SyncMarketListUseCase
+import ir.composenews.domain.use_case.SyncMarketListUseCase
 import ir.composenews.sync.SyncConstraints
 import ir.composenews.sync.syncForegroundInfo
 

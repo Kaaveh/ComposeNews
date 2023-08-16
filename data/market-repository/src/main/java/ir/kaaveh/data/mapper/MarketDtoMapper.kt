@@ -1,6 +1,6 @@
 package ir.kaaveh.data.mapper
 
-import ir.kaaveh.domain.model.Market
+import ir.composenews.domain.model.Market
 import ir.kaaveh.localdatasource.dto.RemoteMarketDto
 import ir.kaaveh.remotedatasource.dto.MarketResponse
 

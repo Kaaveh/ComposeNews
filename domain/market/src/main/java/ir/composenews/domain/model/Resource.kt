@@ -1,4 +1,4 @@
-package ir.kaaveh.domain.model
+package ir.composenews.domain.model
 
 sealed class Resource<T>(
     val data: T? = null,

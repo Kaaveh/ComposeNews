@@ -1,9 +1,10 @@
-package ir.kaaveh.domain.use_case
+package ir.composenews.domain.use_case
 
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import ir.kaaveh.domain.repository.MarketRepository
+import ir.composenews.domain.repository.MarketRepository
+import ir.composenews.domain.use_case.GetFavoriteMarketListUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest

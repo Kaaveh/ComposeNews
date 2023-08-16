@@ -1,7 +1,7 @@
 package ir.composenews.marketlist
 
 import ir.composenews.base.UnidirectionalViewModel
-import ir.kaaveh.domain.model.Market
+import ir.composenews.domain.model.Market
 
 interface MarketListContract :
     UnidirectionalViewModel<MarketListContract.Event, MarketListContract.State> {

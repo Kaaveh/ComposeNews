@@ -3,7 +3,7 @@ package ir.composenews.marketlist.component
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import ir.composenews.designsystem.component.MarketItem
-import ir.kaaveh.domain.model.Market
+import ir.composenews.domain.model.Market
 
 @Composable
 fun MarketListItem(

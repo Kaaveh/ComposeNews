@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ir.kaaveh.data.repository.MarketRepositoryImpl
-import ir.kaaveh.domain.repository.MarketRepository
+import ir.composenews.domain.repository.MarketRepository
 
 @Module
 @InstallIn(SingletonComponent::class)

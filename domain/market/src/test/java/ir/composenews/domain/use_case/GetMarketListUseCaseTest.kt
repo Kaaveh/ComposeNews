@@ -1,8 +1,9 @@
-package ir.kaaveh.domain.use_case
+package ir.composenews.domain.use_case
 
-import ir.kaaveh.domain.repository.MarketRepository
-import ir.kaaveh.domain.test.favoriteMarket
-import ir.kaaveh.domain.test.notFavoriteMarket
+import ir.composenews.domain.repository.MarketRepository
+import ir.composenews.domain.test.favoriteMarket
+import ir.composenews.domain.test.notFavoriteMarket
+import ir.composenews.domain.use_case.GetMarketListUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow

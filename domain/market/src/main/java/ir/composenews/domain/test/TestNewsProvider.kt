@@ -1,6 +1,6 @@
-package ir.kaaveh.domain.test
+package ir.composenews.domain.test
 
-import ir.kaaveh.domain.model.Market
+import ir.composenews.domain.model.Market
 
 val notFavoriteMarket = Market(
     id = "id",

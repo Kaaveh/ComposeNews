@@ -6,11 +6,11 @@ import ir.composenews.core_test.MainDispatcherRule
 import ir.composenews.core_test.dispatcher.TestDispatcherProvider
 import ir.composenews.marketlist.MarketListContract
 import ir.composenews.marketlist.MarketListViewModel
-import ir.kaaveh.domain.model.Market
-import ir.kaaveh.domain.use_case.GetFavoriteMarketListUseCase
-import ir.kaaveh.domain.use_case.GetMarketListUseCase
-import ir.kaaveh.domain.use_case.SyncMarketListUseCase
-import ir.kaaveh.domain.use_case.ToggleFavoriteMarketListUseCase
+import ir.composenews.domain.model.Market
+import ir.composenews.domain.use_case.GetFavoriteMarketListUseCase
+import ir.composenews.domain.use_case.GetMarketListUseCase
+import ir.composenews.domain.use_case.SyncMarketListUseCase
+import ir.composenews.domain.use_case.ToggleFavoriteMarketListUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScheduler

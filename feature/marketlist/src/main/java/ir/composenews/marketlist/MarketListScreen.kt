@@ -22,7 +22,7 @@ import ir.composenews.base.BaseViewModel
 import ir.composenews.designsystem.preview.ThemePreviews
 import ir.composenews.designsystem.theme.ComposeNewsTheme
 import ir.composenews.base.use
-import ir.kaaveh.domain.model.Market
+import ir.composenews.domain.model.Market
 import ir.composenews.marketlist.component.MarketListItem
 import ir.composenews.marketlist.preview_provider.MarketListStateProvider
 

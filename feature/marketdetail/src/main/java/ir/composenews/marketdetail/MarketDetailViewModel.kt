@@ -5,10 +5,10 @@ import ir.composenews.core_test.dispatcher.DispatcherProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.composenews.base.BaseContract
 import ir.composenews.base.BaseViewModel
-import ir.kaaveh.domain.model.Market
-import ir.kaaveh.domain.model.Resource
-import ir.kaaveh.domain.use_case.GetMarketChartUseCase
-import ir.kaaveh.domain.use_case.ToggleFavoriteMarketListUseCase
+import ir.composenews.domain.model.Market
+import ir.composenews.domain.model.Resource
+import ir.composenews.domain.use_case.GetMarketChartUseCase
+import ir.composenews.domain.use_case.ToggleFavoriteMarketListUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

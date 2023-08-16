@@ -1,8 +1,8 @@
 package ir.composenews.marketdetail
 
 import ir.composenews.base.UnidirectionalViewModel
-import ir.kaaveh.domain.model.Chart
-import ir.kaaveh.domain.model.Market
+import ir.composenews.domain.model.Chart
+import ir.composenews.domain.model.Market
 
 interface MarketDetailContract :
     UnidirectionalViewModel<MarketDetailContract.Event, MarketDetailContract.State> {

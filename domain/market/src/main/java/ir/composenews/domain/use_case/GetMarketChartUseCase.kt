@@ -1,8 +1,8 @@
-package ir.kaaveh.domain.use_case
+package ir.composenews.domain.use_case
 
-import ir.kaaveh.domain.model.Chart
-import ir.kaaveh.domain.model.Resource
-import ir.kaaveh.domain.repository.MarketRepository
+import ir.composenews.domain.model.Chart
+import ir.composenews.domain.model.Resource
+import ir.composenews.domain.repository.MarketRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

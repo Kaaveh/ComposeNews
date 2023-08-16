@@ -30,7 +30,7 @@ import ir.composenews.designsystem.component.QuadLineChart
 import ir.composenews.designsystem.preview.ThemePreviews
 import ir.composenews.designsystem.theme.ComposeNewsTheme
 import ir.composenews.base.use
-import ir.kaaveh.domain.model.Market
+import ir.composenews.domain.model.Market
 import ir.composenews.marketdetail.preview_provider.MarketDetailStateProvider
 
 @Composable

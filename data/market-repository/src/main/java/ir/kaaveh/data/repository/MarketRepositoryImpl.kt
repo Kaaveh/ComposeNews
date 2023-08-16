@@ -4,10 +4,10 @@ import ir.kaaveh.data.mapper.toChart
 import ir.kaaveh.data.mapper.toLocalMarketDto
 import ir.kaaveh.data.mapper.toMarket
 import ir.kaaveh.data.mapper.toRemoteMarketDto
-import ir.kaaveh.domain.model.Chart
-import ir.kaaveh.domain.model.Market
-import ir.kaaveh.domain.model.Resource
-import ir.kaaveh.domain.repository.MarketRepository
+import ir.composenews.domain.model.Chart
+import ir.composenews.domain.model.Market
+import ir.composenews.domain.model.Resource
+import ir.composenews.domain.repository.MarketRepository
 import ir.kaaveh.localdatasource.database.MarketDao
 import ir.kaaveh.remotedatasource.api.MarketsApi
 import kotlinx.coroutines.flow.Flow

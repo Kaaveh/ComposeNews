@@ -1,6 +1,6 @@
-package ir.kaaveh.domain.model_provider
+package ir.composenews.domain.model_provider
 
-import ir.kaaveh.domain.model.Market
+import ir.composenews.domain.model.Market
 
 val marketList = listOf(
     Market(

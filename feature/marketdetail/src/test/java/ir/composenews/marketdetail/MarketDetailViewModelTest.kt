@@ -8,11 +8,11 @@ import io.mockk.mockk
 import ir.composenews.base.BaseContract
 import ir.composenews.marketdetail.MarketDetailContract
 import ir.composenews.marketdetail.MarketDetailViewModel
-import ir.kaaveh.domain.model.Chart
-import ir.kaaveh.domain.model.Market
-import ir.kaaveh.domain.model.Resource
-import ir.kaaveh.domain.use_case.GetMarketChartUseCase
-import ir.kaaveh.domain.use_case.ToggleFavoriteMarketListUseCase
+import ir.composenews.domain.model.Chart
+import ir.composenews.domain.model.Market
+import ir.composenews.domain.model.Resource
+import ir.composenews.domain.use_case.GetMarketChartUseCase
+import ir.composenews.domain.use_case.ToggleFavoriteMarketListUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScheduler

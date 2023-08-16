@@ -1,6 +1,6 @@
 package ir.kaaveh.data.repository.mapper
 
-import ir.kaaveh.domain.test.notFavoriteMarket
+import ir.composenews.domain.test.notFavoriteMarket
 import ir.kaaveh.data.mapper.toLocalMarketDto
 import ir.kaaveh.data.mapper.toMarket
 import ir.kaaveh.localdatasource.test.localMarketDto
