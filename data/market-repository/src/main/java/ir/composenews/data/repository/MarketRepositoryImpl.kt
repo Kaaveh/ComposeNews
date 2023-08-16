@@ -1,9 +1,9 @@
-package ir.kaaveh.data.repository
+package ir.composenews.data.repository
 
-import ir.kaaveh.data.mapper.toChart
-import ir.kaaveh.data.mapper.toLocalMarketDto
-import ir.kaaveh.data.mapper.toMarket
-import ir.kaaveh.data.mapper.toRemoteMarketDto
+import ir.composenews.data.mapper.toChart
+import ir.composenews.data.mapper.toLocalMarketDto
+import ir.composenews.data.mapper.toMarket
+import ir.composenews.data.mapper.toRemoteMarketDto
 import ir.composenews.domain.model.Chart
 import ir.composenews.domain.model.Market
 import ir.composenews.domain.model.Resource

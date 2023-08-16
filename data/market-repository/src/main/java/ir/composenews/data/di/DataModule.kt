@@ -1,10 +1,10 @@
-package ir.kaaveh.data.di
+package ir.composenews.data.di
 
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ir.kaaveh.data.repository.MarketRepositoryImpl
+import ir.composenews.data.repository.MarketRepositoryImpl
 import ir.composenews.domain.repository.MarketRepository
 
 @Module

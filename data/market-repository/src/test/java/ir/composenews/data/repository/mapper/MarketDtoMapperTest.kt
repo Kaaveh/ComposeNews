@@ -1,7 +1,7 @@
-package ir.kaaveh.data.repository.mapper
+package ir.composenews.data.repository.mapper
 
-import ir.kaaveh.data.mapper.toMarket
-import ir.kaaveh.data.mapper.toRemoteMarketDto
+import ir.composenews.data.mapper.toMarket
+import ir.composenews.data.mapper.toRemoteMarketDto
 import ir.composenews.domain.test.notFavoriteMarket
 import ir.composenews.localdatasource.test.remoteMarketDto
 import ir.composenews.remotedatasource.test.marketDto
