@@ -1,6 +1,6 @@
 import com.android.build.api.dsl.ApplicationExtension
-import ir.kaaveh.composenews.configureKotlinAndroid
-import ir.kaaveh.composenews.libs
+import ir.composenews.configureKotlinAndroid
+import ir.composenews.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure

@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "ir.kaaveh.navigation"
+    namespace = "ir.composenews.navigation"
 }
 
 dependencies {

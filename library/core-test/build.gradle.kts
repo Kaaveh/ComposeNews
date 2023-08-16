@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "ir.kaaveh.core_test"
+    namespace = "ir.composenews.core_test"
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "ir.kaaveh.designsystem"
+    namespace = "ir.composenews.designsystem"
 }
 
 dependencies {
