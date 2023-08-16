@@ -1,6 +1,6 @@
-package ir.kaaveh.remotedatasource.test
+package ir.composenews.remotedatasource.test
 
-import ir.kaaveh.remotedatasource.dto.MarketResponse
+import ir.composenews.remotedatasource.dto.MarketResponse
 
 val marketDto = MarketResponse(
     id = "id",

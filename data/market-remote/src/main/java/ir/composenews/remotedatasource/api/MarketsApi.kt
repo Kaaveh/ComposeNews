@@ -1,7 +1,7 @@
-package ir.kaaveh.remotedatasource.api
+package ir.composenews.remotedatasource.api
 
-import ir.kaaveh.remotedatasource.dto.MarketChartResponse
-import ir.kaaveh.remotedatasource.dto.MarketResponse
+import ir.composenews.remotedatasource.dto.MarketChartResponse
+import ir.composenews.remotedatasource.dto.MarketResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

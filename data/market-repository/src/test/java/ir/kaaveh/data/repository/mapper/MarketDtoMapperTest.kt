@@ -4,7 +4,7 @@ import ir.kaaveh.data.mapper.toMarket
 import ir.kaaveh.data.mapper.toRemoteMarketDto
 import ir.composenews.domain.test.notFavoriteMarket
 import ir.composenews.localdatasource.test.remoteMarketDto
-import ir.kaaveh.remotedatasource.test.marketDto
+import ir.composenews.remotedatasource.test.marketDto
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

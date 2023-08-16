@@ -7,7 +7,7 @@ android {
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-    namespace = "ir.kaaveh.remotedatasource"
+    namespace = "ir.composenews.remotedatasource"
 }
 
 dependencies {

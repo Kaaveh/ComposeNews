@@ -1,8 +1,8 @@
-package ir.kaaveh.remotedatasource.test
+package ir.composenews.remotedatasource.test
 
-import ir.kaaveh.remotedatasource.api.MarketsApi
-import ir.kaaveh.remotedatasource.dto.MarketChartResponse
-import ir.kaaveh.remotedatasource.dto.MarketResponse
+import ir.composenews.remotedatasource.api.MarketsApi
+import ir.composenews.remotedatasource.dto.MarketChartResponse
+import ir.composenews.remotedatasource.dto.MarketResponse
 
 class FakeMarketsApi : MarketsApi {
     override suspend fun getMarkets(

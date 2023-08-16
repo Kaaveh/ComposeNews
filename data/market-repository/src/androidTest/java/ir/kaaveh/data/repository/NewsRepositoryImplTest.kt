@@ -5,7 +5,7 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import ir.composenews.localdatasource.database.MarketDao
 import ir.composenews.localdatasource.database.MarketsDatabase
-import ir.kaaveh.remotedatasource.test.FakeMarketsApi
+import ir.composenews.remotedatasource.test.FakeMarketsApi
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest

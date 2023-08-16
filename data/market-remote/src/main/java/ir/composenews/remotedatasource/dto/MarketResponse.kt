@@ -1,4 +1,4 @@
-package ir.kaaveh.remotedatasource.dto
+package ir.composenews.remotedatasource.dto
 
 import com.google.gson.annotations.SerializedName
 

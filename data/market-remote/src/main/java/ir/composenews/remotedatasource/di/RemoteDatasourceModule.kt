@@ -1,4 +1,4 @@
-package ir.kaaveh.remotedatasource.di
+package ir.composenews.remotedatasource.di
 
 import android.app.Application
 import com.chuckerteam.chucker.api.ChuckerInterceptor
@@ -6,8 +6,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ir.kaaveh.remotedatasource.api.BASE_URL
-import ir.kaaveh.remotedatasource.api.MarketsApi
+import ir.composenews.remotedatasource.api.BASE_URL
+import ir.composenews.remotedatasource.api.MarketsApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

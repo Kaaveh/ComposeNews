@@ -2,7 +2,7 @@ package ir.kaaveh.data.mapper
 
 import ir.composenews.domain.model.Market
 import ir.composenews.localdatasource.dto.RemoteMarketDto
-import ir.kaaveh.remotedatasource.dto.MarketResponse
+import ir.composenews.remotedatasource.dto.MarketResponse
 
 fun MarketResponse.toRemoteMarketDto(): RemoteMarketDto = RemoteMarketDto(
     id = id,
