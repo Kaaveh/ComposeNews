@@ -1,13 +1,13 @@
-package ir.kaaveh.sync.initializer
+package ir.composenews.sync.initializer
 
 import android.content.Context
 import androidx.startup.Initializer
 import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkManager
 import androidx.work.WorkManagerInitializer
-import ir.kaaveh.sync.Sync
-import ir.kaaveh.sync.SyncWorkName
-import ir.kaaveh.sync.worker.SyncWorker
+import ir.composenews.sync.Sync
+import ir.composenews.sync.SyncWorkName
+import ir.composenews.sync.worker.SyncWorker
 
 class SyncInitializer : Initializer<Sync> {
     override fun create(context: Context): Sync {

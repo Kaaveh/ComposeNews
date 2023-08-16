@@ -1,4 +1,4 @@
-package ir.kaaveh.sync.worker
+package ir.composenews.sync.worker
 
 import android.content.Context
 import androidx.hilt.work.HiltWorkerFactory

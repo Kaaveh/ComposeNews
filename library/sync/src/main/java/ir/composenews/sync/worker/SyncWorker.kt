@@ -1,4 +1,4 @@
-package ir.kaaveh.sync.worker
+package ir.composenews.sync.worker
 
 import android.content.Context
 import androidx.hilt.work.HiltWorker
@@ -10,8 +10,8 @@ import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import ir.kaaveh.domain.use_case.SyncMarketListUseCase
-import ir.kaaveh.sync.SyncConstraints
-import ir.kaaveh.sync.syncForegroundInfo
+import ir.composenews.sync.SyncConstraints
+import ir.composenews.sync.syncForegroundInfo
 
 @HiltWorker
 class SyncWorker @AssistedInject constructor(

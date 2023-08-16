@@ -1,4 +1,4 @@
-package ir.kaaveh.sync
+package ir.composenews.sync
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -8,7 +8,7 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.startup.AppInitializer
 import androidx.work.*
-import ir.kaaveh.sync.initializer.SyncInitializer
+import ir.composenews.sync.initializer.SyncInitializer
 
 object Sync {
     fun init(context: Context) = AppInitializer.getInstance(context)

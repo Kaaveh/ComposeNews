@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "ir.kaaveh.sync"
+    namespace = "ir.composenews.sync"
 }
 
 dependencies {
