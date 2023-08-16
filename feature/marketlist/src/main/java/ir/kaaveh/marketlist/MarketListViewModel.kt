@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.kaaveh.base.BaseContract
 import ir.kaaveh.base.BaseViewModel
-import ir.kaaveh.core_test.dispatcher.DispatcherProvider
+import ir.composenews.core_test.dispatcher.DispatcherProvider
 import ir.kaaveh.domain.model.Market
 import ir.kaaveh.domain.use_case.GetFavoriteMarketListUseCase
 import ir.kaaveh.domain.use_case.GetMarketListUseCase

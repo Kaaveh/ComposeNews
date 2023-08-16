@@ -1,7 +1,7 @@
-package ir.kaaveh.core_test.di
+package ir.composenews.core_test.di
 
-import ir.kaaveh.core_test.dispatcher.DispatcherProvider
-import ir.kaaveh.core_test.dispatcher.PlatformDispatcherProvider
+import ir.composenews.core_test.dispatcher.DispatcherProvider
+import ir.composenews.core_test.dispatcher.PlatformDispatcherProvider
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

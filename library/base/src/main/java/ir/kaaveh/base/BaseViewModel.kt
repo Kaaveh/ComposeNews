@@ -1,8 +1,8 @@
 package ir.kaaveh.base
 
 import androidx.lifecycle.ViewModel
-import ir.kaaveh.core_test.dispatcher.DispatcherProvider
-import ir.kaaveh.core_test.dispatcher.PlatformDispatcherProvider
+import ir.composenews.core_test.dispatcher.DispatcherProvider
+import ir.composenews.core_test.dispatcher.PlatformDispatcherProvider
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

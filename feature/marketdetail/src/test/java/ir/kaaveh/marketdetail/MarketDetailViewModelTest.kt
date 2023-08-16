@@ -1,7 +1,7 @@
 package ir.kaaveh.marketdetail
 
-import ir.kaaveh.core_test.MainDispatcherRule
-import ir.kaaveh.core_test.dispatcher.TestDispatcherProvider
+import ir.composenews.core_test.MainDispatcherRule
+import ir.composenews.core_test.dispatcher.TestDispatcherProvider
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

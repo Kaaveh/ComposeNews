@@ -2,8 +2,8 @@ package ir.kaaveh.marketlist
 
 import io.mockk.coEvery
 import io.mockk.mockk
-import ir.kaaveh.core_test.MainDispatcherRule
-import ir.kaaveh.core_test.dispatcher.TestDispatcherProvider
+import ir.composenews.core_test.MainDispatcherRule
+import ir.composenews.core_test.dispatcher.TestDispatcherProvider
 import ir.kaaveh.domain.model.Market
 import ir.kaaveh.domain.use_case.GetFavoriteMarketListUseCase
 import ir.kaaveh.domain.use_case.GetMarketListUseCase

@@ -1,8 +1,8 @@
 @file:OptIn(ExperimentalCoroutinesApi::class)
 
-package ir.kaaveh.core_test
+package ir.composenews.core_test
 
-import ir.kaaveh.core_test.dispatcher.TestDispatcherProvider
+import ir.composenews.core_test.dispatcher.TestDispatcherProvider
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
