@@ -1,4 +1,4 @@
-package ir.kaaveh.designsystem.widget
+package ir.composenews.designsystem.widget
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -10,8 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import ir.kaaveh.designsystem.preview.ThemePreviews
-import ir.kaaveh.designsystem.theme.ComposeNewsTheme
+import ir.composenews.designsystem.preview.ThemePreviews
+import ir.composenews.designsystem.theme.ComposeNewsTheme
 
 @Composable
 fun ErrorView(errorMessage: String) {

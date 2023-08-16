@@ -1,4 +1,4 @@
-package ir.kaaveh.designsystem.component
+package ir.composenews.designsystem.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.BadgedBox

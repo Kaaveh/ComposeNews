@@ -1,4 +1,4 @@
-package ir.kaaveh.designsystem.widget
+package ir.composenews.designsystem.widget
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
@@ -9,8 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import ir.kaaveh.designsystem.preview.ThemePreviews
-import ir.kaaveh.designsystem.theme.ComposeNewsTheme
+import ir.composenews.designsystem.preview.ThemePreviews
+import ir.composenews.designsystem.theme.ComposeNewsTheme
 
 @Composable
 fun LoadingView(

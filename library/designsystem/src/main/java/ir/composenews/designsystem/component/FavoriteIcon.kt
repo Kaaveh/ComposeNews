@@ -1,4 +1,4 @@
-package ir.kaaveh.designsystem.component
+package ir.composenews.designsystem.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -10,8 +10,8 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import ir.kaaveh.designsystem.preview.ThemePreviews
-import ir.kaaveh.designsystem.theme.ComposeNewsTheme
+import ir.composenews.designsystem.preview.ThemePreviews
+import ir.composenews.designsystem.theme.ComposeNewsTheme
 
 @Composable
 fun FavoriteIcon(

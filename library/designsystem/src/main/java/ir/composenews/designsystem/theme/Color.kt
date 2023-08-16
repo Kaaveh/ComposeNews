@@ -1,4 +1,4 @@
-package ir.kaaveh.designsystem.theme
+package ir.composenews.designsystem.theme
 
 import androidx.compose.ui.graphics.Color
 

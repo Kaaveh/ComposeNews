@@ -1,4 +1,4 @@
-package ir.kaaveh.designsystem.preview
+package ir.composenews.designsystem.preview
 
 import android.content.res.Configuration
 import androidx.compose.ui.tooling.preview.Preview

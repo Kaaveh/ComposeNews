@@ -1,4 +1,4 @@
-package ir.kaaveh.designsystem.component
+package ir.composenews.designsystem.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -20,8 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import ir.kaaveh.designsystem.preview.ThemePreviews
-import ir.kaaveh.designsystem.theme.ComposeNewsTheme
+import ir.composenews.designsystem.preview.ThemePreviews
+import ir.composenews.designsystem.theme.ComposeNewsTheme
 
 @Composable
 fun MarketItem(

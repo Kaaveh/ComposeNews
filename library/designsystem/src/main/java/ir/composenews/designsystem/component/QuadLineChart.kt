@@ -1,4 +1,4 @@
-package ir.kaaveh.designsystem.component
+package ir.composenews.designsystem.component
 
 import android.graphics.Paint
 import androidx.compose.foundation.Canvas
@@ -23,10 +23,10 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ir.kaaveh.designsystem.preview.ThemePreviews
-import ir.kaaveh.designsystem.theme.ComposeNewsTheme
-import ir.kaaveh.designsystem.theme.graphColor
-import ir.kaaveh.designsystem.theme.lightGraphColor
+import ir.composenews.designsystem.preview.ThemePreviews
+import ir.composenews.designsystem.theme.ComposeNewsTheme
+import ir.composenews.designsystem.theme.graphColor
+import ir.composenews.designsystem.theme.lightGraphColor
 import kotlin.math.round
 import kotlin.math.roundToInt
 

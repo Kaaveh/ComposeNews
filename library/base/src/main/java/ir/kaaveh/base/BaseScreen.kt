@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import ir.kaaveh.designsystem.widget.ErrorView
-import ir.kaaveh.designsystem.widget.LoadingView
+import ir.composenews.designsystem.widget.ErrorView
+import ir.composenews.designsystem.widget.LoadingView
 
 @Composable
 fun BaseRoute(

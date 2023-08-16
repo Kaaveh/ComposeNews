@@ -5,7 +5,7 @@ import androidx.compose.material.BottomNavigationItem
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import ir.kaaveh.designsystem.component.BottomNavigationIcon
+import ir.composenews.designsystem.component.BottomNavigationIcon
 import ir.composenews.navigation.BottomNavItem
 
 @Composable
