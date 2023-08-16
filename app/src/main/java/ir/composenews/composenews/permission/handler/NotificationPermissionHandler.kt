@@ -1,4 +1,4 @@
-package ir.kaaveh.composenews.permission.handler
+package ir.composenews.composenews.permission.handler
 
 import android.Manifest
 import android.content.Context
@@ -7,7 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationManagerCompat
-import ir.kaaveh.composenews.permission.enum.PermissionType
+import ir.composenews.composenews.permission.enum.PermissionType
 
 class NotificationPermissionHandler : PermissionHandler {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)

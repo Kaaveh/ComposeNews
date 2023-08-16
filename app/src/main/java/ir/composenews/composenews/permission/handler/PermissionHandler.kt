@@ -1,10 +1,10 @@
-package ir.kaaveh.composenews.permission.handler
+package ir.composenews.composenews.permission.handler
 
 import android.content.Context
 import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import ir.kaaveh.composenews.permission.enum.PermissionType
+import ir.composenews.composenews.permission.enum.PermissionType
 
 interface PermissionHandler {
 

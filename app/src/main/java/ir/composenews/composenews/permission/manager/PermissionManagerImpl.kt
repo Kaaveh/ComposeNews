@@ -1,11 +1,11 @@
-package ir.kaaveh.composenews.permission.manager
+package ir.composenews.composenews.permission.manager
 
 import android.content.Context
 import androidx.activity.ComponentActivity
-import ir.kaaveh.composenews.permission.enum.PermissionType
-import ir.kaaveh.composenews.permission.handler.NotificationPermissionHandler
-import ir.kaaveh.composenews.permission.handler.PermissionHandler
-import ir.kaaveh.composenews.permission.handler.ReadStoragePermissionHandler
+import ir.composenews.composenews.permission.enum.PermissionType
+import ir.composenews.composenews.permission.handler.NotificationPermissionHandler
+import ir.composenews.composenews.permission.handler.PermissionHandler
+import ir.composenews.composenews.permission.handler.ReadStoragePermissionHandler
 
 class PermissionManagerImpl : PermissionManager {
     private fun getPermissionHandler(

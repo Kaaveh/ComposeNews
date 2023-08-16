@@ -1,4 +1,4 @@
-package ir.kaaveh.composenews.ui.component
+package ir.composenews.composenews.ui.component
 
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
