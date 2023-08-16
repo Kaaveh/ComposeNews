@@ -1,4 +1,4 @@
-package ir.composenews.composenews.permission.enum
+package ir.composenews.permission.enum
 
 enum class PermissionType {
     POST_NOTIFICATIONS,

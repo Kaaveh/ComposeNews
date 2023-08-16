@@ -9,7 +9,7 @@
         android:maxSdkVersion="32" />
 
     <application
-        android:name="ir.composenews.composenews.ComposeNewsApplication"
+        android:name="ir.composenews.ComposeNewsApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -19,7 +19,7 @@
         android:theme="@style/Theme.ComposeNews"
         tools:targetApi="31">
         <activity
-            android:name="ir.composenews.composenews.ui.MainActivity"
+            android:name="ir.composenews.ui.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.ComposeNews">

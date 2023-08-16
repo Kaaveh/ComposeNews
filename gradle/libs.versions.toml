@@ -1,5 +1,5 @@
 [versions]
-projectApplicationId = "ir.kaaveh.composenews"
+projectApplicationId = "ir.composenews"
 projectVersionName = "1.0"
 projectMinSdkVersion = "23"
 projectTargetSdkVersion = "33"

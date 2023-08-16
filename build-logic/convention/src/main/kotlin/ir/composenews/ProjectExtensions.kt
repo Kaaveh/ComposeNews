@@ -14,7 +14,7 @@
  *   limitations under the License.
  */
 
-package ir.kaaveh.composenews
+package ir.composenews
 
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalog

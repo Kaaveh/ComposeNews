@@ -1,8 +1,8 @@
-package ir.composenews.composenews.permission.manager
+package ir.composenews.permission.manager
 
 import android.content.Context
 import androidx.activity.ComponentActivity
-import ir.composenews.composenews.permission.enum.PermissionType
+import ir.composenews.permission.enum.PermissionType
 
 interface PermissionManager {
     fun hasPermission(

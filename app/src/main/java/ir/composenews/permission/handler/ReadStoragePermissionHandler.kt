@@ -1,10 +1,10 @@
-package ir.composenews.composenews.permission.handler
+package ir.composenews.permission.handler
 
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
-import ir.composenews.composenews.permission.enum.PermissionType
+import ir.composenews.permission.enum.PermissionType
 
 class ReadStoragePermissionHandler : PermissionHandler {
     override val permission: String = Manifest.permission.READ_EXTERNAL_STORAGE

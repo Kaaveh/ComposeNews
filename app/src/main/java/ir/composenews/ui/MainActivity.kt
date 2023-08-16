@@ -1,4 +1,4 @@
-package ir.composenews.composenews.ui
+package ir.composenews.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -20,11 +20,11 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ir.composenews.base.BaseViewModel
-import ir.composenews.composenews.navigation.ComposeNewsNavHost
-import ir.composenews.composenews.permission.enum.PermissionType
-import ir.composenews.composenews.permission.manager.PermissionManager
-import ir.composenews.composenews.permission.manager.PermissionManagerImpl
-import ir.composenews.composenews.ui.component.BottomNavigationBar
+import ir.composenews.navigation.ComposeNewsNavHost
+import ir.composenews.permission.enum.PermissionType
+import ir.composenews.permission.manager.PermissionManager
+import ir.composenews.permission.manager.PermissionManagerImpl
+import ir.composenews.ui.component.BottomNavigationBar
 import ir.composenews.designsystem.theme.ComposeNewsTheme
 import ir.composenews.navigation.BottomNavItem
 import ir.composenews.navigation.Destinations

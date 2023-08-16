@@ -1,4 +1,4 @@
-package ir.kaaveh.composenews
+package ir.composenews
 
 import com.android.build.api.dsl.CommonExtension
 import java.io.File

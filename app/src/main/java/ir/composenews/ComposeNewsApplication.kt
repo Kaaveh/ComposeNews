@@ -1,4 +1,4 @@
-package ir.composenews.composenews
+package ir.composenews
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
