@@ -9,7 +9,7 @@ android {
 
 dependencies {
     projects.library.apply {
-        api(projects.library.coreTest)
+        api(projects.core.test)
         implementation(projects.library.designsystem)
     }
     libs.apply {
