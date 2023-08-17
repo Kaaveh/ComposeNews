@@ -11,7 +11,7 @@ android {
 }
 
 dependencies {
-    api(projects.library.coreTest)
+    api(projects.core.test)
     libs.apply {
         implementation(javax.inject)
         implementation(coroutines)

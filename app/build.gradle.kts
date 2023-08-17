@@ -29,10 +29,12 @@ android {
 
 dependencies {
     projects.library.apply {
-        implementation(sync)
-        implementation(base)
         implementation(navigation)
         implementation(designsystem)
+    }
+    projects.core.apply {
+        implementation(sync)
+        implementation(base)
     }
     libs.apply {
         implementation(compose.activity)

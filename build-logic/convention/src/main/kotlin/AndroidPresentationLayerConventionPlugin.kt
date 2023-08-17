@@ -23,9 +23,9 @@ class AndroidPresentationLayerConventionPlugin : Plugin<Project> {
                 add("implementation", libs.findLibrary("hilt.navigation.compose").get())
                 add("androidTestImplementation", libs.findLibrary("runner").get())
 
-                add("testImplementation", project(":library:core-test"))
+                add("testImplementation", project(":core:test"))
                 add("api", project(":library:designsystem"))
-                add("api", project(":library:base"))
+                add("api", project(":core:base"))
             }
         }
     }
