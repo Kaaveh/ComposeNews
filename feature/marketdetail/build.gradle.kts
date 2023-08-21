@@ -8,7 +8,4 @@ android {
 
 dependencies {
     implementation(projects.data.marketRepository)
-    libs.apply {
-        implementation(accompanist.webview)
-    }
 }

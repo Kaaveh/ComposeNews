@@ -11,7 +11,6 @@ ktx = "1.10.1"
 composeBOM = "2023.06.01"
 composeActivity = "1.7.2"
 composeCoil = "2.2.2"
-accompanist = "0.24.11-rc"
 composeCompiler = "1.4.4"
 
 hilt = "2.44.2"
@@ -46,7 +45,7 @@ startupRuntime = "1.1.1"
 
 workRuntimeKtx = "2.8.1"
 
-androidGradlePlugin = "8.0.2"
+androidGradlePlugin = "8.1.0"
 
 kotlin="1.8.10"
 
@@ -62,7 +61,6 @@ compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-mani
 compose-material = { group = "androidx.compose.material", name = "material" }
 compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "composeActivity" }
 compose-coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "composeCoil" }
-accompanist-webview = { group = "com.google.accompanist", name = "accompanist-webview", version.ref = "accompanist" }
 
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
