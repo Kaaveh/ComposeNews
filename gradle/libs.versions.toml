@@ -32,7 +32,7 @@ gson = "2.9.0"
 loggingInterceptor = "4.10.0"
 chucker = "3.5.2"
 
-room = "2.5.2"
+room = "2.6.0-alpha03"
 
 junit = "4.13.2"
 junitExt = "1.1.5"
@@ -107,7 +107,7 @@ android-application = { id = "com.android.application", version.ref = "androidGr
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
-kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize",  version.ref = "kotlin"  }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 
 [bundles]
