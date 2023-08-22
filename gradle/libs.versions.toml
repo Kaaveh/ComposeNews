@@ -19,7 +19,7 @@ hiltNavigationCompose = "1.0.0"
 hiltWork = "1.0.0"
 javaxInject = "1"
 
-coroutinesCore = "1.6.4"
+coroutinesCore = "1.7.1"
 
 lifeCycle = "2.6.1"
 lifeCycleViewModelKtx = "2.6.1"
@@ -36,7 +36,7 @@ room = "2.5.2"
 
 junit = "4.13.2"
 junitExt = "1.1.5"
-coroutinesTest = "1.6.4"
+coroutinesTest = "1.7.1"
 mockitoKotlin = "4.1.0"
 mockk = "1.13.5"
 runner = "1.5.2"
