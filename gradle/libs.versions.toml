@@ -11,7 +11,7 @@ ktx = "1.10.1"
 composeBOM = "2023.08.00"
 composeActivity = "1.7.2"
 composeCoil = "2.2.2"
-composeCompiler = "1.4.8"
+composeCompiler = "1.5.1"
 
 hilt = "2.47"
 androidHiltCompiler = "1.0.0"
@@ -47,7 +47,7 @@ workRuntimeKtx = "2.8.1"
 
 androidGradlePlugin = "8.1.0"
 
-kotlin="1.8.22"
+kotlin = "1.9.0"
 
 [libraries]
 androidx-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "ktx" }
