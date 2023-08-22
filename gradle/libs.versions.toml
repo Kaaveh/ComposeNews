@@ -25,7 +25,7 @@ lifeCycle = "2.6.1"
 lifeCycleViewModelKtx = "2.6.1"
 lifeCycleRuntimeCompose = "2.6.1"
 
-navigationCompose = "2.6.0"
+navigationCompose = "2.7.0"
 
 retrofit = "2.9.0"
 gson = "2.9.0"
