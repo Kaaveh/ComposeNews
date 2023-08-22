@@ -2,8 +2,8 @@
 projectApplicationId = "ir.composenews"
 projectVersionName = "1.0"
 projectMinSdkVersion = "23"
-projectTargetSdkVersion = "33"
-projectCompileSdkVersion = "33"
+projectTargetSdkVersion = "34"
+projectCompileSdkVersion = "34"
 projectVersionCode = "1"
 
 ktx = "1.10.1"
