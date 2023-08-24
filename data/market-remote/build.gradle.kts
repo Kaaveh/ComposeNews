@@ -16,7 +16,6 @@ android {
 dependencies {
     libs.apply {
         implementation(retrofit)
-        implementation(converter.gson)
         implementation(kotlinx.serialization.json)
         implementation(kotlinx.serialization.converter)
         implementation(logging.interceptor)
