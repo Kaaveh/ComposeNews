@@ -1,6 +1,11 @@
 package ir.composenews.base
 
 import android.app.Activity
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -43,17 +48,30 @@ private fun BaseScreen(
 ) {
 
     Box(modifier = Modifier.fillMaxSize()) {
-        when (baseState) {
-            BaseContract.BaseState.OnLoading -> {
-                LoadingView(modifier = Modifier.fillMaxSize())
-            }
+        AnimatedContent(
+            targetState = baseState,
+            transitionSpec = {
+                fadeIn(
+                    animationSpec = tween(TRANSITION_DURATION)
+                ) togetherWith fadeOut(animationSpec = tween(TRANSITION_DURATION))
+            },
+            label = "Animated Content"
+        ) { targetState ->
+            when (targetState) {
+                BaseContract.BaseState.OnLoading -> {
+                    LoadingView(modifier = Modifier.fillMaxSize())
+                }
 
-            BaseContract.BaseState.OnLoadingDialog -> TODO()
-            is BaseContract.BaseState.OnError -> {
-                ErrorView(errorMessage = baseState.errorMessage)
-            }
+                BaseContract.BaseState.OnLoadingDialog -> TODO()
 
-            BaseContract.BaseState.OnSuccess -> content()
+                is BaseContract.BaseState.OnError -> {
+                    ErrorView(errorMessage = targetState.errorMessage)
+                }
+
+                BaseContract.BaseState.OnSuccess -> content()
+            }
         }
     }
 }
+
+const val TRANSITION_DURATION = 500
