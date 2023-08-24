@@ -2,16 +2,18 @@ package ir.composenews.remotedatasource.di
 
 import android.app.Application
 import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ir.composenews.remotedatasource.api.BASE_URL
 import ir.composenews.remotedatasource.api.MarketsApi
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -31,15 +33,24 @@ object RemoteDatasourceModule {
         })
         .build()
 
+    @Provides
+    @Singleton
+    fun providesJson():Json = Json {
+        ignoreUnknownKeys = true
+    }
+
     @Singleton
     @Provides
     fun provideRetrofit(
-        client: OkHttpClient
-    ): Retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .client(client)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
+        client: OkHttpClient,
+        json:Json
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(client)
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+            .build()
+    }
 
     @Singleton
     @Provides
