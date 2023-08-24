@@ -1,5 +1,7 @@
 package ir.composenews.navigation
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -8,7 +10,6 @@ import ir.composenews.navigation.graph.favoriteMarketList
 import ir.composenews.navigation.graph.marketDetail
 import ir.composenews.navigation.graph.marketList
 import ir.composenews.base.BaseViewModel
-import ir.composenews.navigation.Destinations
 
 @Composable
 fun ComposeNewsNavHost(
@@ -20,6 +21,8 @@ fun ComposeNewsNavHost(
         navController = navController,
         startDestination = Destinations.MarketListScreen.route,
         modifier = modifier,
+        enterTransition = { EnterTransition.None },
+        exitTransition = { ExitTransition.None },
     ) {
         marketList(navController, onProvideBaseViewModel)
         favoriteMarketList(navController, onProvideBaseViewModel)
