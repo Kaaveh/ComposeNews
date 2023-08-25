@@ -15,8 +15,8 @@ interface MarketListContract :
     sealed class Event {
         data class OnSetShowFavoriteList(val showFavoriteList: Boolean) : Event()
         data class OnFavoriteClick(val market: Market) : Event()
-        object OnGetMarketList : Event()
-        object OnRefresh: Event()
+        data object OnGetMarketList : Event()
+        data object OnRefresh: Event()
     }
 
 }
