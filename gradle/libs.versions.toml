@@ -11,7 +11,7 @@ ktx = "1.10.1"
 composeBOM = "2023.08.00"
 composeActivity = "1.7.2"
 composeCoil = "2.2.2"
-composeCompiler = "1.5.1"
+composeCompiler = "1.5.2"
 
 hilt = "2.47"
 androidHiltCompiler = "1.0.0"
@@ -25,14 +25,14 @@ lifeCycle = "2.6.1"
 lifeCycleViewModelKtx = "2.6.1"
 lifeCycleRuntimeCompose = "2.6.1"
 
-navigationCompose = "2.7.0"
+navigationCompose = "2.7.1"
 
 retrofit = "2.9.0"
 gson = "2.9.0"
 loggingInterceptor = "4.10.0"
 chucker = "3.5.2"
 
-room = "2.6.0-alpha03"
+room = "2.6.0-beta01"
 
 junit = "4.13.2"
 junitExt = "1.1.5"
@@ -45,7 +45,7 @@ startupRuntime = "1.1.1"
 
 workRuntimeKtx = "2.8.1"
 
-androidGradlePlugin = "8.1.0"
+androidGradlePlugin = "8.1.1"
 
 kotlin = "1.9.0"
 
