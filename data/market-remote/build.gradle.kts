@@ -1,6 +1,9 @@
 plugins {
     id("composenews.android.library")
     id("composenews.android.hilt")
+    libs.plugins.apply {
+        alias(kotlinx.serialization)
+    }
 }
 
 android {
@@ -13,7 +16,8 @@ android {
 dependencies {
     libs.apply {
         implementation(retrofit)
-        implementation(converter.gson)
+        implementation(kotlinx.serialization.json)
+        implementation(kotlinx.serialization.converter)
         implementation(logging.interceptor)
         debugImplementation(chucker)
         releaseImplementation(chucker.no.op)
