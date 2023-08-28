@@ -53,6 +53,7 @@ internal fun Project.configureKotlinAndroid(
         packaging {
             resources {
                 resources.excludes.add("META-INF/*")
+                resources.merges.add("META-INF/*.version")
             }
         }
     }
