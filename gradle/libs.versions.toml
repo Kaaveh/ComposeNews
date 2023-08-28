@@ -61,6 +61,7 @@ compose-ui = { group = "androidx.compose.ui", name = "ui" }
 compose-ui-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
 compose-material = { group = "androidx.compose.material", name = "material" }
 compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "composeActivity" }
 compose-coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "composeCoil" }
