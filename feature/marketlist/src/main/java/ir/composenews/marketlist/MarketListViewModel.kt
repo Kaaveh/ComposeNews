@@ -10,6 +10,7 @@ import ir.composenews.domain.use_case.GetFavoriteMarketListUseCase
 import ir.composenews.domain.use_case.GetMarketListUseCase
 import ir.composenews.domain.use_case.SyncMarketListUseCase
 import ir.composenews.domain.use_case.ToggleFavoriteMarketListUseCase
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -75,7 +76,7 @@ class MarketListViewModel @Inject constructor(
         getMarketListUseCase()
             .onEach { result ->
                 mutableState.update {
-                    it.copy(marketList = result, refreshing = false)
+                    it.copy(marketList = result.toPersistentList(), refreshing = false)
                 }
                 mutableBaseState.update { BaseContract.BaseState.OnSuccess }
             }
@@ -92,7 +93,7 @@ class MarketListViewModel @Inject constructor(
     private fun getFavoriteMarketList() {
         getFavoriteMarketListUseCase().onEach { newList ->
             mutableState.update {
-                it.copy(marketList = newList, refreshing = false)
+                it.copy(marketList = newList.toPersistentList(), refreshing = false)
             }
         }.launchIn(viewModelScope)
     }
