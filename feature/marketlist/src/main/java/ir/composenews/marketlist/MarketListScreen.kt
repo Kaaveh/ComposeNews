@@ -79,7 +79,7 @@ private fun MarketListScreen(
             LazyColumn(modifier = Modifier.fillMaxWidth()) {
                 items(
                     items = marketListState.marketList,
-                    key = { "${it.name} - ${it.isFavorite}" },
+                    key = { it.name },
                 ) { market ->
                     MarketListItem(
                         modifier = Modifier,

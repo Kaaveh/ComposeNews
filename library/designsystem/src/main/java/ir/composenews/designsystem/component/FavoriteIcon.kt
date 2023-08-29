@@ -1,5 +1,7 @@
 package ir.composenews.designsystem.component
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Icon
@@ -8,6 +10,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import ir.composenews.designsystem.preview.ThemePreviews
@@ -18,19 +21,19 @@ fun FavoriteIcon(
     isFavorite: Boolean,
     onFavoriteClick: () -> Unit
 ) {
+
+    val animatedColor by animateColorAsState(
+        targetValue = if (isFavorite) MaterialTheme.colors.error else Color.LightGray,
+        animationSpec = tween(500),
+        label = "color",
+    )
+
     Icon(
         imageVector = Icons.Filled.Favorite,
         contentDescription = "",
-        tint = when (isFavorite) {
-            true -> {
-                MaterialTheme.colors.error
-            }
-
-            false -> {
-                Color.LightGray
-            }
-        },
-        modifier = Modifier.clickable { onFavoriteClick() }
+        tint = animatedColor,
+        modifier = Modifier
+            .clickable { onFavoriteClick() },
     )
 }
 
