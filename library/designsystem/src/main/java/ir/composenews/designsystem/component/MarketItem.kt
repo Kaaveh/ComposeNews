@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -37,6 +38,7 @@ fun MarketItem(
         modifier = modifier
             .wrapContentHeight()
             .padding(8.dp)
+            .clip(RoundedCornerShape(12.dp))
             .clickable { onItemClick() },
         shape = MaterialTheme.shapes.large
     ) {
