@@ -4,6 +4,8 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -12,14 +14,16 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import ir.composenews.designsystem.preview.ThemePreviews
 import ir.composenews.designsystem.theme.ComposeNewsTheme
 
 @Composable
 fun FavoriteIcon(
     isFavorite: Boolean,
-    onFavoriteClick: () -> Unit
+    onFavoriteClick: () -> Unit,
 ) {
 
     val animatedColor by animateColorAsState(
@@ -33,7 +37,9 @@ fun FavoriteIcon(
         contentDescription = "",
         tint = animatedColor,
         modifier = Modifier
-            .clickable { onFavoriteClick() },
+            .clip(CircleShape)
+            .clickable { onFavoriteClick() }
+            .padding(4.dp),
     )
 }
 
