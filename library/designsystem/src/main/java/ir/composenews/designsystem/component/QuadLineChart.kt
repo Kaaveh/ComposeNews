@@ -1,6 +1,8 @@
 package ir.composenews.designsystem.component
 
 import android.graphics.Paint
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -18,6 +21,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.asAndroidPath
 import androidx.compose.ui.graphics.asComposePath
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalDensity
@@ -49,16 +53,25 @@ fun QuadLineChart(
             textSize = density.run { 8.sp.toPx() }
         }
     }
+
+    val animationProgress = remember {
+        Animatable(0f)
+    }
+
+    LaunchedEffect(key1 = data) {
+        animationProgress.animateTo(1f, tween (3000))
+    }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(300.dp)
+            .height(400.dp)
             .padding(20.dp)
     ) {
         Canvas(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(300.dp)
+                .height(400.dp)
         ) {
             val spacePerHour = (size.width - spacing) / data.size
             val priceStep = (upperValue - lowerValue) / 5f
@@ -97,31 +110,33 @@ fun QuadLineChart(
                 }
             }
 
-            drawPath(
-                path = strokePath,
-                color = graphColor,
-                style = Stroke(
-                    width = 3.dp.toPx(),
-                    cap = StrokeCap.Round
-                )
-            )
-
             val fillPath = android.graphics.Path(strokePath.asAndroidPath()).asComposePath().apply {
                 lineTo(size.width - spacePerHour, size.height - spacing)
                 lineTo(spacing, size.height - spacing)
                 close()
             }
 
-            drawPath(
-                path = fillPath,
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        lightGraphColor,
-                        Color.Transparent,
-                    ),
-                    endY = size.height - spacing
+            clipRect (right = size.width * animationProgress.value) {
+                drawPath(
+                    path = strokePath,
+                    color = graphColor,
+                    style = Stroke(
+                        width = 2.dp.toPx(),
+                        cap = StrokeCap.Round
+                    )
                 )
-            )
+
+                drawPath(
+                    path = fillPath,
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            lightGraphColor,
+                            Color.Transparent,
+                        ),
+                        endY = size.height - spacing
+                    )
+                )
+            }
 
         }
 
