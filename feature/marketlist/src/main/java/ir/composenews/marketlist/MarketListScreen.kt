@@ -118,7 +118,7 @@ private fun MarketListScreen(
 @Composable
 private fun MarketListScreenPrev(
     @PreviewParameter(MarketListStateProvider::class)
-    marketListState: MarketListContract.State
+    marketListState: MarketListContract.State,
 ) {
     ComposeNewsTheme {
         Surface {
