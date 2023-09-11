@@ -6,14 +6,14 @@ projectTargetSdkVersion = "34"
 projectCompileSdkVersion = "34"
 projectVersionCode = "1"
 
-ktx = "1.10.1"
+ktx = "1.12.0"
 
-composeBOM = "2023.08.00"
+composeBOM = "2023.09.00"
 composeActivity = "1.7.2"
 composeCoil = "2.2.2"
-composeCompiler = "1.5.2"
+composeCompiler = "1.5.3"
 
-hilt = "2.47"
+hilt = "2.48"
 androidHiltCompiler = "1.0.0"
 hiltNavigationCompose = "1.0.0"
 hiltWork = "1.0.0"
@@ -21,14 +21,14 @@ javaxInject = "1"
 
 coroutinesCore = "1.7.1"
 
-lifeCycle = "2.6.1"
-lifeCycleViewModelKtx = "2.6.1"
-lifeCycleRuntimeCompose = "2.6.1"
+lifeCycle = "2.6.2"
+lifeCycleViewModelKtx = "2.6.2"
+lifeCycleRuntimeCompose = "2.6.2"
 
-navigationCompose = "2.7.1"
+navigationCompose = "2.7.2"
 
 retrofit = "2.9.0"
-loggingInterceptor = "4.10.0"
+loggingInterceptor = "4.11.0"
 chucker = "3.5.2"
 kotlinx-serialization = "1.6.0"
 kotlinx-serialization-converter = "1.0.0"
@@ -48,7 +48,7 @@ workRuntimeKtx = "2.8.1"
 
 androidGradlePlugin = "8.1.1"
 
-kotlin = "1.9.0"
+kotlin = "1.9.10"
 
 kotlinxImmutableCollection = "0.3.5"
 
