@@ -26,3 +26,11 @@ val Typography = Typography(
     )
     */
 )
+
+val Typography3 = androidx.compose.material3.Typography(
+    bodyLarge = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp
+    )
+)
