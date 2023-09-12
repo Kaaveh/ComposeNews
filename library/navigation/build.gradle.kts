@@ -1,46 +1,17 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    id("composenews.android.library")
+    id("composenews.android.library.compose")
 }
 
 android {
-    namespace = "ir.kaaveh.navigation"
-    compileSdk = projectCompileSdkVersion
-
-    defaultConfig {
-        minSdk = projectMinSdkVersion
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = ComposeDependencies.kotlinCompilerExtensionVersion
-    }
+    namespace = "ir.composenews.navigation"
 }
 
 dependencies {
-    implementation(project(":feature:marketlist"))
-    implementation(project(":feature:marketdetail"))
-    implementation(project(":domain:market"))
-    api(NavigationDependencies.navigationCompose)
+    projects.apply {
+        implementation(feature.marketlist)
+        implementation(feature.marketdetail)
+        implementation(domain.market)
+    }
+    api(libs.navigation.compose)
 }

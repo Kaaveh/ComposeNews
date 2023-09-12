@@ -1,60 +1,11 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    id("com.google.dagger.hilt.android")
-    kotlin("kapt")
+    id("composenews.android.feature.presentation")
 }
 
 android {
-    namespace = "ir.kaaveh.newsdetail"
-    compileSdk = projectCompileSdkVersion
-
-    defaultConfig {
-        minSdk = projectMinSdkVersion
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = ComposeDependencies.kotlinCompilerExtensionVersion
-    }
-    packaging {
-        resources.excludes.add("META-INF/*")
-    }
+    namespace = "ir.composenews.newsdetail"
 }
 
 dependencies {
-    api(project(":library:designsystem"))
-    api(project(":library:base"))
-    implementation(project(":data:market-repository"))
-    implementation(ComposeDependencies.accompanistWebview)
-    DIDependencies.apply {
-        implementation(hiltAndroid)
-        kapt(dagerHiltCompiler)
-        implementation(hiltNavigationCompose)
-    }
-}
-
-kapt {
-    correctErrorTypes = true
+    implementation(projects.data.marketRepository)
 }

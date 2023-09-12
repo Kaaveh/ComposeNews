@@ -1,58 +1,17 @@
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
+    id("composenews.android.library")
+    id("composenews.android.library.compose")
 }
 
 android {
-    namespace = "ir.kaaveh.designsystem"
-    compileSdk = projectCompileSdkVersion
-
-    defaultConfig {
-        minSdk = projectMinSdkVersion
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = ComposeDependencies.kotlinCompilerExtensionVersion
-    }
-    packaging {
-        resources.excludes.add("META-INF/*")
-    }
+    namespace = "ir.composenews.designsystem"
 }
 
 dependencies {
-    ComposeDependencies.apply {
-        api(platform(composeBOM))
-        api(composeUi)
-        api(composeUiPreview)
-        api(composeUiTooling)
-        api(composeUiTestManifest)
-        api(composeMaterial)
-        api(composeCoil)
-        api(windowSizeClass)
-        api(accompanistAdaptive)
-    }
-    LifeCycleDependencies.apply {
-        api(lifeCycleRuntimeCompose)
+    libs.apply {
+        api(platform(compose.bom))
+        api(bundles.compose)
+        api(compose.coil)
+        api(lifecycle.runtime.compose)
     }
 }

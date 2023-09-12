@@ -1,46 +1,32 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    id("kotlin-parcelize")
+    id("composenews.android.library")
+    id("composenews.android.hilt")
+    libs.plugins.apply {
+        alias(kotlin.parcelize)
+    }
 }
 
 android {
-    namespace = "ir.kaaveh.domain"
-    compileSdk = projectCompileSdkVersion
+    namespace = "ir.composenews.domain"
 
-    defaultConfig {
-        minSdk = projectMinSdkVersion
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
+    buildFeatures {
+        compose = true
     }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get().toString()
     }
 }
 
 dependencies {
-    api(project(":library:core-test"))
-    implementation(KotlinxDependencies.coroutinesCore)
-    implementation(LifeCycleDependencies.lifeCycleViewModelKtx)
-    implementation(DIDependencies.javaxInject)
-    TestDependencies.apply {
+    api(projects.core.test)
+    libs.apply {
+        implementation((platform(compose.bom)))
+        implementation(compose.runtime)
+        implementation(javax.inject)
+        implementation(coroutines)
+        implementation(lifecycle.viewmodel.ktx)
         testImplementation(junit)
-        testImplementation(coroutinesTest)
-        testImplementation(mokitoKotlin)
+        testImplementation(coroutines.test)
+        testImplementation(mokito.kotlin)
     }
 }
