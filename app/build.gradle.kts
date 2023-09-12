@@ -44,7 +44,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = ComposeDependencies.kotlinCompilerExtensionVersion
     }
-    packagingOptions {
+    packaging {
         resources.excludes.add("META-INF/*")
     }
 }
@@ -67,6 +67,7 @@ dependencies {
     implementation(LifeCycleDependencies.lifeCycleRuntimeKtx)
     implementation(AndroidxDependencies.coreKtx)
     implementation(WorkDependencies.workRuntimeKtx)
+    implementation(AndroidxDependencies.window)
 }
 
 kapt {
