@@ -18,10 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.hilt.navigation.compose.hiltViewModel
 import ir.kaaveh.base.BaseRoute
-import ir.kaaveh.base.BaseViewModel
+import ir.kaaveh.base.MainContract
+import ir.kaaveh.base.use
 import ir.kaaveh.designsystem.preview.ThemePreviews
 import ir.kaaveh.designsystem.theme.ComposeNewsTheme
-import ir.kaaveh.base.use
+import ir.kaaveh.designsystem.utils.ContentType
 import ir.kaaveh.domain.model.Market
 import ir.kaaveh.marketlist.component.MarketListItem
 import ir.kaaveh.marketlist.preview_provider.MarketListStateProvider
@@ -30,16 +31,26 @@ import ir.kaaveh.marketlist.preview_provider.MarketListStateProvider
 fun MarketListRoute(
     viewModel: MarketListViewModel = hiltViewModel(),
     showFavoriteList: Boolean = false,
+    uiState: MainContract.State,
+    closeDetailScreen: () -> Unit,
     onNavigateToDetailScreen: (market: Market) -> Unit,
-    onProvideBaseViewModel: (baseViewModel: BaseViewModel) -> Unit,
+    contentType: ContentType
 ) {
     val (state, event) = use(viewModel = viewModel)
 
     LaunchedEffect(key1 = Unit) {
-        onProvideBaseViewModel(viewModel)
         event.invoke(MarketListContract.Event.OnSetShowFavoriteList(showFavoriteList = showFavoriteList))
         event.invoke(MarketListContract.Event.OnGetMarketList)
     }
+
+    LaunchedEffect(key1 = contentType) {
+        if (contentType == ContentType.SINGLE_PANE && !uiState.isDetailOnlyOpen) {
+            closeDetailScreen()
+        }
+    }
+
+    if (contentType == ContentType.DUAL_PANE && !state.refreshing && state.marketList.isNotEmpty() && uiState.market == null)
+        onNavigateToDetailScreen(state.marketList[0])
 
     BaseRoute(baseViewModel = viewModel) {
         MarketListScreen(
