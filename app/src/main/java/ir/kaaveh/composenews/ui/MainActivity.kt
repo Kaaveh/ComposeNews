@@ -3,48 +3,30 @@ package ir.kaaveh.composenews.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
+import androidx.activity.viewModels
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
+import com.google.accompanist.adaptive.calculateDisplayFeatures
 import dagger.hilt.android.AndroidEntryPoint
-import ir.kaaveh.base.BaseViewModel
-import ir.kaaveh.composenews.navigation.ComposeNewsNavHost
+import ir.kaaveh.base.MainContract
 import ir.kaaveh.composenews.permission.enum.PermissionType
 import ir.kaaveh.composenews.permission.manager.PermissionManager
 import ir.kaaveh.composenews.permission.manager.PermissionManagerImpl
-import ir.kaaveh.composenews.ui.component.BottomNavigationBar
 import ir.kaaveh.designsystem.theme.ComposeNewsTheme
-import ir.kaaveh.navigation.BottomNavItem
-import ir.kaaveh.navigation.Destinations
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity(), PermissionManager by PermissionManagerImpl() {
 
-    private val items = listOf(
-        BottomNavItem(
-            name = "Markets",
-            route = Destinations.MarketListScreen.route,
-            icon = Icons.Default.Home
-        ),
-        BottomNavItem(
-            name = "Favorite",
-            route = Destinations.FavoriteMarketScreen.route,
-            icon = Icons.Default.Favorite,
-        ),
-    )
 
+    private val viewModel: MainViewModel by viewModels()
+
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -56,42 +38,95 @@ class MainActivity : ComponentActivity(), PermissionManager by PermissionManager
         setContent {
             ComposeNewsTheme {
 
-                // TODO: handle viewModel more properly
-                var baseViewModel: BaseViewModel by remember {
-                    mutableStateOf(BaseViewModel())
-                }
-                val navController = rememberNavController()
-                val backStackEntry = navController.currentBackStackEntryAsState()
-                val currentScreenRoute = backStackEntry.value?.destination?.route
-                val bottomNavVisible = items.any {
-                    it.route == currentScreenRoute
-                }
+                val windowSize = calculateWindowSizeClass(this)
+                val displayFeatures = calculateDisplayFeatures(this)
+                val uiState = viewModel.state.collectAsState()
 
-                Scaffold(
-                    bottomBar = {
-                        AnimatedVisibility(
-                            visible = bottomNavVisible,
-                            enter = slideInVertically { it },
-                            exit = slideOutVertically { it },
-                        ) {
-                            BottomNavigationBar(
-                                items = items,
-                                currentScreenRoute = currentScreenRoute
-                            ) {
-                                navController.navigate(it.route)
-                            }
-                        }
+                ComposeNewsApp(
+                    windowSize = windowSize,
+                    displayFeatures = displayFeatures,
+                    uiState = uiState.value,
+                    closeDetailScreen = { viewModel.closeDetailScreen() },
+                    onMarketSelected = { market, contentType ->
+                        viewModel.event(
+                            MainContract.Event.SetMarket(
+                                market = market,
+                                contentType = contentType
+                            )
+                        )
                     }
-                ) { paddingValues ->
-                    ComposeNewsNavHost(
-                        navController = navController,
-                        modifier = Modifier.padding(bottom = paddingValues.calculateBottomPadding()),
-                        onProvideBaseViewModel = { viewModel ->
-                            baseViewModel = viewModel
-                        }
-                    )
-                }
+                )
             }
         }
+    }
+}
+
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+@Preview(showBackground = true)
+@Composable
+fun ComposeNewsAppPreview() {
+    ComposeNewsTheme {
+        ComposeNewsApp(
+            windowSize = WindowSizeClass.calculateFromSize(DpSize(400.dp, 900.dp)),
+            displayFeatures = emptyList(),
+            uiState = MainContract.State(),
+            closeDetailScreen = {},
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+@Preview(showBackground = true, widthDp = 700, heightDp = 500)
+@Composable
+fun ComposeNewsAppPreviewTablet() {
+    ComposeNewsTheme {
+        ComposeNewsApp(
+            windowSize = WindowSizeClass.calculateFromSize(DpSize(700.dp, 500.dp)),
+            displayFeatures = emptyList(),
+            uiState = MainContract.State(),
+            closeDetailScreen = {},
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+@Preview(showBackground = true, widthDp = 500, heightDp = 700)
+@Composable
+fun ComposeNewsAppPreviewTabletPortrait() {
+    ComposeNewsTheme {
+        ComposeNewsApp(
+            windowSize = WindowSizeClass.calculateFromSize(DpSize(500.dp, 700.dp)),
+            displayFeatures = emptyList(),
+            uiState = MainContract.State(),
+            closeDetailScreen = {},
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+@Preview(showBackground = true, widthDp = 1100, heightDp = 600)
+@Composable
+fun ComposeNewsAppPreviewDesktop() {
+    ComposeNewsTheme {
+        ComposeNewsApp(
+            windowSize = WindowSizeClass.calculateFromSize(DpSize(1100.dp, 600.dp)),
+            displayFeatures = emptyList(),
+            uiState = MainContract.State(),
+            closeDetailScreen = {},
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+@Preview(showBackground = true, widthDp = 600, heightDp = 1100)
+@Composable
+fun ComposeNewsAppPreviewDesktopPortrait() {
+    ComposeNewsTheme {
+        ComposeNewsApp(
+            windowSize = WindowSizeClass.calculateFromSize(DpSize(600.dp, 1100.dp)),
+            displayFeatures = emptyList(),
+            uiState = MainContract.State(),
+            closeDetailScreen = {},
+        )
     }
 }
