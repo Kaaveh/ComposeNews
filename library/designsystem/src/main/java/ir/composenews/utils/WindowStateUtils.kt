@@ -1,4 +1,4 @@
-package ir.kaaveh.designsystem.utils
+package ir.composenews.utils
 
 import android.graphics.Rect
 import androidx.window.layout.FoldingFeature

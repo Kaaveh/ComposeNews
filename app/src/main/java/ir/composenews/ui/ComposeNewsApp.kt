@@ -1,4 +1,4 @@
-package ir.kaaveh.composenews.ui
+package ir.composenews.ui
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
@@ -18,18 +18,18 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.window.layout.DisplayFeature
 import androidx.window.layout.FoldingFeature
-import ir.kaaveh.base.MainContract
-import ir.kaaveh.composenews.navigation.ComposeNewsNavHost
-import ir.kaaveh.composenews.ui.component.BottomNavigationBar
-import ir.kaaveh.composenews.ui.component.ComposeNewsNavigationRail
-import ir.kaaveh.designsystem.utils.ContentType
-import ir.kaaveh.designsystem.utils.DevicePosture
-import ir.kaaveh.designsystem.utils.NavigationType
-import ir.kaaveh.designsystem.utils.isBookPosture
-import ir.kaaveh.designsystem.utils.isSeparating
-import ir.kaaveh.domain.model.Market
-import ir.kaaveh.navigation.BottomNavItem
-import ir.kaaveh.navigation.Destinations
+import ir.composenews.base.MainContract
+import ir.composenews.domain.model.Market
+import ir.composenews.navigation.BottomNavItem
+import ir.composenews.navigation.ComposeNewsNavHost
+import ir.composenews.navigation.Destinations
+import ir.composenews.ui.component.BottomNavigationBar
+import ir.composenews.ui.component.ComposeNewsNavigationRail
+import ir.composenews.utils.ContentType
+import ir.composenews.utils.DevicePosture
+import ir.composenews.utils.NavigationType
+import ir.composenews.utils.isBookPosture
+import ir.composenews.utils.isSeparating
 
 @Composable
 fun ComposeNewsApp(

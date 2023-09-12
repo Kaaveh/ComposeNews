@@ -6,18 +6,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import ir.composenews.navigation.graph.favoriteMarketList
-import ir.composenews.navigation.graph.marketDetail
 import ir.composenews.navigation.graph.marketList
-import ir.composenews.base.BaseViewModel
 import androidx.window.layout.DisplayFeature
-import ir.kaaveh.base.MainContract
-import ir.kaaveh.designsystem.utils.ContentType
-import ir.kaaveh.domain.model.Market
-import ir.kaaveh.navigation.Destinations
-import ir.kaaveh.navigation.graph.favoriteList
-import ir.kaaveh.navigation.graph.marketDetail
-import ir.kaaveh.navigation.graph.marketList
+import ir.composenews.base.MainContract
+import ir.composenews.domain.model.Market
+import ir.composenews.navigation.graph.favoriteList
+import ir.composenews.navigation.graph.marketDetail
+import ir.composenews.utils.ContentType
 
 @Composable
 fun ComposeNewsNavHost(

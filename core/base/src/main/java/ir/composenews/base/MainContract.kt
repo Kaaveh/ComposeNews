@@ -1,6 +1,6 @@
-package ir.kaaveh.base
+package ir.composenews.base
 
-import ir.kaaveh.designsystem.utils.ContentType
+import ir.composenews.utils.ContentType
 
 interface MainContract :
     UnidirectionalViewModel<MainContract.Event, MainContract.State> {

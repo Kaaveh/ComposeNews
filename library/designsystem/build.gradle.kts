@@ -13,5 +13,7 @@ dependencies {
         api(bundles.compose)
         api(compose.coil)
         api(lifecycle.runtime.compose)
+        api(window.size)
+        api(accomponist.adaptive)
     }
 }

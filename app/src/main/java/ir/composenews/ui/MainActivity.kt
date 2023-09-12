@@ -14,20 +14,11 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.adaptive.calculateDisplayFeatures
 import dagger.hilt.android.AndroidEntryPoint
-import ir.kaaveh.base.MainContract
-import ir.kaaveh.composenews.permission.enum.PermissionType
-import ir.kaaveh.composenews.permission.manager.PermissionManager
-import ir.kaaveh.composenews.permission.manager.PermissionManagerImpl
-import ir.kaaveh.designsystem.theme.ComposeNewsTheme
-import ir.composenews.base.BaseViewModel
-import ir.composenews.navigation.ComposeNewsNavHost
+import ir.composenews.base.MainContract
 import ir.composenews.permission.enum.PermissionType
 import ir.composenews.permission.manager.PermissionManager
 import ir.composenews.permission.manager.PermissionManagerImpl
-import ir.composenews.ui.component.BottomNavigationBar
 import ir.composenews.designsystem.theme.ComposeNewsTheme
-import ir.composenews.navigation.BottomNavItem
-import ir.composenews.navigation.Destinations
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity(), PermissionManager by PermissionManagerImpl() {

@@ -9,12 +9,12 @@ import androidx.window.layout.DisplayFeature
 import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
 import com.google.accompanist.adaptive.TwoPane
 import ir.composenews.base.MainContract
-import ir.kaaveh.designsystem.utils.ContentType
-import ir.kaaveh.domain.model.Market
-import ir.kaaveh.marketdetail.MarketDetailRoute
+import ir.composenews.domain.model.Market
+import ir.composenews.marketdetail.MarketDetailRoute
 import ir.composenews.marketlist.MarketListRoute
 import ir.composenews.navigation.Destinations
 import ir.composenews.navigation.extension_function.parcelableData
+import ir.composenews.utils.ContentType
 
 fun NavGraphBuilder.marketList(
     showFavorite: Boolean,

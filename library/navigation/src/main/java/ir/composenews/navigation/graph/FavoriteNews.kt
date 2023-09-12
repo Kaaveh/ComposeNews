@@ -4,7 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.window.layout.DisplayFeature
 import ir.composenews.base.MainContract
-import ir.kaaveh.designsystem.utils.ContentType
+import ir.composenews.utils.ContentType
 import ir.composenews.domain.model.Market
 import ir.composenews.navigation.Destinations
 import ir.composenews.navigation.extension_function.parcelableData

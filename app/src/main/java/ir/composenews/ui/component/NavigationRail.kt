@@ -1,12 +1,12 @@
-package ir.kaaveh.composenews.ui.component
+package ir.composenews.ui.component
 
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.material.NavigationRail
 import androidx.compose.material.NavigationRailItem
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import ir.kaaveh.designsystem.component.BottomNavigationIcon
-import ir.kaaveh.navigation.BottomNavItem
+import ir.composenews.designsystem.component.BottomNavigationIcon
+import ir.composenews.navigation.BottomNavItem
 
 @Composable
 fun ComposeNewsNavigationRail(
