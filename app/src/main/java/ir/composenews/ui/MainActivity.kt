@@ -7,10 +7,10 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,14 +20,14 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ir.composenews.base.BaseViewModel
+import ir.composenews.designsystem.theme.ComposeNewsTheme
+import ir.composenews.navigation.BottomNavItem
 import ir.composenews.navigation.ComposeNewsNavHost
+import ir.composenews.navigation.Destinations
 import ir.composenews.permission.enum.PermissionType
 import ir.composenews.permission.manager.PermissionManager
 import ir.composenews.permission.manager.PermissionManagerImpl
 import ir.composenews.ui.component.BottomNavigationBar
-import ir.composenews.designsystem.theme.ComposeNewsTheme
-import ir.composenews.navigation.BottomNavItem
-import ir.composenews.navigation.Destinations
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity(), PermissionManager by PermissionManagerImpl() {

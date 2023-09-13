@@ -1,7 +1,7 @@
 package ir.composenews.ui.component
 
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -15,13 +15,13 @@ fun BottomNavigationBar(
     modifier: Modifier = Modifier,
     onItemClick: (BottomNavItem) -> Unit
 ) {
-    BottomNavigation(
+    NavigationBar(
         modifier = modifier,
-        elevation = 5.dp
+        tonalElevation = 12.dp
     ) {
         items.forEach { item ->
             val selected = item.route == currentScreenRoute
-            BottomNavigationItem(
+            NavigationBarItem(
                 selected = selected,
                 onClick = { onItemClick(item) },
                 icon = {

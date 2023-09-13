@@ -10,26 +10,26 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import ir.composenews.base.BaseRoute
 import ir.composenews.base.BaseViewModel
+import ir.composenews.base.use
 import ir.composenews.designsystem.component.FavoriteIcon
 import ir.composenews.designsystem.component.QuadLineChart
 import ir.composenews.designsystem.preview.ThemePreviews
 import ir.composenews.designsystem.theme.ComposeNewsTheme
-import ir.composenews.base.use
 import ir.composenews.domain.model.Market
 import ir.composenews.marketdetail.preview_provider.MarketDetailStateProvider
 
@@ -94,11 +94,11 @@ private fun MarketDetailScreen(
                     ) {
                         Text(
                             text = marketDetailState.market?.name ?: "--",
-                            style = MaterialTheme.typography.h5
+                            style = MaterialTheme.typography.headlineSmall
                         )
                         Text(
                             text = "${marketDetailState.market?.currentPrice} $",
-                            style = MaterialTheme.typography.body1
+                            style = MaterialTheme.typography.bodyLarge
                         )
                     }
                 }
@@ -111,8 +111,8 @@ private fun MarketDetailScreen(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(16.dp),
+            shape = MaterialTheme.shapes.large,
             onClick = {},
-            backgroundColor = Color.White,
         ) {
             FavoriteIcon(isFavorite = marketDetailState.market?.isFavorite ?: false) {
                 onFavoriteClick(marketDetailState.market)
