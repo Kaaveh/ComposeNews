@@ -22,28 +22,39 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.hilt.navigation.compose.hiltViewModel
 import ir.composenews.base.BaseRoute
-import ir.composenews.base.BaseViewModel
+import ir.composenews.base.MainContract
 import ir.composenews.base.use
 import ir.composenews.designsystem.preview.ThemePreviews
 import ir.composenews.designsystem.theme.ComposeNewsTheme
 import ir.composenews.domain.model.Market
 import ir.composenews.marketlist.component.MarketListItem
 import ir.composenews.marketlist.preview_provider.MarketListStateProvider
+import ir.composenews.utils.ContentType
 
 @Composable
 fun MarketListRoute(
     viewModel: MarketListViewModel = hiltViewModel(),
     showFavoriteList: Boolean = false,
+    uiState: MainContract.State,
+    closeDetailScreen: () -> Unit,
     onNavigateToDetailScreen: (market: Market) -> Unit,
-    onProvideBaseViewModel: (baseViewModel: BaseViewModel) -> Unit,
+    contentType: ContentType
 ) {
     val (state, event) = use(viewModel = viewModel)
 
     LaunchedEffect(key1 = Unit) {
-        onProvideBaseViewModel(viewModel)
         event.invoke(MarketListContract.Event.OnSetShowFavoriteList(showFavoriteList = showFavoriteList))
         event.invoke(MarketListContract.Event.OnGetMarketList)
     }
+
+    LaunchedEffect(key1 = contentType) {
+        if (contentType == ContentType.SINGLE_PANE && !uiState.isDetailOnlyOpen) {
+            closeDetailScreen()
+        }
+    }
+
+    if (contentType == ContentType.DUAL_PANE && !state.refreshing && state.marketList.isNotEmpty() && uiState.market == null)
+        onNavigateToDetailScreen(state.marketList[0])
 
     BaseRoute(baseViewModel = viewModel) {
         MarketListScreen(

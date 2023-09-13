@@ -24,12 +24,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import ir.composenews.base.BaseRoute
-import ir.composenews.base.BaseViewModel
+import ir.composenews.base.use
 import ir.composenews.designsystem.component.FavoriteIcon
 import ir.composenews.designsystem.component.QuadLineChart
 import ir.composenews.designsystem.preview.ThemePreviews
 import ir.composenews.designsystem.theme.ComposeNewsTheme
-import ir.composenews.base.use
 import ir.composenews.domain.model.Market
 import ir.composenews.marketdetail.preview_provider.MarketDetailStateProvider
 
@@ -37,7 +36,6 @@ import ir.composenews.marketdetail.preview_provider.MarketDetailStateProvider
 fun MarketDetailRoute(
     market: Market?,
     viewModel: MarketDetailViewModel = hiltViewModel(),
-    onProvideBaseViewModel: (baseViewModel: BaseViewModel) -> Unit,
 ) {
     val (state, event) = use(viewModel = viewModel)
 
@@ -46,10 +44,6 @@ fun MarketDetailRoute(
         market?.let {
             event.invoke(MarketDetailContract.Event.GetMarketChart(marketId = market.id))
         }
-    }
-
-    LaunchedEffect(key1 = Unit) {
-        onProvideBaseViewModel(viewModel)
     }
 
     BaseRoute(baseViewModel = viewModel) {

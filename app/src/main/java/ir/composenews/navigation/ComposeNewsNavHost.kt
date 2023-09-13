@@ -6,16 +6,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import ir.composenews.navigation.graph.favoriteMarketList
-import ir.composenews.navigation.graph.marketDetail
 import ir.composenews.navigation.graph.marketList
-import ir.composenews.base.BaseViewModel
+import androidx.window.layout.DisplayFeature
+import ir.composenews.base.MainContract
+import ir.composenews.domain.model.Market
+import ir.composenews.navigation.graph.favoriteList
+import ir.composenews.navigation.graph.marketDetail
+import ir.composenews.utils.ContentType
 
 @Composable
 fun ComposeNewsNavHost(
     navController: NavHostController,
     modifier: Modifier,
-    onProvideBaseViewModel: (baseViewModel: BaseViewModel) -> Unit,
+    contentType: ContentType,
+    displayFeatures: List<DisplayFeature>,
+    onMarketSelected: ((Market, ContentType) -> Unit)? = null,
+    closeDetailScreen: () -> Unit,
+    uiState: MainContract.State
 ) {
     NavHost(
         navController = navController,
@@ -24,8 +31,23 @@ fun ComposeNewsNavHost(
         enterTransition = { EnterTransition.None },
         exitTransition = { ExitTransition.None },
     ) {
-        marketList(navController, onProvideBaseViewModel)
-        favoriteMarketList(navController, onProvideBaseViewModel)
-        marketDetail(onProvideBaseViewModel)
+        marketList(
+            displayFeature = displayFeatures,
+            contentType = contentType,
+            showFavorite = false,
+            onMarketSelected = onMarketSelected,
+            closeDetailScreen = closeDetailScreen,
+            uiState = uiState
+        )
+        favoriteList(
+            displayFeature = displayFeatures,
+            contentType = contentType,
+            onMarketSelected = onMarketSelected,
+            closeDetailScreen = closeDetailScreen,
+            uiState = uiState
+        )
+        marketDetail(
+            uiState = uiState,
+        )
     }
 }
