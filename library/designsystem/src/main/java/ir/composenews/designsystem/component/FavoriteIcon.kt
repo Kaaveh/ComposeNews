@@ -11,11 +11,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,7 +39,7 @@ fun FavoriteIcon(
         updateTransition(targetState = animationState, label = "favorite_animation_state")
 
     val colorTintFavorite by favoriteTransition.animateColor(label = "favorite_color") { state ->
-        if (state) MaterialTheme.colors.error else Color.LightGray
+        if (state) Color.Red else Color.LightGray
     }
 
     val scale by favoriteTransition.animateFloat(

@@ -10,11 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Surface
-import androidx.compose.material.pullrefresh.PullRefreshIndicator
-import androidx.compose.material.pullrefresh.pullRefresh
-import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -24,6 +20,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import ir.composenews.base.BaseRoute
 import ir.composenews.base.MainContract
 import ir.composenews.base.use
+import ir.composenews.designsystem.component.pull_refresh_indicator.PullRefreshIndicator
+import ir.composenews.designsystem.component.pull_refresh_indicator.pullRefresh
+import ir.composenews.designsystem.component.pull_refresh_indicator.rememberPullRefreshState
 import ir.composenews.designsystem.preview.ThemePreviews
 import ir.composenews.designsystem.theme.ComposeNewsTheme
 import ir.composenews.domain.model.Market
@@ -70,7 +69,7 @@ fun MarketListRoute(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun MarketListScreen(
     marketListState: MarketListContract.State,

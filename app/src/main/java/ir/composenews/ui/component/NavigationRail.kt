@@ -1,8 +1,8 @@
 package ir.composenews.ui.component
 
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.material.NavigationRail
-import androidx.compose.material.NavigationRailItem
+import androidx.compose.material3.NavigationRail
+import androidx.compose.material3.NavigationRailItem
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import ir.composenews.designsystem.component.BottomNavigationIcon
