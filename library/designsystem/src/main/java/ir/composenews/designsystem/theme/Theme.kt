@@ -104,6 +104,8 @@ fun ComposeNewsTheme(
             window.statusBarColor = colorScheme.primary.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars =
                 useDarkTheme
+            WindowCompat.getInsetsController(window,view).isAppearanceLightNavigationBars = useDarkTheme.not()
+            window.navigationBarColor = colorScheme.background.toArgb()
         }
     }
 
