@@ -1,5 +1,5 @@
 plugins {
-    id("composenews.android.feature.presentation")
+    id("composenews.android.feature")
 }
 
 android {
