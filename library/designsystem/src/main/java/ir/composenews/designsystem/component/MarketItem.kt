@@ -1,5 +1,8 @@
 package ir.composenews.designsystem.component
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -14,20 +17,100 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DismissDirection
+import androidx.compose.material3.DismissValue
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberDismissState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import ir.composenews.designsystem.preview.ThemePreviews
 import ir.composenews.designsystem.theme.ComposeNewsTheme
+import kotlinx.coroutines.delay
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MarketItem(
+    modifier: Modifier,
+    name: String,
+    urlToImage: String,
+    price: String,
+    isFavorite: Boolean,
+    showFavoriteList: Boolean,
+    onItemClick: () -> Unit,
+    onFavoriteClick: () -> Unit,
+) {
+    val positionalThreshold = with(LocalDensity.current) { 170.dp.toPx() }
+    var show by remember {
+        mutableStateOf(true)
+    }
+    val dismissState = rememberDismissState(
+        confirmValueChange = {
+            if (it == DismissValue.DismissedToStart) {
+                show = false
+                true
+            } else {
+                false
+            }
+        }, positionalThreshold = { positionalThreshold }
+    )
+
+    if (showFavoriteList) {
+        AnimatedVisibility(visible = show, exit = fadeOut(spring())) {
+            SwipeToDismiss(state = dismissState,
+                directions = setOf(DismissDirection.EndToStart),
+                background = {
+                    DismissBackgroundSwipe(
+                        modifier = Modifier,
+                        dismissState = dismissState,
+                    )
+                }, dismissContent = {
+                    MarketItemCard(
+                        modifier = modifier,
+                        name = name,
+                        urlToImage = urlToImage,
+                        price = price,
+                        isFavorite = isFavorite,
+                        onItemClick = { onItemClick() },
+                        onFavoriteClick = { onFavoriteClick() },
+                    )
+                })
+        }
+    } else {
+        MarketItemCard(
+            modifier = modifier,
+            name = name,
+            urlToImage = urlToImage,
+            price = price,
+            isFavorite = isFavorite,
+            onItemClick = { onItemClick() },
+            onFavoriteClick = { onFavoriteClick() },
+        )
+    }
+
+    LaunchedEffect(show) {
+        if (show.not()) {
+            delay(300)
+            onFavoriteClick()
+        }
+    }
+}
+
+@Composable
+private fun MarketItemCard(
     modifier: Modifier,
     name: String,
     urlToImage: String,
@@ -87,6 +170,7 @@ private fun MarketItemPrev() {
                 urlToImage = "",
                 price = "100000",
                 isFavorite = false,
+                showFavoriteList = false,
                 onItemClick = {},
                 onFavoriteClick = {}
             )
