@@ -31,9 +31,7 @@ open class BaseViewModel(
         baseEffectChannel.trySend(BaseContract.BaseEffect.OnBackPressed)
     }
 
-    private fun onRetryPressed() {
-
-    }
+    private fun onRetryPressed() = Unit
 
     protected suspend inline fun <T> onUI(crossinline action: suspend () -> T): T {
         return withContext(dispatcherProvider.ui) {
@@ -52,5 +50,4 @@ open class BaseViewModel(
             action()
         }
     }
-
 }

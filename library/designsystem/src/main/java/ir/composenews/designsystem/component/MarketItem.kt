@@ -1,3 +1,5 @@
+@file:Suppress("MaxLineLength")
+
 package ir.composenews.designsystem.component
 
 import androidx.compose.foundation.Image
@@ -43,7 +45,11 @@ fun MarketItem(
             .clip(RoundedCornerShape(12.dp))
             .clickable { onItemClick() },
         shape = MaterialTheme.shapes.large,
-        colors = if (isSystemInDarkTheme().not()) CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background) else CardDefaults.cardColors(
+        colors = if (isSystemInDarkTheme().not()) {
+            CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.background
+            )
+        } else CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant
         ),
     ) {

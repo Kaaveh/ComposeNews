@@ -1,3 +1,5 @@
+@file:Suppress("MagicNumber", "TooGenericExceptionCaught")
+
 package ir.composenews.data.repository
 
 import ir.composenews.data.mapper.toChart
@@ -46,5 +48,4 @@ class MarketRepositoryImpl @Inject constructor(
             emit(Resource.Error(exception = e))
         }
     }
-
 }

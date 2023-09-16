@@ -1,18 +1,4 @@
-/*
- * Copyright 2022 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+@file:Suppress("MagicNumber", "PackageNaming", "PackageName")
 
 package ir.composenews.designsystem.component.pull_refresh_indicator
 
@@ -65,9 +51,9 @@ import kotlin.math.pow
  * @param contentColor The color of the indicator's arc and arrow.
  * @param scale A boolean controlling whether the indicator's size scales with pull progress or not.
  */
-@Composable
 // TODO(b/244423199): Consider whether the state parameter should be replaced with lambdas to
 //  enable people to use this indicator with custom pull-to-refresh components.
+@Composable
 fun PullRefreshIndicator(
     refreshing: Boolean,
     state: PullRefreshState,
@@ -90,7 +76,8 @@ fun PullRefreshIndicator(
     ) {
         Crossfade(
             targetState = refreshing,
-            animationSpec = tween(durationMillis = CrossfadeDurationMs), label = ""
+            animationSpec = tween(durationMillis = CrossfadeDurationMs),
+            label = ""
         ) { refreshing ->
             Box(
                 modifier = Modifier.fillMaxSize(),
@@ -129,7 +116,9 @@ private fun CircularArrowIndicator(
         }
     }
 
-    val alphaState = animateFloatAsState(targetValue = targetAlpha, animationSpec = AlphaTween,
+    val alphaState = animateFloatAsState(
+        targetValue = targetAlpha,
+        animationSpec = AlphaTween,
         label = ""
     )
 

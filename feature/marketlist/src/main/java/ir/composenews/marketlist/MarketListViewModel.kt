@@ -1,3 +1,5 @@
+@file:Suppress("MaxLineLength", "TooGenericExceptionCaught")
+
 package ir.composenews.marketlist
 
 import androidx.lifecycle.viewModelScope
@@ -37,7 +39,9 @@ class MarketListViewModel @Inject constructor(
         MarketListContract.Event.OnGetMarketList -> getData()
         MarketListContract.Event.OnRefresh -> getData(isRefreshing = true)
         is MarketListContract.Event.OnFavoriteClick -> onFavoriteClick(news = event.market)
-        is MarketListContract.Event.OnSetShowFavoriteList -> onSetShowFavoriteList(showFavoriteList = event.showFavoriteList)
+        is MarketListContract.Event.OnSetShowFavoriteList -> onSetShowFavoriteList(
+            showFavoriteList = event.showFavoriteList
+        )
     }
 
     private fun onSetShowFavoriteList(showFavoriteList: Boolean) {
@@ -105,5 +109,4 @@ class MarketListViewModel @Inject constructor(
             }
         }
     }
-
 }

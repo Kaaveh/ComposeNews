@@ -1,3 +1,5 @@
+@file:Suppress("PackageNaming", "PackageName")
+
 package ir.composenews.core_test
 
 import ir.composenews.core_test.dispatcher.DispatcherProvider

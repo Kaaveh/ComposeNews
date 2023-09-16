@@ -1,3 +1,5 @@
+@file:Suppress("SwallowedException", "TooGenericExceptionCaught")
+
 package ir.composenews.sync.worker
 
 import android.content.Context
@@ -39,5 +41,4 @@ class SyncWorker @AssistedInject constructor(
             .setInputData(SyncWorker::class.delegatedData())
             .build()
     }
-
 }

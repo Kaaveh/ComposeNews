@@ -27,7 +27,5 @@ object LocalDatasourceModule {
 
     @Singleton
     @Provides
-    fun provideMarketsDao(db: MarketsDatabase): MarketDao =
-        db.marketDao
-
+    fun provideMarketsDao(db: MarketsDatabase): MarketDao = db.marketDao
 }

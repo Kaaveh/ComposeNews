@@ -8,7 +8,7 @@ import ir.composenews.remotedatasource.test.marketDto
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class MarketDtoMapperTest{
+class MarketDtoMapperTest {
 
     @Test
     fun marketDtoToMarket() {
@@ -21,5 +21,4 @@ class MarketDtoMapperTest{
         val mappedRemoteMarket = marketDto.toRemoteMarketDto()
         assertEquals(mappedRemoteMarket, remoteMarketDto)
     }
-
 }

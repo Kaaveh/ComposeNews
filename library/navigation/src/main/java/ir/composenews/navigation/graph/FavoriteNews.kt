@@ -1,3 +1,5 @@
+@file:Suppress("ImportOrdering")
+
 package ir.composenews.navigation.graph
 
 import androidx.navigation.NavGraphBuilder

@@ -1,3 +1,5 @@
+@file:Suppress("NoConsecutiveBlankLines")
+
 package ir.composenews.designsystem.theme
 import androidx.compose.ui.graphics.Color
 

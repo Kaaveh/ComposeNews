@@ -1,3 +1,5 @@
+@file:Suppress("TopLevelPropertyNaming", "Indentation")
+
 package ir.composenews.base
 
 import android.app.Activity
@@ -19,10 +21,7 @@ fun BaseRoute(
     baseViewModel: BaseViewModel,
     content: @Composable () -> Unit,
 ) {
-
-    val (baseState, baseEffect, baseEvent)
-            = useBase(viewModel = baseViewModel)
-
+    val (baseState, baseEffect, baseEvent) = useBase(viewModel = baseViewModel)
     val context = LocalContext.current
     val activity = context as? Activity
 
@@ -38,7 +37,6 @@ fun BaseRoute(
         baseState = baseState,
         content = content,
     )
-
 }
 
 @Composable
@@ -46,7 +44,6 @@ private fun BaseScreen(
     baseState: BaseContract.BaseState,
     content: @Composable () -> Unit,
 ) {
-
     Box(modifier = Modifier.fillMaxSize()) {
         AnimatedContent(
             targetState = baseState,

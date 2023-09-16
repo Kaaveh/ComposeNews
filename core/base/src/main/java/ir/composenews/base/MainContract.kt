@@ -13,5 +13,4 @@ interface MainContract :
     sealed class Event {
         data class SetMarket(val market: Any?, val contentType: ContentType) : Event()
     }
-
 }

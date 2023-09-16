@@ -1,3 +1,5 @@
+@file:Suppress("MaxLineLength", "ComplexCondition")
+
 package ir.composenews.marketlist
 
 import androidx.compose.animation.AnimatedVisibility
@@ -30,6 +32,9 @@ import ir.composenews.marketlist.component.MarketListItem
 import ir.composenews.marketlist.preview_provider.MarketListStateProvider
 import ir.composenews.utils.ContentType
 
+/**
+ * LongParameterList - > compose unimited
+ */
 @Composable
 fun MarketListRoute(
     viewModel: MarketListViewModel = hiltViewModel(),
@@ -52,8 +57,9 @@ fun MarketListRoute(
         }
     }
 
-    if (contentType == ContentType.DUAL_PANE && !state.refreshing && state.marketList.isNotEmpty() && uiState.market == null)
+    if (contentType == ContentType.DUAL_PANE && !state.refreshing && state.marketList.isNotEmpty() && uiState.market == null) {
         onNavigateToDetailScreen(state.marketList[0])
+    }
 
     BaseRoute(baseViewModel = viewModel) {
         MarketListScreen(

@@ -26,16 +26,18 @@ object RemoteDatasourceModule {
         app: Application
     ): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(ChuckerInterceptor(app))
-        .addNetworkInterceptor(HttpLoggingInterceptor { message ->
-            println("LOG-NET: $message")
-        }.apply {
-            level = HttpLoggingInterceptor.Level.BODY
-        })
+        .addNetworkInterceptor(
+            HttpLoggingInterceptor { message ->
+                println("LOG-NET: $message")
+            }.apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            }
+        )
         .build()
 
     @Provides
     @Singleton
-    fun providesJson():Json = Json {
+    fun providesJson(): Json = Json {
         ignoreUnknownKeys = true
     }
 
@@ -43,7 +45,7 @@ object RemoteDatasourceModule {
     @Provides
     fun provideRetrofit(
         client: OkHttpClient,
-        json:Json
+        json: Json
     ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -57,5 +59,4 @@ object RemoteDatasourceModule {
     fun provideMarketsApi(
         retrofit: Retrofit
     ): MarketsApi = retrofit.create(MarketsApi::class.java)
-
 }

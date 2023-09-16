@@ -1,3 +1,5 @@
+@file:Suppress("ImportOrdering")
+
 package ir.composenews.marketdetail
 
 import androidx.lifecycle.viewModelScope
@@ -69,11 +71,11 @@ class MarketDetailViewModel @Inject constructor(
                 when (result) {
                     is Resource.Success -> {
                         result.data?.let { chart ->
-                            if (!isRefreshing)
+                            if (!isRefreshing) {
                                 mutableBaseState.update {
                                     BaseContract.BaseState.OnSuccess
                                 }
-                            else
+                            } else
                                 mutableState.update {
                                     MarketDetailContract.State(
                                         refreshing = false,
@@ -104,5 +106,4 @@ class MarketDetailViewModel @Inject constructor(
             }
             .launchIn(viewModelScope)
     }
-
 }

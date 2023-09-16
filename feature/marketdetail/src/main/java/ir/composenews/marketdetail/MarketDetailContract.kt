@@ -19,5 +19,4 @@ interface MarketDetailContract :
         data class GetMarketChart(val marketId: String) : Event()
         data class OnFavoriteClick(val market: Market?) : Event()
     }
-
 }

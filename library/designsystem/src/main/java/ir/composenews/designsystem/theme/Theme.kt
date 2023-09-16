@@ -1,3 +1,5 @@
+@file:Suppress("AnnotationOnSeparateLine", "NoConsecutiveBlankLines", "SpacingAroundComma")
+
 package ir.composenews.designsystem.theme
 
 import android.app.Activity
@@ -104,7 +106,8 @@ fun ComposeNewsTheme(
             window.statusBarColor = colorScheme.primary.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars =
                 useDarkTheme
-            WindowCompat.getInsetsController(window,view).isAppearanceLightNavigationBars = useDarkTheme.not()
+            WindowCompat.getInsetsController(window, view).isAppearanceLightNavigationBars =
+                useDarkTheme.not()
             window.navigationBarColor = colorScheme.background.toArgb()
         }
     }

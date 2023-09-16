@@ -18,5 +18,4 @@ interface BaseContract :
         data object OnBackPressed : BaseEvent()
         data object OnRetryPressed : BaseEvent()
     }
-
 }

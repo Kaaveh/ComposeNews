@@ -62,7 +62,6 @@ private fun MarketDetailScreen(
     onFavoriteClick: (market: Market?) -> Unit,
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
-
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -112,7 +111,6 @@ private fun MarketDetailScreen(
             }
         }
     }
-
 }
 
 @ThemePreviews
