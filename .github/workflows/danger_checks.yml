@@ -17,7 +17,7 @@ jobs:
       - name: Set Up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.2.3
+          ruby-version: 2.6
 
       - name: Danger Checks
         run: |
