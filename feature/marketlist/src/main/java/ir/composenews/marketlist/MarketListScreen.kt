@@ -59,6 +59,7 @@ fun MarketListRoute(
         MarketListScreen(
             marketListState = state,
             onNavigateToDetailScreen = onNavigateToDetailScreen,
+            showFavoriteList = showFavoriteList,
             onFavoriteClick = { market ->
                 event.invoke(MarketListContract.Event.OnFavoriteClick(market = market))
             },
@@ -73,6 +74,7 @@ fun MarketListRoute(
 @Composable
 private fun MarketListScreen(
     marketListState: MarketListContract.State,
+    showFavoriteList: Boolean,
     onNavigateToDetailScreen: (market: Market) -> Unit,
     onFavoriteClick: (market: Market) -> Unit,
     onRefresh: () -> Unit,
@@ -105,6 +107,7 @@ private fun MarketListScreen(
                         MarketListItem(
                             modifier = Modifier,
                             market = market,
+                            showFavoriteList = showFavoriteList,
                             onItemClick = {
                                 onNavigateToDetailScreen(market)
                             },
@@ -134,6 +137,7 @@ private fun MarketListScreenPrev(
         Surface {
             MarketListScreen(
                 marketListState = marketListState,
+                showFavoriteList = false,
                 onNavigateToDetailScreen = {},
                 onFavoriteClick = {},
                 onRefresh = {},
