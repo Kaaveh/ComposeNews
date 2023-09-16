@@ -35,7 +35,7 @@ jobs:
       - name: Test
         run: ./gradlew test
 
-      - name: Lint Checks
+      - name: Satis Analysis
         run: ./gradlew lintKotlin
 
       - run: echo "Assembling main outputs"
