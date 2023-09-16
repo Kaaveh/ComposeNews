@@ -6,25 +6,8 @@ plugins {
         alias(kotlin.android) apply false
         alias(hilt.android) apply false
         alias(kapt) apply false
-    }
-}
-
-// Run it with: gradle assembleRelease -PcomposeCompilerReports=true
-subprojects {
-    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-        kotlinOptions {
-            if (project.findProperty("composeCompilerReports") == "true") {
-                freeCompilerArgs += listOf(
-                    "-P",
-                    "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=${project.buildDir.absolutePath}/compose_compiler"
-                )
-            }
-            if (project.findProperty("composeCompilerMetrics") == "true") {
-                freeCompilerArgs += listOf(
-                    "-P",
-                    "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=${project.buildDir.absolutePath}/compose_compiler"
-                )
-            }
-        }
+        id("org.jmailen.kotlinter") version "3.16.0" apply false
+//        alias(org.jmailen.kotlinter)
+        alias(libs.plugins.detekt) apply false
     }
 }
