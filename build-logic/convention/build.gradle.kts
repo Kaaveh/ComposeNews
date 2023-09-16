@@ -30,6 +30,7 @@ java {
 dependencies {
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
+    compileOnly(libs.detekt.gradlePlugin)
 }
 
 gradlePlugin {
@@ -62,6 +63,10 @@ gradlePlugin {
         register("androidRoom") {
             id = "composenews.android.room"
             implementationClass = "AndroidRoomConventionPlugin"
+        }
+        register("androidDetekt") {
+            id = "composenews.android.detekt"
+            implementationClass = "AndroidDetektConventionPlugin"
         }
     }
 }
