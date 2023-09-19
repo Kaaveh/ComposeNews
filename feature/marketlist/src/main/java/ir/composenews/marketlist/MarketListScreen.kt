@@ -20,6 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import ir.composenews.base.BaseRoute
 import ir.composenews.base.MainContract
 import ir.composenews.base.use
+import ir.composenews.designsystem.component.ShimmerMarketListItem
 import ir.composenews.designsystem.component.pull_refresh_indicator.PullRefreshIndicator
 import ir.composenews.designsystem.component.pull_refresh_indicator.pullRefresh
 import ir.composenews.designsystem.component.pull_refresh_indicator.rememberPullRefreshState
@@ -55,7 +56,12 @@ fun MarketListRoute(
     if (contentType == ContentType.DUAL_PANE && !state.refreshing && state.marketList.isNotEmpty() && uiState.market == null)
         onNavigateToDetailScreen(state.marketList[0])
 
-    BaseRoute(baseViewModel = viewModel) {
+    BaseRoute(
+        baseViewModel = viewModel,
+        shimmerView = {
+            ShimmerMarketListItem()
+        },
+    ) {
         MarketListScreen(
             marketListState = state,
             onNavigateToDetailScreen = onNavigateToDetailScreen,

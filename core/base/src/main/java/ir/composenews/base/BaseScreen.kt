@@ -17,6 +17,7 @@ import ir.composenews.designsystem.widget.LoadingView
 @Composable
 fun BaseRoute(
     baseViewModel: BaseViewModel,
+    shimmerView: @Composable (() -> Unit)? = null,
     content: @Composable () -> Unit,
 ) {
 
@@ -36,6 +37,7 @@ fun BaseRoute(
 
     BaseScreen(
         baseState = baseState,
+        shimmerView = shimmerView,
         content = content,
     )
 
@@ -44,6 +46,7 @@ fun BaseRoute(
 @Composable
 private fun BaseScreen(
     baseState: BaseContract.BaseState,
+    shimmerView: @Composable (() -> Unit)? = null,
     content: @Composable () -> Unit,
 ) {
 
@@ -59,7 +62,13 @@ private fun BaseScreen(
         ) { targetState ->
             when (targetState) {
                 BaseContract.BaseState.OnLoading -> {
-                    LoadingView(modifier = Modifier.fillMaxSize())
+
+                    if (shimmerView != null) {
+                        shimmerView()
+                    } else {
+                        LoadingView(modifier = Modifier.fillMaxSize())
+                    }
+
                 }
 
                 BaseContract.BaseState.OnLoadingDialog -> TODO()
