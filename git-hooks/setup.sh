@@ -25,7 +25,3 @@ Checking the following settings helps avoid miscellaneous issues:
   * Settings -> Editor -> General -> Auto Import -> Optimize imports on the fly (for both Kotlin\
  and Java)
 EOF
-
-read -p "Pausing for 5 seconds" -t 20
-
-echo "Thanks for waiting."
