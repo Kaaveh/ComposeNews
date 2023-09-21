@@ -30,6 +30,9 @@ For the detail of handling preview of composable functions in this code-base, pl
 - Work manager
 - Unit test
 - Version catalog
+- Git Hooks
+- GitHub Actions
+- Static Analysis(Kotliner, Detekt)
 
 ## 📸 Screenshots
 
@@ -49,6 +52,12 @@ Dark theme
   <img src="asset/3.png" width="350"/>
   <img src="asset/4.png" width="350"/>
 </p>
+
+## Additional Resources
+
+- [Git Hooks](documentation/GitHooks.md) - Learn about Git hooks used in this project for code formatting and analysis.
+- [GitHub Actions](documentation/GitHubActions.md) - Explore the GitHub Actions workflows used to validate the code.
+- [Static Analysis](documentation/StaticAnalysis.md) - Discover how static analysis tools like Detekt and Ktlint are used in this project for code quality assurance.
 
 ## 🤝🏻 Contribute
 
