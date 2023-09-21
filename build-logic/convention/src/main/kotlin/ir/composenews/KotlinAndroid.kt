@@ -39,7 +39,7 @@ internal fun Project.configureKotlinAndroid(
                 "-opt-in=kotlin.Experimental",
             )
 
-            // Set JVM target to 11
+            // Set JVM target to 17
             jvmTarget = JavaVersion.VERSION_17.toString()
         }
 
