@@ -1,3 +1,5 @@
+@file:Suppress("PackageNaming", "PackageName")
+
 package ir.composenews.marketlist.preview_provider
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider

@@ -15,5 +15,4 @@ interface DataModule {
     fun bindMarketRepository(
         marketsRepository: MarketRepositoryImpl,
     ): MarketRepository
-
 }

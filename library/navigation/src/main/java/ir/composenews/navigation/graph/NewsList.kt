@@ -44,7 +44,7 @@ fun NavGraphBuilder.marketList(
                     uiState = uiState,
                     onMarketSelected = onMarketSelected,
                     closeDetailScreen = closeDetailScreen,
-                    contentType = contentType
+                    contentType = contentType,
                 )
             }
         }
@@ -57,14 +57,14 @@ fun SingleListScreen(
     uiState: MainContract.State,
     closeDetailScreen: () -> Unit,
     contentType: ContentType,
-    onMarketSelected: ((Market, ContentType) -> Unit)? = null
+    onMarketSelected: ((Market, ContentType) -> Unit)? = null,
 ) {
     if (uiState.market != null && uiState.isDetailOnlyOpen) {
         BackHandler {
             closeDetailScreen()
         }
         MarketDetailRoute(
-            market = uiState.market as Market
+            market = uiState.market as Market,
         )
     } else {
         MarketListRoute(
@@ -74,7 +74,7 @@ fun SingleListScreen(
             uiState = uiState,
             showFavoriteList = showFavorite,
             closeDetailScreen = closeDetailScreen,
-            contentType = contentType
+            contentType = contentType,
         )
     }
 }
@@ -87,7 +87,7 @@ fun ListWithDetailScreen(
     uiState: MainContract.State,
     contentType: ContentType,
     closeDetailScreen: () -> Unit,
-    onMarketSelected: ((Market, ContentType) -> Unit)? = null
+    onMarketSelected: ((Market, ContentType) -> Unit)? = null,
 ) {
     TwoPane(
         first = {
@@ -98,7 +98,7 @@ fun ListWithDetailScreen(
                 uiState = uiState,
                 showFavoriteList = showFavorite,
                 closeDetailScreen = closeDetailScreen,
-                contentType = contentType
+                contentType = contentType,
             )
         },
         second = {
@@ -107,6 +107,6 @@ fun ListWithDetailScreen(
             )
         },
         strategy = HorizontalTwoPaneStrategy(splitFraction = 0.5f, gapWidth = 16.dp),
-        displayFeatures = displayFeatures
+        displayFeatures = displayFeatures,
     )
 }

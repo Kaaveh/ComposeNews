@@ -33,7 +33,7 @@ fun Modifier.shimmerEffect(): Modifier = composed {
         initialValue = -2 * size.width.toFloat(),
         targetValue = 2 * size.width.toFloat(),
         animationSpec = infiniteRepeatable(
-            animation = tween(1000)
+            animation = tween(1000),
         ),
         label = "Shimmer Animate",
     )
@@ -46,7 +46,7 @@ fun Modifier.shimmerEffect(): Modifier = composed {
                 Color(0xFFB8B5B5),
             ),
             start = Offset(startOffsetX, 0f),
-            end = Offset(startOffsetX + size.width.toFloat(), size.height.toFloat())
+            end = Offset(startOffsetX + size.width.toFloat(), size.height.toFloat()),
         ),
     ).onGloballyPositioned {
         size = it.size

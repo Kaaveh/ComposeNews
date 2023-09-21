@@ -1,3 +1,5 @@
+@file:Suppress("PackageNaming", "PackageName")
+
 package ir.composenews.core_test.dispatcher
 
 import kotlinx.coroutines.CoroutineDispatcher

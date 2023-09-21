@@ -22,7 +22,7 @@ fun ErrorView(errorMessage: String) {
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .wrapContentSize()
-                .padding(horizontal = 20.dp)
+                .padding(horizontal = 20.dp),
         )
     }
 }

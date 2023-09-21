@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.withContext
 
 open class BaseViewModel(
-    protected val dispatcherProvider: DispatcherProvider = PlatformDispatcherProvider()
+    protected val dispatcherProvider: DispatcherProvider = PlatformDispatcherProvider(),
 ) : ViewModel(), BaseContract {
 
     protected val mutableBaseState: MutableStateFlow<BaseContract.BaseState> =
@@ -31,9 +31,7 @@ open class BaseViewModel(
         baseEffectChannel.trySend(BaseContract.BaseEffect.OnBackPressed)
     }
 
-    private fun onRetryPressed() {
-
-    }
+    private fun onRetryPressed() = Unit
 
     protected suspend inline fun <T> onUI(crossinline action: suspend () -> T): T {
         return withContext(dispatcherProvider.ui) {
@@ -52,5 +50,4 @@ open class BaseViewModel(
             action()
         }
     }
-
 }

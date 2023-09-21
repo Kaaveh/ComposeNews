@@ -3,19 +3,15 @@ package ir.composenews.localdatasource.database
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import ir.composenews.localdatasource.database.MarketDao
-import ir.composenews.localdatasource.database.MarketsDatabase
 import ir.composenews.localdatasource.test.favoriteLocalMarketDto
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import java.io.IOException
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class MarketDaoTest {
 
     private lateinit var marketDao: MarketDao
@@ -48,5 +44,4 @@ class MarketDaoTest {
         val newsList = marketDao.getMarketList().first()
         assertTrue(newsList.contains(favoriteLocalMarketDto))
     }
-
 }

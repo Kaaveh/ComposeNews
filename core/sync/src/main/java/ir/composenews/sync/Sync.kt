@@ -7,7 +7,9 @@ import android.content.Context
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.startup.AppInitializer
-import androidx.work.*
+import androidx.work.Constraints
+import androidx.work.ForegroundInfo
+import androidx.work.NetworkType
 import ir.composenews.sync.initializer.SyncInitializer
 
 object Sync {
@@ -30,7 +32,7 @@ val SyncConstraints = Constraints.Builder()
  */
 fun Context.syncForegroundInfo() = ForegroundInfo(
     SyncNotificationId,
-    syncWorkNotification()
+    syncWorkNotification(),
 )
 
 /**
@@ -42,7 +44,7 @@ private fun Context.syncWorkNotification(): Notification {
         val channel = NotificationChannel(
             SyncNotificationChannelID,
             "sync",
-            NotificationManager.IMPORTANCE_DEFAULT
+            NotificationManager.IMPORTANCE_DEFAULT,
         ).apply {
             description = "Background tasks for CN"
         }
@@ -60,4 +62,3 @@ private fun Context.syncWorkNotification(): Notification {
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         .build()
 }
-

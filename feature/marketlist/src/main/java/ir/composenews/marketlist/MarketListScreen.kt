@@ -1,3 +1,5 @@
+@file:Suppress("MaxLineLength", "ComplexCondition")
+
 package ir.composenews.marketlist
 
 import androidx.compose.animation.AnimatedVisibility
@@ -31,6 +33,9 @@ import ir.composenews.marketlist.component.MarketListItem
 import ir.composenews.marketlist.preview_provider.MarketListStateProvider
 import ir.composenews.utils.ContentType
 
+/**
+ * LongParameterList - > compose unimited
+ */
 @Composable
 fun MarketListRoute(
     viewModel: MarketListViewModel = hiltViewModel(),
@@ -38,7 +43,7 @@ fun MarketListRoute(
     uiState: MainContract.State,
     closeDetailScreen: () -> Unit,
     onNavigateToDetailScreen: (market: Market) -> Unit,
-    contentType: ContentType
+    contentType: ContentType,
 ) {
     val (state, event) = use(viewModel = viewModel)
 
@@ -53,8 +58,9 @@ fun MarketListRoute(
         }
     }
 
-    if (contentType == ContentType.DUAL_PANE && !state.refreshing && state.marketList.isNotEmpty() && uiState.market == null)
+    if (contentType == ContentType.DUAL_PANE && !state.refreshing && state.marketList.isNotEmpty() && uiState.market == null) {
         onNavigateToDetailScreen(state.marketList[0])
+    }
 
     BaseRoute(
         baseViewModel = viewModel,
@@ -91,7 +97,7 @@ private fun MarketListScreen(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .pullRefresh(refreshState)
+            .pullRefresh(refreshState),
     ) {
         AnimatedVisibility(
             visible = !marketListState.refreshing,
@@ -107,8 +113,8 @@ private fun MarketListScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .animateItemPlacement(
-                                animationSpec = tween(durationMillis = 250)
-                            )
+                                animationSpec = tween(durationMillis = 250),
+                            ),
                     ) {
                         MarketListItem(
                             modifier = Modifier,
@@ -128,7 +134,7 @@ private fun MarketListScreen(
         PullRefreshIndicator(
             marketListState.refreshing,
             refreshState,
-            Modifier.align(Alignment.TopCenter)
+            Modifier.align(Alignment.TopCenter),
         )
     }
 }
