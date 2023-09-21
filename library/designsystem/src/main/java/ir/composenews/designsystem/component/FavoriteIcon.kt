@@ -56,7 +56,7 @@ fun FavoriteIcon(
                 tween(durationMillis = 300, easing = LinearEasing)
             }
         },
-        label = "favorite_scale"
+        label = "favorite_scale",
     ) { state ->
         if (state) 1f else 1f
     }
@@ -68,13 +68,13 @@ fun FavoriteIcon(
         modifier = Modifier
             .graphicsLayer(
                 scaleX = scale,
-                scaleY = scale
+                scaleY = scale,
             )
             .clip(CircleShape)
             .clickable {
                 onFavoriteClick()
             }
-            .padding(8.dp)
+            .padding(8.dp),
     )
 }
 

@@ -44,7 +44,7 @@ class MarketDetailViewModelTest {
         sut = MarketDetailViewModel(
             getMarketChartUseCase = getMarketChartUseCase,
             toggleFavoriteMarketListUseCase = toggleFavoriteMarketListUseCase,
-            dispatcherProvider = dispatcherProvider
+            dispatcherProvider = dispatcherProvider,
         )
     }
 
@@ -141,7 +141,7 @@ class MarketDetailViewModelTest {
             name = "Bitcoin",
             imageUrl = "goggle.com",
             currentPrice = Random.nextDouble(1000.0, 5000.0),
-            isFavorite = isFavorite
+            isFavorite = isFavorite,
         )
     }
 }

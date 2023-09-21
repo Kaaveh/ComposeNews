@@ -40,7 +40,7 @@ class MarketListViewModel @Inject constructor(
         MarketListContract.Event.OnRefresh -> getData(isRefreshing = true)
         is MarketListContract.Event.OnFavoriteClick -> onFavoriteClick(news = event.market)
         is MarketListContract.Event.OnSetShowFavoriteList -> onSetShowFavoriteList(
-            showFavoriteList = event.showFavoriteList
+            showFavoriteList = event.showFavoriteList,
         )
     }
 
@@ -73,7 +73,7 @@ class MarketListViewModel @Inject constructor(
         } catch (e: Exception) {
             mutableBaseState.update {
                 BaseContract.BaseState.OnError(
-                    errorMessage = e.localizedMessage ?: "An unexpected error occurred."
+                    errorMessage = e.localizedMessage ?: "An unexpected error occurred.",
                 )
             }
         }
@@ -87,7 +87,7 @@ class MarketListViewModel @Inject constructor(
             .catch { exception ->
                 mutableBaseState.update {
                     BaseContract.BaseState.OnError(
-                        errorMessage = exception.localizedMessage ?: "An unexpected error occurred."
+                        errorMessage = exception.localizedMessage ?: "An unexpected error occurred.",
                     )
                 }
             }

@@ -7,7 +7,7 @@ interface MainContract :
 
     data class State(
         val market: Any? = null,
-        val isDetailOnlyOpen: Boolean = false
+        val isDetailOnlyOpen: Boolean = false,
     )
 
     sealed class Event {

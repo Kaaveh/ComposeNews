@@ -32,7 +32,7 @@ val SyncConstraints = Constraints.Builder()
  */
 fun Context.syncForegroundInfo() = ForegroundInfo(
     SyncNotificationId,
-    syncWorkNotification()
+    syncWorkNotification(),
 )
 
 /**
@@ -44,7 +44,7 @@ private fun Context.syncWorkNotification(): Notification {
         val channel = NotificationChannel(
             SyncNotificationChannelID,
             "sync",
-            NotificationManager.IMPORTANCE_DEFAULT
+            NotificationManager.IMPORTANCE_DEFAULT,
         ).apply {
             description = "Background tasks for CN"
         }

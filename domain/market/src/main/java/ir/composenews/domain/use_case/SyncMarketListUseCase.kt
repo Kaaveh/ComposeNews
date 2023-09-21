@@ -6,7 +6,7 @@ import ir.composenews.domain.repository.MarketRepository
 import javax.inject.Inject
 
 class SyncMarketListUseCase @Inject constructor(
-    private val repository: MarketRepository
+    private val repository: MarketRepository,
 ) {
     suspend operator fun invoke() = repository.syncMarketList()
 }

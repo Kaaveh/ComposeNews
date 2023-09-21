@@ -37,8 +37,9 @@ class MainViewModel @Inject constructor(
 
     fun closeDetailScreen() = viewModelScope.launch {
         mutableState.emit(
-            mutableState.value.copy(isDetailOnlyOpen = false)
+            mutableState.value.copy(
+                isDetailOnlyOpen = false
+            )
         )
     }
-
 }

@@ -20,7 +20,7 @@ fun MarketListItem(
             price = currentPrice.toString(),
             isFavorite = isFavorite,
             onItemClick = onItemClick,
-            onFavoriteClick = onFavoriteClick
+            onFavoriteClick = onFavoriteClick,
         )
     }
 }

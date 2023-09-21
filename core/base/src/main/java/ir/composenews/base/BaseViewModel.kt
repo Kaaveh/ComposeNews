@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.withContext
 
 open class BaseViewModel(
-    protected val dispatcherProvider: DispatcherProvider = PlatformDispatcherProvider()
+    protected val dispatcherProvider: DispatcherProvider = PlatformDispatcherProvider(),
 ) : ViewModel(), BaseContract {
 
     protected val mutableBaseState: MutableStateFlow<BaseContract.BaseState> =

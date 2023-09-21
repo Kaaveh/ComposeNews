@@ -49,10 +49,10 @@ private fun BaseScreen(
             targetState = baseState,
             transitionSpec = {
                 fadeIn(
-                    animationSpec = tween(TRANSITION_DURATION)
+                    animationSpec = tween(TRANSITION_DURATION),
                 ) togetherWith fadeOut(animationSpec = tween(TRANSITION_DURATION))
             },
-            label = "Animated Content"
+            label = "Animated Content",
         ) { targetState ->
             when (targetState) {
                 BaseContract.BaseState.OnLoading -> {

@@ -9,48 +9,48 @@ val marketList = listOf(
         id = "id",
         name = "name",
         currentPrice = 100000.0,
-        imageUrl = "some_shit_url.png"
+        imageUrl = "some_shit_url.png",
     ),
     Market(
         id = "id",
         name = "name",
         currentPrice = 100000.0,
-        imageUrl = "some_shit_url.png"
+        imageUrl = "some_shit_url.png",
     ),
     Market(
         id = "id",
         name = "name",
         currentPrice = 100000.0,
-        imageUrl = "some_shit_url.png"
+        imageUrl = "some_shit_url.png",
     ),
     Market(
         id = "id",
         name = "name",
         currentPrice = 100000.0,
-        imageUrl = "some_shit_url.png"
+        imageUrl = "some_shit_url.png",
     ),
     Market(
         id = "id",
         name = "name",
         currentPrice = 100000.0,
-        imageUrl = "some_shit_url.png"
+        imageUrl = "some_shit_url.png",
     ),
     Market(
         id = "id",
         name = "name",
         currentPrice = 100000.0,
-        imageUrl = "some_shit_url.png"
+        imageUrl = "some_shit_url.png",
     ),
     Market(
         id = "id",
         name = "name",
         currentPrice = 100000.0,
-        imageUrl = "some_shit_url.png"
+        imageUrl = "some_shit_url.png",
     ),
     Market(
         id = "id",
         name = "name",
         currentPrice = 100000.0,
-        imageUrl = "some_shit_url.png"
+        imageUrl = "some_shit_url.png",
     ),
 )

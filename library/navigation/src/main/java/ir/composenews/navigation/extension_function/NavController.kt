@@ -16,7 +16,7 @@ fun NavController.navigate(
     route: String,
     args: Bundle,
     navOptions: NavOptions? = null,
-    navigatorExtras: Navigator.Extras? = null
+    navigatorExtras: Navigator.Extras? = null,
 ) {
     val routeLink = NavDeepLinkRequest
         .Builder

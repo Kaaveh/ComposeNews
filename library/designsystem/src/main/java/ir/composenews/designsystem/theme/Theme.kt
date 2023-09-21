@@ -17,7 +17,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
-
 private val LightColorScheme = lightColorScheme(
     primary = md_theme_light_primary,
     onPrimary = md_theme_light_onPrimary,
@@ -47,9 +46,8 @@ private val LightColorScheme = lightColorScheme(
     inverseSurface = md_theme_light_inverseSurface,
     outlineVariant = md_theme_light_outlineVariant,
     scrim = md_theme_light_scrim,
-    surfaceTint = md_theme_light_surfaceTint
+    surfaceTint = md_theme_light_surfaceTint,
 )
-
 
 private val DarkColorScheme = darkColorScheme(
     primary = md_theme_dark_primary,
@@ -88,7 +86,9 @@ fun ComposeNewsTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
-    content: @Composable() () -> Unit
+    content:
+    @Composable()
+    () -> Unit,
 ) {
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
@@ -116,6 +116,6 @@ fun ComposeNewsTheme(
         colorScheme = colorScheme,
         typography = Typography,
         shapes = Shapes,
-        content = content
+        content = content,
     )
 }

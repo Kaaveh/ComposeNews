@@ -2,7 +2,7 @@
     "TopLevelPropertyNaming",
     "Indentation",
     "SwallowedException",
-    "TooGenericExceptionCaught"
+    "TooGenericExceptionCaught",
 )
 
 package ir.composenews.sync.worker
@@ -62,7 +62,7 @@ class DelegatingWorker(
             .createWorker(
                 appContext,
                 workerClassName,
-                workerParams
+                workerParams,
             ) as CoroutineWorker
     } catch (e: Exception) {
         throw IllegalArgumentException("Unable to find appropriate worker " + e.message)

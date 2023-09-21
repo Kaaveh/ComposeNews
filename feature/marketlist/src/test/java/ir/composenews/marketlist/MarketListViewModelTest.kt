@@ -43,7 +43,7 @@ class MarketListViewModelTest {
             syncMarketListUseCase,
             getFavoriteMarketListUseCase,
             toggleFavoriteMarketListUseCase,
-            dispatcherProvider
+            dispatcherProvider,
         )
     }
 
@@ -160,7 +160,7 @@ class MarketListViewModelTest {
                 name = "Ethereum$it",
                 currentPrice = Random.nextDouble(300.0, 2300.0),
                 isFavorite = false,
-                imageUrl = "google.com"
+                imageUrl = "google.com",
             )
         }
     }

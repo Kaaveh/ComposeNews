@@ -47,28 +47,30 @@ fun MarketItem(
         shape = MaterialTheme.shapes.large,
         colors = if (isSystemInDarkTheme().not()) {
             CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.background
+                containerColor = MaterialTheme.colorScheme.background,
             )
-        } else CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
-        ),
+        } else {
+            CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            )
+        },
     ) {
         Row(
             modifier = Modifier
                 .padding(8.dp)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Image(
                 painter = rememberAsyncImagePainter(model = urlToImage),
                 contentDescription = name,
                 modifier = Modifier
                     .size(48.dp)
-                    .clip(CircleShape)
+                    .clip(CircleShape),
             )
             Column(
-                modifier = Modifier.weight(1F)
+                modifier = Modifier.weight(1F),
             ) {
                 Text(text = name, style = MaterialTheme.typography.headlineSmall)
                 Text(text = "$price $", style = MaterialTheme.typography.bodyLarge)
@@ -94,7 +96,7 @@ private fun MarketItemPrev() {
                 price = "100000",
                 isFavorite = false,
                 onItemClick = {},
-                onFavoriteClick = {}
+                onFavoriteClick = {},
             )
         }
     }

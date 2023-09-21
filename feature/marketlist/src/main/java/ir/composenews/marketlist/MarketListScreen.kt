@@ -42,7 +42,7 @@ fun MarketListRoute(
     uiState: MainContract.State,
     closeDetailScreen: () -> Unit,
     onNavigateToDetailScreen: (market: Market) -> Unit,
-    contentType: ContentType
+    contentType: ContentType,
 ) {
     val (state, event) = use(viewModel = viewModel)
 
@@ -89,7 +89,7 @@ private fun MarketListScreen(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .pullRefresh(refreshState)
+            .pullRefresh(refreshState),
     ) {
         AnimatedVisibility(
             visible = !marketListState.refreshing,
@@ -105,8 +105,8 @@ private fun MarketListScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .animateItemPlacement(
-                                animationSpec = tween(durationMillis = 250)
-                            )
+                                animationSpec = tween(durationMillis = 250),
+                            ),
                     ) {
                         MarketListItem(
                             modifier = Modifier,
@@ -125,7 +125,7 @@ private fun MarketListScreen(
         PullRefreshIndicator(
             marketListState.refreshing,
             refreshState,
-            Modifier.align(Alignment.TopCenter)
+            Modifier.align(Alignment.TopCenter),
         )
     }
 }

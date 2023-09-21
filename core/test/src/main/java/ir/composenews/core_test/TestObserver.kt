@@ -16,7 +16,7 @@ interface TestObserver<T> {
 class FlowTestObserver<T>(
     scope: TestScope,
     testDispatcherProvider: TestDispatcherProvider,
-    flow: Flow<T>
+    flow: Flow<T>,
 ) : TestObserver<T> {
 
     private val result = mutableListOf<T>()
@@ -43,7 +43,7 @@ class FlowTestObserver<T>(
 
 fun <T> Flow<T>.test(
     scope: TestScope,
-    testDispatcherProvider: TestDispatcherProvider
+    testDispatcherProvider: TestDispatcherProvider,
 ): FlowTestObserver<T> {
     return FlowTestObserver(scope, testDispatcherProvider, this)
 }
