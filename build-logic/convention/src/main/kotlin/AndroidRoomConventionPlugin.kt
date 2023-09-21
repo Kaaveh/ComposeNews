@@ -8,7 +8,7 @@ class AndroidRoomConventionPlugin : Plugin<Project> {
         with(target) {
             dependencies {
                 add("implementation", libs.findBundle("room").get())
-                add("kapt", libs.findLibrary("room.compiler").get())
+                add("ksp", libs.findLibrary("room.compiler").get())
             }
         }
     }

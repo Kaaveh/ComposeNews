@@ -5,8 +5,8 @@ plugins {
         alias(android.library) apply false
         alias(kotlin.android) apply false
         alias(hilt.android) apply false
-        alias(kapt) apply false
     }
+    id("com.google.devtools.ksp") version "1.9.10-1.0.13" apply false
 }
 
 // Run it with: gradle assembleRelease -PcomposeCompilerReports=true
