@@ -12,4 +12,4 @@ data class Market(
     val currentPrice: Double,
     val imageUrl: String,
     var isFavorite: Boolean = false,
-): Parcelable
+) : Parcelable

@@ -70,19 +70,22 @@ fun MarketItem(
             } else {
                 false
             }
-        }, positionalThreshold = { positionalThreshold }
+        },
+        positionalThreshold = { positionalThreshold },
     )
 
     if (showFavoriteList) {
         AnimatedVisibility(visible = show, exit = fadeOut(spring())) {
-            SwipeToDismiss(state = dismissState,
+            SwipeToDismiss(
+                state = dismissState,
                 directions = setOf(DismissDirection.EndToStart),
                 background = {
                     DismissBackgroundSwipe(
                         modifier = Modifier,
                         dismissState = dismissState,
                     )
-                }, dismissContent = {
+                },
+                dismissContent = {
                     MarketItemCard(
                         modifier = modifier,
                         name = name,
@@ -92,7 +95,8 @@ fun MarketItem(
                         onItemClick = { onItemClick() },
                         onFavoriteClick = { onFavoriteClick() },
                     )
-                })
+                },
+            )
         }
     } else {
         MarketItemCard(
@@ -131,26 +135,30 @@ private fun MarketItemCard(
             .clip(RoundedCornerShape(12.dp))
             .clickable { onItemClick() },
         shape = MaterialTheme.shapes.large,
-        colors = if (isSystemInDarkTheme().not()) CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background) else CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
-        ),
+        colors = if (isSystemInDarkTheme().not()) {
+            CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background)
+        } else {
+            CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            )
+        },
     ) {
         Row(
             modifier = Modifier
                 .padding(8.dp)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Image(
                 painter = rememberAsyncImagePainter(model = urlToImage),
                 contentDescription = name,
                 modifier = Modifier
                     .size(48.dp)
-                    .clip(CircleShape)
+                    .clip(CircleShape),
             )
             Column(
-                modifier = Modifier.weight(1F)
+                modifier = Modifier.weight(1F),
             ) {
                 Text(text = name, style = MaterialTheme.typography.headlineSmall)
                 Text(text = "$price $", style = MaterialTheme.typography.bodyLarge)
@@ -177,7 +185,7 @@ private fun MarketItemPrev() {
                 isFavorite = false,
                 showFavoriteList = false,
                 onItemClick = {},
-                onFavoriteClick = {}
+                onFavoriteClick = {},
             )
         }
     }
@@ -191,38 +199,42 @@ private fun ShimmerMarketItem() {
             .padding(8.dp)
             .clip(RoundedCornerShape(12.dp)),
         shape = MaterialTheme.shapes.large,
-        colors = if (isSystemInDarkTheme().not()) CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background) else CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
-        ),
+        colors = if (isSystemInDarkTheme().not()) {
+            CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background)
+        } else {
+            CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            )
+        },
     ) {
         Row(
             modifier = Modifier
                 .padding(8.dp)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Box(
                 modifier = Modifier
                     .size(48.dp)
                     .clip(CircleShape)
-                    .shimmerEffect()
+                    .shimmerEffect(),
             )
             Column(
-                modifier = Modifier.weight(1F)
+                modifier = Modifier.weight(1F),
             ) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth(0.8f)
                         .height(20.dp)
-                        .shimmerEffect()
+                        .shimmerEffect(),
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Box(
                     modifier = Modifier
                         .fillMaxWidth(0.5f)
                         .height(20.dp)
-                        .shimmerEffect()
+                        .shimmerEffect(),
                 )
             }
         }

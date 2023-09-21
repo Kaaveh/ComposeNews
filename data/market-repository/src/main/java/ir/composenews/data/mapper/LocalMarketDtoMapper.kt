@@ -16,5 +16,5 @@ fun Market.toLocalMarketDto(): LocalMarketDto = LocalMarketDto(
     name = name,
     currentPrice = currentPrice,
     imageUrl = imageUrl,
-    isFavorite = isFavorite
+    isFavorite = isFavorite,
 )

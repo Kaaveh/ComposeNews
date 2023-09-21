@@ -1,14 +1,22 @@
+@file:Suppress("PackageNaming", "PackageName")
+
 package ir.composenews.navigation.extension_function
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.core.net.toUri
-import androidx.navigation.*
+import androidx.navigation.NavController
+import androidx.navigation.NavDeepLinkRequest
+import androidx.navigation.NavDestination
+import androidx.navigation.NavOptions
+import androidx.navigation.Navigator
 
+@SuppressLint("RestrictedApi")
 fun NavController.navigate(
     route: String,
     args: Bundle,
     navOptions: NavOptions? = null,
-    navigatorExtras: Navigator.Extras? = null
+    navigatorExtras: Navigator.Extras? = null,
 ) {
     val routeLink = NavDeepLinkRequest
         .Builder

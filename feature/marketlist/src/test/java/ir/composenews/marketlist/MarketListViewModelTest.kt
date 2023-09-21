@@ -4,8 +4,6 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import ir.composenews.core_test.MainDispatcherRule
 import ir.composenews.core_test.dispatcher.TestDispatcherProvider
-import ir.composenews.marketlist.MarketListContract
-import ir.composenews.marketlist.MarketListViewModel
 import ir.composenews.domain.model.Market
 import ir.composenews.domain.use_case.GetFavoriteMarketListUseCase
 import ir.composenews.domain.use_case.GetMarketListUseCase
@@ -22,7 +20,6 @@ import org.junit.Rule
 import org.junit.Test
 import java.util.UUID
 import kotlin.random.Random
-
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class MarketListViewModelTest {
@@ -46,10 +43,9 @@ class MarketListViewModelTest {
             syncMarketListUseCase,
             getFavoriteMarketListUseCase,
             toggleFavoriteMarketListUseCase,
-            dispatcherProvider
+            dispatcherProvider,
         )
     }
-
 
     @Test
     fun `with OnSetShowFavoriteList event and showFavoriteList is false then we should hide favorite list`() =
@@ -60,7 +56,6 @@ class MarketListViewModelTest {
             advanceUntilIdle()
 
             val actual = sut.state.value.showFavoriteList
-
 
             Assert.assertEquals(expected, actual)
         }
@@ -74,7 +69,6 @@ class MarketListViewModelTest {
             advanceUntilIdle()
 
             val actual = sut.state.value.showFavoriteList
-
 
             Assert.assertEquals(expected, actual)
         }
@@ -126,20 +120,17 @@ class MarketListViewModelTest {
             advanceUntilIdle()
             Assert.assertEquals(oldMarketList, sut.state.value.marketList)
 
-
             val newMarketList = provideMarketList(4)
 
             coEvery { getFavoriteMarketListUseCase.invoke() } returns flowOf(newMarketList)
 
             sut.event(MarketListContract.Event.OnRefresh)
 
-
             advanceUntilIdle()
             val actualMarketList = sut.state.value.marketList
             Assert.assertEquals(newMarketList, actualMarketList)
             Assert.assertTrue(!sut.state.value.refreshing)
         }
-
 
     @Test
     fun `with OnRefresh event and showFavorite is false we should refresh market list with favorites`() =
@@ -169,7 +160,7 @@ class MarketListViewModelTest {
                 name = "Ethereum$it",
                 currentPrice = Random.nextDouble(300.0, 2300.0),
                 isFavorite = false,
-                imageUrl = "google.com"
+                imageUrl = "google.com",
             )
         }
     }

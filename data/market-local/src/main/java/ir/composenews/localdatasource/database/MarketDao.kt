@@ -1,6 +1,10 @@
 package ir.composenews.localdatasource.database
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Upsert
 import ir.composenews.localdatasource.dto.LocalMarketDto
 import ir.composenews.localdatasource.dto.RemoteMarketDto
 import kotlinx.coroutines.flow.Flow
@@ -19,5 +23,4 @@ interface MarketDao {
 
     @Upsert(entity = LocalMarketDto::class)
     suspend fun upsertMarket(remoteMarketDto: List<RemoteMarketDto>)
-
 }

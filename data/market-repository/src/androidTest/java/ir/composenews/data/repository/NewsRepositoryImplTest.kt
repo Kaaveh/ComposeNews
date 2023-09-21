@@ -3,7 +3,6 @@ package ir.composenews.data.repository
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import ir.composenews.data.repository.MarketRepositoryImpl
 import ir.composenews.localdatasource.database.MarketDao
 import ir.composenews.localdatasource.database.MarketsDatabase
 import ir.composenews.remotedatasource.test.FakeMarketsApi
@@ -66,5 +65,4 @@ class NewsRepositoryImplTest {
         val news = repositoryImpl.getMarketList().first().first()
         assertTrue(news.isFavorite)
     }
-
 }

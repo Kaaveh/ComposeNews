@@ -32,12 +32,13 @@ fun DismissBackgroundSwipe(modifier: Modifier, dismissState: DismissState) {
         targetValue = when (dismissState.targetValue) {
             DismissValue.DismissedToStart -> if (isSystemInDarkTheme()) MaterialTheme.colorScheme.errorContainer else Color.Red
             else -> if (isSystemInDarkTheme().not()) Color.LightGray else Color.Gray
-        }, label = ""
+        },
+        label = "",
     )
 
     val iconScale by animateFloatAsState(
         targetValue = if (dismissState.targetValue == DismissValue.Default) 0.8f else 1.1f,
-        label = ""
+        label = "",
     )
 
     Row(
@@ -53,7 +54,8 @@ fun DismissBackgroundSwipe(modifier: Modifier, dismissState: DismissState) {
             modifier = Modifier
                 .padding(end = 5.dp)
                 .scale(iconScale),
-            imageVector = Icons.Default.Delete, contentDescription = "Delete",
+            imageVector = Icons.Default.Delete,
+            contentDescription = "Delete",
         )
     }
 }

@@ -23,7 +23,7 @@ fun LoadingView(
             modifier = Modifier
                 .height(34.dp)
                 .width(34.dp)
-                .align(Alignment.Center)
+                .align(Alignment.Center),
         )
     }
 }

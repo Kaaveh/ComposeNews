@@ -1,3 +1,5 @@
+@file:Suppress("TopLevelPropertyNaming", "Indentation")
+
 package ir.composenews.base
 
 import android.app.Activity
@@ -20,10 +22,7 @@ fun BaseRoute(
     shimmerView: @Composable (() -> Unit)? = null,
     content: @Composable () -> Unit,
 ) {
-
-    val (baseState, baseEffect, baseEvent)
-            = useBase(viewModel = baseViewModel)
-
+    val (baseState, baseEffect, baseEvent) = useBase(viewModel = baseViewModel)
     val context = LocalContext.current
     val activity = context as? Activity
 
@@ -40,7 +39,6 @@ fun BaseRoute(
         shimmerView = shimmerView,
         content = content,
     )
-
 }
 
 @Composable
@@ -49,26 +47,23 @@ private fun BaseScreen(
     shimmerView: @Composable (() -> Unit)? = null,
     content: @Composable () -> Unit,
 ) {
-
     Box(modifier = Modifier.fillMaxSize()) {
         AnimatedContent(
             targetState = baseState,
             transitionSpec = {
                 fadeIn(
-                    animationSpec = tween(TRANSITION_DURATION)
+                    animationSpec = tween(TRANSITION_DURATION),
                 ) togetherWith fadeOut(animationSpec = tween(TRANSITION_DURATION))
             },
-            label = "Animated Content"
+            label = "Animated Content",
         ) { targetState ->
             when (targetState) {
                 BaseContract.BaseState.OnLoading -> {
-
                     if (shimmerView != null) {
                         shimmerView()
                     } else {
                         LoadingView(modifier = Modifier.fillMaxSize())
                     }
-
                 }
 
                 BaseContract.BaseState.OnLoadingDialog -> TODO()

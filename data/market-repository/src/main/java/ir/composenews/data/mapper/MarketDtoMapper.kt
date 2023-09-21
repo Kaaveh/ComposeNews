@@ -8,12 +8,12 @@ fun MarketResponse.toRemoteMarketDto(): RemoteMarketDto = RemoteMarketDto(
     id = id,
     name = name,
     currentPrice = currentPrice,
-    imageUrl = imageUrl
+    imageUrl = imageUrl,
 )
 
 fun MarketResponse.toMarket(): Market = Market(
     id = id,
     name = name,
     currentPrice = currentPrice,
-    imageUrl = imageUrl
+    imageUrl = imageUrl,
 )

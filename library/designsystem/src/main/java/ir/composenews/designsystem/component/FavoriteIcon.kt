@@ -1,3 +1,5 @@
+@file:Suppress("MagicNumber")
+
 package ir.composenews.designsystem.component
 
 import androidx.compose.animation.animateColor
@@ -32,7 +34,6 @@ fun FavoriteIcon(
     isFavorite: Boolean,
     onFavoriteClick: () -> Unit,
 ) {
-
     val animationState by remember(isFavorite) { mutableStateOf(isFavorite) }
 
     val favoriteTransition =
@@ -55,11 +56,10 @@ fun FavoriteIcon(
                 tween(durationMillis = 300, easing = LinearEasing)
             }
         },
-        label = "favorite_scale"
+        label = "favorite_scale",
     ) { state ->
         if (state) 1f else 1f
     }
-
 
     Icon(
         imageVector = Icons.Filled.Favorite,
@@ -68,13 +68,13 @@ fun FavoriteIcon(
         modifier = Modifier
             .graphicsLayer(
                 scaleX = scale,
-                scaleY = scale
+                scaleY = scale,
             )
             .clip(CircleShape)
             .clickable {
                 onFavoriteClick()
             }
-            .padding(8.dp)
+            .padding(8.dp),
     )
 }
 

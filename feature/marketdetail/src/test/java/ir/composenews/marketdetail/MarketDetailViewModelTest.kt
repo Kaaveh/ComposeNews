@@ -1,24 +1,23 @@
 package ir.composenews.marketdetail
 
-import ir.composenews.core_test.MainDispatcherRule
-import ir.composenews.core_test.dispatcher.TestDispatcherProvider
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import ir.composenews.base.BaseContract
-import ir.composenews.marketdetail.MarketDetailContract
-import ir.composenews.marketdetail.MarketDetailViewModel
+import ir.composenews.core_test.MainDispatcherRule
+import ir.composenews.core_test.dispatcher.TestDispatcherProvider
 import ir.composenews.domain.model.Chart
 import ir.composenews.domain.model.Market
 import ir.composenews.domain.model.Resource
 import ir.composenews.domain.use_case.GetMarketChartUseCase
 import ir.composenews.domain.use_case.ToggleFavoriteMarketListUseCase
+import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -45,7 +44,7 @@ class MarketDetailViewModelTest {
         sut = MarketDetailViewModel(
             getMarketChartUseCase = getMarketChartUseCase,
             toggleFavoriteMarketListUseCase = toggleFavoriteMarketListUseCase,
-            dispatcherProvider = dispatcherProvider
+            dispatcherProvider = dispatcherProvider,
         )
     }
 
@@ -75,11 +74,9 @@ class MarketDetailViewModelTest {
                 toggleFavoriteMarketListUseCase.invoke(market)
             }
 
-
             val uiState = sut.state.value
             assertEquals(expected, uiState.market)
         }
-
 
     @Test
     fun `With OnFavoriteClick with an item that is not in favorite we add it to favorite list`() =
@@ -96,11 +93,9 @@ class MarketDetailViewModelTest {
                 toggleFavoriteMarketListUseCase.invoke(market)
             }
 
-
             val uiState = sut.state.value
             assertEquals(expected, uiState.market)
         }
-
 
     @Test
     fun `get market chart with force refresh is false returns success`() =
@@ -118,7 +113,6 @@ class MarketDetailViewModelTest {
             val uiState = sut.baseState.value
             assertTrue(uiState is BaseContract.BaseState.OnSuccess)
         }
-
 
     @Test
     fun `get market chart with force refresh is false returns error`() =
@@ -147,7 +141,7 @@ class MarketDetailViewModelTest {
             name = "Bitcoin",
             imageUrl = "goggle.com",
             currentPrice = Random.nextDouble(1000.0, 5000.0),
-            isFavorite = isFavorite
+            isFavorite = isFavorite,
         )
     }
 }

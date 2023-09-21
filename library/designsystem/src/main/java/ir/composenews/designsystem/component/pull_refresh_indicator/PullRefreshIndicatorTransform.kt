@@ -1,18 +1,4 @@
-/*
- * Copyright 2022 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+@file:Suppress("MagicNumber", "PackageNaming", "PackageName")
 
 package ir.composenews.designsystem.component.pull_refresh_indicator
 
@@ -37,11 +23,13 @@ import androidx.compose.ui.platform.inspectable
 fun Modifier.pullRefreshIndicatorTransform(
     state: PullRefreshState,
     scale: Boolean = false,
-) = inspectable(inspectorInfo = debugInspectorInfo {
-    name = "pullRefreshIndicatorTransform"
-    properties["state"] = state
-    properties["scale"] = scale
-}) {
+) = inspectable(
+    inspectorInfo = debugInspectorInfo {
+        name = "pullRefreshIndicatorTransform"
+        properties["state"] = state
+        properties["scale"] = scale
+    },
+) {
     Modifier
         // Essentially we only want to clip the at the top, so the indicator will not appear when
         // the position is 0. It is preferable to clip the indicator as opposed to the layout that
@@ -54,7 +42,7 @@ fun Modifier.pullRefreshIndicatorTransform(
                 top = 0f,
                 left = -Float.MAX_VALUE,
                 right = Float.MAX_VALUE,
-                bottom = Float.MAX_VALUE
+                bottom = Float.MAX_VALUE,
             ) {
                 this@drawWithContent.drawContent()
             }

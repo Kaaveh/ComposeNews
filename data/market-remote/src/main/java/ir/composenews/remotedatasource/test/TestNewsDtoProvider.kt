@@ -10,5 +10,5 @@ val marketDto = MarketResponse(
     marketCap = 100000.0,
     totalVolume = 100000.0,
     priceChangePercentage24h = 100000.0,
-    imageUrl = "some_shit_url.png"
+    imageUrl = "some_shit_url.png",
 )

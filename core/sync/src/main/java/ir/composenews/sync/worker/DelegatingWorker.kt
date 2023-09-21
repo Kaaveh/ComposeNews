@@ -1,3 +1,10 @@
+@file:Suppress(
+    "TopLevelPropertyNaming",
+    "Indentation",
+    "SwallowedException",
+    "TooGenericExceptionCaught",
+)
+
 package ir.composenews.sync.worker
 
 import android.content.Context
@@ -11,7 +18,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
 import kotlin.reflect.KClass
-
 
 /**
  * An entry point to retrieve the [HiltWorkerFactory] at runtime
@@ -53,19 +59,15 @@ class DelegatingWorker(
     private val delegateWorker = try {
         EntryPointAccessors.fromApplication<HiltWorkerFactoryEntryPoint>(appContext)
             .hiltWorkerFactory()
-            .createWorker(appContext, workerClassName, workerParams)
-                as CoroutineWorker
-    } catch (e: Exception){
+            .createWorker(
+                appContext,
+                workerClassName,
+                workerParams,
+            ) as CoroutineWorker
+    } catch (e: Exception) {
         throw IllegalArgumentException("Unable to find appropriate worker " + e.message)
     }
 
-    override suspend fun getForegroundInfo(): ForegroundInfo =
-        delegateWorker.getForegroundInfo()
-
-    override suspend fun doWork(): Result =
-        delegateWorker.doWork()
+    override suspend fun getForegroundInfo(): ForegroundInfo = delegateWorker.getForegroundInfo()
+    override suspend fun doWork(): Result = delegateWorker.doWork()
 }
-
-
-
-
