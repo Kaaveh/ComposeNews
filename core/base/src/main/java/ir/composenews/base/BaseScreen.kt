@@ -59,13 +59,11 @@ private fun BaseScreen(
         ) { targetState ->
             when (targetState) {
                 BaseContract.BaseState.OnLoading -> {
-
                     if (shimmerView != null) {
                         shimmerView()
                     } else {
                         LoadingView(modifier = Modifier.fillMaxSize())
                     }
-
                 }
 
                 BaseContract.BaseState.OnLoadingDialog -> TODO()

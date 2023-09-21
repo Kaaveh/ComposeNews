@@ -9,7 +9,7 @@ import ir.composenews.domain.model.Market
 fun MarketListItem(
     modifier: Modifier,
     market: Market,
-    showFavoriteList:Boolean,
+    showFavoriteList: Boolean,
     onItemClick: () -> Unit,
     onFavoriteClick: () -> Unit,
 ) {
