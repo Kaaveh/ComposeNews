@@ -7,3 +7,4 @@ insert_final_newline = true
 ij_kotlin_allow_trailing_comma = true
 ij_kotlin_allow_trailing_comma_on_call_site = true
 ktlint_disabled_rules = filename
+ktlint_standard_final-newline = disabled # Disables the `final-newline` rule provided by KtLint
