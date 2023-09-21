@@ -22,6 +22,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import ir.composenews.base.BaseRoute
 import ir.composenews.base.MainContract
 import ir.composenews.base.use
+import ir.composenews.designsystem.component.ShimmerMarketListItem
 import ir.composenews.designsystem.component.pull_refresh_indicator.PullRefreshIndicator
 import ir.composenews.designsystem.component.pull_refresh_indicator.pullRefresh
 import ir.composenews.designsystem.component.pull_refresh_indicator.rememberPullRefreshState
@@ -61,10 +62,16 @@ fun MarketListRoute(
         onNavigateToDetailScreen(state.marketList[0])
     }
 
-    BaseRoute(baseViewModel = viewModel) {
+    BaseRoute(
+        baseViewModel = viewModel,
+        shimmerView = {
+            ShimmerMarketListItem()
+        },
+    ) {
         MarketListScreen(
             marketListState = state,
             onNavigateToDetailScreen = onNavigateToDetailScreen,
+            showFavoriteList = showFavoriteList,
             onFavoriteClick = { market ->
                 event.invoke(MarketListContract.Event.OnFavoriteClick(market = market))
             },
@@ -79,6 +86,7 @@ fun MarketListRoute(
 @Composable
 private fun MarketListScreen(
     marketListState: MarketListContract.State,
+    showFavoriteList: Boolean,
     onNavigateToDetailScreen: (market: Market) -> Unit,
     onFavoriteClick: (market: Market) -> Unit,
     onRefresh: () -> Unit,
@@ -111,6 +119,7 @@ private fun MarketListScreen(
                         MarketListItem(
                             modifier = Modifier,
                             market = market,
+                            showFavoriteList = showFavoriteList,
                             onItemClick = {
                                 onNavigateToDetailScreen(market)
                             },
@@ -140,6 +149,7 @@ private fun MarketListScreenPrev(
         Surface {
             MarketListScreen(
                 marketListState = marketListState,
+                showFavoriteList = false,
                 onNavigateToDetailScreen = {},
                 onFavoriteClick = {},
                 onRefresh = {},
