@@ -5,7 +5,6 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.kotlin
 
 class AndroidLibraryConventionPlugin : Plugin<Project> {
@@ -15,6 +14,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 apply("com.android.library")
                 apply("org.jetbrains.kotlin.android")
                 apply("composenews.android.detekt")
+                apply("composenews.android.ktlint")
             }
 
             extensions.configure<LibraryExtension> {
