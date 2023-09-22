@@ -1,3 +1,5 @@
+@file:Suppress("MaxLineLength", "ComplexCondition")
+
 package ir.composenews.marketlist
 
 import androidx.compose.animation.AnimatedVisibility
@@ -20,6 +22,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import ir.composenews.base.BaseRoute
 import ir.composenews.base.MainContract
 import ir.composenews.base.use
+import ir.composenews.designsystem.component.ShimmerMarketListItem
 import ir.composenews.designsystem.component.pull_refresh_indicator.PullRefreshIndicator
 import ir.composenews.designsystem.component.pull_refresh_indicator.pullRefresh
 import ir.composenews.designsystem.component.pull_refresh_indicator.rememberPullRefreshState
@@ -30,6 +33,9 @@ import ir.composenews.marketlist.component.MarketListItem
 import ir.composenews.marketlist.preview_provider.MarketListStateProvider
 import ir.composenews.utils.ContentType
 
+/**
+ * LongParameterList - > compose unimited
+ */
 @Composable
 fun MarketListRoute(
     viewModel: MarketListViewModel = hiltViewModel(),
@@ -37,7 +43,7 @@ fun MarketListRoute(
     uiState: MainContract.State,
     closeDetailScreen: () -> Unit,
     onNavigateToDetailScreen: (market: Market) -> Unit,
-    contentType: ContentType
+    contentType: ContentType,
 ) {
     val (state, event) = use(viewModel = viewModel)
 
@@ -52,13 +58,20 @@ fun MarketListRoute(
         }
     }
 
-    if (contentType == ContentType.DUAL_PANE && !state.refreshing && state.marketList.isNotEmpty() && uiState.market == null)
+    if (contentType == ContentType.DUAL_PANE && !state.refreshing && state.marketList.isNotEmpty() && uiState.market == null) {
         onNavigateToDetailScreen(state.marketList[0])
+    }
 
-    BaseRoute(baseViewModel = viewModel) {
+    BaseRoute(
+        baseViewModel = viewModel,
+        shimmerView = {
+            ShimmerMarketListItem()
+        },
+    ) {
         MarketListScreen(
             marketListState = state,
             onNavigateToDetailScreen = onNavigateToDetailScreen,
+            showFavoriteList = showFavoriteList,
             onFavoriteClick = { market ->
                 event.invoke(MarketListContract.Event.OnFavoriteClick(market = market))
             },
@@ -73,6 +86,7 @@ fun MarketListRoute(
 @Composable
 private fun MarketListScreen(
     marketListState: MarketListContract.State,
+    showFavoriteList: Boolean,
     onNavigateToDetailScreen: (market: Market) -> Unit,
     onFavoriteClick: (market: Market) -> Unit,
     onRefresh: () -> Unit,
@@ -83,7 +97,7 @@ private fun MarketListScreen(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .pullRefresh(refreshState)
+            .pullRefresh(refreshState),
     ) {
         AnimatedVisibility(
             visible = !marketListState.refreshing,
@@ -99,12 +113,13 @@ private fun MarketListScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .animateItemPlacement(
-                                animationSpec = tween(durationMillis = 250)
-                            )
+                                animationSpec = tween(durationMillis = 250),
+                            ),
                     ) {
                         MarketListItem(
                             modifier = Modifier,
                             market = market,
+                            showFavoriteList = showFavoriteList,
                             onItemClick = {
                                 onNavigateToDetailScreen(market)
                             },
@@ -119,7 +134,7 @@ private fun MarketListScreen(
         PullRefreshIndicator(
             marketListState.refreshing,
             refreshState,
-            Modifier.align(Alignment.TopCenter)
+            Modifier.align(Alignment.TopCenter),
         )
     }
 }
@@ -134,6 +149,7 @@ private fun MarketListScreenPrev(
         Surface {
             MarketListScreen(
                 marketListState = marketListState,
+                showFavoriteList = false,
                 onNavigateToDetailScreen = {},
                 onFavoriteClick = {},
                 onRefresh = {},

@@ -24,24 +24,24 @@ fun BottomNavigationIcon(
             BadgedBox(
                 badge = {
                     Text(text = badgeCount.toString())
-                }
+                },
             ) {
                 Icon(
                     imageVector = icon,
-                    contentDescription = name
+                    contentDescription = name,
                 )
             }
         } else {
             Icon(
                 imageVector = icon,
-                contentDescription = name
+                contentDescription = name,
             )
         }
         if (selected) {
             Text(
                 text = name,
                 textAlign = TextAlign.Center,
-                fontSize = 10.sp
+                fontSize = 10.sp,
             )
         }
     }

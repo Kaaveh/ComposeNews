@@ -9,6 +9,7 @@ import ir.composenews.domain.model.Market
 fun MarketListItem(
     modifier: Modifier,
     market: Market,
+    showFavoriteList: Boolean,
     onItemClick: () -> Unit,
     onFavoriteClick: () -> Unit,
 ) {
@@ -19,8 +20,9 @@ fun MarketListItem(
             urlToImage = imageUrl,
             price = currentPrice.toString(),
             isFavorite = isFavorite,
+            showFavoriteList = showFavoriteList,
             onItemClick = onItemClick,
-            onFavoriteClick = onFavoriteClick
+            onFavoriteClick = onFavoriteClick,
         )
     }
 }

@@ -1,3 +1,5 @@
+@file:Suppress("TopLevelPropertyNaming")
+
 package ir.composenews.remotedatasource.api
 
 import ir.composenews.remotedatasource.dto.MarketChartResponse
@@ -32,3 +34,4 @@ interface MarketsApi {
 }
 
 internal const val BASE_URL = "https://api.coingecko.com/api/v3/"
+

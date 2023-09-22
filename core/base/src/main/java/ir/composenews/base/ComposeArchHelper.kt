@@ -31,7 +31,7 @@ inline fun <reified EVENT, STATE> use(
     }
     return StateDispatch(
         state = state,
-        dispatch = dispatch
+        dispatch = dispatch,
     )
 }
 
@@ -47,7 +47,7 @@ inline fun <reified BASE_EVENT, BASE_EFFECT, BASE_STATE> useBase(
     return StateEffectDispatch(
         state = state,
         effectFlow = viewModel.baseEffect,
-        dispatch = dispatch
+        dispatch = dispatch,
     )
 }
 

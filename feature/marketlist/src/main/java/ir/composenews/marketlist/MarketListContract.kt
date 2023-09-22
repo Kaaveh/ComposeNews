@@ -18,7 +18,6 @@ interface MarketListContract :
         data class OnSetShowFavoriteList(val showFavoriteList: Boolean) : Event()
         data class OnFavoriteClick(val market: Market) : Event()
         data object OnGetMarketList : Event()
-        data object OnRefresh: Event()
+        data object OnRefresh : Event()
     }
-
 }

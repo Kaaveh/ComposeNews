@@ -11,13 +11,13 @@ class FakeMarketsApi : MarketsApi {
         order: String,
         perPage: Int,
         page: Int,
-        sparkline: Boolean
+        sparkline: Boolean,
     ): List<MarketResponse> = listOf(marketDto)
 
     override suspend fun getMarketChart(
         id: String,
         currency: String,
-        days: Int
+        days: Int,
     ): MarketChartResponse {
         TODO("Not yet implemented")
     }
@@ -26,3 +26,4 @@ class FakeMarketsApi : MarketsApi {
         TODO("Not yet implemented")
     }
 }
+

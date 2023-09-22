@@ -14,3 +14,4 @@ interface MarketRepository {
     fun fetchChart(id: String): Flow<Resource<Chart>>
     fun fetchDetail(id: String): Flow<Resource<MarketDetail>>
 }
+

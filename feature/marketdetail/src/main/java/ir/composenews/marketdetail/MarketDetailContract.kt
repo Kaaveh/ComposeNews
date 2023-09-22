@@ -22,5 +22,4 @@ interface MarketDetailContract :
         data class GetMarketDetail(val marketId: String) : Event()
         data class OnFavoriteClick(val market: Market?) : Event()
     }
-
 }

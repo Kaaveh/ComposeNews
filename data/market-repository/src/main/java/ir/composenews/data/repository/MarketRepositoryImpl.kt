@@ -1,3 +1,5 @@
+@file:Suppress("MagicNumber", "TooGenericExceptionCaught")
+
 package ir.composenews.data.repository
 
 import ir.composenews.data.mapper.toChart
@@ -19,7 +21,7 @@ import javax.inject.Inject
 
 class MarketRepositoryImpl @Inject constructor(
     private val api: MarketsApi,
-    private val dao: MarketDao
+    private val dao: MarketDao,
 ) : MarketRepository {
 
     override fun getMarketList(): Flow<List<Market>> =
@@ -59,3 +61,4 @@ class MarketRepositoryImpl @Inject constructor(
     }
 
 }
+

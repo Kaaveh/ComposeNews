@@ -1,3 +1,5 @@
+@file:Suppress("MagicNumber")
+
 package ir.composenews.navigation.graph
 
 import androidx.compose.animation.AnimatedContentTransitionScope
@@ -20,15 +22,15 @@ fun NavGraphBuilder.marketDetail(
         enterTransition = {
             slideIntoContainer(
                 animationSpec = tween(300, easing = EaseIn),
-                towards = AnimatedContentTransitionScope.SlideDirection.Start
+                towards = AnimatedContentTransitionScope.SlideDirection.Start,
             )
         },
         exitTransition = {
             slideOutOfContainer(
                 animationSpec = tween(300, easing = EaseOut),
-                towards = AnimatedContentTransitionScope.SlideDirection.End
+                towards = AnimatedContentTransitionScope.SlideDirection.End,
             )
-        }
+        },
     ) { entry ->
         val market = entry.parcelableData<Market>(Destinations.MarketDetailScreen().market)
             ?: uiState.market as Market

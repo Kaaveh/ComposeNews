@@ -70,29 +70,28 @@ private fun MarketDetailScreen(
     onFavoriteClick: (market: Market?) -> Unit,
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
-
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             ) {
                 Row(
                     modifier = Modifier
                         .padding(16.dp)
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Image(
                         painter = rememberAsyncImagePainter(model = marketDetailState.market?.imageUrl),
                         contentDescription = marketDetailState.market?.name,
                         modifier = Modifier
                             .size(48.dp)
-                            .clip(CircleShape)
+                            .clip(CircleShape),
                     )
                     Column(
-                        modifier = Modifier.weight(1F)
+                        modifier = Modifier.weight(1F),
                     ) {
                         Text(
                             text = marketDetailState.market?.name ?: "--",
@@ -198,7 +197,6 @@ private fun MarketDetailScreen(
             }
         }
     }
-
 }
 
 fun formatNumber(number : Long?) : String {
@@ -217,7 +215,7 @@ fun formatNumber(number : Long?) : String {
 @Composable
 private fun MarketDetailScreenPrev(
     @PreviewParameter(MarketDetailStateProvider::class)
-    marketDetailState: MarketDetailContract.State
+    marketDetailState: MarketDetailContract.State,
 ) {
     ComposeNewsTheme {
         Surface {

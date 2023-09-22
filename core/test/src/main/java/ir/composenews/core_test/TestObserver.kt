@@ -1,9 +1,8 @@
-@file:OptIn(ExperimentalCoroutinesApi::class)
+@file:Suppress("PackageNaming", "PackageName")
 
 package ir.composenews.core_test
 
 import ir.composenews.core_test.dispatcher.TestDispatcherProvider
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -15,7 +14,9 @@ interface TestObserver<T> {
 }
 
 class FlowTestObserver<T>(
-    scope: TestScope, testDispatcherProvider: TestDispatcherProvider, flow: Flow<T>
+    scope: TestScope,
+    testDispatcherProvider: TestDispatcherProvider,
+    flow: Flow<T>,
 ) : TestObserver<T> {
 
     private val result = mutableListOf<T>()
@@ -38,11 +39,11 @@ class FlowTestObserver<T>(
     fun finish() {
         job.cancel()
     }
-
 }
 
 fun <T> Flow<T>.test(
-    scope: TestScope, testDispatcherProvider: TestDispatcherProvider
+    scope: TestScope,
+    testDispatcherProvider: TestDispatcherProvider,
 ): FlowTestObserver<T> {
     return FlowTestObserver(scope, testDispatcherProvider, this)
 }

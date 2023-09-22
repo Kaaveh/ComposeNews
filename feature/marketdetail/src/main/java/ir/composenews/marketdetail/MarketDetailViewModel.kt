@@ -1,10 +1,12 @@
+@file:Suppress("ImportOrdering")
+
 package ir.composenews.marketdetail
 
 import androidx.lifecycle.viewModelScope
-import ir.composenews.core_test.dispatcher.DispatcherProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.composenews.base.BaseContract
 import ir.composenews.base.BaseViewModel
+import ir.composenews.core_test.dispatcher.DispatcherProvider
 import ir.composenews.domain.model.Market
 import ir.composenews.domain.model.Resource
 import ir.composenews.domain.use_case.GetMarketChartUseCase
@@ -25,7 +27,7 @@ class MarketDetailViewModel @Inject constructor(
     private val getMarketChartUseCase: GetMarketChartUseCase,
     private val getMarketDetailUseCase: GetMarketDetailUseCase,
     private val toggleFavoriteMarketListUseCase: ToggleFavoriteMarketListUseCase,
-    dispatcherProvider: DispatcherProvider
+    dispatcherProvider: DispatcherProvider,
 ) : BaseViewModel(dispatcherProvider), MarketDetailContract {
 
     private val mutableState = MutableStateFlow(MarketDetailContract.State())
@@ -103,7 +105,7 @@ class MarketDetailViewModel @Inject constructor(
         mutableState.update { state ->
             state.market?.let { market ->
                 state.copy(
-                    market = market.copy(isFavorite = !market.isFavorite)
+                    market = market.copy(isFavorite = !market.isFavorite),
                 )
             } ?: state
         }
@@ -116,16 +118,17 @@ class MarketDetailViewModel @Inject constructor(
                 when (result) {
                     is Resource.Success -> {
                         result.data?.let { chart ->
-                            if (!isRefreshing)
+                            if (!isRefreshing) {
                                 mutableBaseState.update {
                                     BaseContract.BaseState.OnSuccess
                                 }
-                            else
+                            } else {
                                 mutableState.update {
                                     MarketDetailContract.State(
                                         refreshing = false,
                                     )
                                 }
+                            }
                             mutableState.update {
                                 it.copy(marketChart = chart, loading = false)
                             }
@@ -136,7 +139,7 @@ class MarketDetailViewModel @Inject constructor(
                         mutableBaseState.update {
                             BaseContract.BaseState.OnError(
                                 errorMessage = result.exception?.localizedMessage
-                                    ?: "An unexpected error occurred."
+                                    ?: "An unexpected error occurred.",
                             )
                         }
                     }
@@ -145,11 +148,10 @@ class MarketDetailViewModel @Inject constructor(
             .catch { exception ->
                 mutableBaseState.update {
                     BaseContract.BaseState.OnError(
-                        errorMessage = exception.localizedMessage ?: "An unexpected error occurred."
+                        errorMessage = exception.localizedMessage ?: "An unexpected error occurred.",
                     )
                 }
             }
             .launchIn(viewModelScope)
     }
-
 }
