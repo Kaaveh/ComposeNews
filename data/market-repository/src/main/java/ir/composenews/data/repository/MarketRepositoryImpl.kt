@@ -1,11 +1,13 @@
 package ir.composenews.data.repository
 
 import ir.composenews.data.mapper.toChart
+import ir.composenews.data.mapper.toDetail
 import ir.composenews.data.mapper.toLocalMarketDto
 import ir.composenews.data.mapper.toMarket
 import ir.composenews.data.mapper.toRemoteMarketDto
 import ir.composenews.domain.model.Chart
 import ir.composenews.domain.model.Market
+import ir.composenews.domain.model.MarketDetail
 import ir.composenews.domain.model.Resource
 import ir.composenews.domain.repository.MarketRepository
 import ir.composenews.localdatasource.database.MarketDao
@@ -42,6 +44,15 @@ class MarketRepositoryImpl @Inject constructor(
         try {
             val chart = api.getMarketChart(id, "usd", 1).toChart()
             emit(Resource.Success(chart))
+        } catch (e: Exception) {
+            emit(Resource.Error(exception = e))
+        }
+    }
+
+    override fun fetchDetail(id: String): Flow<Resource<MarketDetail>> = flow {
+        try {
+            val detail = api.getMarketDetail(id).toDetail()
+            emit(Resource.Success(detail))
         } catch (e: Exception) {
             emit(Resource.Error(exception = e))
         }

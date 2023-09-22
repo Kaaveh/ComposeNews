@@ -8,6 +8,7 @@ import ir.composenews.base.BaseViewModel
 import ir.composenews.domain.model.Market
 import ir.composenews.domain.model.Resource
 import ir.composenews.domain.use_case.GetMarketChartUseCase
+import ir.composenews.domain.use_case.GetMarketDetailUseCase
 import ir.composenews.domain.use_case.ToggleFavoriteMarketListUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,6 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MarketDetailViewModel @Inject constructor(
     private val getMarketChartUseCase: GetMarketChartUseCase,
+    private val getMarketDetailUseCase: GetMarketDetailUseCase,
     private val toggleFavoriteMarketListUseCase: ToggleFavoriteMarketListUseCase,
     dispatcherProvider: DispatcherProvider
 ) : BaseViewModel(dispatcherProvider), MarketDetailContract {
@@ -33,7 +35,52 @@ class MarketDetailViewModel @Inject constructor(
         is MarketDetailContract.Event.SetMarket -> setMarket(market = event.market)
         is MarketDetailContract.Event.OnFavoriteClick -> onFavoriteClick(market = event.market)
         is MarketDetailContract.Event.GetMarketChart -> getMarketChart(id = event.marketId)
+        is MarketDetailContract.Event.GetMarketDetail -> getMarketDetail(id = event.marketId)
     }
+
+    private fun getMarketDetail(id: String, isRefreshing: Boolean = false) {
+        mutableBaseState.update { BaseContract.BaseState.OnLoading }
+        getMarketDetailUseCase(id = id)
+            .onEach { result ->
+                when (result) {
+                    is Resource.Success -> {
+                        result.data?.let { detail ->
+                            if (!isRefreshing)
+                                mutableBaseState.update {
+                                    BaseContract.BaseState.OnSuccess
+                                }
+                            else
+                                mutableState.update {
+                                    MarketDetailContract.State(
+                                        refreshing = false,
+                                    )
+                                }
+                            mutableState.update {
+                                it.copy(marketDetail = detail, loading = false)
+                            }
+                        }
+                    }
+
+                    is Resource.Error -> {
+                        mutableBaseState.update {
+                            BaseContract.BaseState.OnError(
+                                errorMessage = result.exception?.localizedMessage
+                                    ?: "An unexpected error occurred."
+                            )
+                        }
+                    }
+                }
+            }
+            .catch { exception ->
+                mutableBaseState.update {
+                    BaseContract.BaseState.OnError(
+                        errorMessage = exception.localizedMessage ?: "An unexpected error occurred."
+                    )
+                }
+            }
+            .launchIn(viewModelScope)
+    }
+
 
     private fun setMarket(market: Market?) {
         mutableState.update {

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Divider
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -19,6 +20,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -43,6 +45,12 @@ fun MarketDetailRoute(
         event.invoke(MarketDetailContract.Event.SetMarket(market = market))
         market?.let {
             event.invoke(MarketDetailContract.Event.GetMarketChart(marketId = market.id))
+        }
+    }
+    LaunchedEffect(key1 = market) {
+        event.invoke(MarketDetailContract.Event.SetMarket(market = market))
+        market?.let {
+            event.invoke(MarketDetailContract.Event.GetMarketDetail(marketId = market.id))
         }
     }
 
@@ -99,6 +107,84 @@ private fun MarketDetailScreen(
             }
 
             QuadLineChart(data = marketDetailState.marketChart.prices)
+
+            Row(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Text(
+                    text = "Market Data",
+                    style = MaterialTheme.typography.titleLarge,
+                )
+            }
+            Divider(color = Color.Gray)
+
+            Row(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Column (
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        modifier = Modifier
+                        .padding(bottom = 8.dp),
+                        text = "Market Cap",
+                        style = MaterialTheme.typography.titleMedium,
+                    )
+
+                    Text(
+                        text = formatNumber(marketDetailState.marketDetail.marketData?.marketCap?.usd),
+                        style = MaterialTheme.typography.bodyLarge,
+                    )
+                }
+                Column (
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        modifier = Modifier
+                        .padding(bottom = 8.dp),
+                        text = "High 24h",
+                        style = MaterialTheme.typography.titleMedium,
+                    )
+                    Text(
+                        text = marketDetailState.marketDetail.marketData?.high24h?.usd.toString(),
+                        style = MaterialTheme.typography.bodyLarge,
+                    )
+                }
+                Column (
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        modifier = Modifier
+                        .padding(bottom = 8.dp),
+                        text = "Low 24h",
+                        style = MaterialTheme.typography.titleMedium,
+                    )
+                    Text(
+                        text = marketDetailState.marketDetail.marketData?.low24h?.usd.toString(),
+                        style = MaterialTheme.typography.bodyLarge,
+                    )
+                }
+                Column (
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        modifier = Modifier
+                        .padding(bottom = 8.dp),
+                        text = "Rank",
+                        style = MaterialTheme.typography.titleMedium,
+                    )
+                    Text(
+                        text = "#${marketDetailState.marketDetail.marketCapRank}",
+                        style = MaterialTheme.typography.bodyLarge,
+                    )
+                }
+            }
         }
 
         FloatingActionButton(
@@ -113,6 +199,18 @@ private fun MarketDetailScreen(
         }
     }
 
+}
+
+fun formatNumber(number : Long?) : String {
+    val format = number?.div(1000000000)
+    if (format != null) {
+        return if (format >= 1) {
+            "$${format}B"
+        } else {
+            "$${format}M"
+        }
+    }
+    return ""
 }
 
 @ThemePreviews

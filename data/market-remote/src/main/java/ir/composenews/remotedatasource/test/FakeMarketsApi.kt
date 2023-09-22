@@ -2,6 +2,7 @@ package ir.composenews.remotedatasource.test
 
 import ir.composenews.remotedatasource.api.MarketsApi
 import ir.composenews.remotedatasource.dto.MarketChartResponse
+import ir.composenews.remotedatasource.dto.MarketDetailResponse
 import ir.composenews.remotedatasource.dto.MarketResponse
 
 class FakeMarketsApi : MarketsApi {
@@ -18,6 +19,10 @@ class FakeMarketsApi : MarketsApi {
         currency: String,
         days: Int
     ): MarketChartResponse {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getMarketDetail(id: String): MarketDetailResponse {
         TODO("Not yet implemented")
     }
 }
