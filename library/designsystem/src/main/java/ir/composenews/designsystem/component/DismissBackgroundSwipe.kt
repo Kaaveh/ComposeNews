@@ -30,7 +30,11 @@ import androidx.compose.ui.unit.dp
 fun DismissBackgroundSwipe(modifier: Modifier, dismissState: DismissState) {
     val color by animateColorAsState(
         targetValue = when (dismissState.targetValue) {
-            DismissValue.DismissedToStart -> if (isSystemInDarkTheme()) MaterialTheme.colorScheme.errorContainer else Color.Red
+            DismissValue.DismissedToStart -> if (isSystemInDarkTheme()) {
+                MaterialTheme.colorScheme.errorContainer
+            } else {
+                Color.Red
+            }
             else -> if (isSystemInDarkTheme().not()) Color.LightGray else Color.Gray
         },
         label = "",
