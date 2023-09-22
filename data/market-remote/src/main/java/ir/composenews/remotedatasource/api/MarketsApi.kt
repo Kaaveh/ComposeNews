@@ -3,6 +3,7 @@
 package ir.composenews.remotedatasource.api
 
 import ir.composenews.remotedatasource.dto.MarketChartResponse
+import ir.composenews.remotedatasource.dto.MarketDetailResponse
 import ir.composenews.remotedatasource.dto.MarketResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -25,6 +26,11 @@ interface MarketsApi {
         @Query("vs_currency") currency: String,
         @Query("days") days: Int,
     ): MarketChartResponse
+    @GET("coins/{id}")
+    suspend fun getMarketDetail(
+        @Path("id") id: String,
+    ): MarketDetailResponse
+
 }
 
 internal const val BASE_URL = "https://api.coingecko.com/api/v3/"
