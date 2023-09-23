@@ -10,6 +10,7 @@ import ir.composenews.domain.model.Chart
 import ir.composenews.domain.model.Market
 import ir.composenews.domain.model.Resource
 import ir.composenews.domain.use_case.GetMarketChartUseCase
+import ir.composenews.domain.use_case.GetMarketDetailUseCase
 import ir.composenews.domain.use_case.ToggleFavoriteMarketListUseCase
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
@@ -29,6 +30,7 @@ import kotlin.random.Random
 class MarketDetailViewModelTest {
 
     private val getMarketChartUseCase: GetMarketChartUseCase = mockk(relaxed = true)
+    private val getMarketDetailUseCase: GetMarketDetailUseCase = mockk(relaxed = true)
     private val toggleFavoriteMarketListUseCase: ToggleFavoriteMarketListUseCase =
         mockk(relaxed = true)
     private val testScheduler = TestCoroutineScheduler()
@@ -43,6 +45,7 @@ class MarketDetailViewModelTest {
     fun setup() {
         sut = MarketDetailViewModel(
             getMarketChartUseCase = getMarketChartUseCase,
+            getMarketDetailUseCase = getMarketDetailUseCase,
             toggleFavoriteMarketListUseCase = toggleFavoriteMarketListUseCase,
             dispatcherProvider = dispatcherProvider,
         )
