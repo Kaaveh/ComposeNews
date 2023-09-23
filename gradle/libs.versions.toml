@@ -6,6 +6,12 @@ projectTargetSdkVersion = "34"
 projectCompileSdkVersion = "34"
 projectVersionCode = "1"
 
+kotlin = "1.9.10"
+kotlinter = "3.16.0"
+ksp = "1.9.10-1.0.13"
+kotlinxImmutableCollection = "0.3.5"
+androidGradlePlugin = "8.1.1"
+
 ktx = "1.12.0"
 
 composeBOM = "2023.09.01"
@@ -46,13 +52,6 @@ runner = "1.5.2"
 startupRuntime = "1.1.1"
 
 workRuntimeKtx = "2.8.1"
-
-androidGradlePlugin = "8.1.1"
-
-kotlin = "1.9.10"
-kotlinter = "3.16.0"
-
-kotlinxImmutableCollection = "0.3.5"
 
 windowsSizeClass = "1.1.2"
 adaptive = "0.26.2-beta"
@@ -126,7 +125,7 @@ android-library = { id = "com.android.library", version.ref = "androidGradlePlug
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 kotliner = { id = "org.jmailen.kotlinter", version.ref = "kotlinter" }
