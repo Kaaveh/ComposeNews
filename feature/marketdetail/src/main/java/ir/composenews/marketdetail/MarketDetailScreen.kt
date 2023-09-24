@@ -34,7 +34,6 @@ import ir.composenews.designsystem.theme.ComposeNewsTheme
 import ir.composenews.domain.model.Market
 import ir.composenews.marketdetail.MarketDetailContract.State
 import ir.composenews.marketdetail.preview_provider.MarketDetailStateProvider
-import ir.composenews.utils.BILLION_NUMBER
 
 @Composable
 fun MarketDetailRoute(
@@ -42,7 +41,7 @@ fun MarketDetailRoute(
     viewModel: MarketDetailViewModel = hiltViewModel(),
 ) {
     val (state, event) = use(viewModel = viewModel)
-
+    val billion = 1000000000L
     LaunchedEffect(key1 = market) {
         event.invoke(MarketDetailContract.Event.SetMarket(market = market))
         market?.let {
@@ -133,58 +132,81 @@ private fun MarketDetail(marketDetailState: State) {
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Text(
-                modifier = Modifier.padding(bottom = 8.dp),
-                text = "Market Cap",
-                style = MaterialTheme.typography.titleMedium,
-            )
-            Text(
-                text = formatNumber(marketDetailState.marketDetail.marketData?.marketCap?.usd),
-                style = MaterialTheme.typography.bodyLarge,
-            )
-        }
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Text(
-                modifier = Modifier.padding(bottom = 8.dp),
-                text = "High 24h",
-                style = MaterialTheme.typography.titleMedium,
-            )
-            Text(
-                text = marketDetailState.marketDetail.marketData?.high24h?.usd.toString(),
-                style = MaterialTheme.typography.bodyLarge,
-            )
-        }
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Text(
-                modifier = Modifier.padding(bottom = 8.dp),
-                text = "Low 24h",
-                style = MaterialTheme.typography.titleMedium,
-            )
-            Text(
-                text = marketDetailState.marketDetail.marketData?.low24h?.usd.toString(),
-                style = MaterialTheme.typography.bodyLarge,
-            )
-        }
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Text(
-                modifier = Modifier.padding(bottom = 8.dp),
-                text = "Rank",
-                style = MaterialTheme.typography.titleMedium,
-            )
-            Text(
-                text = "#${marketDetailState.marketDetail.marketCapRank}",
-                style = MaterialTheme.typography.bodyLarge,
-            )
-        }
+        MarketCap(marketDetailState)
+        High24(marketDetailState)
+        Low24(marketDetailState)
+        Rank(marketDetailState)
+    }
+}
+
+@Composable
+private fun Rank(marketDetailState: State) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            modifier = Modifier.padding(bottom = 8.dp),
+            text = "Rank",
+            style = MaterialTheme.typography.titleMedium,
+        )
+        Text(
+            text = "#${marketDetailState.marketDetail.marketCapRank}",
+            style = MaterialTheme.typography.bodyLarge,
+        )
+    }
+}
+
+@Composable
+private fun Low24(marketDetailState: State) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            modifier = Modifier.padding(bottom = 8.dp),
+            text = "Low 24h",
+            style = MaterialTheme.typography.titleMedium,
+        )
+        Text(
+            text = marketDetailState.marketDetail.marketData?.low24h?.usd.toString(),
+            style = MaterialTheme.typography.bodyLarge,
+        )
+    }
+}
+
+@Composable
+private fun High24(marketDetailState: State) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            modifier = Modifier.padding(bottom = 8.dp),
+            text = "High 24h",
+            style = MaterialTheme.typography.titleMedium,
+        )
+        Text(
+            text = marketDetailState.marketDetail.marketData?.high24h?.usd.toString(),
+            style = MaterialTheme.typography.bodyLarge,
+        )
+    }
+}
+
+@Composable
+private fun MarketCap(marketDetailState: State) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            modifier = Modifier.padding(bottom = 8.dp),
+            text = "Market Cap",
+            style = MaterialTheme.typography.titleMedium,
+        )
+        Text(
+            text = formatNumber(
+                marketDetailState.marketDetail.marketData?.marketCap?.usd,
+                1000000000L,
+            ),
+            style = MaterialTheme.typography.bodyLarge,
+        )
     }
 }
 
@@ -204,8 +226,8 @@ private fun MarketData() {
     Divider(color = Color.Gray)
 }
 
-fun formatNumber(number: Long?): String {
-    val format = number?.div(BILLION_NUMBER)
+fun formatNumber(number: Long?, billion: Long): String {
+    val format = number?.div(billion)
     if (format != null) {
         return if (format >= 1) {
             "$${format}B"
