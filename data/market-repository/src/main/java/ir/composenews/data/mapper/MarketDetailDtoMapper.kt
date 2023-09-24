@@ -1,7 +1,9 @@
 package ir.composenews.data.mapper
 
 import ir.composenews.domain.model.MarketDetail
+import ir.composenews.domain.model.MarketDetail.MarketData.*
 import ir.composenews.remotedatasource.dto.MarketDetailResponse
+import ir.composenews.remotedatasource.dto.MarketDetailResponse.MarketData
 
 fun MarketDetailResponse.toDetail(): MarketDetail = MarketDetail(
     id = id,
@@ -10,21 +12,21 @@ fun MarketDetailResponse.toDetail(): MarketDetail = MarketDetail(
     marketCapRank = marketCapRank,
 )
 
-fun MarketDetailResponse.MarketData.toMarketData(): MarketDetail.MarketData = MarketDetail.MarketData(
+fun MarketData.toMarketData(): MarketDetail.MarketData = MarketDetail.MarketData(
     high24h = high24h?.toHigh24(),
     low24h = low24h?.toLow24(),
     marketCap = marketCap?.toMarketCap(),
     marketCapRank = marketCapRank,
 )
 
-fun MarketDetailResponse.MarketData.High24h.toHigh24(): MarketDetail.MarketData.High24h = MarketDetail.MarketData.High24h(
+fun MarketData.High24h.toHigh24(): High24h = High24h(
     usd = usd,
 )
 
-fun MarketDetailResponse.MarketData.Low24h.toLow24(): MarketDetail.MarketData.Low24h = MarketDetail.MarketData.Low24h(
+fun MarketData.Low24h.toLow24(): Low24h = Low24h(
     usd = usd,
 )
 
-fun MarketDetailResponse.MarketData.MarketCap.toMarketCap(): MarketDetail.MarketData.MarketCap = MarketDetail.MarketData.MarketCap(
+fun MarketData.MarketCap.toMarketCap(): MarketCap = MarketCap(
     usd = usd,
 )

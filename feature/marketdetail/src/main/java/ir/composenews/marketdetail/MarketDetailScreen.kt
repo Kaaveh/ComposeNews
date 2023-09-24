@@ -32,7 +32,10 @@ import ir.composenews.designsystem.component.QuadLineChart
 import ir.composenews.designsystem.preview.ThemePreviews
 import ir.composenews.designsystem.theme.ComposeNewsTheme
 import ir.composenews.domain.model.Market
+import ir.composenews.marketdetail.MarketDetailContract.State
 import ir.composenews.marketdetail.preview_provider.MarketDetailStateProvider
+
+const val BILLION_NUMBER = 1000000000
 
 @Composable
 fun MarketDetailRoute(
@@ -66,7 +69,7 @@ fun MarketDetailRoute(
 
 @Composable
 private fun MarketDetailScreen(
-    marketDetailState: MarketDetailContract.State,
+    marketDetailState: State,
     onFavoriteClick: (market: Market?) -> Unit,
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
@@ -196,7 +199,7 @@ private fun MarketDetailScreen(
 }
 
 fun formatNumber(number: Long?): String {
-    val format = number?.div(1000000000)
+    val format = number?.div(BILLION_NUMBER)
     if (format != null) {
         return if (format >= 1) {
             "$${format}B"
@@ -210,7 +213,7 @@ fun formatNumber(number: Long?): String {
 @ThemePreviews
 @Composable
 private fun MarketDetailScreenPrev(
-    @PreviewParameter(MarketDetailStateProvider::class) marketDetailState: MarketDetailContract.State,
+    @PreviewParameter(MarketDetailStateProvider::class) marketDetailState: State,
 ) {
     ComposeNewsTheme {
         Surface {
