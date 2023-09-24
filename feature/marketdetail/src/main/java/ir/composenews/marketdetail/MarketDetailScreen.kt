@@ -34,6 +34,7 @@ import ir.composenews.designsystem.theme.ComposeNewsTheme
 import ir.composenews.domain.model.Market
 import ir.composenews.marketdetail.MarketDetailContract.State
 import ir.composenews.marketdetail.preview_provider.MarketDetailStateProvider
+import ir.composenews.utils.BILLION_NUMBER
 
 @Composable
 fun MarketDetailRoute(
@@ -107,7 +108,7 @@ private fun MarketDetailScreen(
             }
 
             QuadLineChart(data = marketDetailState.marketChart.prices)
-
+            MarketData()
             MarketDetail(marketDetailState)
         }
 
@@ -126,7 +127,6 @@ private fun MarketDetailScreen(
 
 @Composable
 private fun MarketDetail(marketDetailState: State) {
-    MarketData()
     Row(
         modifier = Modifier
             .padding(16.dp)
@@ -141,7 +141,6 @@ private fun MarketDetail(marketDetailState: State) {
                 text = "Market Cap",
                 style = MaterialTheme.typography.titleMedium,
             )
-
             Text(
                 text = formatNumber(marketDetailState.marketDetail.marketData?.marketCap?.usd),
                 style = MaterialTheme.typography.bodyLarge,
@@ -206,8 +205,7 @@ private fun MarketData() {
 }
 
 fun formatNumber(number: Long?): String {
-    val billionNumber = 1000000000L
-    val format = number?.div(billionNumber)
+    val format = number?.div(BILLION_NUMBER)
     if (format != null) {
         return if (format >= 1) {
             "$${format}B"
