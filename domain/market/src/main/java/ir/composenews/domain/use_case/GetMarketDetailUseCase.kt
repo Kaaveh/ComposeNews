@@ -1,6 +1,5 @@
 package ir.composenews.domain.use_case
 
-import ir.composenews.domain.model.Chart
 import ir.composenews.domain.model.MarketDetail
 import ir.composenews.domain.model.Resource
 import ir.composenews.domain.repository.MarketRepository
@@ -12,5 +11,4 @@ class GetMarketDetailUseCase @Inject constructor(
 ) {
 
     operator fun invoke(id: String): Flow<Resource<MarketDetail>> = repository.fetchDetail(id = id)
-
 }

@@ -1,6 +1,5 @@
 package ir.composenews.remotedatasource.dto
 
-
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

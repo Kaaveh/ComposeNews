@@ -59,5 +59,4 @@ class MarketRepositoryImpl @Inject constructor(
             emit(Resource.Error(exception = e))
         }
     }
-
 }

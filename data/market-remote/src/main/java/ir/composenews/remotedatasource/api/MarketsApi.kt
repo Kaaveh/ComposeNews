@@ -26,11 +26,11 @@ interface MarketsApi {
         @Query("vs_currency") currency: String,
         @Query("days") days: Int,
     ): MarketChartResponse
+
     @GET("coins/{id}")
     suspend fun getMarketDetail(
         @Path("id") id: String,
     ): MarketDetailResponse
-
 }
 
 internal const val BASE_URL = "https://api.coingecko.com/api/v3/"

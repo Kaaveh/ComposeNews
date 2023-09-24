@@ -42,47 +42,43 @@ class MarketDetailViewModel @Inject constructor(
 
     private fun getMarketDetail(id: String, isRefreshing: Boolean = false) {
         mutableBaseState.update { BaseContract.BaseState.OnLoading }
-        getMarketDetailUseCase(id = id)
-            .onEach { result ->
-                when (result) {
-                    is Resource.Success -> {
-                        result.data?.let { detail ->
-                            if (!isRefreshing)
-                                mutableBaseState.update {
-                                    BaseContract.BaseState.OnSuccess
-                                }
-                            else
-                                mutableState.update {
-                                    MarketDetailContract.State(
-                                        refreshing = false,
-                                    )
-                                }
+        getMarketDetailUseCase(id = id).onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    result.data?.let { detail ->
+                        if (!isRefreshing) {
+                            mutableBaseState.update {
+                                BaseContract.BaseState.OnSuccess
+                            }
+                        } else {
                             mutableState.update {
-                                it.copy(marketDetail = detail, loading = false)
+                                MarketDetailContract.State(
+                                    refreshing = false,
+                                )
                             }
                         }
-                    }
-
-                    is Resource.Error -> {
-                        mutableBaseState.update {
-                            BaseContract.BaseState.OnError(
-                                errorMessage = result.exception?.localizedMessage
-                                    ?: "An unexpected error occurred."
-                            )
+                        mutableState.update {
+                            it.copy(marketDetail = detail, loading = false)
                         }
                     }
                 }
-            }
-            .catch { exception ->
-                mutableBaseState.update {
-                    BaseContract.BaseState.OnError(
-                        errorMessage = exception.localizedMessage ?: "An unexpected error occurred."
-                    )
+
+                is Resource.Error -> {
+                    mutableBaseState.update {
+                        BaseContract.BaseState.OnError(
+                            errorMessage = result.exception?.localizedMessage ?: "An unexpected error occurred.",
+                        )
+                    }
                 }
             }
-            .launchIn(viewModelScope)
+        }.catch { exception ->
+            mutableBaseState.update {
+                BaseContract.BaseState.OnError(
+                    errorMessage = exception.localizedMessage ?: "An unexpected error occurred.",
+                )
+            }
+        }.launchIn(viewModelScope)
     }
-
 
     private fun setMarket(market: Market?) {
         mutableState.update {
@@ -113,45 +109,41 @@ class MarketDetailViewModel @Inject constructor(
 
     private fun getMarketChart(id: String, isRefreshing: Boolean = false) {
         mutableBaseState.update { BaseContract.BaseState.OnLoading }
-        getMarketChartUseCase(id = id)
-            .onEach { result ->
-                when (result) {
-                    is Resource.Success -> {
-                        result.data?.let { chart ->
-                            if (!isRefreshing) {
-                                mutableBaseState.update {
-                                    BaseContract.BaseState.OnSuccess
-                                }
-                            } else {
-                                mutableState.update {
-                                    MarketDetailContract.State(
-                                        refreshing = false,
-                                    )
-                                }
+        getMarketChartUseCase(id = id).onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    result.data?.let { chart ->
+                        if (!isRefreshing) {
+                            mutableBaseState.update {
+                                BaseContract.BaseState.OnSuccess
                             }
+                        } else {
                             mutableState.update {
-                                it.copy(marketChart = chart, loading = false)
+                                MarketDetailContract.State(
+                                    refreshing = false,
+                                )
                             }
                         }
-                    }
-
-                    is Resource.Error -> {
-                        mutableBaseState.update {
-                            BaseContract.BaseState.OnError(
-                                errorMessage = result.exception?.localizedMessage
-                                    ?: "An unexpected error occurred.",
-                            )
+                        mutableState.update {
+                            it.copy(marketChart = chart, loading = false)
                         }
                     }
                 }
-            }
-            .catch { exception ->
-                mutableBaseState.update {
-                    BaseContract.BaseState.OnError(
-                        errorMessage = exception.localizedMessage ?: "An unexpected error occurred.",
-                    )
+
+                is Resource.Error -> {
+                    mutableBaseState.update {
+                        BaseContract.BaseState.OnError(
+                            errorMessage = result.exception?.localizedMessage ?: "An unexpected error occurred.",
+                        )
+                    }
                 }
             }
-            .launchIn(viewModelScope)
+        }.catch { exception ->
+            mutableBaseState.update {
+                BaseContract.BaseState.OnError(
+                    errorMessage = exception.localizedMessage ?: "An unexpected error occurred.",
+                )
+            }
+        }.launchIn(viewModelScope)
     }
 }

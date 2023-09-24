@@ -20,23 +20,23 @@ data class MarketDetail(
         val low24h: Low24h? = null,
         val marketCap: MarketCap? = null,
         val marketCapRank: Int? = null,
-    ): Parcelable {
+    ) : Parcelable {
         @Immutable
         @Parcelize
         data class High24h(
             val usd: Double? = null,
-        ): Parcelable
+        ) : Parcelable
 
         @Immutable
         @Parcelize
         data class Low24h(
             val usd: Double? = null,
-        ): Parcelable
+        ) : Parcelable
 
         @Immutable
         @Parcelize
         data class MarketCap(
             val usd: Long? = null,
-        ): Parcelable
+        ) : Parcelable
     }
 }

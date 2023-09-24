@@ -126,12 +126,11 @@ private fun MarketDetailScreen(
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                Column (
-                    horizontalAlignment = Alignment.CenterHorizontally
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Text(
-                        modifier = Modifier
-                        .padding(bottom = 8.dp),
+                        modifier = Modifier.padding(bottom = 8.dp),
                         text = "Market Cap",
                         style = MaterialTheme.typography.titleMedium,
                     )
@@ -141,12 +140,11 @@ private fun MarketDetailScreen(
                         style = MaterialTheme.typography.bodyLarge,
                     )
                 }
-                Column (
-                    horizontalAlignment = Alignment.CenterHorizontally
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Text(
-                        modifier = Modifier
-                        .padding(bottom = 8.dp),
+                        modifier = Modifier.padding(bottom = 8.dp),
                         text = "High 24h",
                         style = MaterialTheme.typography.titleMedium,
                     )
@@ -155,12 +153,11 @@ private fun MarketDetailScreen(
                         style = MaterialTheme.typography.bodyLarge,
                     )
                 }
-                Column (
-                    horizontalAlignment = Alignment.CenterHorizontally
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Text(
-                        modifier = Modifier
-                        .padding(bottom = 8.dp),
+                        modifier = Modifier.padding(bottom = 8.dp),
                         text = "Low 24h",
                         style = MaterialTheme.typography.titleMedium,
                     )
@@ -169,12 +166,11 @@ private fun MarketDetailScreen(
                         style = MaterialTheme.typography.bodyLarge,
                     )
                 }
-                Column (
-                    horizontalAlignment = Alignment.CenterHorizontally
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Text(
-                        modifier = Modifier
-                        .padding(bottom = 8.dp),
+                        modifier = Modifier.padding(bottom = 8.dp),
                         text = "Rank",
                         style = MaterialTheme.typography.titleMedium,
                     )
@@ -199,7 +195,7 @@ private fun MarketDetailScreen(
     }
 }
 
-fun formatNumber(number : Long?) : String {
+fun formatNumber(number: Long?): String {
     val format = number?.div(1000000000)
     if (format != null) {
         return if (format >= 1) {
@@ -214,8 +210,7 @@ fun formatNumber(number : Long?) : String {
 @ThemePreviews
 @Composable
 private fun MarketDetailScreenPrev(
-    @PreviewParameter(MarketDetailStateProvider::class)
-    marketDetailState: MarketDetailContract.State,
+    @PreviewParameter(MarketDetailStateProvider::class) marketDetailState: MarketDetailContract.State,
 ) {
     ComposeNewsTheme {
         Surface {
