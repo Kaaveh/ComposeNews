@@ -34,8 +34,7 @@ import ir.composenews.designsystem.theme.ComposeNewsTheme
 import ir.composenews.domain.model.Market
 import ir.composenews.marketdetail.MarketDetailContract.State
 import ir.composenews.marketdetail.preview_provider.MarketDetailStateProvider
-
-const val BILLION_NUMBER = 1000000000
+import ir.composenews.utils.BILLION_NUMBER
 
 @Composable
 fun MarketDetailRoute(
@@ -110,79 +109,7 @@ private fun MarketDetailScreen(
 
             QuadLineChart(data = marketDetailState.marketChart.prices)
 
-            Row(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                Text(
-                    text = "Market Data",
-                    style = MaterialTheme.typography.titleLarge,
-                )
-            }
-            Divider(color = Color.Gray)
-
-            Row(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    Text(
-                        modifier = Modifier.padding(bottom = 8.dp),
-                        text = "Market Cap",
-                        style = MaterialTheme.typography.titleMedium,
-                    )
-
-                    Text(
-                        text = formatNumber(marketDetailState.marketDetail.marketData?.marketCap?.usd),
-                        style = MaterialTheme.typography.bodyLarge,
-                    )
-                }
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    Text(
-                        modifier = Modifier.padding(bottom = 8.dp),
-                        text = "High 24h",
-                        style = MaterialTheme.typography.titleMedium,
-                    )
-                    Text(
-                        text = marketDetailState.marketDetail.marketData?.high24h?.usd.toString(),
-                        style = MaterialTheme.typography.bodyLarge,
-                    )
-                }
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    Text(
-                        modifier = Modifier.padding(bottom = 8.dp),
-                        text = "Low 24h",
-                        style = MaterialTheme.typography.titleMedium,
-                    )
-                    Text(
-                        text = marketDetailState.marketDetail.marketData?.low24h?.usd.toString(),
-                        style = MaterialTheme.typography.bodyLarge,
-                    )
-                }
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    Text(
-                        modifier = Modifier.padding(bottom = 8.dp),
-                        text = "Rank",
-                        style = MaterialTheme.typography.titleMedium,
-                    )
-                    Text(
-                        text = "#${marketDetailState.marketDetail.marketCapRank}",
-                        style = MaterialTheme.typography.bodyLarge,
-                    )
-                }
-            }
+            MarketDetail(marketDetailState)
         }
 
         FloatingActionButton(
@@ -194,6 +121,83 @@ private fun MarketDetailScreen(
             FavoriteIcon(isFavorite = marketDetailState.market?.isFavorite ?: false) {
                 onFavoriteClick(marketDetailState.market)
             }
+        }
+    }
+}
+
+@Composable
+private fun MarketDetail(marketDetailState: State) {
+    Row(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
+        Text(
+            text = "Market Data",
+            style = MaterialTheme.typography.titleLarge,
+        )
+    }
+    Divider(color = Color.Gray)
+
+    Row(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text(
+                modifier = Modifier.padding(bottom = 8.dp),
+                text = "Market Cap",
+                style = MaterialTheme.typography.titleMedium,
+            )
+
+            Text(
+                text = formatNumber(marketDetailState.marketDetail.marketData?.marketCap?.usd),
+                style = MaterialTheme.typography.bodyLarge,
+            )
+        }
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text(
+                modifier = Modifier.padding(bottom = 8.dp),
+                text = "High 24h",
+                style = MaterialTheme.typography.titleMedium,
+            )
+            Text(
+                text = marketDetailState.marketDetail.marketData?.high24h?.usd.toString(),
+                style = MaterialTheme.typography.bodyLarge,
+            )
+        }
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text(
+                modifier = Modifier.padding(bottom = 8.dp),
+                text = "Low 24h",
+                style = MaterialTheme.typography.titleMedium,
+            )
+            Text(
+                text = marketDetailState.marketDetail.marketData?.low24h?.usd.toString(),
+                style = MaterialTheme.typography.bodyLarge,
+            )
+        }
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text(
+                modifier = Modifier.padding(bottom = 8.dp),
+                text = "Rank",
+                style = MaterialTheme.typography.titleMedium,
+            )
+            Text(
+                text = "#${marketDetailState.marketDetail.marketCapRank}",
+                style = MaterialTheme.typography.bodyLarge,
+            )
         }
     }
 }
