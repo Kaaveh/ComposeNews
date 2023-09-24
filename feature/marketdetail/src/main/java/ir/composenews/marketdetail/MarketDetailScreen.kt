@@ -225,7 +225,7 @@ private fun MarketData() {
 }
 
 fun formatNumber(number: Long?): String {
-    val format = number?.div(BILLION_NUMBER)
+    val format = number?.div(BILLION)
     if (format != null) {
         return if (format >= 1) {
             "$${format}B"
@@ -248,4 +248,4 @@ private fun MarketDetailScreenPrev(
     }
 }
 
-private const val BILLION_NUMBER: Long = 1000000000L
+private const val BILLION: Long = 1000000000L
