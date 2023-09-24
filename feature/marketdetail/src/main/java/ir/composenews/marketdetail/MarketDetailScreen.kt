@@ -202,7 +202,6 @@ private fun MarketCap(marketDetailState: State) {
         Text(
             text = formatNumber(
                 marketDetailState.marketDetail.marketData?.marketCap?.usd,
-                1000000000L,
             ),
             style = MaterialTheme.typography.bodyLarge,
         )
@@ -225,8 +224,8 @@ private fun MarketData() {
     Divider(color = Color.Gray)
 }
 
-fun formatNumber(number: Long?, billion: Long): String {
-    val format = number?.div(billion)
+fun formatNumber(number: Long?): String {
+    val format = number?.div(BILLION_NUMBER)
     if (format != null) {
         return if (format >= 1) {
             "$${format}B"
@@ -248,3 +247,5 @@ private fun MarketDetailScreenPrev(
         }
     }
 }
+
+private const val BILLION_NUMBER: Long = 1000000000L
