@@ -41,7 +41,6 @@ fun MarketDetailRoute(
     viewModel: MarketDetailViewModel = hiltViewModel(),
 ) {
     val (state, event) = use(viewModel = viewModel)
-    val billion = 1000000000L
     LaunchedEffect(key1 = market) {
         event.invoke(MarketDetailContract.Event.SetMarket(market = market))
         market?.let {
