@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Divider
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -19,6 +20,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -30,6 +32,7 @@ import ir.composenews.designsystem.component.QuadLineChart
 import ir.composenews.designsystem.preview.ThemePreviews
 import ir.composenews.designsystem.theme.ComposeNewsTheme
 import ir.composenews.domain.model.Market
+import ir.composenews.marketdetail.MarketDetailContract.State
 import ir.composenews.marketdetail.preview_provider.MarketDetailStateProvider
 
 @Composable
@@ -38,11 +41,16 @@ fun MarketDetailRoute(
     viewModel: MarketDetailViewModel = hiltViewModel(),
 ) {
     val (state, event) = use(viewModel = viewModel)
-
     LaunchedEffect(key1 = market) {
         event.invoke(MarketDetailContract.Event.SetMarket(market = market))
         market?.let {
             event.invoke(MarketDetailContract.Event.GetMarketChart(marketId = market.id))
+        }
+    }
+    LaunchedEffect(key1 = market) {
+        event.invoke(MarketDetailContract.Event.SetMarket(market = market))
+        market?.let {
+            event.invoke(MarketDetailContract.Event.GetMarketDetail(marketId = market.id))
         }
     }
 
@@ -58,7 +66,7 @@ fun MarketDetailRoute(
 
 @Composable
 private fun MarketDetailScreen(
-    marketDetailState: MarketDetailContract.State,
+    marketDetailState: State,
     onFavoriteClick: (market: Market?) -> Unit,
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
@@ -98,6 +106,8 @@ private fun MarketDetailScreen(
             }
 
             QuadLineChart(data = marketDetailState.marketChart.prices)
+            MarketData()
+            MarketDetail(marketDetailState)
         }
 
         FloatingActionButton(
@@ -113,11 +123,123 @@ private fun MarketDetailScreen(
     }
 }
 
+@Composable
+private fun MarketDetail(marketDetailState: State) {
+    Row(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
+        MarketCap(marketDetailState)
+        High24(marketDetailState)
+        Low24(marketDetailState)
+        Rank(marketDetailState)
+    }
+}
+
+@Composable
+private fun Rank(marketDetailState: State) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            modifier = Modifier.padding(bottom = 8.dp),
+            text = "Rank",
+            style = MaterialTheme.typography.titleMedium,
+        )
+        Text(
+            text = "#${marketDetailState.marketDetail.marketCapRank}",
+            style = MaterialTheme.typography.bodyLarge,
+        )
+    }
+}
+
+@Composable
+private fun Low24(marketDetailState: State) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            modifier = Modifier.padding(bottom = 8.dp),
+            text = "Low 24h",
+            style = MaterialTheme.typography.titleMedium,
+        )
+        Text(
+            text = marketDetailState.marketDetail.marketData?.low24h?.usd.toString(),
+            style = MaterialTheme.typography.bodyLarge,
+        )
+    }
+}
+
+@Composable
+private fun High24(marketDetailState: State) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            modifier = Modifier.padding(bottom = 8.dp),
+            text = "High 24h",
+            style = MaterialTheme.typography.titleMedium,
+        )
+        Text(
+            text = marketDetailState.marketDetail.marketData?.high24h?.usd.toString(),
+            style = MaterialTheme.typography.bodyLarge,
+        )
+    }
+}
+
+@Composable
+private fun MarketCap(marketDetailState: State) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            modifier = Modifier.padding(bottom = 8.dp),
+            text = "Market Cap",
+            style = MaterialTheme.typography.titleMedium,
+        )
+        Text(
+            text = formatNumber(
+                marketDetailState.marketDetail.marketData?.marketCap?.usd,
+            ),
+            style = MaterialTheme.typography.bodyLarge,
+        )
+    }
+}
+
+@Composable
+private fun MarketData() {
+    Row(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
+        Text(
+            text = "Market Data",
+            style = MaterialTheme.typography.titleLarge,
+        )
+    }
+    Divider(color = Color.Gray)
+}
+
+fun formatNumber(number: Long?): String {
+    val format = number?.div(BILLION)
+    if (format != null) {
+        return if (format >= 1) {
+            "$${format}B"
+        } else {
+            "$${format}M"
+        }
+    }
+    return ""
+}
+
 @ThemePreviews
 @Composable
 private fun MarketDetailScreenPrev(
-    @PreviewParameter(MarketDetailStateProvider::class)
-    marketDetailState: MarketDetailContract.State,
+    @PreviewParameter(MarketDetailStateProvider::class) marketDetailState: State,
 ) {
     ComposeNewsTheme {
         Surface {
@@ -125,3 +247,5 @@ private fun MarketDetailScreenPrev(
         }
     }
 }
+
+private const val BILLION: Long = 1000000000L
