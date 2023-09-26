@@ -14,6 +14,7 @@ import ir.composenews.domain.use_case.GetMarketDetailUseCase
 import ir.composenews.domain.use_case.ToggleFavoriteMarketListUseCase
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScheduler
@@ -135,7 +136,7 @@ class MarketDetailViewModelTest {
         }
 
     private fun provideFakeChart(): Chart {
-        return Chart(emptyList())
+        return Chart(persistentListOf())
     }
 
     private fun provideFakeMarket(isFavorite: Boolean = false): Market {
