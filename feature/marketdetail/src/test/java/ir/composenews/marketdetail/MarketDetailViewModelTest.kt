@@ -7,7 +7,6 @@ import ir.composenews.base.BaseContract
 import ir.composenews.core_test.MainDispatcherRule
 import ir.composenews.core_test.dispatcher.TestDispatcherProvider
 import ir.composenews.domain.model.Chart
-import ir.composenews.domain.model.Market
 import ir.composenews.domain.model.Resource
 import ir.composenews.domain.use_case.GetMarketChartUseCase
 import ir.composenews.domain.use_case.GetMarketDetailUseCase
