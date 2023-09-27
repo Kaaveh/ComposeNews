@@ -9,11 +9,11 @@ import androidx.window.layout.DisplayFeature
 import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
 import com.google.accompanist.adaptive.TwoPane
 import ir.composenews.base.MainContract
-import ir.composenews.domain.model.Market
 import ir.composenews.marketdetail.MarketDetailRoute
 import ir.composenews.marketlist.MarketListRoute
 import ir.composenews.navigation.Destinations
 import ir.composenews.navigation.extension_function.parcelableData
+import ir.composenews.uimarket.model.MarketModel
 import ir.composenews.utils.ContentType
 
 fun NavGraphBuilder.marketList(
@@ -22,7 +22,7 @@ fun NavGraphBuilder.marketList(
     displayFeature: List<DisplayFeature>,
     uiState: MainContract.State,
     closeDetailScreen: () -> Unit,
-    onMarketSelected: ((Market, ContentType) -> Unit)? = null,
+    onMarketSelected: ((MarketModel, ContentType) -> Unit)? = null,
 ) {
     composable(Destinations.MarketListScreen.route) { entry ->
         when (contentType) {
@@ -35,8 +35,9 @@ fun NavGraphBuilder.marketList(
             )
 
             ContentType.DUAL_PANE -> {
-                val market = entry.parcelableData<Market>(Destinations.MarketDetailScreen().market)
-                    ?: (uiState.market as? Market?)
+                val market =
+                    entry.parcelableData<MarketModel>(Destinations.MarketDetailScreen().market)
+                        ?: (uiState.market as? MarketModel?)
                 ListWithDetailScreen(
                     displayFeatures = displayFeature,
                     market = market,
@@ -57,14 +58,14 @@ fun SingleListScreen(
     uiState: MainContract.State,
     closeDetailScreen: () -> Unit,
     contentType: ContentType,
-    onMarketSelected: ((Market, ContentType) -> Unit)? = null,
+    onMarketSelected: ((MarketModel, ContentType) -> Unit)? = null,
 ) {
     if (uiState.market != null && uiState.isDetailOnlyOpen) {
         BackHandler {
             closeDetailScreen()
         }
         MarketDetailRoute(
-            market = uiState.market as Market,
+            market = uiState.market as MarketModel,
         )
     } else {
         MarketListRoute(
@@ -83,11 +84,11 @@ fun SingleListScreen(
 fun ListWithDetailScreen(
     showFavorite: Boolean,
     displayFeatures: List<DisplayFeature>,
-    market: Market?,
+    market: MarketModel?,
     uiState: MainContract.State,
     contentType: ContentType,
     closeDetailScreen: () -> Unit,
-    onMarketSelected: ((Market, ContentType) -> Unit)? = null,
+    onMarketSelected: ((MarketModel, ContentType) -> Unit)? = null,
 ) {
     TwoPane(
         first = {

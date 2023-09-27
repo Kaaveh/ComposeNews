@@ -7,13 +7,15 @@ import ir.composenews.base.BaseContract
 import ir.composenews.core_test.MainDispatcherRule
 import ir.composenews.core_test.dispatcher.TestDispatcherProvider
 import ir.composenews.domain.model.Chart
-import ir.composenews.domain.model.Market
 import ir.composenews.domain.model.Resource
 import ir.composenews.domain.use_case.GetMarketChartUseCase
 import ir.composenews.domain.use_case.GetMarketDetailUseCase
 import ir.composenews.domain.use_case.ToggleFavoriteMarketListUseCase
+import ir.composenews.uimarket.mapper.toMarket
+import ir.composenews.uimarket.model.MarketModel
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScheduler
@@ -74,7 +76,7 @@ class MarketDetailViewModelTest {
             advanceUntilIdle()
 
             coVerify(exactly = 1) {
-                toggleFavoriteMarketListUseCase.invoke(market)
+                toggleFavoriteMarketListUseCase.invoke(market.toMarket())
             }
 
             val uiState = sut.state.value
@@ -93,7 +95,7 @@ class MarketDetailViewModelTest {
             advanceUntilIdle()
 
             coVerify(exactly = 1) {
-                toggleFavoriteMarketListUseCase.invoke(market)
+                toggleFavoriteMarketListUseCase.invoke(market.toMarket())
             }
 
             val uiState = sut.state.value
@@ -135,11 +137,11 @@ class MarketDetailViewModelTest {
         }
 
     private fun provideFakeChart(): Chart {
-        return Chart(emptyList())
+        return Chart(persistentListOf())
     }
 
-    private fun provideFakeMarket(isFavorite: Boolean = false): Market {
-        return Market(
+    private fun provideFakeMarket(isFavorite: Boolean = false): MarketModel {
+        return MarketModel(
             id = UUID.randomUUID().toString(),
             name = "Bitcoin",
             imageUrl = "goggle.com",

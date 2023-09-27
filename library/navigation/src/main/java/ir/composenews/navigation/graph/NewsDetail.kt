@@ -9,10 +9,10 @@ import androidx.compose.animation.core.tween
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import ir.composenews.base.MainContract
-import ir.composenews.domain.model.Market
 import ir.composenews.marketdetail.MarketDetailRoute
 import ir.composenews.navigation.Destinations
 import ir.composenews.navigation.extension_function.parcelableData
+import ir.composenews.uimarket.model.MarketModel
 
 fun NavGraphBuilder.marketDetail(
     uiState: MainContract.State,
@@ -32,8 +32,8 @@ fun NavGraphBuilder.marketDetail(
             )
         },
     ) { entry ->
-        val market = entry.parcelableData<Market>(Destinations.MarketDetailScreen().market)
-            ?: uiState.market as Market
+        val market = entry.parcelableData<MarketModel>(Destinations.MarketDetailScreen().market)
+            ?: uiState.market as MarketModel
         MarketDetailRoute(
             market = market,
         )

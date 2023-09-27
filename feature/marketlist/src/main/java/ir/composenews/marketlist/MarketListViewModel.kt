@@ -7,11 +7,13 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.composenews.base.BaseContract
 import ir.composenews.base.BaseViewModel
 import ir.composenews.core_test.dispatcher.DispatcherProvider
-import ir.composenews.domain.model.Market
 import ir.composenews.domain.use_case.GetFavoriteMarketListUseCase
 import ir.composenews.domain.use_case.GetMarketListUseCase
 import ir.composenews.domain.use_case.SyncMarketListUseCase
 import ir.composenews.domain.use_case.ToggleFavoriteMarketListUseCase
+import ir.composenews.uimarket.mapper.toMarket
+import ir.composenews.uimarket.mapper.toMarketModel
+import ir.composenews.uimarket.model.MarketModel
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -79,15 +81,19 @@ class MarketListViewModel @Inject constructor(
         }
         getMarketListUseCase()
             .onEach { result ->
-                mutableState.update {
-                    it.copy(marketList = result.toPersistentList(), refreshing = false)
+                mutableState.update { prevState ->
+                    prevState.copy(
+                        marketList = result.map { it.toMarketModel() }.toPersistentList(),
+                        refreshing = false,
+                    )
                 }
                 mutableBaseState.update { BaseContract.BaseState.OnSuccess }
             }
             .catch { exception ->
                 mutableBaseState.update {
                     BaseContract.BaseState.OnError(
-                        errorMessage = exception.localizedMessage ?: "An unexpected error occurred.",
+                        errorMessage = exception.localizedMessage
+                            ?: "An unexpected error occurred.",
                     )
                 }
             }
@@ -96,16 +102,19 @@ class MarketListViewModel @Inject constructor(
 
     private fun getFavoriteMarketList() {
         getFavoriteMarketListUseCase().onEach { newList ->
-            mutableState.update {
-                it.copy(marketList = newList.toPersistentList(), refreshing = false)
+            mutableState.update { prevState ->
+                prevState.copy(
+                    marketList = newList.map { it.toMarketModel() }.toPersistentList(),
+                    refreshing = false,
+                )
             }
         }.launchIn(viewModelScope)
     }
 
-    private fun onFavoriteClick(news: Market) {
+    private fun onFavoriteClick(news: MarketModel) {
         viewModelScope.launch {
             onIO {
-                toggleFavoriteMarketListUseCase(news)
+                toggleFavoriteMarketListUseCase(news.toMarket())
             }
         }
     }

@@ -38,7 +38,7 @@ import kotlin.math.roundToInt
 
 @Composable
 fun QuadLineChart(
-    data: List<Pair<Int, Double>> = emptyList(),
+    data: List<Pair<Int, Double>>,
 ) {
     val spacing = 100f
     val columnTextColor = MaterialTheme.colorScheme.onSurface.toArgb()

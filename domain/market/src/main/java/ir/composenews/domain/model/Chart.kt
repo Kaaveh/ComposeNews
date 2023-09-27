@@ -1,8 +1,7 @@
 package ir.composenews.domain.model
 
-import androidx.compose.runtime.Immutable
+import kotlinx.collections.immutable.PersistentList
 
-@Immutable
 data class Chart(
-    val prices: List<Pair<Int, Double>>,
+    val prices: PersistentList<Pair<Int, Double>>,
 )
