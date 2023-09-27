@@ -19,12 +19,12 @@ import androidx.navigation.compose.rememberNavController
 import androidx.window.layout.DisplayFeature
 import androidx.window.layout.FoldingFeature
 import ir.composenews.base.MainContract
-import ir.composenews.domain.model.Market
 import ir.composenews.navigation.BottomNavItem
 import ir.composenews.navigation.ComposeNewsNavHost
 import ir.composenews.navigation.Destinations
 import ir.composenews.ui.component.BottomNavigationBar
 import ir.composenews.ui.component.ComposeNewsNavigationRail
+import ir.composenews.uimarket.model.MarketModel
 import ir.composenews.utils.ContentType
 import ir.composenews.utils.DevicePosture
 import ir.composenews.utils.NavigationType
@@ -35,7 +35,7 @@ import ir.composenews.utils.isSeparating
 fun ComposeNewsApp(
     windowSize: WindowSizeClass,
     displayFeatures: List<DisplayFeature>,
-    onMarketSelected: ((Market, ContentType) -> Unit)? = null,
+    onMarketSelected: ((MarketModel, ContentType) -> Unit)? = null,
     closeDetailScreen: () -> Unit,
     uiState: MainContract.State
 ) {
@@ -105,7 +105,7 @@ fun ComposeNewsAppWrapper(
     navigationType: NavigationType,
     contentType: ContentType,
     displayFeatures: List<DisplayFeature>,
-    onMarketSelected: ((Market, ContentType) -> Unit)? = null,
+    onMarketSelected: ((MarketModel, ContentType) -> Unit)? = null,
     closeDetailScreen: () -> Unit,
     uiState: MainContract.State
 ) {

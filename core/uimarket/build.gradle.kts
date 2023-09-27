@@ -9,4 +9,8 @@ android {
 
 dependencies {
     implementation(projects.domain.market)
+    libs.apply {
+        api(platform(compose.bom))
+        api(bundles.compose)
+    }
 }

@@ -31,13 +31,13 @@ import ir.composenews.designsystem.component.FavoriteIcon
 import ir.composenews.designsystem.component.QuadLineChart
 import ir.composenews.designsystem.preview.ThemePreviews
 import ir.composenews.designsystem.theme.ComposeNewsTheme
-import ir.composenews.domain.model.Market
 import ir.composenews.marketdetail.MarketDetailContract.State
 import ir.composenews.marketdetail.preview_provider.MarketDetailStateProvider
+import ir.composenews.uimarket.model.MarketModel
 
 @Composable
 fun MarketDetailRoute(
-    market: Market?,
+    market: MarketModel?,
     viewModel: MarketDetailViewModel = hiltViewModel(),
 ) {
     val (state, event) = use(viewModel = viewModel)
@@ -67,7 +67,7 @@ fun MarketDetailRoute(
 @Composable
 private fun MarketDetailScreen(
     marketDetailState: State,
-    onFavoriteClick: (market: Market?) -> Unit,
+    onFavoriteClick: (market: MarketModel?) -> Unit,
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         Column(

@@ -9,4 +9,5 @@ android {
 dependencies {
     implementation(projects.data.marketRepository)
     implementation(libs.kotlinx.collections.immutable)
+    implementation(projects.core.uimarket)
 }

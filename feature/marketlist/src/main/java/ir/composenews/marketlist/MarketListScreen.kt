@@ -28,9 +28,9 @@ import ir.composenews.designsystem.component.pull_refresh_indicator.pullRefresh
 import ir.composenews.designsystem.component.pull_refresh_indicator.rememberPullRefreshState
 import ir.composenews.designsystem.preview.ThemePreviews
 import ir.composenews.designsystem.theme.ComposeNewsTheme
-import ir.composenews.domain.model.Market
 import ir.composenews.marketlist.component.MarketListItem
 import ir.composenews.marketlist.preview_provider.MarketListStateProvider
+import ir.composenews.uimarket.model.MarketModel
 import ir.composenews.utils.ContentType
 
 /**
@@ -42,7 +42,7 @@ fun MarketListRoute(
     showFavoriteList: Boolean = false,
     uiState: MainContract.State,
     closeDetailScreen: () -> Unit,
-    onNavigateToDetailScreen: (market: Market) -> Unit,
+    onNavigateToDetailScreen: (market: MarketModel) -> Unit,
     contentType: ContentType,
 ) {
     val (state, event) = use(viewModel = viewModel)
@@ -87,8 +87,8 @@ fun MarketListRoute(
 private fun MarketListScreen(
     marketListState: MarketListContract.State,
     showFavoriteList: Boolean,
-    onNavigateToDetailScreen: (market: Market) -> Unit,
-    onFavoriteClick: (market: Market) -> Unit,
+    onNavigateToDetailScreen: (market: MarketModel) -> Unit,
+    onFavoriteClick: (market: MarketModel) -> Unit,
     onRefresh: () -> Unit,
 ) {
     val refreshState =

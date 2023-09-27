@@ -12,6 +12,7 @@ import ir.composenews.base.MainContract
 import ir.composenews.domain.model.Market
 import ir.composenews.navigation.graph.favoriteList
 import ir.composenews.navigation.graph.marketDetail
+import ir.composenews.uimarket.model.MarketModel
 import ir.composenews.utils.ContentType
 
 @Composable
@@ -20,7 +21,7 @@ fun ComposeNewsNavHost(
     modifier: Modifier,
     contentType: ContentType,
     displayFeatures: List<DisplayFeature>,
-    onMarketSelected: ((Market, ContentType) -> Unit)? = null,
+    onMarketSelected: ((MarketModel, ContentType) -> Unit)? = null,
     closeDetailScreen: () -> Unit,
     uiState: MainContract.State
 ) {
