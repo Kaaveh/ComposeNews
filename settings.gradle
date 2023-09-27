@@ -15,15 +15,16 @@ dependencyResolutionManagement {
 }
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 rootProject.name = "ComposeNews"
-include ':app'
 include ':library:designsystem'
+include ':library:navigation'
+include ':core:sync'
+include ':core:test'
+include ':core:base'
+include ':core:uimarket'
 include ':domain:market'
 include ':data:market-remote'
 include ':data:market-local'
 include ':data:market-repository'
 include ':feature:marketlist'
 include ':feature:marketdetail'
-include ':core:sync'
-include ':library:navigation'
-include ':core:test'
-include ':core:base'
+include ':app'
