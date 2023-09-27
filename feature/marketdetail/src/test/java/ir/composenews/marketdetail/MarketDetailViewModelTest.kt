@@ -12,6 +12,8 @@ import ir.composenews.domain.model.Resource
 import ir.composenews.domain.use_case.GetMarketChartUseCase
 import ir.composenews.domain.use_case.GetMarketDetailUseCase
 import ir.composenews.domain.use_case.ToggleFavoriteMarketListUseCase
+import ir.composenews.uimarket.mapper.toMarket
+import ir.composenews.uimarket.model.MarketModel
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
 import kotlinx.collections.immutable.persistentListOf
@@ -75,7 +77,7 @@ class MarketDetailViewModelTest {
             advanceUntilIdle()
 
             coVerify(exactly = 1) {
-                toggleFavoriteMarketListUseCase.invoke(market)
+                toggleFavoriteMarketListUseCase.invoke(market.toMarket())
             }
 
             val uiState = sut.state.value
@@ -94,7 +96,7 @@ class MarketDetailViewModelTest {
             advanceUntilIdle()
 
             coVerify(exactly = 1) {
-                toggleFavoriteMarketListUseCase.invoke(market)
+                toggleFavoriteMarketListUseCase.invoke(market.toMarket())
             }
 
             val uiState = sut.state.value
@@ -139,8 +141,8 @@ class MarketDetailViewModelTest {
         return Chart(persistentListOf())
     }
 
-    private fun provideFakeMarket(isFavorite: Boolean = false): Market {
-        return Market(
+    private fun provideFakeMarket(isFavorite: Boolean = false): MarketModel {
+        return MarketModel(
             id = UUID.randomUUID().toString(),
             name = "Bitcoin",
             imageUrl = "goggle.com",
