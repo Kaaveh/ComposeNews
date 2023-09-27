@@ -9,6 +9,7 @@ import ir.composenews.domain.use_case.GetFavoriteMarketListUseCase
 import ir.composenews.domain.use_case.GetMarketListUseCase
 import ir.composenews.domain.use_case.SyncMarketListUseCase
 import ir.composenews.domain.use_case.ToggleFavoriteMarketListUseCase
+import ir.composenews.uimarket.mapper.toMarket
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScheduler
@@ -86,7 +87,7 @@ class MarketListViewModelTest {
             advanceUntilIdle()
 
             // Then
-            val actualMarketList = sut.state.value.marketList
+            val actualMarketList = sut.state.value.marketList.map { it.toMarket() }
             Assert.assertEquals(expectedMarketList, actualMarketList)
         }
 
@@ -103,7 +104,7 @@ class MarketListViewModelTest {
             advanceUntilIdle()
 
             // Then
-            val actualMarketList = sut.state.value.marketList
+            val actualMarketList = sut.state.value.marketList.map { it.toMarket() }
             Assert.assertEquals(expectedMarketList, actualMarketList)
         }
 
@@ -118,7 +119,7 @@ class MarketListViewModelTest {
             sut.event(MarketListContract.Event.OnGetMarketList)
 
             advanceUntilIdle()
-            Assert.assertEquals(oldMarketList, sut.state.value.marketList)
+            Assert.assertEquals(oldMarketList, sut.state.value.marketList.map { it.toMarket() })
 
             val newMarketList = provideMarketList(4)
 
@@ -127,7 +128,7 @@ class MarketListViewModelTest {
             sut.event(MarketListContract.Event.OnRefresh)
 
             advanceUntilIdle()
-            val actualMarketList = sut.state.value.marketList
+            val actualMarketList = sut.state.value.marketList.map { it.toMarket() }
             Assert.assertEquals(newMarketList, actualMarketList)
             Assert.assertTrue(!sut.state.value.refreshing)
         }
@@ -148,7 +149,7 @@ class MarketListViewModelTest {
             sut.event(MarketListContract.Event.OnRefresh)
             advanceUntilIdle()
 
-            val actualMarketList = sut.state.value.marketList
+            val actualMarketList = sut.state.value.marketList.map { it.toMarket() }
             Assert.assertEquals(newMarketList, actualMarketList)
             Assert.assertTrue(!sut.state.value.refreshing)
         }
