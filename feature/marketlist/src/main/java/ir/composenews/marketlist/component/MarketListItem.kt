@@ -17,8 +17,10 @@ fun MarketListItem(
         MarketItem(
             modifier = modifier,
             name = name,
+            symbol = symbol,
             urlToImage = imageUrl,
             price = currentPrice.toString(),
+            priceChangePercentage24h = priceChangePercentage24h.toString(),
             isFavorite = isFavorite,
             showFavoriteList = showFavoriteList,
             onItemClick = onItemClick,

@@ -6,7 +6,9 @@ import ir.composenews.localdatasource.dto.LocalMarketDto
 fun LocalMarketDto.toMarket(): Market = Market(
     id = id,
     name = name,
+    symbol = symbol,
     currentPrice = currentPrice,
+    priceChangePercentage24h = priceChangePercentage24h,
     imageUrl = imageUrl,
     isFavorite = isFavorite,
 )
@@ -14,7 +16,9 @@ fun LocalMarketDto.toMarket(): Market = Market(
 fun Market.toLocalMarketDto(): LocalMarketDto = LocalMarketDto(
     id = id,
     name = name,
+    symbol = symbol,
     currentPrice = currentPrice,
+    priceChangePercentage24h = priceChangePercentage24h,
     imageUrl = imageUrl,
     isFavorite = isFavorite,
 )
