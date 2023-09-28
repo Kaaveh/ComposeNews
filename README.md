@@ -29,6 +29,7 @@ For the detail of handling preview of composable functions in this code-base, pl
 - Retrofit
 - Work manager
 - Unit test
+- Support larg screens
 - Version catalog
 - Git Hooks
 - GitHub Actions
