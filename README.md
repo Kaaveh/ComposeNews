@@ -53,6 +53,12 @@ Dark theme
   <img src="asset/4.png" width="350"/>
 </p>
 
+Dynamic theme
+
+<p float="left">
+  <img src="asset/5.png" width="700"/>
+</p>
+
 ## Additional Resources
 
 - [Git Hooks](documentation/GitHooks.md) - Learn about Git hooks used in this project for code formatting and analysis.
