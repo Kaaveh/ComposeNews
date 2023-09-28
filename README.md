@@ -31,6 +31,7 @@ For the detail of handling preview of composable functions in this code-base, pl
 - Unit test
 - Support larg screens
 - Version catalog
+- CI
 - Git Hooks
 - GitHub Actions
 - Static Analysis(Kotliner, Detekt)
