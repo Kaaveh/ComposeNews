@@ -4,7 +4,7 @@ This repo is a playground about best practices, using updated libraries and solu
 
 ## ⚙️ Architecture
 
-![Architecture diagram](asset/arch.jpg)
+![Architecture diagram](asset/architecture.jpg)
 
 The main architecture of code based on MVI + CLEAN architecture. The division criteria is a hybrid strategy based on Feature + Layer by module.
 For the detail of architecture, please read [this article](https://medium.com/@kaaveh/migrate-from-mvvm-to-mvi-f938c27c214f).
@@ -29,7 +29,9 @@ For the detail of handling preview of composable functions in this code-base, pl
 - Retrofit
 - Work manager
 - Unit test
+- Support larg screens
 - Version catalog
+- CI
 - Git Hooks
 - GitHub Actions
 - Static Analysis(Kotliner, Detekt)
@@ -53,6 +55,12 @@ Dark theme
   <img src="asset/4.png" width="350"/>
 </p>
 
+Dynamic theme
+
+<p float="left">
+  <img src="asset/5.png" width="700"/>
+</p>
+
 ## Additional Resources
 
 - [Git Hooks](documentation/GitHooks.md) - Learn about Git hooks used in this project for code formatting and analysis.
@@ -62,3 +70,5 @@ Dark theme
 ## 🤝🏻 Contribute
 
 Any PRs are very welcome! 😍 You can fix a bug, add a feature, optimize performance and even propose a new cool approach in code-base architecture. Feel free and make a PR! 😌
+
+We use static analysis tools like Detekt and Ktlint in this project. Please either set up [Git Hooks](documentation/GitHooks.md) on your project or run [Static Analysis](documentation/StaticAnalysis.md) before creating PR.

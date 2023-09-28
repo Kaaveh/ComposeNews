@@ -4,7 +4,7 @@ This project has [GitHub Actions](https://github.com/features/actions) workflows
 
 ## Build
 
-The [Build](/.github/workflows/build.yml) workflow automates the core checks for the repository: compile, unit tests, lint checks. This is set to run on every push.
+The [Build](/.github/workflows/build.yml) workflow automates the core checks for the repository: compile, unit tests, and lint checks. This is set to run on every push.
 
 ## Danger Checks
 
