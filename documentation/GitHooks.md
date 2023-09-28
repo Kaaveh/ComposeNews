@@ -1,6 +1,6 @@
 # Git Hooks
 
-This project has some Git hooks included inside the [git-hooks](/git-hooks) folder. These hooks can be installed automatically via the [setup.sh](/git-hooks/setup.sh).
+This project has some Git hooks included inside the [git-hooks](/git-hooks) folder. These hooks can be installed automatically via the [setup.sh](/git-hooks/setup.sh) (just windows machine currently, support others OS comming soon).
 
 ## Pre-Commit
 
