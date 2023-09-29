@@ -6,7 +6,9 @@ import ir.composenews.localdatasource.dto.RemoteMarketDto
 val localMarketDto = LocalMarketDto(
     id = "id",
     name = "name",
+    symbol = "symbol",
     currentPrice = 100000.0,
+    priceChangePercentage24h = 100000.0,
     imageUrl = "some_shit_url.png",
     isFavorite = false,
 )
@@ -14,7 +16,9 @@ val localMarketDto = LocalMarketDto(
 val favoriteLocalMarketDto = LocalMarketDto(
     id = "id",
     name = "name",
+    symbol = "symbol",
     currentPrice = 100000.0,
+    priceChangePercentage24h = 100000.0,
     imageUrl = "some_shit_url.png",
     isFavorite = true,
 )
@@ -22,6 +26,8 @@ val favoriteLocalMarketDto = LocalMarketDto(
 val remoteMarketDto = RemoteMarketDto(
     id = "id",
     name = "name",
+    symbol = "symbol",
     currentPrice = 100000.0,
+    priceChangePercentage24h = 100000.0,
     imageUrl = "some_shit_url.png",
 )

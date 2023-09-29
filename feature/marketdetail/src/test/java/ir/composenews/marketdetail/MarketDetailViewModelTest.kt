@@ -144,8 +144,10 @@ class MarketDetailViewModelTest {
         return MarketModel(
             id = UUID.randomUUID().toString(),
             name = "Bitcoin",
+            symbol = "BTC",
             imageUrl = "goggle.com",
             currentPrice = Random.nextDouble(1000.0, 5000.0),
+            priceChangePercentage24h = Random.nextDouble(1000.0, 5000.0),
             isFavorite = isFavorite,
         )
     }

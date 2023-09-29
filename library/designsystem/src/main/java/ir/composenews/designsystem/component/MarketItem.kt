@@ -27,6 +27,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.SwipeToDismiss
@@ -41,20 +42,27 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color.Companion.Green
+import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import ir.composenews.designsystem.R.drawable.*
 import ir.composenews.designsystem.preview.ThemePreviews
 import ir.composenews.designsystem.theme.ComposeNewsTheme
 import kotlinx.coroutines.delay
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MarketItem(
     modifier: Modifier,
     name: String,
+    symbol: String,
     urlToImage: String,
     price: String,
+    priceChangePercentage24h: String,
     isFavorite: Boolean,
     showFavoriteList: Boolean,
     onItemClick: () -> Unit,
@@ -91,8 +99,10 @@ fun MarketItem(
                     MarketItemCard(
                         modifier = modifier,
                         name = name,
+                        symbol = symbol,
                         urlToImage = urlToImage,
                         price = price,
+                        priceChangePercentage24h = priceChangePercentage24h,
                         isFavorite = isFavorite,
                         onItemClick = { onItemClick() },
                         onFavoriteClick = { onFavoriteClick() },
@@ -104,8 +114,10 @@ fun MarketItem(
         MarketItemCard(
             modifier = modifier,
             name = name,
+            symbol = symbol,
             urlToImage = urlToImage,
             price = price,
+            priceChangePercentage24h = priceChangePercentage24h,
             isFavorite = isFavorite,
             onItemClick = { onItemClick() },
             onFavoriteClick = { onFavoriteClick() },
@@ -124,8 +136,10 @@ fun MarketItem(
 private fun MarketItemCard(
     modifier: Modifier,
     name: String,
+    symbol: String,
     urlToImage: String,
     price: String,
+    priceChangePercentage24h: String,
     isFavorite: Boolean,
     onItemClick: () -> Unit,
     onFavoriteClick: () -> Unit,
@@ -162,8 +176,26 @@ private fun MarketItemCard(
             Column(
                 modifier = Modifier.weight(1F),
             ) {
-                Text(text = name, style = MaterialTheme.typography.headlineSmall)
-                Text(text = "$price $", style = MaterialTheme.typography.bodyLarge)
+                Text(
+                    text = symbol.uppercase(Locale.getDefault()),
+                    style = MaterialTheme.typography.headlineSmall
+                )
+                Text(text = name, style = MaterialTheme.typography.bodyLarge)
+            }
+            Column(
+                modifier = Modifier.weight(1.5F),
+            ) {
+                Text(text = "$price $", style = MaterialTheme.typography.titleMedium)
+                Spacer(modifier = Modifier.height(6.dp))
+                Row {
+                    ArrowIconUpOrDown(priceChangePercentage24h)
+                    Text(
+                        text = "$priceChangePercentage24h %",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = if (priceChangePercentage24h.contains("-")) Red else Green
+                    )
+                }
+
             }
             Column {
                 FavoriteIcon(isFavorite = isFavorite) {
@@ -174,6 +206,18 @@ private fun MarketItemCard(
     }
 }
 
+@Composable
+private fun ArrowIconUpOrDown(priceChangePercentage24h: String) {
+    Icon(
+        modifier = Modifier.size(size = 20.dp),
+        painter = if (priceChangePercentage24h.contains("-")) painterResource(id = baseline_arrow_downward_24) else painterResource(
+            id = baseline_arrow_upward_24
+        ),
+        contentDescription = "",
+        tint = if (priceChangePercentage24h.contains("-")) Red else Green
+    )
+}
+
 @ThemePreviews
 @Composable
 private fun MarketItemPrev() {
@@ -182,8 +226,10 @@ private fun MarketItemPrev() {
             MarketItem(
                 modifier = Modifier,
                 name = "Title",
+                symbol = "BTC",
                 urlToImage = "",
                 price = "100000",
+                priceChangePercentage24h = "100000",
                 isFavorite = false,
                 showFavoriteList = false,
                 onItemClick = {},
