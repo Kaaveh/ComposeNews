@@ -158,7 +158,9 @@ class MarketListViewModelTest {
             Market(
                 id = UUID.randomUUID().toString(),
                 name = "Ethereum$it",
+                symbol = "XRP",
                 currentPrice = Random.nextDouble(300.0, 2300.0),
+                priceChangePercentage24h = Random.nextDouble(300.0, 2300.0),
                 isFavorite = false,
                 imageUrl = "google.com",
             )
