@@ -6,7 +6,9 @@ import ir.composenews.uimarket.model.MarketModel
 fun MarketModel.toMarket() = Market(
     id = id,
     name = name,
+    symbol = symbol,
     currentPrice = currentPrice,
+    priceChangePercentage24h = priceChangePercentage24h,
     imageUrl = imageUrl,
     isFavorite = isFavorite,
 )
@@ -14,7 +16,9 @@ fun MarketModel.toMarket() = Market(
 fun Market.toMarketModel() = MarketModel(
     id = id,
     name = name,
+    symbol = symbol,
     currentPrice = currentPrice,
+    priceChangePercentage24h = priceChangePercentage24h,
     imageUrl = imageUrl,
     isFavorite = isFavorite,
 )

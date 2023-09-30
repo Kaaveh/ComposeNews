@@ -48,7 +48,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import ir.composenews.designsystem.R.drawable.*
+import ir.composenews.designsystem.R
 import ir.composenews.designsystem.preview.ThemePreviews
 import ir.composenews.designsystem.theme.ComposeNewsTheme
 import kotlinx.coroutines.delay
@@ -178,7 +178,7 @@ private fun MarketItemCard(
             ) {
                 Text(
                     text = symbol.uppercase(Locale.getDefault()),
-                    style = MaterialTheme.typography.headlineSmall
+                    style = MaterialTheme.typography.headlineSmall,
                 )
                 Text(text = name, style = MaterialTheme.typography.bodyLarge)
             }
@@ -192,10 +192,9 @@ private fun MarketItemCard(
                     Text(
                         text = "$priceChangePercentage24h %",
                         style = MaterialTheme.typography.bodyLarge,
-                        color = if (priceChangePercentage24h.contains("-")) Red else Green
+                        color = if (priceChangePercentage24h.contains("-")) Red else Green,
                     )
                 }
-
             }
             Column {
                 FavoriteIcon(isFavorite = isFavorite) {
@@ -210,11 +209,13 @@ private fun MarketItemCard(
 private fun ArrowIconUpOrDown(priceChangePercentage24h: String) {
     Icon(
         modifier = Modifier.size(size = 20.dp),
-        painter = if (priceChangePercentage24h.contains("-")) painterResource(id = baseline_arrow_downward_24) else painterResource(
-            id = baseline_arrow_upward_24
-        ),
+        painter = if (priceChangePercentage24h.contains("-")) {
+            painterResource(id = R.drawable.baseline_arrow_downward_24)
+        } else {
+            painterResource(id = R.drawable.baseline_arrow_upward_24)
+        },
         contentDescription = "",
-        tint = if (priceChangePercentage24h.contains("-")) Red else Green
+        tint = if (priceChangePercentage24h.contains("-")) Red else Green,
     )
 }
 
