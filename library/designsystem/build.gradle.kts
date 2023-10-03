@@ -15,5 +15,6 @@ dependencies {
         api(lifecycle.runtime.compose)
         api(window.size)
         api(accomponist.adaptive)
+        api(compose.lottie.animation)
     }
 }
