@@ -8,9 +8,9 @@ import androidx.compose.animation.core.EaseOut
 import androidx.compose.animation.core.tween
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import ir.composenews.base.MainContract
 import ir.composenews.marketdetail.MarketDetailRoute
 import ir.composenews.navigation.Destinations
+import ir.composenews.navigation.MainContract
 import ir.composenews.navigation.extension_function.parcelableData
 import ir.composenews.uimarket.model.MarketModel
 

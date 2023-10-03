@@ -6,12 +6,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import ir.composenews.navigation.graph.marketList
 import androidx.window.layout.DisplayFeature
-import ir.composenews.base.MainContract
-import ir.composenews.domain.model.Market
 import ir.composenews.navigation.graph.favoriteList
 import ir.composenews.navigation.graph.marketDetail
+import ir.composenews.navigation.graph.marketList
 import ir.composenews.uimarket.model.MarketModel
 import ir.composenews.utils.ContentType
 
