@@ -20,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.hilt.navigation.compose.hiltViewModel
 import ir.composenews.base.BaseRoute
-import ir.composenews.base.MainContract
 import ir.composenews.base.use
 import ir.composenews.designsystem.component.ShimmerMarketListItem
 import ir.composenews.designsystem.component.pull_refresh_indicator.PullRefreshIndicator
@@ -40,7 +39,8 @@ import ir.composenews.utils.ContentType
 fun MarketListRoute(
     viewModel: MarketListViewModel = hiltViewModel(),
     showFavoriteList: Boolean = false,
-    uiState: MainContract.State,
+    isDetailOnlyOpen: Boolean,
+    marketModel: MarketModel?,
     closeDetailScreen: () -> Unit,
     onNavigateToDetailScreen: (market: MarketModel) -> Unit,
     contentType: ContentType,
@@ -53,12 +53,12 @@ fun MarketListRoute(
     }
 
     LaunchedEffect(key1 = contentType) {
-        if (contentType == ContentType.SINGLE_PANE && !uiState.isDetailOnlyOpen) {
+        if (contentType == ContentType.SINGLE_PANE && !isDetailOnlyOpen) {
             closeDetailScreen()
         }
     }
 
-    if (contentType == ContentType.DUAL_PANE && !state.refreshing && state.marketList.isNotEmpty() && uiState.market == null) {
+    if (contentType == ContentType.DUAL_PANE && !state.refreshing && state.marketList.isNotEmpty() && marketModel == null) {
         onNavigateToDetailScreen(state.marketList[0])
     }
 

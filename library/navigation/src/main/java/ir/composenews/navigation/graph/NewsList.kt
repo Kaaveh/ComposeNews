@@ -8,10 +8,10 @@ import androidx.navigation.compose.composable
 import androidx.window.layout.DisplayFeature
 import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
 import com.google.accompanist.adaptive.TwoPane
-import ir.composenews.base.MainContract
 import ir.composenews.marketdetail.MarketDetailRoute
 import ir.composenews.marketlist.MarketListRoute
 import ir.composenews.navigation.Destinations
+import ir.composenews.navigation.MainContract
 import ir.composenews.navigation.extension_function.parcelableData
 import ir.composenews.uimarket.model.MarketModel
 import ir.composenews.utils.ContentType
@@ -37,7 +37,7 @@ fun NavGraphBuilder.marketList(
             ContentType.DUAL_PANE -> {
                 val market =
                     entry.parcelableData<MarketModel>(Destinations.MarketDetailScreen().market)
-                        ?: (uiState.market as? MarketModel?)
+                        ?: uiState.market
                 ListWithDetailScreen(
                     displayFeatures = displayFeature,
                     market = market,
@@ -65,14 +65,15 @@ fun SingleListScreen(
             closeDetailScreen()
         }
         MarketDetailRoute(
-            market = uiState.market as MarketModel,
+            market = uiState.market,
         )
     } else {
         MarketListRoute(
             onNavigateToDetailScreen = { market ->
                 onMarketSelected?.invoke(market, contentType)
             },
-            uiState = uiState,
+            isDetailOnlyOpen = uiState.isDetailOnlyOpen,
+            marketModel = uiState.market,
             showFavoriteList = showFavorite,
             closeDetailScreen = closeDetailScreen,
             contentType = contentType,
@@ -96,7 +97,8 @@ fun ListWithDetailScreen(
                 onNavigateToDetailScreen = { market ->
                     onMarketSelected?.invoke(market, contentType)
                 },
-                uiState = uiState,
+                isDetailOnlyOpen = uiState.isDetailOnlyOpen,
+                marketModel = uiState.market,
                 showFavoriteList = showFavorite,
                 closeDetailScreen = closeDetailScreen,
                 contentType = contentType,

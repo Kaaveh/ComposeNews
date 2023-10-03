@@ -5,8 +5,8 @@ package ir.composenews.navigation.graph
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.window.layout.DisplayFeature
-import ir.composenews.base.MainContract
 import ir.composenews.navigation.Destinations
+import ir.composenews.navigation.MainContract
 import ir.composenews.navigation.extension_function.parcelableData
 import ir.composenews.uimarket.model.MarketModel
 import ir.composenews.utils.ContentType
@@ -31,7 +31,7 @@ fun NavGraphBuilder.favoriteList(
             ContentType.DUAL_PANE -> {
                 val market =
                     entry.parcelableData<MarketModel>(Destinations.MarketDetailScreen().market)
-                        ?: (uiState.market as? MarketModel?)
+                        ?: uiState.market
                 ListWithDetailScreen(
                     displayFeatures = displayFeature,
                     market = market,

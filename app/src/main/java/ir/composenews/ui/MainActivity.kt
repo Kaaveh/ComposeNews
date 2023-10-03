@@ -14,12 +14,11 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.adaptive.calculateDisplayFeatures
 import dagger.hilt.android.AndroidEntryPoint
-import ir.composenews.base.MainContract
 import ir.composenews.designsystem.theme.ComposeNewsTheme
+import ir.composenews.navigation.MainContract
 import ir.composenews.permission.enum.PermissionType
 import ir.composenews.permission.manager.PermissionManager
 import ir.composenews.permission.manager.PermissionManagerImpl
-import ir.composenews.uimarket.mapper.toMarket
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity(), PermissionManager by PermissionManagerImpl() {
@@ -51,7 +50,7 @@ class MainActivity : ComponentActivity(), PermissionManager by PermissionManager
                     onMarketSelected = { market, contentType ->
                         viewModel.event(
                             MainContract.Event.SetMarket(
-                                market = market.toMarket(),
+                                market = market,
                                 contentType = contentType
                             )
                         )

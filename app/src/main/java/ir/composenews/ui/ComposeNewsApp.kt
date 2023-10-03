@@ -18,10 +18,10 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.window.layout.DisplayFeature
 import androidx.window.layout.FoldingFeature
-import ir.composenews.base.MainContract
 import ir.composenews.navigation.BottomNavItem
 import ir.composenews.navigation.ComposeNewsNavHost
 import ir.composenews.navigation.Destinations
+import ir.composenews.navigation.MainContract
 import ir.composenews.ui.component.BottomNavigationBar
 import ir.composenews.ui.component.ComposeNewsNavigationRail
 import ir.composenews.uimarket.model.MarketModel
