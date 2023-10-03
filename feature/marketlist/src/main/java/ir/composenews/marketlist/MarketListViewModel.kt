@@ -85,6 +85,7 @@ class MarketListViewModel @Inject constructor(
                     prevState.copy(
                         marketList = result.map { it.toMarketModel() }.toPersistentList(),
                         refreshing = false,
+                        showFavoriteEmptyState = result.isEmpty()
                     )
                 }
                 mutableBaseState.update { BaseContract.BaseState.OnSuccess }
@@ -106,6 +107,7 @@ class MarketListViewModel @Inject constructor(
                 prevState.copy(
                     marketList = newList.map { it.toMarketModel() }.toPersistentList(),
                     refreshing = false,
+                    showFavoriteEmptyState = newList.isEmpty()
                 )
             }
         }.launchIn(viewModelScope)
