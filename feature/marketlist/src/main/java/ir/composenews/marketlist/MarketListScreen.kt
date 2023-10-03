@@ -19,9 +19,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.airbnb.lottie.compose.LottieCompositionSpec
 import ir.composenews.base.BaseRoute
 import ir.composenews.base.MainContract
 import ir.composenews.base.use
+import ir.composenews.designsystem.R
+import ir.composenews.designsystem.component.EmptyStateAnimation
 import ir.composenews.designsystem.component.ShimmerMarketListItem
 import ir.composenews.designsystem.component.pull_refresh_indicator.PullRefreshIndicator
 import ir.composenews.designsystem.component.pull_refresh_indicator.pullRefresh
@@ -104,29 +107,37 @@ private fun MarketListScreen(
             enter = fadeIn(),
             exit = fadeOut(),
         ) {
-            LazyColumn(modifier = Modifier.fillMaxWidth()) {
-                items(
-                    items = marketListState.marketList,
-                    key = { it.name },
-                ) { market ->
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .animateItemPlacement(
-                                animationSpec = tween(durationMillis = 250),
-                            ),
-                    ) {
-                        MarketListItem(
-                            modifier = Modifier,
-                            market = market,
-                            showFavoriteList = showFavoriteList,
-                            onItemClick = {
-                                onNavigateToDetailScreen(market)
-                            },
-                            onFavoriteClick = {
-                                onFavoriteClick(market)
-                            },
-                        )
+            if (marketListState.showFavoriteEmptyState && marketListState.showFavoriteList) {
+                EmptyStateAnimation(
+                    lottieCompositionSpec = LottieCompositionSpec.RawRes(
+                        R.raw.empty_state_animation
+                    ),
+                )
+            } else {
+                LazyColumn(modifier = Modifier.fillMaxWidth()) {
+                    items(
+                        items = marketListState.marketList,
+                        key = { it.name },
+                    ) { market ->
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .animateItemPlacement(
+                                    animationSpec = tween(durationMillis = 250),
+                                ),
+                        ) {
+                            MarketListItem(
+                                modifier = Modifier,
+                                market = market,
+                                showFavoriteList = showFavoriteList,
+                                onItemClick = {
+                                    onNavigateToDetailScreen(market)
+                                },
+                                onFavoriteClick = {
+                                    onFavoriteClick(market)
+                                },
+                            )
+                        }
                     }
                 }
             }
