@@ -311,39 +311,3 @@ private fun ShimmerMarketItemPrev() {
         }
     }
 }
-
-@Composable
-fun EmptyStateAnimation(
-    lottieCompositionSpec: LottieCompositionSpec,
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        LottieAnimationComposable(
-            animationSpec = lottieCompositionSpec,
-            modifier = Modifier.size(250.dp, 250.dp)
-                .scale(0.5f,0.5f)
-        )
-        Text(
-            modifier = Modifier.padding(bottom = 18.dp),
-            text = "Your favorite list is empty",
-            style = MaterialTheme.typography.titleLarge,
-            fontSize = 20.sp
-        )
-    }
-}
-
-@ThemePreviews
-@Composable
-fun EmptyStateAnimationPrev() {
-    ComposeNewsTheme {
-        Surface {
-            EmptyStateAnimation(
-                lottieCompositionSpec = LottieCompositionSpec.RawRes(R.raw.empty_state_animation),
-            )
-        }
-    }
-}
