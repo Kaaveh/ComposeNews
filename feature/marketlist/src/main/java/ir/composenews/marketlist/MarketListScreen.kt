@@ -110,7 +110,7 @@ private fun MarketListScreen(
             if (marketListState.showFavoriteEmptyState && marketListState.showFavoriteList) {
                 EmptyStateAnimation(
                     lottieCompositionSpec = LottieCompositionSpec.RawRes(
-                        R.raw.empty_state_animation
+                        R.raw.empty_state_animation,
                     ),
                 )
             } else {

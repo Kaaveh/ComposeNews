@@ -24,12 +24,13 @@ fun LottieAnimationComposable(
         composition = composition,
         iterations = repeatCount,
         speed = speed,
-        reverseOnRepeat = autoPlay
+        reverseOnRepeat = autoPlay,
     )
 
     LottieAnimation(
-        composition = composition, progress = { progress },
+        composition = composition,
+        progress = { progress },
         modifier = modifier,
-        contentScale = contentScale
+        contentScale = contentScale,
     )
 }
