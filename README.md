@@ -30,7 +30,7 @@ For the detail of handling preview of composable functions in this code-base, pl
 - Work manager
 - Unit test
 - Support larg screens
-- Version catalog
+- Version catalog & Convention Plugin For the detail, please read [this article]([https://proandroiddev.com/an-introduction-about-preview-in-jetpack-compose-b72a96daac35](https://proandroiddev.com/mastering-android-dependency-management-b94205595f6b)).
 - CI
 - Git Hooks
 - GitHub Actions
