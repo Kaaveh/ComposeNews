@@ -25,6 +25,7 @@ androidHiltCompiler = "1.0.0"
 hiltNavigationCompose = "1.0.0"
 hiltWork = "1.0.0"
 javaxInject = "1"
+lottieAnimation = "6.1.0"
 
 coroutinesCore = "1.7.3"
 
@@ -118,6 +119,8 @@ android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", ver
 detekt-gradlePlugin = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gradle-plugin", version.ref = "detekt" }
 detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "detekt" }
 ktlint-kotlinter = { group = "org.jmailen.gradle", name = "kotlinter-gradle", version.ref = "kotlinter" }
+
+compose-lottie-animation = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottieAnimation" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

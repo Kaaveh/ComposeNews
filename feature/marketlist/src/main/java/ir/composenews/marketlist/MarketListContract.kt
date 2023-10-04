@@ -12,6 +12,7 @@ interface MarketListContract :
         val marketList: PersistentList<MarketModel> = persistentListOf(),
         val refreshing: Boolean = false,
         val showFavoriteList: Boolean = false,
+        val showFavoriteEmptyState: Boolean = false,
     )
 
     sealed class Event {
