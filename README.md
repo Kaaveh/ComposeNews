@@ -34,7 +34,7 @@ For the detail of handling preview of composable functions in this code-base, pl
 - CI
 - Git Hooks
 - GitHub Actions
-- Static Analysis(Kotliner, Detekt)
+- Static Analysis(Kotlinter, Detekt) For the detail, please read [this article](https://blog.kotlin-academy.com/detekt-gradle-configuration-guide-d6d2301b823a).
 
 ## 📸 Screenshots
 
