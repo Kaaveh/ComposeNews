@@ -1,3 +1,5 @@
+@file:Suppress("MagicNumber")
+
 package ir.composenews.designsystem.component
 
 import androidx.compose.foundation.layout.Arrangement
