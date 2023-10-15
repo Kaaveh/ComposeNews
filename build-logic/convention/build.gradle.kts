@@ -42,7 +42,7 @@ gradlePlugin {
         }
         register("androidLibraryCompose") {
             id = "composenews.android.library.compose"
-            implementationClass = "AndroidLibraryComposeConventionPlugin"
+            implementationClass = "LibraryComposeConventionPlugin"
         }
         register("androidFeature") {
             id = "composenews.android.feature"
