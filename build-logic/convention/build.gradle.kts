@@ -34,7 +34,7 @@ gradlePlugin {
 
         register("androidHilt") {
             id = "composenews.android.hilt"
-            implementationClass = "AndroidHiltConventionPlugin"
+            implementationClass = "HiltConventionPlugin"
         }
         register("androidLibrary") {
             id = "composenews.android.library"
