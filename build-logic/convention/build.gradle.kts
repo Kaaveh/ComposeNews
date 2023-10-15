@@ -50,7 +50,7 @@ gradlePlugin {
         }
         register("androidRoom") {
             id = "composenews.android.room"
-            implementationClass = "AndroidRoomConventionPlugin"
+            implementationClass = "RoomConventionPlugin"
         }
         register("androidDetekt") {
             id = "composenews.android.detekt"
