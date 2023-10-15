@@ -29,7 +29,7 @@ gradlePlugin {
         }
         register("androidApplicationCompose") {
             id = "composenews.android.application.compose"
-            implementationClass = "AndroidApplicationComposeConventionPlugin"
+            implementationClass = "ApplicationComposeConventionPlugin"
         }
 
         register("androidHilt") {
