@@ -54,7 +54,7 @@ gradlePlugin {
         }
         register("androidDetekt") {
             id = "composenews.android.detekt"
-            implementationClass = "AndroidDetektConventionPlugin"
+            implementationClass = "DetektConventionPlugin"
         }
         register("androidKtlint") {
             id = "composenews.android.ktlint"
