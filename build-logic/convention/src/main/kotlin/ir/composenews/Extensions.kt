@@ -1,5 +1,6 @@
 package ir.composenews
 
+import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.gradle.LibraryExtension
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import org.gradle.api.Project
@@ -12,5 +13,10 @@ inline fun Project.androidGradle(crossinline configure: LibraryExtension.() -> U
 
 inline fun Project.detektGradle(crossinline configure: DetektExtension.() -> Unit) =
     extensions.configure<DetektExtension> {
+        configure()
+    }
+
+inline fun Project.applicationGradle(crossinline configure: ApplicationExtension.() -> Unit) =
+    extensions.configure<ApplicationExtension> {
         configure()
     }
