@@ -58,7 +58,7 @@ gradlePlugin {
         }
         register("androidKtlint") {
             id = "composenews.android.ktlint"
-            implementationClass = "AndroidKotlinterConventionPlugin"
+            implementationClass = "KotlinterConventionPlugin"
         }
     }
 }
