@@ -4,7 +4,6 @@ import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 
-
 /**
  * Configure Compose-specific options
  */
@@ -29,9 +28,9 @@ internal fun Project.configureAndroidCompose(
         dependencies {
             val bom = libs.findLibrary("compose-bom").get()
             val composeCompiler = libs.findLibrary("compose-compiler").get()
-            add("implementation", platform(bom))
-            add("implementation", composeCompiler)
-            add("androidTestImplementation", platform(bom))
+            "implementation"(platform(bom))
+            "implementation"(composeCompiler)
+            "androidTestImplementation"(platform(bom))
         }
 
     }
