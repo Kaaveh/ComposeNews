@@ -4,7 +4,7 @@ import ir.composenews.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
-class DetektConventionPlugin : Plugin<Project> {
+class AndroidDetektConventionPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         project.run {
             applyPlugins()

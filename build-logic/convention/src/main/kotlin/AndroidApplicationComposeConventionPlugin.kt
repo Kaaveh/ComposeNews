@@ -3,7 +3,7 @@ import ir.composenews.configureAndroidCompose
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
-class ApplicationComposeConventionPlugin : Plugin<Project> {
+class AndroidApplicationComposeConventionPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         project.run {
             applyPlugins()

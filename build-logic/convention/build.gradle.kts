@@ -25,11 +25,11 @@ gradlePlugin {
     plugins {
         register("androidApplication") {
             id = "composenews.android.application"
-            implementationClass = "ApplicationConventionPlugin"
+            implementationClass = "AndroidApplicationConventionPlugin"
         }
         register("androidApplicationCompose") {
             id = "composenews.android.application.compose"
-            implementationClass = "ApplicationComposeConventionPlugin"
+            implementationClass = "AndroidApplicationComposeConventionPlugin"
         }
 
         register("androidHilt") {
@@ -38,15 +38,15 @@ gradlePlugin {
         }
         register("androidLibrary") {
             id = "composenews.android.library"
-            implementationClass = "LibraryConventionPlugin"
+            implementationClass = "AndroidLibraryConventionPlugin"
         }
         register("androidLibraryCompose") {
             id = "composenews.android.library.compose"
-            implementationClass = "LibraryComposeConventionPlugin"
+            implementationClass = "AndroidLibraryComposeConventionPlugin"
         }
         register("androidFeature") {
             id = "composenews.android.feature"
-            implementationClass = "FeatureConventionPlugin"
+            implementationClass = "AndroidFeatureConventionPlugin"
         }
         register("androidRoom") {
             id = "composenews.android.room"
@@ -54,11 +54,11 @@ gradlePlugin {
         }
         register("androidDetekt") {
             id = "composenews.android.detekt"
-            implementationClass = "DetektConventionPlugin"
+            implementationClass = "AndroidDetektConventionPlugin"
         }
         register("androidKtlint") {
             id = "composenews.android.ktlint"
-            implementationClass = "KotlinterConventionPlugin"
+            implementationClass = "AndroidKotlinterConventionPlugin"
         }
     }
 }
