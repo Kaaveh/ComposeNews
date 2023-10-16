@@ -1,32 +1,38 @@
-import com.android.build.gradle.LibraryExtension
+import ir.composenews.androidGradle
 import ir.composenews.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 
 class AndroidFeatureConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            pluginManager.apply {
-                apply("composenews.android.library")
-                apply("composenews.android.library.compose")
-                apply("composenews.android.hilt")
-            }
-            extensions.configure<LibraryExtension> {
+            applyPlugins()
+            applyDependencies()
+            androidGradle {
                 defaultConfig {
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                 }
             }
+        }
+    }
 
-            dependencies {
-                add("implementation", libs.findLibrary("hilt.navigation.compose").get())
-                add("androidTestImplementation", libs.findLibrary("runner").get())
+    private fun Project.applyPlugins() {
+        pluginManager.apply {
+            apply("composenews.android.library")
+            apply("composenews.android.library.compose")
+            apply("composenews.android.hilt")
+        }
+    }
 
-                add("testImplementation", project(":core:test"))
-                add("api", project(":library:designsystem"))
-                add("api", project(":core:base"))
-            }
+    private fun Project.applyDependencies() {
+        dependencies {
+            "implementation"(libs.findLibrary("hilt.navigation.compose").get())
+            "androidTestImplementation"(libs.findLibrary("runner").get())
+
+            "testImplementation"(project(":core:test"))
+            "api"(project(":library:designsystem"))
+            "api"(project(":core:base"))
         }
     }
 }

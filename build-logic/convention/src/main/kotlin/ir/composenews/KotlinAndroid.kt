@@ -7,7 +7,6 @@ import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.provideDelegate
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 
-
 /**
  * Configure base Kotlin with Android options
  */
@@ -57,8 +56,4 @@ internal fun Project.configureKotlinAndroid(
             }
         }
     }
-}
-
-fun CommonExtension<*, *, *, *, *>.kotlinOptions(block: KotlinJvmOptions.() -> Unit) {
-    (this as ExtensionAware).extensions.configure("kotlinOptions", block)
 }

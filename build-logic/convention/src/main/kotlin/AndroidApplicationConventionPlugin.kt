@@ -1,22 +1,25 @@
-import com.android.build.api.dsl.ApplicationExtension
+import ir.composenews.applicationGradle
 import ir.composenews.configureKotlinAndroid
 import ir.composenews.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.configure
 
 class AndroidApplicationConventionPlugin : Plugin<Project> {
-    override fun apply(target: Project) {
-        with(target) {
-            with(pluginManager) {
-                apply("com.android.application")
-                apply("org.jetbrains.kotlin.android")
-            }
-
-            extensions.configure<ApplicationExtension> {
+    override fun apply(project: Project) {
+        project.run {
+            applyPlugins()
+            applicationGradle {
                 configureKotlinAndroid(this)
-                defaultConfig.targetSdk = Integer.parseInt(libs.findVersion("projectTargetSdkVersion").get().toString())
+                defaultConfig.targetSdk =
+                    Integer.parseInt(libs.findVersion("projectTargetSdkVersion").get().toString())
             }
+        }
+    }
+
+    private fun Project.applyPlugins() {
+        pluginManager.apply {
+            apply("com.android.application")
+            apply("org.jetbrains.kotlin.android")
         }
     }
 }
