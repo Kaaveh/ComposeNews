@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -30,7 +31,9 @@ import ir.composenews.designsystem.component.pull_refresh_indicator.pullRefresh
 import ir.composenews.designsystem.component.pull_refresh_indicator.rememberPullRefreshState
 import ir.composenews.designsystem.preview.ThemePreviews
 import ir.composenews.designsystem.theme.ComposeNewsTheme
+import ir.composenews.domain.util.MarketListOrder
 import ir.composenews.marketlist.component.MarketListItem
+import ir.composenews.marketlist.component.MarketListOrderSection
 import ir.composenews.marketlist.preview_provider.MarketListStateProvider
 import ir.composenews.uimarket.model.MarketModel
 import ir.composenews.utils.ContentType
@@ -64,24 +67,28 @@ fun MarketListRoute(
     if (contentType == ContentType.DUAL_PANE && !state.refreshing && state.marketList.isNotEmpty() && marketModel == null) {
         onNavigateToDetailScreen(state.marketList[0])
     }
-
-    BaseRoute(
-        baseViewModel = viewModel,
-        shimmerView = {
-            ShimmerMarketListItem()
-        },
-    ) {
-        MarketListScreen(
-            marketListState = state,
-            onNavigateToDetailScreen = onNavigateToDetailScreen,
-            showFavoriteList = showFavoriteList,
-            onFavoriteClick = { market ->
-                event.invoke(MarketListContract.Event.OnFavoriteClick(market = market))
+    Column {
+        BaseRoute(
+            baseViewModel = viewModel,
+            shimmerView = {
+                ShimmerMarketListItem()
             },
-            onRefresh = {
-                event.invoke(MarketListContract.Event.OnRefresh)
-            },
-        )
+        ) {
+            MarketListScreen(
+                marketListState = state,
+                onNavigateToDetailScreen = onNavigateToDetailScreen,
+                showFavoriteList = showFavoriteList,
+                onFavoriteClick = { market ->
+                    event.invoke(MarketListContract.Event.OnFavoriteClick(market = market))
+                },
+                onRefresh = {
+                    event.invoke(MarketListContract.Event.OnRefresh)
+                },
+                onOrder = { marketListOrder ->
+                    event.invoke(MarketListContract.Event.onOrder(marketListOrder))
+                }
+            )
+        }
     }
 }
 
@@ -93,10 +100,15 @@ private fun MarketListScreen(
     onNavigateToDetailScreen: (market: MarketModel) -> Unit,
     onFavoriteClick: (market: MarketModel) -> Unit,
     onRefresh: () -> Unit,
+    onOrder: (MarketListOrder) -> Unit,
 ) {
     val refreshState =
         rememberPullRefreshState(refreshing = marketListState.refreshing, onRefresh = onRefresh)
+    val marketLazyState = rememberLazyListState()
 
+    LaunchedEffect(key1 = marketListState.marketList) {
+        marketLazyState.scrollToItem(0)
+    }
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -114,29 +126,35 @@ private fun MarketListScreen(
                     ),
                 )
             } else {
-                LazyColumn(modifier = Modifier.fillMaxWidth()) {
-                    items(
-                        items = marketListState.marketList,
-                        key = { it.name },
-                    ) { market ->
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .animateItemPlacement(
-                                    animationSpec = tween(durationMillis = 250),
-                                ),
-                        ) {
-                            MarketListItem(
-                                modifier = Modifier,
-                                market = market,
-                                showFavoriteList = showFavoriteList,
-                                onItemClick = {
-                                    onNavigateToDetailScreen(market)
-                                },
-                                onFavoriteClick = {
-                                    onFavoriteClick(market)
-                                },
-                            )
+                Column {
+
+                    MarketListOrderSection(marketListOrder = marketListState.marketListOrder) { marketListOrder ->
+                        onOrder(marketListOrder)
+                    }
+                    LazyColumn(modifier = Modifier.fillMaxWidth(), state = marketLazyState) {
+                        items(
+                            items = marketListState.marketList,
+                            key = { it.name },
+                        ) { market ->
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .animateItemPlacement(
+                                        animationSpec = tween(durationMillis = 250),
+                                    ),
+                            ) {
+                                MarketListItem(
+                                    modifier = Modifier,
+                                    market = market,
+                                    showFavoriteList = showFavoriteList,
+                                    onItemClick = {
+                                        onNavigateToDetailScreen(market)
+                                    },
+                                    onFavoriteClick = {
+                                        onFavoriteClick(market)
+                                    },
+                                )
+                            }
                         }
                     }
                 }
@@ -148,6 +166,7 @@ private fun MarketListScreen(
             Modifier.align(Alignment.TopCenter),
         )
     }
+
 }
 
 @ThemePreviews
@@ -164,6 +183,7 @@ private fun MarketListScreenPrev(
                 onNavigateToDetailScreen = {},
                 onFavoriteClick = {},
                 onRefresh = {},
+                {}
             )
         }
     }
