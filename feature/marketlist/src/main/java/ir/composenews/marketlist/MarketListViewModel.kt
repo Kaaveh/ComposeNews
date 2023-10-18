@@ -11,6 +11,8 @@ import ir.composenews.domain.use_case.GetFavoriteMarketListUseCase
 import ir.composenews.domain.use_case.GetMarketListUseCase
 import ir.composenews.domain.use_case.SyncMarketListUseCase
 import ir.composenews.domain.use_case.ToggleFavoriteMarketListUseCase
+import ir.composenews.domain.util.MarketListOrder
+import ir.composenews.domain.util.OrderType
 import ir.composenews.uimarket.mapper.toMarket
 import ir.composenews.uimarket.mapper.toMarketModel
 import ir.composenews.uimarket.model.MarketModel
@@ -39,11 +41,19 @@ class MarketListViewModel @Inject constructor(
 
     override fun event(event: MarketListContract.Event) = when (event) {
         MarketListContract.Event.OnGetMarketList -> getData()
-        MarketListContract.Event.OnRefresh -> getData(isRefreshing = true)
+        MarketListContract.Event.OnRefresh -> getData(
+            isRefreshing = true,
+            marketListOrder = mutableState.value.marketListOrder
+        )
+
         is MarketListContract.Event.OnFavoriteClick -> onFavoriteClick(news = event.market)
         is MarketListContract.Event.OnSetShowFavoriteList -> onSetShowFavoriteList(
             showFavoriteList = event.showFavoriteList,
         )
+
+        is MarketListContract.Event.onOrder -> {
+            getData(marketListOrder = event.marketListOrder)
+        }
     }
 
     private fun onSetShowFavoriteList(showFavoriteList: Boolean) {
@@ -52,7 +62,12 @@ class MarketListViewModel @Inject constructor(
         }
     }
 
-    private fun getData(isRefreshing: Boolean = false) {
+    private fun getData(
+        isRefreshing: Boolean = false,
+        marketListOrder: MarketListOrder = MarketListOrder.Price(
+            OrderType.Descending
+        ),
+    ) {
         if (isRefreshing) {
             mutableState.update {
                 it.copy(refreshing = true)
@@ -62,12 +77,12 @@ class MarketListViewModel @Inject constructor(
             if (mutableState.value.showFavoriteList) {
                 getFavoriteMarketList()
             } else {
-                getMarketList()
+                getMarketList(marketListOrder)
             }
         }
     }
 
-    private suspend fun getMarketList() {
+    private suspend fun getMarketList(marketListOrder: MarketListOrder) {
         mutableBaseState.update { BaseContract.BaseState.OnLoading }
         try {
             syncMarketListUseCase()
@@ -79,13 +94,14 @@ class MarketListViewModel @Inject constructor(
                 )
             }
         }
-        getMarketListUseCase()
+        getMarketListUseCase(marketListOrder)
             .onEach { result ->
                 mutableState.update { prevState ->
                     prevState.copy(
                         marketList = result.map { it.toMarketModel() }.toPersistentList(),
                         refreshing = false,
                         showFavoriteEmptyState = result.isEmpty(),
+                        marketListOrder = marketListOrder
                     )
                 }
                 mutableBaseState.update { BaseContract.BaseState.OnSuccess }
