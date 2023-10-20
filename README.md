@@ -1,5 +1,7 @@
 # ComposeNews
 
+![](asset/IMG_2412.jpeg)
+
 This repo is a playground about best practices, using updated libraries and solutions in the Android world!
 
 ## ⚙️ Architecture
@@ -29,12 +31,13 @@ For the detail of handling preview of composable functions in this code-base, pl
 - Retrofit
 - Work manager
 - Unit test
-- Support larg screens
-- Version catalog & Convention Plugin For the detail, please read [this article](https://proandroiddev.com/mastering-android-dependency-management-b94205595f6b).
+- Support large screens
+- Monochromatic app icon
+- Version catalog & Convention Plugin (For the detail, please read [this article](https://proandroiddev.com/mastering-android-dependency-management-b94205595f6b))
 - CI
 - Git Hooks
 - GitHub Actions
-- Static Analysis(Kotlinter, Detekt) For the detail, please read [this article](https://blog.kotlin-academy.com/detekt-gradle-configuration-guide-d6d2301b823a).
+- Static Analysis(Kotlinter, Detekt) (For the detail, please read [this article](https://blog.kotlin-academy.com/detekt-gradle-configuration-guide-d6d2301b823a))
 
 ## 📸 Screenshots
 
