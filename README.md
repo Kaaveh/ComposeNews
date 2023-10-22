@@ -1,6 +1,6 @@
 # ComposeNews
 
-![](asset/IMG_2412.jpeg)
+![](asset/header.jpeg)
 
 This repo is a playground about best practices, using updated libraries and solutions in the Android world!
 
