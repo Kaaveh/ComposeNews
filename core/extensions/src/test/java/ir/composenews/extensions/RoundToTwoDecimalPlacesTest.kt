@@ -1,6 +1,5 @@
-package ir.composenews.designsystem
+package ir.composenews.extensions
 
-import ir.composenews.designsystem.extensionFunction.roundToTwoDecimalPlaces
 import org.junit.Assert
 import org.junit.Test
 import java.math.BigDecimal
