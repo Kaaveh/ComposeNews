@@ -3,7 +3,7 @@ package ir.composenews.marketlist.component
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import ir.composenews.designsystem.component.MarketItem
-import ir.composenews.designsystem.extensionFunction.roundToTwoDecimalPlaces
+import ir.composenews.extensions.roundToTwoDecimalPlaces
 import ir.composenews.uimarket.model.MarketModel
 
 @Composable
