@@ -43,12 +43,7 @@ For the detail of handling preview of composable functions in this code-base, pl
 
 Light theme
 
-
-<p float="left">
-  <img src="asset/1.png" width="350"/>
-  <img src="asset/2.png" width="350"/>
-</p>
-
+![](asset/light_mode.jpg)
 
 Dark theme
 
