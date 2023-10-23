@@ -1,12 +1,12 @@
 # ComposeNews
 
-![](asset/IMG_2412.jpeg)
+![](asset/header.jpeg)
 
 This repo is a playground about best practices, using updated libraries and solutions in the Android world!
 
 ## ⚙️ Architecture
 
-![Architecture diagram](asset/architecture.jpg)
+![Architecture diagram](asset/arch.jpg)
 
 The main architecture of code based on MVI + CLEAN architecture. The division criteria is a hybrid strategy based on Feature + Layer by module.
 For the detail of architecture, please read [this article](https://medium.com/@kaaveh/migrate-from-mvvm-to-mvi-f938c27c214f).
@@ -43,26 +43,15 @@ For the detail of handling preview of composable functions in this code-base, pl
 
 Light theme
 
-
-<p float="left">
-  <img src="asset/1.png" width="350"/>
-  <img src="asset/2.png" width="350"/>
-</p>
-
+![](asset/light_mode.jpg)
 
 Dark theme
 
-
-<p float="left">
-  <img src="asset/3.png" width="350"/>
-  <img src="asset/4.png" width="350"/>
-</p>
+![](asset/dark_mode.jpg)
 
 Dynamic theme
 
-<p float="left">
-  <img src="asset/5.png" width="700"/>
-</p>
+![](asset/IMG_2459.jpeg)
 
 ## Additional Resources
 
