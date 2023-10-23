@@ -51,9 +51,7 @@ Dark theme
 
 Dynamic theme
 
-<p float="left">
-  <img src="asset/5.png" width="700"/>
-</p>
+![](asset/IMG_2459.jpeg)
 
 ## Additional Resources
 
