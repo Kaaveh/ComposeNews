@@ -31,7 +31,8 @@ fun EmptyStateAnimation(
     ) {
         LottieAnimationComposable(
             animationSpec = lottieCompositionSpec,
-            modifier = Modifier.size(250.dp, 250.dp)
+            modifier = Modifier
+                .size(250.dp, 250.dp)
                 .scale(
                     0.5f,
                     0.5f,
