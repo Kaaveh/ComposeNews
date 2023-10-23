@@ -25,7 +25,7 @@ object LocalDatasourceModule {
             .fallbackToDestructiveMigration()
             .build()
 
-    @Singleton
     @Provides
     fun provideMarketsDao(db: MarketsDatabase): MarketDao = db.marketDao
+
 }
