@@ -47,11 +47,7 @@ Light theme
 
 Dark theme
 
-
-<p float="left">
-  <img src="asset/3.png" width="350"/>
-  <img src="asset/4.png" width="350"/>
-</p>
+![](asset/dark_mode.jpg)
 
 Dynamic theme
 
