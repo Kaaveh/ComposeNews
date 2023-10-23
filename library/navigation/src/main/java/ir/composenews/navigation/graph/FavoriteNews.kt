@@ -10,10 +10,11 @@ import ir.composenews.navigation.MainContract
 import ir.composenews.navigation.extension_function.parcelableData
 import ir.composenews.uimarket.model.MarketModel
 import ir.composenews.utils.ContentType
+import kotlinx.collections.immutable.PersistentList
 
 fun NavGraphBuilder.favoriteList(
     contentType: ContentType,
-    displayFeature: List<DisplayFeature>,
+    displayFeature: PersistentList<DisplayFeature>,
     uiState: MainContract.State,
     closeDetailScreen: () -> Unit,
     onMarketSelected: ((MarketModel, ContentType) -> Unit)? = null,

@@ -10,7 +10,8 @@ import javax.inject.Inject
 class GetMarketListUseCase @Inject constructor(
     private val repository: MarketRepository,
 ) {
-    operator fun invoke(): Flow<List<Market>> {
+    suspend operator fun invoke(): Flow<List<Market>> {
+        repository.syncMarketList()
         return repository.getMarketList()
     }
 }

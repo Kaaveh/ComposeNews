@@ -15,11 +15,12 @@ import ir.composenews.navigation.MainContract
 import ir.composenews.navigation.extension_function.parcelableData
 import ir.composenews.uimarket.model.MarketModel
 import ir.composenews.utils.ContentType
+import kotlinx.collections.immutable.PersistentList
 
 fun NavGraphBuilder.marketList(
     showFavorite: Boolean,
     contentType: ContentType,
-    displayFeature: List<DisplayFeature>,
+    displayFeature: PersistentList<DisplayFeature>,
     uiState: MainContract.State,
     closeDetailScreen: () -> Unit,
     onMarketSelected: ((MarketModel, ContentType) -> Unit)? = null,
@@ -84,7 +85,7 @@ fun SingleListScreen(
 @Composable
 fun ListWithDetailScreen(
     showFavorite: Boolean,
-    displayFeatures: List<DisplayFeature>,
+    displayFeatures: PersistentList<DisplayFeature>,
     market: MarketModel?,
     uiState: MainContract.State,
     contentType: ContentType,

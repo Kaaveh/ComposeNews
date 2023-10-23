@@ -9,10 +9,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import ir.composenews.designsystem.component.BottomNavigationIcon
 import ir.composenews.navigation.BottomNavItem
+import kotlinx.collections.immutable.PersistentList
 
 @Composable
 fun ComposeNewsNavigationRail(
-    items: List<BottomNavItem>,
+    items: PersistentList<BottomNavItem>,
     currentScreenRoute: String?,
     modifier: Modifier = Modifier,
     onItemClick: (BottomNavItem) -> Unit
