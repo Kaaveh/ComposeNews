@@ -27,5 +27,4 @@ object LocalDatasourceModule {
 
     @Provides
     fun provideMarketsDao(db: MarketsDatabase): MarketDao = db.marketDao
-
 }
