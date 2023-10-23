@@ -1,6 +1,7 @@
 @file:Suppress("NoConsecutiveBlankLines")
 
 package ir.composenews.designsystem.theme
+
 import androidx.compose.ui.graphics.Color
 
 val md_theme_light_primary = Color(0xffdd0d3c)
@@ -29,7 +30,6 @@ val md_theme_light_outline = Color(0xFF857374)
 val md_theme_light_inverseOnSurface = Color(0xFFFBEEEE)
 val md_theme_light_inverseSurface = Color(0xFF362F2F)
 val md_theme_light_inversePrimary = Color(0xFFFFB2B9)
-val md_theme_light_shadow = Color(0xFF000000)
 val md_theme_light_surfaceTint = Color(0xFFA4384A)
 val md_theme_light_outlineVariant = Color(0xFFD7C1C2)
 val md_theme_light_scrim = Color(0xFF000000)
@@ -60,12 +60,9 @@ val md_theme_dark_outline = Color(0xFF9F8C8D)
 val md_theme_dark_inverseOnSurface = Color(0xFF201A1A)
 val md_theme_dark_inverseSurface = Color(0xFFECE0E0)
 val md_theme_dark_inversePrimary = Color(0xFFA4384A)
-val md_theme_dark_shadow = Color(0xFF000000)
 val md_theme_dark_surfaceTint = Color(0xFFFFB2B9)
 val md_theme_dark_outlineVariant = Color(0xFF524344)
 val md_theme_dark_scrim = Color(0xFF000000)
-
-val seed = Color(0xFFEA6D7E)
 
 // custom colors
 val graphColor = Color(0xFF6750A4)

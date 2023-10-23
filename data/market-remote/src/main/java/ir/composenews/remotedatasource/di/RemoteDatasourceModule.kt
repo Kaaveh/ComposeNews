@@ -5,6 +5,7 @@ import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
+import dagger.Reusable
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ir.composenews.remotedatasource.api.BASE_URL
@@ -14,14 +15,13 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object RemoteDatasourceModule {
 
-    @Singleton
     @Provides
+    @Reusable
     fun provideOkHttpClient(
         app: Application,
     ): OkHttpClient = OkHttpClient.Builder()
@@ -36,12 +36,10 @@ object RemoteDatasourceModule {
         .build()
 
     @Provides
-    @Singleton
     fun providesJson(): Json = Json {
         ignoreUnknownKeys = true
     }
 
-    @Singleton
     @Provides
     fun provideRetrofit(
         client: OkHttpClient,
@@ -54,7 +52,6 @@ object RemoteDatasourceModule {
             .build()
     }
 
-    @Singleton
     @Provides
     fun provideMarketsApi(
         retrofit: Retrofit,

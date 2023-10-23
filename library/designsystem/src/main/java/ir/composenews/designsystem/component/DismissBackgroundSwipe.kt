@@ -35,6 +35,7 @@ fun DismissBackgroundSwipe(modifier: Modifier, dismissState: DismissState) {
             } else {
                 Color.Red
             }
+
             else -> if (isSystemInDarkTheme().not()) Color.LightGray else Color.Gray
         },
         label = "",
