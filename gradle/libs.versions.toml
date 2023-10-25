@@ -43,6 +43,7 @@ kotlinx-serialization = "1.6.0"
 kotlinx-serialization-converter = "1.0.0"
 
 room = "2.6.0-rc01"
+sqldelight = "2.0.0"
 
 junit = "4.13.2"
 junitExt = "1.1.5"
@@ -97,6 +98,7 @@ chucker-no-op = { group = "com.github.chuckerteam.chucker", name = "library-no-o
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+sqldelight-android = { group = "app.cash.sqldelight", name = "android-driver", version.ref = "sqldelight" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 junit-ext = { group = "androidx.test.ext", name = "junit", version.ref = "junitExt" }
@@ -133,6 +135,7 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 kotliner = { id = "org.jmailen.kotlinter", version.ref = "kotlinter" }
+sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
 
 [bundles]
 compose = [
