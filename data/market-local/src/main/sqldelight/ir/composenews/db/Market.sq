@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS markets(
+    id TEXT UNIQUE PRIMARY KEY NOT NULL,
+    name TEXT UNIQUE NOT NULL,
+    symbol TEXT UNIQUE NOT NULL,
+    current_price REAL NOT NULL,
+    price_change_percentage_24h REAL NOT NULL,
+    image_url TEXT NOT NULL,
+    is_favorite INTEGER NOT NULL
+);
