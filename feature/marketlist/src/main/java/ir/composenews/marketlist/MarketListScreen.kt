@@ -14,17 +14,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.LifecycleOwner
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import ir.composenews.base.BaseRoute
 import ir.composenews.base.use
@@ -55,17 +49,10 @@ fun MarketListRoute(
     contentType: ContentType,
 ) {
     val (state, event) = use(viewModel = viewModel)
-
-    OnLifecycleEvent { _, cycle ->
-        when (cycle) {
-            Lifecycle.Event.ON_CREATE -> {
-                event.invoke(MarketListContract.Event.OnSetShowFavoriteList(showFavoriteList = showFavoriteList))
-                if (!showFavoriteList)
-                    event.invoke(MarketListContract.Event.OnGetMarketList)
-            }
-
-            else -> {}
-        }
+    LaunchedEffect(key1 = Unit) {
+         event.invoke(MarketListContract.Event.OnSetShowFavoriteList(showFavoriteList = showFavoriteList))
+         if (!showFavoriteList)
+                event.invoke(MarketListContract.Event.OnGetMarketList)
     }
 
     LaunchedEffect(key1 = contentType) {
@@ -160,24 +147,6 @@ private fun MarketListScreen(
             refreshState,
             Modifier.align(Alignment.TopCenter),
         )
-    }
-}
-
-@Composable
-fun OnLifecycleEvent(onEvent: (owner: LifecycleOwner, event: Lifecycle.Event) -> Unit) {
-    val eventHandler = rememberUpdatedState(onEvent)
-    val lifecycleOwner = rememberUpdatedState(LocalLifecycleOwner.current)
-
-    DisposableEffect(lifecycleOwner.value) {
-        val lifecycle = lifecycleOwner.value.lifecycle
-        val observer = LifecycleEventObserver { owner, event ->
-            eventHandler.value(owner, event)
-        }
-
-        lifecycle.addObserver(observer)
-        onDispose {
-            lifecycle.removeObserver(observer)
-        }
     }
 }
 
