@@ -25,7 +25,6 @@ import kotlin.random.Random
 @OptIn(ExperimentalCoroutinesApi::class)
 class MarketListViewModelTest {
     private val getMarketListUseCase: GetMarketListUseCase = mockk(relaxed = true)
-    private val syncMarketListUseCase: SyncMarketListUseCase = mockk(relaxed = true)
     private val getFavoriteMarketListUseCase: GetFavoriteMarketListUseCase = mockk(relaxed = true)
     private val toggleFavoriteMarketListUseCase: ToggleFavoriteMarketListUseCase =
         mockk(relaxed = true)
@@ -41,7 +40,6 @@ class MarketListViewModelTest {
     fun setup() {
         sut = MarketListViewModel(
             getMarketListUseCase,
-            syncMarketListUseCase,
             getFavoriteMarketListUseCase,
             toggleFavoriteMarketListUseCase,
             dispatcherProvider,
