@@ -28,8 +28,8 @@ dependencies {
         implementation(sqldelight.coroutines)
         testImplementation(sqldelight.test)
         testImplementation(junit)
-        androidTestImplementation(junit.ext)
-        androidTestImplementation(coroutines.test)
-        androidTestImplementation(runner)
+        testImplementation(junit.ext)
+        testImplementation(coroutines.test)
+        testImplementation(runner)
     }
 }
