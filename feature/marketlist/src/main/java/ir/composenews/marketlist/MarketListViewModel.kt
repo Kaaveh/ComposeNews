@@ -9,7 +9,6 @@ import ir.composenews.base.BaseViewModel
 import ir.composenews.core_test.dispatcher.DispatcherProvider
 import ir.composenews.domain.use_case.GetFavoriteMarketListUseCase
 import ir.composenews.domain.use_case.GetMarketListUseCase
-import ir.composenews.domain.use_case.SyncMarketListUseCase
 import ir.composenews.domain.use_case.ToggleFavoriteMarketListUseCase
 import ir.composenews.uimarket.mapper.toMarket
 import ir.composenews.uimarket.mapper.toMarketModel

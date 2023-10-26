@@ -7,7 +7,6 @@ import ir.composenews.core_test.dispatcher.TestDispatcherProvider
 import ir.composenews.domain.model.Market
 import ir.composenews.domain.use_case.GetFavoriteMarketListUseCase
 import ir.composenews.domain.use_case.GetMarketListUseCase
-import ir.composenews.domain.use_case.SyncMarketListUseCase
 import ir.composenews.domain.use_case.ToggleFavoriteMarketListUseCase
 import ir.composenews.uimarket.mapper.toMarket
 import kotlinx.coroutines.ExperimentalCoroutinesApi
