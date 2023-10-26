@@ -28,7 +28,6 @@ import javax.inject.Inject
 @HiltViewModel
 class MarketListViewModel @Inject constructor(
     private val getMarketListUseCase: GetMarketListUseCase,
-    private val syncMarketListUseCase: SyncMarketListUseCase,
     private val getFavoriteMarketListUseCase: GetFavoriteMarketListUseCase,
     private val toggleFavoriteMarketListUseCase: ToggleFavoriteMarketListUseCase,
     dispatcherProvider: DispatcherProvider,
@@ -69,16 +68,6 @@ class MarketListViewModel @Inject constructor(
 
     private suspend fun getMarketList() {
         mutableBaseState.update { BaseContract.BaseState.OnLoading }
-        try {
-            syncMarketListUseCase()
-            mutableBaseState.update { BaseContract.BaseState.OnSuccess }
-        } catch (e: Exception) {
-            mutableBaseState.update {
-                BaseContract.BaseState.OnError(
-                    errorMessage = e.localizedMessage ?: "An unexpected error occurred.",
-                )
-            }
-        }
         getMarketListUseCase()
             .onEach { result ->
                 mutableState.update { prevState ->
