@@ -1,26 +1,28 @@
 package ir.composenews.localdatasource.test
 
-import ir.composenews.db.Markets
+import ir.composenews.db.MarketEntity
+import ir.composenews.localdatasource.database.FALSE
+import ir.composenews.localdatasource.database.TRUE
 import ir.composenews.localdatasource.dto.RemoteMarketDto
 
-val localMarketDto = Markets(
+val marketEntity = MarketEntity(
     id = "id",
     name = "name",
     symbol = "symbol",
     currentPrice = 100000.0,
     priceChangePercentage24h = 100000.0,
     imageUrl = "some_shit_url.png",
-    isFavorite = 0,
+    isFavorite = FALSE,
 )
 
-val favoriteLocalMarketDto = Markets(
+val favoriteMarketEntity = MarketEntity(
     id = "id",
     name = "name",
     symbol = "symbol",
     currentPrice = 100000.0,
     priceChangePercentage24h = 100000.0,
     imageUrl = "some_shit_url.png",
-    isFavorite = 1,
+    isFavorite = TRUE,
 )
 
 val remoteMarketDto = RemoteMarketDto(

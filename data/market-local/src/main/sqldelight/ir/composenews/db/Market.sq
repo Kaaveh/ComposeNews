@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS markets(
+CREATE TABLE IF NOT EXISTS marketEntity(
     id TEXT UNIQUE PRIMARY KEY NOT NULL,
     name TEXT UNIQUE NOT NULL,
     symbol TEXT UNIQUE NOT NULL,
@@ -10,21 +10,21 @@ CREATE TABLE IF NOT EXISTS markets(
 
 getMarketList:
 SELECT *
-FROM markets
+FROM marketEntity
 ORDER BY name ASC;
 
 getFavoriteMarketList:
 SELECT *
-FROM markets
+FROM marketEntity
 WHERE isFavorite = 1
 ORDER BY name ASC;
 
 insertMarket:
 INSERT OR REPLACE
-INTO markets(id, name, symbol, currentPrice, priceChangePercentage24h, imageUrl, isFavorite)
+INTO marketEntity(id, name, symbol, currentPrice, priceChangePercentage24h, imageUrl, isFavorite)
 VALUES (:id, :name, :symbol, :currentPrice, :priceChangePercentage24h, :imageUrl, :isFavorite);
 
 upsertMarket:
 INSERT OR REPLACE
-INTO markets (id, name, symbol, currentPrice, priceChangePercentage24h, imageUrl)
+INTO marketEntity (id, name, symbol, currentPrice, priceChangePercentage24h, imageUrl)
 VALUES (:id, :name, :symbol, :currentPrice, :priceChangePercentage24h, :imageUrl);

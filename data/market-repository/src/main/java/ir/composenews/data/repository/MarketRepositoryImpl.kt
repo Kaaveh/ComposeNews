@@ -4,7 +4,7 @@ package ir.composenews.data.repository
 
 import ir.composenews.data.mapper.toChart
 import ir.composenews.data.mapper.toDetail
-import ir.composenews.data.mapper.toLocalMarketDto
+import ir.composenews.data.mapper.toMarketEntity
 import ir.composenews.data.mapper.toMarket
 import ir.composenews.data.mapper.toRemoteMarketDto
 import ir.composenews.domain.model.Chart
@@ -38,7 +38,7 @@ class MarketRepositoryImpl @Inject constructor(
     }
 
     override suspend fun toggleFavoriteMarket(oldMarket: Market) {
-        val news = oldMarket.copy(isFavorite = !oldMarket.isFavorite).toLocalMarketDto()
+        val news = oldMarket.copy(isFavorite = !oldMarket.isFavorite).toMarketEntity()
         dao.insertMarket(news)
     }
 

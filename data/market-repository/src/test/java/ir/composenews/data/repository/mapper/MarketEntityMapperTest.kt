@@ -2,24 +2,24 @@
 
 package ir.composenews.data.repository.mapper
 
-import ir.composenews.data.mapper.toLocalMarketDto
 import ir.composenews.data.mapper.toMarket
+import ir.composenews.data.mapper.toMarketEntity
 import ir.composenews.domain.test.notFavoriteMarket
-import ir.composenews.localdatasource.test.localMarketDto
+import ir.composenews.localdatasource.test.marketEntity
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class LocalMarketDtoMapperTest {
+class MarketEntityMapperTest {
 
     @Test
     fun localMarketDtoToNews() {
-        val mappedMarket = localMarketDto.toMarket()
+        val mappedMarket = marketEntity.toMarket()
         assertEquals(mappedMarket, notFavoriteMarket)
     }
 
     @Test
     fun newsToLocalNewsDto() {
-        val mappedLocalNews = notFavoriteMarket.toLocalMarketDto()
-        assertEquals(mappedLocalNews, localMarketDto)
+        val mappedLocalNews = notFavoriteMarket.toMarketEntity()
+        assertEquals(mappedLocalNews, marketEntity)
     }
 }

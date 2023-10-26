@@ -2,7 +2,7 @@ package ir.composenews.localdatasource.database
 
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import ir.composenews.db.MarketDatabase
-import ir.composenews.localdatasource.test.favoriteLocalMarketDto
+import ir.composenews.localdatasource.test.favoriteMarketEntity
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -31,8 +31,8 @@ class MarketDaoTest {
     @Test
     @Throws(Exception::class)
     fun insertNewsToDb() = runTest {
-        marketDao.insertMarket(favoriteLocalMarketDto)
-        val newsList = marketDao.getMarketList().first()
-        assertTrue(newsList.contains(favoriteLocalMarketDto))
+        marketDao.insertMarket(favoriteMarketEntity)
+        val marketList = marketDao.getMarketList().first()
+        assertTrue(marketList.contains(favoriteMarketEntity))
     }
 }
