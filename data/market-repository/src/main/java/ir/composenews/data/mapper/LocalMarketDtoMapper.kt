@@ -1,24 +1,24 @@
 package ir.composenews.data.mapper
 
+import ir.composenews.db.Markets
 import ir.composenews.domain.model.Market
-import ir.composenews.localdatasource.dto.LocalMarketDto
 
-fun LocalMarketDto.toMarket(): Market = Market(
+fun Markets.toMarket(): Market = Market(
     id = id,
     name = name,
     symbol = symbol,
     currentPrice = currentPrice,
     priceChangePercentage24h = priceChangePercentage24h,
     imageUrl = imageUrl,
-    isFavorite = isFavorite,
+    isFavorite = isFavorite == 1L,
 )
 
-fun Market.toLocalMarketDto(): LocalMarketDto = LocalMarketDto(
+fun Market.toLocalMarketDto(): Markets = Markets(
     id = id,
     name = name,
     symbol = symbol,
     currentPrice = currentPrice,
     priceChangePercentage24h = priceChangePercentage24h,
     imageUrl = imageUrl,
-    isFavorite = isFavorite,
+    isFavorite = if (isFavorite) 1 else 0,
 )

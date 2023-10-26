@@ -38,8 +38,8 @@ class MarketRepositoryImpl @Inject constructor(
     }
 
     override suspend fun toggleFavoriteMarket(oldMarket: Market) {
-        val news = oldMarket.toLocalMarketDto().copy(isFavorite = !oldMarket.isFavorite)
-        dao.insertMarketList(news)
+        val news = oldMarket.copy(isFavorite = !oldMarket.isFavorite).toLocalMarketDto()
+        dao.insertMarket(news)
     }
 
     override fun fetchChart(id: String): Flow<Resource<Chart>> = flow {
