@@ -1,13 +1,16 @@
 package ir.composenews.localdatasource.di
 
 import android.app.Application
-import androidx.room.Room
+import app.cash.sqldelight.db.SqlDriver
+import app.cash.sqldelight.driver.android.AndroidSqliteDriver
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import ir.composenews.db.MarketDatabase
 import ir.composenews.localdatasource.database.MarketDao
-import ir.composenews.localdatasource.database.MarketsDatabase
+import ir.composenews.localdatasource.database.MarketDaoImpl
 import javax.inject.Singleton
 
 @Module
@@ -16,15 +19,11 @@ object LocalDatasourceModule {
 
     @Singleton
     @Provides
-    fun provideMarketsDatabase(app: Application): MarketsDatabase =
-        Room.databaseBuilder(
-            app,
-            MarketsDatabase::class.java,
-            MarketsDatabase.DATABASE_NAME,
-        )
-            .fallbackToDestructiveMigration()
-            .build()
+    fun provideMarketsDatabase(app: Application): MarketDatabase {
+        val driver: SqlDriver = AndroidSqliteDriver(MarketDatabase.Schema, app, "MarketDatabase")
+        return MarketDatabase(driver)
+    }
 
     @Provides
-    fun provideMarketsDao(db: MarketsDatabase): MarketDao = db.marketDao
+    fun provideMarketsDao(dao: MarketDaoImpl): MarketDao = dao
 }
