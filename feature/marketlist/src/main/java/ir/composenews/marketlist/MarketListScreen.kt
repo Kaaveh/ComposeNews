@@ -51,8 +51,9 @@ fun MarketListRoute(
     val (state, event) = use(viewModel = viewModel)
     LaunchedEffect(key1 = Unit) {
         event.invoke(MarketListContract.Event.OnSetShowFavoriteList(showFavoriteList = showFavoriteList))
-        if (!showFavoriteList)
+        if (!showFavoriteList) {
             event.invoke(MarketListContract.Event.OnGetMarketList)
+        }
     }
 
     LaunchedEffect(key1 = contentType) {
