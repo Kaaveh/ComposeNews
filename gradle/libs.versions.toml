@@ -14,7 +14,7 @@ androidGradlePlugin = "8.1.2"
 
 ktx = "1.12.0"
 
-composeBOM = "2023.10.00"
+composeBOM = "2023.10.01"
 composeActivity = "1.8.0"
 composeCoil = "2.2.2"
 composeCompiler = "1.5.3"
@@ -42,7 +42,7 @@ chucker = "3.5.2"
 kotlinx-serialization = "1.6.0"
 kotlinx-serialization-converter = "1.0.0"
 
-room = "2.6.0-rc01"
+room = "2.6.0"
 
 junit = "4.13.2"
 junitExt = "1.1.5"
