@@ -1,7 +1,6 @@
 plugins {
     id("composenews.android.library")
     id("composenews.android.hilt")
-    id("composenews.android.room")
 }
 
 android {

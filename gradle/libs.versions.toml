@@ -14,7 +14,7 @@ androidGradlePlugin = "8.1.2"
 
 ktx = "1.12.0"
 
-composeBOM = "2023.10.00"
+composeBOM = "2023.10.01"
 composeActivity = "1.8.0"
 composeCoil = "2.2.2"
 composeCompiler = "1.5.3"
@@ -42,7 +42,6 @@ chucker = "3.5.2"
 kotlinx-serialization = "1.6.0"
 kotlinx-serialization-converter = "1.0.0"
 
-room = "2.6.0-rc01"
 sqldelight = "2.0.0"
 
 junit = "4.13.2"
@@ -95,9 +94,6 @@ logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-intercep
 chucker = { group = "com.github.chuckerteam.chucker", name = "library", version.ref = "chucker" }
 chucker-no-op = { group = "com.github.chuckerteam.chucker", name = "library-no-op", version.ref = "chucker" }
 
-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 sqldelight-android = { group = "app.cash.sqldelight", name = "android-driver", version.ref = "sqldelight" }
 sqldelight-coroutines = { group = "app.cash.sqldelight", name = "coroutines-extensions", version.ref = "sqldelight" }
 sqldelight-test = { group = "app.cash.sqldelight", name = "sqlite-driver", version.ref = "sqldelight" }
@@ -146,8 +142,4 @@ compose = [
     "compose-ui-tooling",
     "compose-ui-test-manifest",
     "compose-material3",
-]
-room = [
-    "room-ktx",
-    "room-runtime",
 ]

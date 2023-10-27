@@ -46,10 +46,6 @@ gradlePlugin {
             id = "composenews.android.feature"
             implementationClass = "AndroidFeatureConventionPlugin"
         }
-        register("androidRoom") {
-            id = "composenews.android.room"
-            implementationClass = "RoomConventionPlugin"
-        }
         register("androidDetekt") {
             id = "composenews.android.detekt"
             implementationClass = "AndroidDetektConventionPlugin"
