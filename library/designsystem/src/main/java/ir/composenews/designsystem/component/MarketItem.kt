@@ -42,8 +42,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color.Companion.Green
-import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -51,6 +49,10 @@ import coil.compose.rememberAsyncImagePainter
 import ir.composenews.designsystem.R
 import ir.composenews.designsystem.preview.ThemePreviews
 import ir.composenews.designsystem.theme.ComposeNewsTheme
+import ir.composenews.designsystem.theme.darkDownTrendRed
+import ir.composenews.designsystem.theme.darkUptrendGreen
+import ir.composenews.designsystem.theme.lightDownTrendRed
+import ir.composenews.designsystem.theme.lightUptrendGreen
 import kotlinx.coroutines.delay
 import java.util.Locale
 
@@ -192,7 +194,8 @@ private fun MarketItemCard(
                     Text(
                         text = "$priceChangePercentage24h %",
                         style = MaterialTheme.typography.bodyLarge,
-                        color = if (priceChangePercentage24h.contains("-")) Red else Green,
+                        color = if (priceChangePercentage24h.contains("-")) if (isSystemInDarkTheme()) darkDownTrendRed else lightDownTrendRed
+                        else if (isSystemInDarkTheme()) darkUptrendGreen else lightUptrendGreen,
                     )
                 }
             }
@@ -215,7 +218,8 @@ private fun ArrowIconUpOrDown(priceChangePercentage24h: String) {
             painterResource(id = R.drawable.baseline_arrow_upward_24)
         },
         contentDescription = "",
-        tint = if (priceChangePercentage24h.contains("-")) Red else Green,
+        tint = if (priceChangePercentage24h.contains("-")) if (isSystemInDarkTheme()) darkDownTrendRed else lightDownTrendRed
+        else if (isSystemInDarkTheme()) darkUptrendGreen else lightUptrendGreen,
     )
 }
 
