@@ -19,6 +19,8 @@ import ir.composenews.navigation.MainContract
 import ir.composenews.permission.enum.PermissionType
 import ir.composenews.permission.manager.PermissionManager
 import ir.composenews.permission.manager.PermissionManagerImpl
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity(), PermissionManager by PermissionManagerImpl() {
@@ -44,7 +46,7 @@ class MainActivity : ComponentActivity(), PermissionManager by PermissionManager
 
                 ComposeNewsApp(
                     windowSize = windowSize,
-                    displayFeatures = displayFeatures,
+                    displayFeatures = displayFeatures.toPersistentList(),
                     uiState = uiState.value,
                     closeDetailScreen = { viewModel.closeDetailScreen() },
                     onMarketSelected = { market, contentType ->
@@ -68,7 +70,7 @@ fun ComposeNewsAppPreview() {
     ComposeNewsTheme {
         ComposeNewsApp(
             windowSize = WindowSizeClass.calculateFromSize(DpSize(400.dp, 900.dp)),
-            displayFeatures = emptyList(),
+            displayFeatures = persistentListOf(),
             uiState = MainContract.State(),
             closeDetailScreen = {},
         )
@@ -82,7 +84,7 @@ fun ComposeNewsAppPreviewTablet() {
     ComposeNewsTheme {
         ComposeNewsApp(
             windowSize = WindowSizeClass.calculateFromSize(DpSize(700.dp, 500.dp)),
-            displayFeatures = emptyList(),
+            displayFeatures = persistentListOf(),
             uiState = MainContract.State(),
             closeDetailScreen = {},
         )
@@ -96,7 +98,7 @@ fun ComposeNewsAppPreviewTabletPortrait() {
     ComposeNewsTheme {
         ComposeNewsApp(
             windowSize = WindowSizeClass.calculateFromSize(DpSize(500.dp, 700.dp)),
-            displayFeatures = emptyList(),
+            displayFeatures = persistentListOf(),
             uiState = MainContract.State(),
             closeDetailScreen = {},
         )
@@ -110,7 +112,7 @@ fun ComposeNewsAppPreviewDesktop() {
     ComposeNewsTheme {
         ComposeNewsApp(
             windowSize = WindowSizeClass.calculateFromSize(DpSize(1100.dp, 600.dp)),
-            displayFeatures = emptyList(),
+            displayFeatures = persistentListOf(),
             uiState = MainContract.State(),
             closeDetailScreen = {},
         )
@@ -124,7 +126,7 @@ fun ComposeNewsAppPreviewDesktopPortrait() {
     ComposeNewsTheme {
         ComposeNewsApp(
             windowSize = WindowSizeClass.calculateFromSize(DpSize(600.dp, 1100.dp)),
-            displayFeatures = emptyList(),
+            displayFeatures = persistentListOf(),
             uiState = MainContract.State(),
             closeDetailScreen = {},
         )

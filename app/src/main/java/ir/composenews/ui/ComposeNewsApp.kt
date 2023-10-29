@@ -30,11 +30,13 @@ import ir.composenews.utils.DevicePosture
 import ir.composenews.utils.NavigationType
 import ir.composenews.utils.isBookPosture
 import ir.composenews.utils.isSeparating
+import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun ComposeNewsApp(
     windowSize: WindowSizeClass,
-    displayFeatures: List<DisplayFeature>,
+    displayFeatures: PersistentList<DisplayFeature>,
     onMarketSelected: ((MarketModel, ContentType) -> Unit)? = null,
     closeDetailScreen: () -> Unit,
     uiState: MainContract.State
@@ -104,13 +106,13 @@ fun ComposeNewsApp(
 fun ComposeNewsAppWrapper(
     navigationType: NavigationType,
     contentType: ContentType,
-    displayFeatures: List<DisplayFeature>,
+    displayFeatures: PersistentList<DisplayFeature>,
     onMarketSelected: ((MarketModel, ContentType) -> Unit)? = null,
     closeDetailScreen: () -> Unit,
     uiState: MainContract.State
 ) {
     val items = remember {
-        listOf(
+        persistentListOf(
             BottomNavItem(
                 name = "Markets",
                 route = Destinations.MarketListScreen.route,

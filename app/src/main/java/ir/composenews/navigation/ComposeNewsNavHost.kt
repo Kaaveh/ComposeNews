@@ -12,13 +12,14 @@ import ir.composenews.navigation.graph.marketDetail
 import ir.composenews.navigation.graph.marketList
 import ir.composenews.uimarket.model.MarketModel
 import ir.composenews.utils.ContentType
+import kotlinx.collections.immutable.PersistentList
 
 @Composable
 fun ComposeNewsNavHost(
     navController: NavHostController,
     modifier: Modifier,
     contentType: ContentType,
-    displayFeatures: List<DisplayFeature>,
+    displayFeatures: PersistentList<DisplayFeature>,
     onMarketSelected: ((MarketModel, ContentType) -> Unit)? = null,
     closeDetailScreen: () -> Unit,
     uiState: MainContract.State

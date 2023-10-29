@@ -67,3 +67,7 @@ val md_theme_dark_scrim = Color(0xFF000000)
 // custom colors
 val graphColor = Color(0xFF6750A4)
 val lightGraphColor = graphColor.copy(alpha = 0.5f)
+val lightUptrendGreen = Color(0xFF4CAF50)
+val darkUptrendGreen = Color(0xFF00A86B)
+val lightDownTrendRed = Color(0xFFE50000)
+val darkDownTrendRed = Color(0xFFFF1919)
