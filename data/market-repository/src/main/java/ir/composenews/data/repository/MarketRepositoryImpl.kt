@@ -4,8 +4,8 @@ package ir.composenews.data.repository
 
 import ir.composenews.data.mapper.toChart
 import ir.composenews.data.mapper.toDetail
-import ir.composenews.data.mapper.toMarketEntity
 import ir.composenews.data.mapper.toMarket
+import ir.composenews.data.mapper.toMarketEntity
 import ir.composenews.data.mapper.toRemoteMarketDto
 import ir.composenews.domain.model.Chart
 import ir.composenews.domain.model.Market
