@@ -9,11 +9,11 @@ import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.adaptive.calculateDisplayFeatures
 import dagger.hilt.android.AndroidEntryPoint
+import ir.composenews.designsystem.preview.DevicesPreviews
 import ir.composenews.designsystem.theme.ComposeNewsTheme
 import ir.composenews.navigation.MainContract
 import ir.composenews.permission.enum.PermissionType
@@ -64,68 +64,12 @@ class MainActivity : ComponentActivity(), PermissionManager by PermissionManager
 }
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
-@Preview(showBackground = true)
+@DevicesPreviews()
 @Composable
 fun ComposeNewsAppPreview() {
     ComposeNewsTheme {
         ComposeNewsApp(
             windowSize = WindowSizeClass.calculateFromSize(DpSize(400.dp, 900.dp)),
-            displayFeatures = persistentListOf(),
-            uiState = MainContract.State(),
-            closeDetailScreen = {},
-        )
-    }
-}
-
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
-@Preview(showBackground = true, widthDp = 700, heightDp = 500)
-@Composable
-fun ComposeNewsAppPreviewTablet() {
-    ComposeNewsTheme {
-        ComposeNewsApp(
-            windowSize = WindowSizeClass.calculateFromSize(DpSize(700.dp, 500.dp)),
-            displayFeatures = persistentListOf(),
-            uiState = MainContract.State(),
-            closeDetailScreen = {},
-        )
-    }
-}
-
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
-@Preview(showBackground = true, widthDp = 500, heightDp = 700)
-@Composable
-fun ComposeNewsAppPreviewTabletPortrait() {
-    ComposeNewsTheme {
-        ComposeNewsApp(
-            windowSize = WindowSizeClass.calculateFromSize(DpSize(500.dp, 700.dp)),
-            displayFeatures = persistentListOf(),
-            uiState = MainContract.State(),
-            closeDetailScreen = {},
-        )
-    }
-}
-
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
-@Preview(showBackground = true, widthDp = 1100, heightDp = 600)
-@Composable
-fun ComposeNewsAppPreviewDesktop() {
-    ComposeNewsTheme {
-        ComposeNewsApp(
-            windowSize = WindowSizeClass.calculateFromSize(DpSize(1100.dp, 600.dp)),
-            displayFeatures = persistentListOf(),
-            uiState = MainContract.State(),
-            closeDetailScreen = {},
-        )
-    }
-}
-
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
-@Preview(showBackground = true, widthDp = 600, heightDp = 1100)
-@Composable
-fun ComposeNewsAppPreviewDesktopPortrait() {
-    ComposeNewsTheme {
-        ComposeNewsApp(
-            windowSize = WindowSizeClass.calculateFromSize(DpSize(600.dp, 1100.dp)),
             displayFeatures = persistentListOf(),
             uiState = MainContract.State(),
             closeDetailScreen = {},
