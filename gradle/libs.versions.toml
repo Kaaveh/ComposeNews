@@ -1,6 +1,6 @@
 [versions]
 projectApplicationId = "ir.composenews"
-projectVersionName = "1.0"
+projectVersionName = "1.0.0"
 projectMinSdkVersion = "23"
 projectTargetSdkVersion = "34"
 projectCompileSdkVersion = "34"

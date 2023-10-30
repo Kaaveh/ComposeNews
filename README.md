@@ -53,6 +53,10 @@ For the detail of handling preview of composable functions in this code-base, pl
 
 ![](asset/IMG_2459.jpeg)
 
+### Tablet view
+
+![](asset/tablet_view.jpg)
+
 ## Additional Resources
 
 - [Git Hooks](documentation/GitHooks.md) - Learn about Git hooks used in this project for code formatting and analysis.
