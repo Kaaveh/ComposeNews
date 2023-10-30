@@ -53,7 +53,7 @@ For the detail of handling preview of composable functions in this code-base, pl
 
 ![](asset/IMG_2459.jpeg)
 
-Tablet view
+### Tablet view
 
 ![](asset/tablet_view.jpg)
 
