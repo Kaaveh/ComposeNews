@@ -4,6 +4,8 @@
 
 This repo is a playground about best practices, using updated libraries and solutions in the Android world!
 
+Check the apk [from here](asset/app_v1.0.0.apk)
+
 ## ⚙️ Architecture
 
 ![Architecture diagram](asset/arch.jpg)
