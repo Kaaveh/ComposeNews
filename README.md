@@ -41,15 +41,15 @@ For the detail of handling preview of composable functions in this code-base, pl
 
 ## 📸 Screenshots
 
-Light theme
+### Light theme
 
 ![](asset/light_mode.jpg)
 
-Dark theme
+### Dark theme
 
 ![](asset/dark_mode.jpg)
 
-Dynamic theme
+### Dynamic theme
 
 ![](asset/IMG_2459.jpeg)
 
