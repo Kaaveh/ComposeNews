@@ -53,6 +53,10 @@ Dynamic theme
 
 ![](asset/IMG_2459.jpeg)
 
+Tablet view
+
+![](asset/tablet_view.jpg)
+
 ## Additional Resources
 
 - [Git Hooks](documentation/GitHooks.md) - Learn about Git hooks used in this project for code formatting and analysis.
