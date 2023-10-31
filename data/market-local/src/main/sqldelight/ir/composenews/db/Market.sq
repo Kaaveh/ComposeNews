@@ -1,0 +1,30 @@
+CREATE TABLE IF NOT EXISTS marketEntity(
+    id TEXT UNIQUE PRIMARY KEY NOT NULL,
+    name TEXT UNIQUE NOT NULL,
+    symbol TEXT UNIQUE NOT NULL,
+    currentPrice REAL NOT NULL,
+    priceChangePercentage24h REAL NOT NULL,
+    imageUrl TEXT NOT NULL,
+    isFavorite INTEGER NOT NULL DEFAULT 0
+);
+
+getMarketList:
+SELECT *
+FROM marketEntity
+ORDER BY name ASC;
+
+getFavoriteMarketList:
+SELECT *
+FROM marketEntity
+WHERE isFavorite = 1
+ORDER BY name ASC;
+
+insertMarket:
+INSERT OR REPLACE
+INTO marketEntity(id, name, symbol, currentPrice, priceChangePercentage24h, imageUrl, isFavorite)
+VALUES (:id, :name, :symbol, :currentPrice, :priceChangePercentage24h, :imageUrl, :isFavorite);
+
+upsertMarket:
+INSERT OR REPLACE
+INTO marketEntity (id, name, symbol, currentPrice, priceChangePercentage24h, imageUrl)
+VALUES (:id, :name, :symbol, :currentPrice, :priceChangePercentage24h, :imageUrl);

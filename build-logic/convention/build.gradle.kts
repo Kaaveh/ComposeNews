@@ -2,8 +2,6 @@ plugins {
     `kotlin-dsl`
 }
 
-group = "ir.composenews.composenews.buildlogic"
-
 // Configure the build-logic plugins to target JDK 17
 // This matches the JDK used to build the project, and is not related to what is running on device.
 java {
@@ -47,10 +45,6 @@ gradlePlugin {
         register("androidFeature") {
             id = "composenews.android.feature"
             implementationClass = "AndroidFeatureConventionPlugin"
-        }
-        register("androidRoom") {
-            id = "composenews.android.room"
-            implementationClass = "RoomConventionPlugin"
         }
         register("androidDetekt") {
             id = "composenews.android.detekt"
