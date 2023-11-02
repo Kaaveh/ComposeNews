@@ -14,6 +14,7 @@ dependencies {
     libs.apply {
         api(junit)
         api(junit.ext)
+        api(bundles.kotest)
         api(coroutines.test)
         api(mockk)
     }

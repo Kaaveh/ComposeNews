@@ -31,4 +31,7 @@ dependencies {
         testImplementation(coroutines.test)
         testImplementation(runner)
     }
+    projects.apply {
+        testImplementation(core.test)
+    }
 }
