@@ -27,7 +27,7 @@ For the detail of handling preview of composable functions in this code-base, pl
 - CLEAN architecture
 - MVI architectural pattern
 - Coroutine Flow
-- Room database
+- SQLDelight database
 - Dagger Hilt
 - Navigation
 - Retrofit
@@ -40,6 +40,14 @@ For the detail of handling preview of composable functions in this code-base, pl
 - Git Hooks
 - GitHub Actions
 - Static Analysis(Kotlinter, Detekt) (For the detail, please read [this article](https://blog.kotlin-academy.com/detekt-gradle-configuration-guide-d6d2301b823a))
+
+### We are porting the project to KMP. Here's the steps:
+- [x] GSON &rarr; Kotlinx Serialization
+- [x] ROOM &rarr; SQLDelight
+- [ ] Retrofit &rarr; Ktor
+- [ ] JUnit &rarr; Kotest
+- [ ] Dagger-Hilt &rarr; Koin
+- [ ] Jetpack Compose &rarr; Compose Multiplatform
 
 ## 📸 Screenshots
 
