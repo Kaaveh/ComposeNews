@@ -18,6 +18,7 @@ dependencies {
     }
     libs.apply {
         testImplementation(junit)
+        testImplementation(bundles.kotest)
         androidTestImplementation(junit.ext)
         androidTestImplementation(coroutines.test)
         androidTestImplementation(runner)
