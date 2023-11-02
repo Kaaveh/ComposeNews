@@ -47,6 +47,9 @@ internal fun Project.configureKotlinAndroid(
                 isIncludeAndroidResources = true
                 isReturnDefaultValues = true
             }
+            unitTests.all {
+                it.useJUnitPlatform()
+            }
         }
 
         packaging {

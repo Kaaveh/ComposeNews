@@ -58,6 +58,8 @@ workRuntimeKtx = "2.8.1"
 windowsSizeClass = "1.1.2"
 adaptive = "0.26.2-beta"
 
+kotest = "5.7.2"
+
 [libraries]
 androidx-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "ktx" }
 
@@ -123,6 +125,10 @@ ktlint-kotlinter = { group = "org.jmailen.gradle", name = "kotlinter-gradle", ve
 
 compose-lottie-animation = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottieAnimation" }
 
+kotest-assertionsCore = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
+kotest-runnerJUnit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
@@ -142,4 +148,9 @@ compose = [
     "compose-ui-tooling",
     "compose-ui-test-manifest",
     "compose-material3",
+]
+kotest = [
+    "kotest-assertionsCore",
+    "kotest-property",
+    "kotest-runnerJUnit5"
 ]
