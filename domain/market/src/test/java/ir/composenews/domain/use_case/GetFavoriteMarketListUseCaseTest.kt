@@ -22,7 +22,7 @@ class GetFavoriteMarketListUseCaseTest {
     }
 
     @Test
-    fun checkGetOnlyFavoriteNews() = runTest {
+    fun checkGetOnlyFavoriteMarkets() = runTest {
         every { marketRepository.getFavoriteMarketList() } returns flowOf(emptyList())
         getFavoriteMarketListUseCase.invoke()
         verify(exactly = 1) {
