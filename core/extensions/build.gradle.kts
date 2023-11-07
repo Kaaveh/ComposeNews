@@ -11,7 +11,7 @@ android {
 }
 
 dependencies {
-    libs.apply {
-        implementation(junit)
+    projects.apply {
+        testImplementation(core.test)
     }
 }
