@@ -2,24 +2,20 @@
 
 package ir.composenews.data.repository.mapper
 
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.equals.shouldBeEqual
 import ir.composenews.data.mapper.toMarket
 import ir.composenews.data.mapper.toMarketEntity
 import ir.composenews.domain.test.notFavoriteMarket
 import ir.composenews.localdatasource.test.marketEntity
-import org.junit.Assert.assertEquals
-import org.junit.Test
 
-class MarketEntityMapperTest {
-
-    @Test
-    fun localMarketDtoToNews() {
+class MarketEntityMapperTest : StringSpec({
+    "Local market dto to market" {
         val mappedMarket = marketEntity.toMarket()
-        assertEquals(mappedMarket, notFavoriteMarket)
+        mappedMarket shouldBeEqual notFavoriteMarket
     }
-
-    @Test
-    fun newsToLocalNewsDto() {
-        val mappedLocalNews = notFavoriteMarket.toMarketEntity()
-        assertEquals(mappedLocalNews, marketEntity)
+    "newsToLocalNewsDto" {
+        val mappedMarketEntity = notFavoriteMarket.toMarketEntity()
+        mappedMarketEntity shouldBeEqual marketEntity
     }
-}
+})
