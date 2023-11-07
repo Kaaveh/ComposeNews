@@ -2,31 +2,26 @@
 
 package ir.composenews.domain.use_case
 
+import io.kotest.core.spec.style.StringSpec
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import ir.composenews.domain.repository.MarketRepository
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runTest
-import org.junit.Before
-import org.junit.Test
 
-class GetFavoriteMarketListUseCaseTest {
+class GetFavoriteMarketListUseCaseTest : StringSpec({
+    val marketRepository: MarketRepository = mockk(relaxed = true)
+    lateinit var getFavoriteMarketListUseCase: GetFavoriteMarketListUseCase
 
-    private val marketRepository: MarketRepository = mockk(relaxed = true)
-    private lateinit var getFavoriteMarketListUseCase: GetFavoriteMarketListUseCase
-
-    @Before
-    fun provideRepository() {
+    beforeSpec {
         getFavoriteMarketListUseCase = GetFavoriteMarketListUseCase(repository = marketRepository)
     }
 
-    @Test
-    fun checkGetOnlyFavoriteMarkets() = runTest {
+    "checkGetOnlyFavoriteMarkets" {
         every { marketRepository.getFavoriteMarketList() } returns flowOf(emptyList())
         getFavoriteMarketListUseCase.invoke()
         verify(exactly = 1) {
             marketRepository.getFavoriteMarketList()
         }
     }
-}
+})
