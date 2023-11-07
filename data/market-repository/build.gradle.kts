@@ -17,10 +17,7 @@ dependencies {
         implementation(data.marketLocal)
     }
     libs.apply {
-        testImplementation(junit)
         testImplementation(bundles.kotest)
-        androidTestImplementation(junit.ext)
-        androidTestImplementation(coroutines.test)
-        androidTestImplementation(runner)
+        testImplementation(sqldelight.test)
     }
 }
