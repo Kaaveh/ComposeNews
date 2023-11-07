@@ -14,6 +14,7 @@ import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 
 class GetMarketListUseCaseTest : StringSpec({
+
     lateinit var mockRepository: MarketRepository
     lateinit var getMarketListUseCase: GetMarketListUseCase
 
@@ -26,7 +27,7 @@ class GetMarketListUseCaseTest : StringSpec({
         getMarketListUseCase = GetMarketListUseCase(repository = mockRepository)
     }
 
-    "Get market" {
+    "Get market list" {
         runTest {
             val markets = getMarketListUseCase().first()
             markets.size shouldBeExactly 2
