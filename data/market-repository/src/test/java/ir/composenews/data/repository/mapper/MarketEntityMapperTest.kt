@@ -14,7 +14,7 @@ class MarketEntityMapperTest : StringSpec({
         val mappedMarket = marketEntity.toMarket()
         mappedMarket shouldBeEqual notFavoriteMarket
     }
-    "newsToLocalNewsDto" {
+    "Market to market entity dto" {
         val mappedMarketEntity = notFavoriteMarket.toMarketEntity()
         mappedMarketEntity shouldBeEqual marketEntity
     }

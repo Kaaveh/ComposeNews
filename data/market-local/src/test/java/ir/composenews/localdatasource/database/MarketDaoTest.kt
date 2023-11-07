@@ -18,12 +18,12 @@ class MarketDaoTest : SuspendSpec({
         marketDao = MarketDaoImpl(db)
     }
 
-    "emptyTableAtDbInitialization" {
+    "Empty table at db initialization" {
         val marketList = marketDao.getMarketList().first()
         marketList.size shouldBeEqual 0
     }
 
-    "insertMarketToDb" {
+    "Insert market to db" {
         marketDao.insertMarket(favoriteMarketEntity)
         val marketList = marketDao.getMarketList().first()
         marketList shouldContain favoriteMarketEntity

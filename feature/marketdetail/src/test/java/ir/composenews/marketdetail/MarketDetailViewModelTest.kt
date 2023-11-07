@@ -19,7 +19,6 @@ import ir.composenews.uimarket.model.MarketModel
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScheduler
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import java.net.SocketTimeoutException
@@ -27,20 +26,18 @@ import java.util.UUID
 import kotlin.random.Random
 
 class MarketDetailViewModelTest : StringSpec({
+
     val getMarketChartUseCase: GetMarketChartUseCase = mockk(relaxed = true)
     val getMarketDetailUseCase: GetMarketDetailUseCase = mockk(relaxed = true)
     val toggleFavoriteMarketListUseCase: ToggleFavoriteMarketListUseCase = mockk(relaxed = true)
     val testScheduler = TestCoroutineScheduler()
     val dispatcherProvider = TestDispatcherProvider(testScheduler)
+    lateinit var viewModel: MarketDetailViewModel
 
-    lateinit var sut: MarketDetailViewModel
-
-    val dispatcher = UnconfinedTestDispatcher()
-
-    listeners(MainCoroutineListener(dispatcher))
+    listeners(MainCoroutineListener())
 
     beforeSpec {
-        sut = MarketDetailViewModel(
+        viewModel = MarketDetailViewModel(
             getMarketChartUseCase = getMarketChartUseCase,
             getMarketDetailUseCase = getMarketDetailUseCase,
             toggleFavoriteMarketListUseCase = toggleFavoriteMarketListUseCase,
@@ -48,14 +45,14 @@ class MarketDetailViewModelTest : StringSpec({
         )
     }
 
-    "with SetMarket event should update state with received market" {
+    "With SetMarket event should update state with received market" {
         runTest {
             val market = provideFakeMarket()
 
-            sut.event(MarketDetailContract.Event.SetMarket(market))
+            viewModel.event(MarketDetailContract.Event.SetMarket(market))
             advanceUntilIdle()
 
-            val uiState = sut.state.value
+            val uiState = viewModel.state.value
             market shouldBe uiState.market
         }
     }
@@ -65,15 +62,15 @@ class MarketDetailViewModelTest : StringSpec({
 
             val expected = market.copy(isFavorite = false)
 
-            sut.event(MarketDetailContract.Event.SetMarket(market))
-            sut.event(MarketDetailContract.Event.OnFavoriteClick(market))
+            viewModel.event(MarketDetailContract.Event.SetMarket(market))
+            viewModel.event(MarketDetailContract.Event.OnFavoriteClick(market))
             advanceUntilIdle()
 
             coVerify(exactly = 1) {
                 toggleFavoriteMarketListUseCase.invoke(market.toMarket())
             }
 
-            val uiState = sut.state.value
+            val uiState = viewModel.state.value
             expected shouldBe uiState.market
         }
     }
@@ -83,19 +80,19 @@ class MarketDetailViewModelTest : StringSpec({
 
             val expected = market.copy(isFavorite = true)
 
-            sut.event(MarketDetailContract.Event.SetMarket(market))
-            sut.event(MarketDetailContract.Event.OnFavoriteClick(market))
+            viewModel.event(MarketDetailContract.Event.SetMarket(market))
+            viewModel.event(MarketDetailContract.Event.OnFavoriteClick(market))
             advanceUntilIdle()
 
             coVerify(exactly = 1) {
                 toggleFavoriteMarketListUseCase(market.toMarket())
             }
 
-            val uiState = sut.state.value
+            val uiState = viewModel.state.value
             expected shouldBe uiState.market
         }
     }
-    "get market chart with force refresh is false returns success" {
+    "Get market chart with force refresh is false returns success" {
         runTest {
             val market = provideFakeMarket()
             val chart = provideFakeChart()
@@ -103,15 +100,15 @@ class MarketDetailViewModelTest : StringSpec({
 
             coEvery { getMarketChartUseCase.invoke(any()) } returns flowOf(chartResult)
 
-            sut.event(MarketDetailContract.Event.SetMarket(market))
-            sut.event(MarketDetailContract.Event.GetMarketChart(market.id))
+            viewModel.event(MarketDetailContract.Event.SetMarket(market))
+            viewModel.event(MarketDetailContract.Event.GetMarketChart(market.id))
             advanceUntilIdle()
 
-            val uiState = sut.baseState.value
+            val uiState = viewModel.baseState.value
             uiState shouldBeEqual BaseContract.BaseState.OnSuccess
         }
     }
-    "get market chart with force refresh is false returns error" {
+    "Get market chart with force refresh is false returns error" {
         runTest {
             val market = provideFakeMarket()
             val chart = provideFakeChart()
@@ -119,11 +116,11 @@ class MarketDetailViewModelTest : StringSpec({
 
             coEvery { getMarketChartUseCase.invoke(any()) } returns flowOf(chartResult)
 
-            sut.event(MarketDetailContract.Event.SetMarket(market))
-            sut.event(MarketDetailContract.Event.GetMarketChart(market.id))
+            viewModel.event(MarketDetailContract.Event.SetMarket(market))
+            viewModel.event(MarketDetailContract.Event.GetMarketChart(market.id))
             advanceUntilIdle()
 
-            val uiState = sut.baseState.value
+            val uiState = viewModel.baseState.value
             uiState is BaseContract.BaseState.OnError
         }
     }

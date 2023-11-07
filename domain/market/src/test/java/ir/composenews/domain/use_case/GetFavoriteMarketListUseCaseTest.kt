@@ -10,6 +10,7 @@ import ir.composenews.domain.repository.MarketRepository
 import kotlinx.coroutines.flow.flowOf
 
 class GetFavoriteMarketListUseCaseTest : StringSpec({
+
     val marketRepository: MarketRepository = mockk(relaxed = true)
     lateinit var getFavoriteMarketListUseCase: GetFavoriteMarketListUseCase
 
@@ -17,7 +18,7 @@ class GetFavoriteMarketListUseCaseTest : StringSpec({
         getFavoriteMarketListUseCase = GetFavoriteMarketListUseCase(repository = marketRepository)
     }
 
-    "checkGetOnlyFavoriteMarkets" {
+    "Check get only favorite markets" {
         every { marketRepository.getFavoriteMarketList() } returns flowOf(emptyList())
         getFavoriteMarketListUseCase.invoke()
         verify(exactly = 1) {
