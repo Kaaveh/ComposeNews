@@ -1,10 +1,13 @@
 package ir.composenews.marketdetail
 
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.equals.shouldBeEqual
+import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import ir.composenews.base.BaseContract
-import ir.composenews.core_test.MainDispatcherRule
+import ir.composenews.core_test.MainCoroutineListener
 import ir.composenews.core_test.dispatcher.TestDispatcherProvider
 import ir.composenews.domain.model.Chart
 import ir.composenews.domain.model.Resource
@@ -13,38 +16,31 @@ import ir.composenews.domain.use_case.GetMarketDetailUseCase
 import ir.composenews.domain.use_case.ToggleFavoriteMarketListUseCase
 import ir.composenews.uimarket.mapper.toMarket
 import ir.composenews.uimarket.model.MarketModel
-import junit.framework.TestCase.assertEquals
-import junit.framework.TestCase.assertTrue
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestCoroutineScheduler
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
 import java.net.SocketTimeoutException
 import java.util.UUID
 import kotlin.random.Random
 
-@OptIn(ExperimentalCoroutinesApi::class)
-class MarketDetailViewModelTest {
+class MarketDetailViewModelTest : StringSpec({
+    val getMarketChartUseCase: GetMarketChartUseCase = mockk(relaxed = true)
+    val getMarketDetailUseCase: GetMarketDetailUseCase = mockk(relaxed = true)
+    val toggleFavoriteMarketListUseCase: ToggleFavoriteMarketListUseCase = mockk(relaxed = true)
+    val testScheduler = TestCoroutineScheduler()
+    val dispatcherProvider = TestDispatcherProvider(testScheduler)
 
-    private val getMarketChartUseCase: GetMarketChartUseCase = mockk(relaxed = true)
-    private val getMarketDetailUseCase: GetMarketDetailUseCase = mockk(relaxed = true)
-    private val toggleFavoriteMarketListUseCase: ToggleFavoriteMarketListUseCase =
-        mockk(relaxed = true)
-    private val testScheduler = TestCoroutineScheduler()
-    private val dispatcherProvider = TestDispatcherProvider(testScheduler)
+    lateinit var sut: MarketDetailViewModel
 
-    @get:Rule
-    val mainDispatcherRule = MainDispatcherRule(dispatcherProvider)
+    val dispatcher = UnconfinedTestDispatcher()
 
-    private lateinit var sut: MarketDetailViewModel
+    listeners(MainCoroutineListener(dispatcher))
 
-    @Before
-    fun setup() {
+    beforeSpec {
         sut = MarketDetailViewModel(
             getMarketChartUseCase = getMarketChartUseCase,
             getMarketDetailUseCase = getMarketDetailUseCase,
@@ -53,19 +49,18 @@ class MarketDetailViewModelTest {
         )
     }
 
-    @Test
-    fun `with SetMarket event should update state with received market`() = runTest {
-        val market = provideFakeMarket()
+    "with SetMarket event should update state with received market" {
+        runTest {
+            val market = provideFakeMarket()
 
-        sut.event(MarketDetailContract.Event.SetMarket(market))
-        advanceUntilIdle()
+            sut.event(MarketDetailContract.Event.SetMarket(market))
+            advanceUntilIdle()
 
-        val uiState = sut.state.value
-        assertEquals(market, uiState.market)
+            val uiState = sut.state.value
+            market shouldBe uiState.market
+        }
     }
-
-    @Test
-    fun `With OnFavoriteClick with an item that is already in favorite we remote it from favorite list`() =
+    "With OnFavoriteClick with an item that is already in favorite we remote it from favorite list" {
         runTest {
             val market = provideFakeMarket(isFavorite = true)
 
@@ -80,11 +75,10 @@ class MarketDetailViewModelTest {
             }
 
             val uiState = sut.state.value
-            assertEquals(expected, uiState.market)
+            expected shouldBe uiState.market
         }
-
-    @Test
-    fun `With OnFavoriteClick with an item that is not in favorite we add it to favorite list`() =
+    }
+    "With OnFavoriteClick with an item that is not in favorite we add it to favorite list" {
         runTest {
             val market = provideFakeMarket(isFavorite = false)
 
@@ -95,15 +89,14 @@ class MarketDetailViewModelTest {
             advanceUntilIdle()
 
             coVerify(exactly = 1) {
-                toggleFavoriteMarketListUseCase.invoke(market.toMarket())
+                toggleFavoriteMarketListUseCase(market.toMarket())
             }
 
             val uiState = sut.state.value
-            assertEquals(expected, uiState.market)
+            expected shouldBe uiState.market
         }
-
-    @Test
-    fun `get market chart with force refresh is false returns success`() =
+    }
+    "get market chart with force refresh is false returns success" {
         runTest {
             val market = provideFakeMarket()
             val chart = provideFakeChart()
@@ -116,11 +109,10 @@ class MarketDetailViewModelTest {
             advanceUntilIdle()
 
             val uiState = sut.baseState.value
-            assertTrue(uiState is BaseContract.BaseState.OnSuccess)
+            uiState shouldBeEqual BaseContract.BaseState.OnSuccess
         }
-
-    @Test
-    fun `get market chart with force refresh is false returns error`() =
+    }
+    "get market chart with force refresh is false returns error" {
         runTest {
             val market = provideFakeMarket()
             val chart = provideFakeChart()
@@ -133,22 +125,23 @@ class MarketDetailViewModelTest {
             advanceUntilIdle()
 
             val uiState = sut.baseState.value
-            assertTrue(uiState is BaseContract.BaseState.OnError)
+            uiState is BaseContract.BaseState.OnError
         }
-
-    private fun provideFakeChart(): Chart {
-        return Chart(persistentListOf())
     }
+})
 
-    private fun provideFakeMarket(isFavorite: Boolean = false): MarketModel {
-        return MarketModel(
-            id = UUID.randomUUID().toString(),
-            name = "Bitcoin",
-            symbol = "BTC",
-            imageUrl = "goggle.com",
-            currentPrice = Random.nextDouble(1000.0, 5000.0),
-            priceChangePercentage24h = Random.nextDouble(1000.0, 5000.0),
-            isFavorite = isFavorite,
-        )
-    }
+private fun provideFakeMarket(isFavorite: Boolean = false): MarketModel {
+    return MarketModel(
+        id = UUID.randomUUID().toString(),
+        name = "Bitcoin",
+        symbol = "BTC",
+        imageUrl = "goggle.com",
+        currentPrice = Random.nextDouble(1000.0, 5000.0),
+        priceChangePercentage24h = Random.nextDouble(1000.0, 5000.0),
+        isFavorite = isFavorite,
+    )
+}
+
+private fun provideFakeChart(): Chart {
+    return Chart(persistentListOf())
 }
