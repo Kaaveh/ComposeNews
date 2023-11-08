@@ -22,9 +22,9 @@ composeMaterial3 = "1.1.2"
 
 detekt = "1.23.1"
 hilt = "2.48"
-androidHiltCompiler = "1.0.0"
-hiltNavigationCompose = "1.0.0"
-hiltWork = "1.0.0"
+androidHiltCompiler = "1.1.0"
+hiltNavigationCompose = "1.1.0"
+hiltWork = "1.1.0"
 javaxInject = "1"
 lottieAnimation = "6.1.0"
 
@@ -34,7 +34,7 @@ lifeCycle = "2.6.2"
 lifeCycleViewModelKtx = "2.6.2"
 lifeCycleRuntimeCompose = "2.6.2"
 
-navigationCompose = "2.7.4"
+navigationCompose = "2.7.5"
 
 retrofit = "2.9.0"
 loggingInterceptor = "4.11.0"
