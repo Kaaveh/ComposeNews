@@ -54,7 +54,12 @@ fun MarketDetailRoute(
         }
     }
 
-    BaseRoute(baseViewModel = viewModel) {
+    BaseRoute(
+        baseViewModel = viewModel,
+        shimmerView = {
+            MarketDetailLoadingView()
+        },
+    ) {
         MarketDetailScreen(
             marketDetailState = state,
             onFavoriteClick = {
