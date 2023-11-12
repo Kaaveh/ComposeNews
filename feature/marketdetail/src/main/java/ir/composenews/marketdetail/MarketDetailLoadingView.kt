@@ -24,7 +24,6 @@ import ir.composenews.designsystem.component.shimmerEffect
 
 @Composable
 fun MarketDetailLoadingView() {
-
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -84,12 +83,14 @@ fun MarketDetailLoadingView() {
             }
             Divider(color = Color.Gray)
             Row(
-                modifier = Modifier.padding(16.dp).padding(top = 8.dp)
+                modifier = Modifier
+                    .padding(16.dp)
+                    .padding(top = 8.dp),
             ) {
                 repeat(4) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
                     ) {
                         Box(
                             modifier = Modifier
