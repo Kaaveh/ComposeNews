@@ -2,6 +2,9 @@ package ir.composenews.data.repository
 
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.collections.shouldBeEmpty
+import io.kotest.matchers.collections.shouldNotBeEmpty
+import io.kotest.matchers.equals.shouldBeEqual
 import ir.composenews.db.MarketDatabase
 import ir.composenews.localdatasource.database.MarketDao
 import ir.composenews.localdatasource.database.MarketDaoImpl
@@ -9,7 +12,6 @@ import ir.composenews.remotedatasource.test.FakeMarketsApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
 
 class NewsRepositoryImplTest : StringSpec({
 
@@ -28,7 +30,7 @@ class NewsRepositoryImplTest : StringSpec({
     "Initial db empty state" {
         runTest {
             val marketList = repositoryImpl.getMarketList().first()
-            marketList.isEmpty()
+            marketList.shouldBeEmpty()
         }
     }
 
@@ -37,7 +39,7 @@ class NewsRepositoryImplTest : StringSpec({
             repositoryImpl.syncMarketList()
 
             val marketList = repositoryImpl.getMarketList().first()
-            marketList.isNotEmpty()
+            marketList.shouldNotBeEmpty()
         }
     }
 
@@ -50,7 +52,7 @@ class NewsRepositoryImplTest : StringSpec({
 
             repositoryImpl.toggleFavoriteMarket(oldMarket)
             val market = repositoryImpl.getMarketList().first().first()
-            assertTrue(market.isFavorite)
+            market.isFavorite shouldBeEqual true
         }
     }
 })
