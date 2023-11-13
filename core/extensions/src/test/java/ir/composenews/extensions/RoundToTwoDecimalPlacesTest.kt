@@ -1,7 +1,7 @@
 package ir.composenews.extensions
 
 import io.kotest.core.spec.style.StringSpec
-import org.junit.Assert
+import io.kotest.matchers.equals.shouldBeEqual
 import java.math.BigDecimal
 
 class RoundToTwoDecimalPlacesTest : StringSpec({
@@ -16,7 +16,7 @@ class RoundToTwoDecimalPlacesTest : StringSpec({
 
         testCases.forEach { (input, expected) ->
             val result = input.roundToTwoDecimalPlaces()
-            Assert.assertEquals(expected, result)
+            result shouldBeEqual expected
         }
     }
 })
