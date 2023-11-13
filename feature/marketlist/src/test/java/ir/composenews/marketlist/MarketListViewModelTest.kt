@@ -1,6 +1,7 @@
 package ir.composenews.marketlist
 
 import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.equals.shouldBeEqual
 import io.mockk.coEvery
 import io.mockk.mockk
 import ir.composenews.core_test.MainCoroutineListener
@@ -14,7 +15,6 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert
 import java.util.UUID
 import kotlin.random.Random
 
@@ -47,7 +47,7 @@ class MarketListViewModelTest : StringSpec({
 
             val actual = viewModel.state.value.showFavoriteList
 
-            Assert.assertEquals(expected, actual)
+            actual shouldBeEqual expected
         }
     }
 
@@ -60,7 +60,7 @@ class MarketListViewModelTest : StringSpec({
 
             val actual = viewModel.state.value.showFavoriteList
 
-            Assert.assertEquals(expected, actual)
+            actual shouldBeEqual expected
         }
     }
 
@@ -77,7 +77,8 @@ class MarketListViewModelTest : StringSpec({
 
             // Then
             val actualMarketList = viewModel.state.value.marketList.map { it.toMarket() }
-            Assert.assertEquals(expectedMarketList, actualMarketList)
+
+            actualMarketList shouldBeEqual expectedMarketList
         }
     }
 
@@ -94,7 +95,8 @@ class MarketListViewModelTest : StringSpec({
 
             // Then
             val actualMarketList = viewModel.state.value.marketList.map { it.toMarket() }
-            Assert.assertEquals(expectedMarketList, actualMarketList)
+
+            actualMarketList shouldBeEqual expectedMarketList
         }
     }
 
@@ -108,10 +110,8 @@ class MarketListViewModelTest : StringSpec({
             viewModel.event(MarketListContract.Event.OnGetMarketList)
 
             advanceUntilIdle()
-            Assert.assertEquals(
-                oldMarketList,
-                viewModel.state.value.marketList.map { it.toMarket() },
-            )
+
+            oldMarketList shouldBeEqual viewModel.state.value.marketList.map { it.toMarket() }
 
             val newMarketList = provideMarketList(4)
 
@@ -121,8 +121,9 @@ class MarketListViewModelTest : StringSpec({
 
             advanceUntilIdle()
             val actualMarketList = viewModel.state.value.marketList.map { it.toMarket() }
-            Assert.assertEquals(newMarketList, actualMarketList)
-            Assert.assertTrue(!viewModel.state.value.refreshing)
+
+            newMarketList shouldBeEqual actualMarketList
+            viewModel.state.value.refreshing shouldBeEqual false
         }
     }
 
@@ -142,8 +143,9 @@ class MarketListViewModelTest : StringSpec({
             advanceUntilIdle()
 
             val actualMarketList = viewModel.state.value.marketList.map { it.toMarket() }
-            Assert.assertEquals(newMarketList, actualMarketList)
-            Assert.assertTrue(!viewModel.state.value.refreshing)
+
+            newMarketList shouldBeEqual actualMarketList
+            viewModel.state.value.refreshing shouldBeEqual false
         }
     }
 })
