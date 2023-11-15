@@ -11,7 +11,6 @@ import ir.composenews.localdatasource.database.MarketDaoImpl
 import ir.composenews.remotedatasource.test.FakeMarketsApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertFalse
 
 class NewsRepositoryImplTest : StringSpec({
 
@@ -48,7 +47,7 @@ class NewsRepositoryImplTest : StringSpec({
             repositoryImpl.syncMarketList()
 
             val oldMarket = repositoryImpl.getMarketList().first().first()
-            assertFalse(oldMarket.isFavorite)
+            oldMarket.isFavorite shouldBeEqual false
 
             repositoryImpl.toggleFavoriteMarket(oldMarket)
             val market = repositoryImpl.getMarketList().first().first()

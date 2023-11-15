@@ -18,7 +18,6 @@ dependencies {
         implementation(coroutines)
         implementation(lifecycle.viewmodel.ktx)
         api(kotlinx.collections.immutable)
-        testImplementation(junit)
         testImplementation(coroutines.test)
         testImplementation(mokito.kotlin)
     }
