@@ -9,12 +9,12 @@ import ir.composenews.localdatasource.test.remoteMarketDto
 import ir.composenews.remotedatasource.test.marketDto
 
 class MarketDtoMapperTest : StringSpec({
-    "marketDtoToMarket" {
+    "Market dto to market" {
         val mappedMarket = marketDto.toMarket()
         mappedMarket shouldBeEqual notFavoriteMarket
     }
 
-    "marketDtoToRemoteMarketDto" {
+    "Market dto to remote market dto" {
         val mappedRemoteMarket = marketDto.toRemoteMarketDto()
         mappedRemoteMarket shouldBeEqual remoteMarketDto
     }

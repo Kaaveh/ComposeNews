@@ -45,7 +45,7 @@ For the detail of handling preview of composable functions in this code-base, pl
 - [x] GSON &rarr; Kotlinx Serialization
 - [x] ROOM &rarr; SQLDelight
 - [ ] Retrofit &rarr; Ktor
-- [ ] JUnit &rarr; Kotest
+- [x] JUnit &rarr; Kotest
 - [ ] Dagger-Hilt &rarr; Koin
 - [ ] Jetpack Compose &rarr; Compose Multiplatform
 

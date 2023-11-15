@@ -1,38 +1,31 @@
 package ir.composenews.localdatasource.database
 
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
+import io.kotest.matchers.collections.shouldContain
+import io.kotest.matchers.equals.shouldBeEqual
+import ir.composenews.core_test.SuspendSpec
 import ir.composenews.db.MarketDatabase
 import ir.composenews.localdatasource.test.favoriteMarketEntity
-import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.runTest
-import org.junit.Before
-import org.junit.Test
 
-class MarketDaoTest {
+class MarketDaoTest : SuspendSpec({
+    lateinit var marketDao: MarketDao
 
-    private lateinit var marketDao: MarketDao
-
-    @Before
-    fun createDb() {
+    beforeSpec {
         val driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
         MarketDatabase.Schema.create(driver)
         val db = MarketDatabase(driver)
         marketDao = MarketDaoImpl(db)
     }
 
-    @Test
-    @Throws(Exception::class)
-    fun emptyTableAtDbInitialization() = runTest {
+    "Empty table at db initialization" {
         val marketList = marketDao.getMarketList().first()
-        assertTrue(marketList.isEmpty())
+        marketList.size shouldBeEqual 0
     }
 
-    @Test
-    @Throws(Exception::class)
-    fun insertNewsToDb() = runTest {
+    "Insert market to db" {
         marketDao.insertMarket(favoriteMarketEntity)
         val marketList = marketDao.getMarketList().first()
-        assertTrue(marketList.contains(favoriteMarketEntity))
+        marketList shouldContain favoriteMarketEntity
     }
-}
+})

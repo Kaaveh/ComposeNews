@@ -41,8 +41,6 @@ dependencies {
         implementation(androidx.ktx)
         implementation(hilt.work)
         implementation(lifecycle.runtime.ktx)
-        testImplementation(junit)
-        androidTestImplementation(junit.ext)
         implementation(work.runtime.ktx)
         implementation(libs.hilt.navigation.compose)
     }

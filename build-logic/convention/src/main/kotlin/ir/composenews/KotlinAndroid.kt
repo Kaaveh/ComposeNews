@@ -56,6 +56,11 @@ internal fun Project.configureKotlinAndroid(
             resources {
                 resources.excludes.add("META-INF/*")
                 resources.merges.add("META-INF/*.version")
+
+                // https://github.com/Kotlin/kotlinx.coroutines/issues/2023#issuecomment-858644393
+                resources.pickFirsts.add("win32-x86-64/attach_hotspot_windows.dll")
+                resources.pickFirsts.add("win32-x86/attach_hotspot_windows.dll")
+                resources.excludes.add("META-INF/licenses/ASM")
             }
         }
     }
