@@ -61,11 +61,11 @@ For the detail of handling preview of composable functions in this code-base, pl
 
 ### Dynamic theme
 
-![](asset/IMG_2459.jpeg)
+![](asset/dynamic_color.jpeg)
 
-### Tablet view
+### Large screen support
 
-![](asset/tablet_view.jpg)
+![](asset/large_screen.jpg)
 
 ## Additional Resources
 
