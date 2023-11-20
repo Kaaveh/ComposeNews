@@ -63,7 +63,7 @@ For the detail of handling preview of composable functions in this code-base, pl
 
 ![](asset/dynamic_color.jpeg)
 
-### Large screen support
+### Large screen support (Foldable, Tablet, and Desktop)
 
 ![](asset/large_screen.jpg)
 
