@@ -9,6 +9,7 @@ android {
 
 dependencies {
     implementation(projects.domain.market)
+    testImplementation(projects.core.test)
     libs.apply {
         api(platform(compose.bom))
         api(bundles.compose)
