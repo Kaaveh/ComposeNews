@@ -27,7 +27,7 @@ class MarketModelMapperTest {
             currentPrice = CURRENT_PRICE,
             priceChangePercentage24h = PRICE_CHANGE_PERCENTAGE_24H,
             imageUrl = IMAGE_URL,
-            isFavorite = IS_FAVORITE
+            isFavorite = IS_FAVORITE,
         )
 
         val market = marketModel.toMarket()
@@ -50,7 +50,7 @@ class MarketModelMapperTest {
             currentPrice = CURRENT_PRICE,
             priceChangePercentage24h = PRICE_CHANGE_PERCENTAGE_24H,
             imageUrl = IMAGE_URL,
-            isFavorite = IS_FAVORITE
+            isFavorite = IS_FAVORITE,
         )
 
         val marketModel = market.toMarketModel()
