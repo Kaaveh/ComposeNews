@@ -26,12 +26,14 @@
 -keep class * extends android.content.BroadcastReceiver { *; }
 -keep class * extends android.content.ContentProvider { *; }
 -keep class androidx.navigation.NavArgs { *; }
+
 -keepclasseswithmembers class * {
     @androidx.lifecycle.ViewModelInject <init>(...);
 }
 -keepclasseswithmembers class * {
     @javax.inject.Inject <init>(...);
 }
+
 -keepclassmembers class **.R$* {
     public static <fields>;
 }
@@ -41,13 +43,7 @@
 -keepattributes *Annotation*
 
 -keep class * extends androidx.compose.runtime.Composable { *; }
--keepclasseswithmembers class * {
-    @androidx.compose.ui.tooling.preview.Preview *;
-}
 
--keepclassmembers class * {
-    @javax.inject.Inject <init>(...);
-}
 -keepclassmembers class * {
     @dagger.hilt.android.lifecycle.HiltViewModel *;
 }
@@ -75,9 +71,10 @@
 
 -keep class io.kotest.** { *; }
 -dontwarn io.kotest.**
-
 -keep class kotlinx.coroutines.test.** { *; }
 -dontwarn kotlinx.coroutines.test.**
 
 -dontwarn java.lang.management.**
+-dontwarn reactor.blockhound.**
+
 -dontwarn reactor.blockhound.**

@@ -16,13 +16,13 @@ android {
         }
     }
     buildTypes {
-        val debug by getting {
+        getByName("debug") {
             isMinifyEnabled = false
             isShrinkResources = false
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
         }
-        val release by getting {
+        getByName("release") {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
