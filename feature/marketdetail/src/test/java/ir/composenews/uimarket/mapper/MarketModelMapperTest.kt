@@ -1,9 +1,9 @@
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.assertEquals
+package ir.composenews.uimarket.mapper
+
 import ir.composenews.domain.model.Market
-import ir.composenews.uimarket.mapper.toMarket
-import ir.composenews.uimarket.mapper.toMarketModel
 import ir.composenews.uimarket.model.MarketModel
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 
 class MarketModelMapperTest {
 
