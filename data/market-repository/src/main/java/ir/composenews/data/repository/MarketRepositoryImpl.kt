@@ -2,6 +2,7 @@
 
 package ir.composenews.data.repository
 
+import android.util.Log
 import ir.composenews.data.mapper.toChart
 import ir.composenews.data.mapper.toDetail
 import ir.composenews.data.mapper.toMarket
@@ -34,14 +35,18 @@ class MarketRepositoryImpl @Inject constructor(
     override suspend fun syncMarketList() {
         try {
             val marketList = api.getMarkets(
-                "usd", "market_cap_desc", 20,
-                1, false
+                "usd",
+                "market_cap_desc",
+                20,
+                1,
+                false,
             ).map { it.toRemoteMarketDto() }
 
             dao.upsertMarket(marketList)
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
+            Log.d("debug", e.toString())
             /* coins/markets API has rate limit. We should decide what should we do in catch block.
                {"status":{"error_code":429,"error_message":"You've exceeded the Rate Limit.
                Please visit https://www.coingecko.com/en/api/pricing to subscribe to our API plans for higher rate limits."}}
