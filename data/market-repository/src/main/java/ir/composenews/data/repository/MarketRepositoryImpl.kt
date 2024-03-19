@@ -2,6 +2,7 @@
 
 package ir.composenews.data.repository
 
+import android.util.Log
 import ir.composenews.data.mapper.toChart
 import ir.composenews.data.mapper.toDetail
 import ir.composenews.data.mapper.toMarket
@@ -18,6 +19,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+import kotlin.coroutines.cancellation.CancellationException
 
 class MarketRepositoryImpl @Inject constructor(
     private val api: MarketsApi,
@@ -31,10 +33,25 @@ class MarketRepositoryImpl @Inject constructor(
         dao.getFavoriteMarketList().map { list -> list.map { it.toMarket() } }
 
     override suspend fun syncMarketList() {
-        val marketList = api.getMarkets("usd", "market_cap_desc", 20, 1, false)
-            .map { it.toRemoteMarketDto() }
+        try {
+            val marketList = api.getMarkets(
+                "usd",
+                "market_cap_desc",
+                20,
+                1,
+                false,
+            ).map { it.toRemoteMarketDto() }
 
-        dao.upsertMarket(marketList)
+            dao.upsertMarket(marketList)
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            Log.d("debug", e.toString())
+            /* coins/markets API has rate limit. We should decide what should we do in catch block.
+               {"status":{"error_code":429,"error_message":"You've exceeded the Rate Limit.
+               Please visit https://www.coingecko.com/en/api/pricing to subscribe to our API plans for higher rate limits."}}
+             */
+        }
     }
 
     override suspend fun toggleFavoriteMarket(oldMarket: Market) {
