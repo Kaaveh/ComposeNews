@@ -50,5 +50,8 @@ dependencies {
         implementation(lifecycle.runtime.ktx)
         implementation(work.runtime.ktx)
         implementation(libs.hilt.navigation.compose)
+        implementation(libs.espresso.core)
+        implementation(libs.compose.ui.test.manifest)
+        implementation(libs.compose.ui.test.junit4)
     }
 }
