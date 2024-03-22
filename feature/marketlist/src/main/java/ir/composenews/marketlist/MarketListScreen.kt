@@ -169,3 +169,20 @@ private fun MarketListScreenPrev(
         }
     }
 }
+
+@Composable
+fun TestableMarketListScreen(
+    marketListState: MarketListContract.State,
+    showFavoriteList: Boolean,
+    onNavigateToDetailScreen: (market: MarketModel) -> Unit,
+    onFavoriteClick: (market: MarketModel) -> Unit,
+    onRefresh: () -> Unit,
+) {
+    MarketListScreen(
+        marketListState = marketListState,
+        showFavoriteList = showFavoriteList,
+        onNavigateToDetailScreen = onNavigateToDetailScreen,
+        onFavoriteClick = onFavoriteClick,
+        onRefresh = onRefresh
+    )
+}
