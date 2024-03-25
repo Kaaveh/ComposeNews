@@ -56,7 +56,8 @@ class MarketListScreenTest {
         composeTestRule.setContent {
             Box(
                 modifier =
-                    Modifier.fillMaxSize()
+                    Modifier
+                        .fillMaxSize()
                         .testTag("pullToRefresh"),
             ) {}
         }
