@@ -23,55 +23,57 @@ import org.junit.Rule
 import org.junit.Test
 
 class MarketDetailScreenTest {
-
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    val fakeMarketRepository = object : MarketRepository {
-
-        override fun getMarketList(): Flow<List<Market>> {
-            TODO("Not yet implemented")
-        }
-
-        override fun getFavoriteMarketList(): Flow<List<Market>> {
-            TODO("Not yet implemented")
-        }
-
-        override suspend fun syncMarketList() {
-            TODO("Not yet implemented")
-        }
-
-        override suspend fun toggleFavoriteMarket(oldMarket: Market) {
-            TODO("Not yet implemented")
-        }
-
-        override fun fetchChart(id: String): Flow<Resource<Chart>> {
-            TODO("Not yet implemented")
-        }
-
-        override fun fetchDetail(id: String): Flow<Resource<MarketDetail>> {
-            TODO("Not yet implemented")
-        }
-    }
-
-    private fun createMockViewModel(): MarketDetailViewModel {
-        val fakeGetMarketChartUseCase = object : GetMarketChartUseCase(fakeMarketRepository) {
-            override fun invoke(id: String): Flow<Resource<Chart>> {
-                return flowOf(Resource.Success(Chart(persistentListOf(Pair(0, 50000.0)))))
+    val fakeMarketRepository =
+        object : MarketRepository {
+            override fun getMarketList(): Flow<List<Market>> {
+                TODO("Not yet implemented")
             }
-        }
 
-        val fakeGetMarketDetailUseCase = object : GetMarketDetailUseCase(fakeMarketRepository) {
-            override fun invoke(id: String): Flow<Resource<MarketDetail>> {
-                return flowOf(Resource.Success(MarketDetail(marketCapRank = 1)))
+            override fun getFavoriteMarketList(): Flow<List<Market>> {
+                TODO("Not yet implemented")
             }
-        }
 
-        val fakeToggleFavoriteMarketListUseCase = object : ToggleFavoriteMarketListUseCase(fakeMarketRepository) {
-            override suspend fun invoke(market: Market) {
+            override suspend fun syncMarketList() {
+                TODO("Not yet implemented")
+            }
+
+            override suspend fun toggleFavoriteMarket(oldMarket: Market) {
+                TODO("Not yet implemented")
+            }
+
+            override fun fetchChart(id: String): Flow<Resource<Chart>> {
+                TODO("Not yet implemented")
+            }
+
+            override fun fetchDetail(id: String): Flow<Resource<MarketDetail>> {
                 TODO("Not yet implemented")
             }
         }
+
+    private fun createMockViewModel(): MarketDetailViewModel {
+        val fakeGetMarketChartUseCase =
+            object : GetMarketChartUseCase(fakeMarketRepository) {
+                override fun invoke(id: String): Flow<Resource<Chart>> {
+                    return flowOf(Resource.Success(Chart(persistentListOf(Pair(0, 50000.0)))))
+                }
+            }
+
+        val fakeGetMarketDetailUseCase =
+            object : GetMarketDetailUseCase(fakeMarketRepository) {
+                override fun invoke(id: String): Flow<Resource<MarketDetail>> {
+                    return flowOf(Resource.Success(MarketDetail(marketCapRank = 1)))
+                }
+            }
+
+        val fakeToggleFavoriteMarketListUseCase =
+            object : ToggleFavoriteMarketListUseCase(fakeMarketRepository) {
+                override suspend fun invoke(market: Market) {
+                    TODO("Not yet implemented")
+                }
+            }
 
         val fakeDispatcherProvider = FakeDispatcherProvider()
 
@@ -79,7 +81,7 @@ class MarketDetailScreenTest {
             getMarketChartUseCase = fakeGetMarketChartUseCase,
             getMarketDetailUseCase = fakeGetMarketDetailUseCase,
             toggleFavoriteMarketListUseCase = fakeToggleFavoriteMarketListUseCase,
-            dispatcherProvider = fakeDispatcherProvider
+            dispatcherProvider = fakeDispatcherProvider,
         )
     }
 
@@ -87,10 +89,16 @@ class MarketDetailScreenTest {
     fun marketDetailScreen_DisplaysMarketDataCorrectly() {
         val mockViewModel = createMockViewModel()
 
-        val marketModel = MarketModel(
-            id = "1", name = "Bitcoin", symbol = "BTC", currentPrice = 50000.0,
-            priceChangePercentage24h = 5.0, imageUrl = "https://example.com/bitcoin.png", isFavorite = false
-        )
+        val marketModel =
+            MarketModel(
+                id = "1",
+                name = "Bitcoin",
+                symbol = "BTC",
+                currentPrice = 50000.0,
+                priceChangePercentage24h = 5.0,
+                imageUrl = "https://example.com/bitcoin.png",
+                isFavorite = false,
+            )
         composeTestRule.setContent {
             MarketDetailRoute(market = marketModel, viewModel = mockViewModel)
         }
@@ -102,10 +110,16 @@ class MarketDetailScreenTest {
 
     @Test
     fun marketDetailScreen_FavoriteTogglesCorrectly() {
-        val marketModel = MarketModel(
-            id = "1", name = "Bitcoin", symbol = "BTC", isFavorite = false,
-            currentPrice = 50000.0, priceChangePercentage24h = 5.0, imageUrl = ""
-        )
+        val marketModel =
+            MarketModel(
+                id = "1",
+                name = "Bitcoin",
+                symbol = "BTC",
+                isFavorite = false,
+                currentPrice = 50000.0,
+                priceChangePercentage24h = 5.0,
+                imageUrl = "",
+            )
         composeTestRule.setContent {
             MarketDetailRoute(market = marketModel)
         }
@@ -124,10 +138,16 @@ class MarketDetailScreenTest {
 
     @Test
     fun marketDetailScreen_UserInteractsWithChartData() {
-        val marketModel = MarketModel(
-            id = "1", name = "Bitcoin", symbol = "BTC", currentPrice = 50000.0,
-            priceChangePercentage24h = 5.0, imageUrl = "https://example.com/bitcoin.png", isFavorite = false
-        )
+        val marketModel =
+            MarketModel(
+                id = "1",
+                name = "Bitcoin",
+                symbol = "BTC",
+                currentPrice = 50000.0,
+                priceChangePercentage24h = 5.0,
+                imageUrl = "https://example.com/bitcoin.png",
+                isFavorite = false,
+            )
         composeTestRule.setContent {
             MarketDetailRoute(market = marketModel)
         }
@@ -135,10 +155,16 @@ class MarketDetailScreenTest {
 
     @Test
     fun marketDetailScreen_NavigationPreservesState() {
-        val marketModel = MarketModel(
-            id = "1", name = "Bitcoin", symbol = "BTC", currentPrice = 50000.0,
-            priceChangePercentage24h = 5.0, imageUrl = "https://example.com/bitcoin.png", isFavorite = false
-        )
+        val marketModel =
+            MarketModel(
+                id = "1",
+                name = "Bitcoin",
+                symbol = "BTC",
+                currentPrice = 50000.0,
+                priceChangePercentage24h = 5.0,
+                imageUrl = "https://example.com/bitcoin.png",
+                isFavorite = false,
+            )
         composeTestRule.setContent {
             MarketDetailRoute(market = marketModel)
         }

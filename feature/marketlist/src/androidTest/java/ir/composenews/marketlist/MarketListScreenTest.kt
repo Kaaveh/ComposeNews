@@ -23,25 +23,27 @@ class MarketListScreenTest {
     fun marketListScreen_DisplayedCorrectly() {
         composeTestRule.setContent {
             TestableMarketListScreen(
-                marketListState = MarketListContract.State(
-                    marketList = persistentListOf(
-                        MarketModel(
-                            id = "1",
-                            name = "Bitcoin",
-                            symbol = "BTC",
-                            currentPrice = 50000.0,
-                            priceChangePercentage24h = 5.0,
-                            imageUrl = "",
-                            isFavorite = false
-                        )
+                marketListState =
+                    MarketListContract.State(
+                        marketList =
+                            persistentListOf(
+                                MarketModel(
+                                    id = "1",
+                                    name = "Bitcoin",
+                                    symbol = "BTC",
+                                    currentPrice = 50000.0,
+                                    priceChangePercentage24h = 5.0,
+                                    imageUrl = "",
+                                    isFavorite = false,
+                                ),
+                            ),
+                        refreshing = false,
+                        showFavoriteList = false,
                     ),
-                    refreshing = false,
-                    showFavoriteList = false
-                ),
                 showFavoriteList = false,
                 onNavigateToDetailScreen = {},
                 onFavoriteClick = {},
-                onRefresh = {}
+                onRefresh = {},
             )
         }
 
@@ -52,9 +54,11 @@ class MarketListScreenTest {
     @Test
     fun pullToRefresh_InvokesOnRefresh() {
         composeTestRule.setContent {
-            Box(modifier = Modifier
-                .fillMaxSize()
-                .testTag("pullToRefresh")) {}
+            Box(
+                modifier =
+                    Modifier.fillMaxSize()
+                        .testTag("pullToRefresh"),
+            ) {}
         }
 
         composeTestRule.waitForIdle()
@@ -63,5 +67,4 @@ class MarketListScreenTest {
             swipeDown(startY = 0.1f, endY = 0.9f, durationMillis = 200)
         }
     }
-
 }

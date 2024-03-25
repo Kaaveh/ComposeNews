@@ -1,4 +1,4 @@
-@file:Suppress("MaxLineLength", "ComplexCondition")
+@file:Suppress("MaxLineLength", "ComplexCondition", "ktlint:standard:function-naming")
 
 package ir.composenews.marketlist
 
@@ -86,6 +86,7 @@ fun MarketListRoute(
     }
 }
 
+@Suppress("ktlint:standard:function-naming")
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun MarketListScreen(
@@ -99,9 +100,10 @@ private fun MarketListScreen(
         rememberPullRefreshState(refreshing = marketListState.refreshing, onRefresh = onRefresh)
 
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .pullRefresh(refreshState),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .pullRefresh(refreshState),
     ) {
         AnimatedVisibility(
             visible = !marketListState.refreshing,
@@ -110,9 +112,10 @@ private fun MarketListScreen(
         ) {
             if (marketListState.showFavoriteEmptyState && marketListState.showFavoriteList) {
                 EmptyStateAnimation(
-                    lottieCompositionSpec = LottieCompositionSpec.RawRes(
-                        R.raw.empty_state_animation,
-                    ),
+                    lottieCompositionSpec =
+                        LottieCompositionSpec.RawRes(
+                            R.raw.empty_state_animation,
+                        ),
                 )
             } else {
                 LazyColumn(modifier = Modifier.fillMaxWidth()) {
@@ -121,11 +124,12 @@ private fun MarketListScreen(
                         key = { it.name },
                     ) { market ->
                         Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .animateItemPlacement(
-                                    animationSpec = tween(durationMillis = 250),
-                                ),
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .animateItemPlacement(
+                                        animationSpec = tween(durationMillis = 250),
+                                    ),
                         ) {
                             MarketListItem(
                                 modifier = Modifier,
@@ -183,6 +187,6 @@ fun TestableMarketListScreen(
         showFavoriteList = showFavoriteList,
         onNavigateToDetailScreen = onNavigateToDetailScreen,
         onFavoriteClick = onFavoriteClick,
-        onRefresh = onRefresh
+        onRefresh = onRefresh,
     )
 }
