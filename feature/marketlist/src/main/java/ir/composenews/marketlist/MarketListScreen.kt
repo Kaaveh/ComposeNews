@@ -101,9 +101,9 @@ private fun MarketListScreen(
 
     Box(
         modifier =
-            Modifier
-                .fillMaxWidth()
-                .pullRefresh(refreshState),
+        Modifier
+            .fillMaxWidth()
+            .pullRefresh(refreshState),
     ) {
         AnimatedVisibility(
             visible = !marketListState.refreshing,
@@ -113,9 +113,9 @@ private fun MarketListScreen(
             if (marketListState.showFavoriteEmptyState && marketListState.showFavoriteList) {
                 EmptyStateAnimation(
                     lottieCompositionSpec =
-                        LottieCompositionSpec.RawRes(
-                            R.raw.empty_state_animation,
-                        ),
+                    LottieCompositionSpec.RawRes(
+                        R.raw.empty_state_animation,
+                    ),
                 )
             } else {
                 LazyColumn(modifier = Modifier.fillMaxWidth()) {
@@ -125,11 +125,11 @@ private fun MarketListScreen(
                     ) { market ->
                         Column(
                             modifier =
-                                Modifier
-                                    .fillMaxWidth()
-                                    .animateItemPlacement(
-                                        animationSpec = tween(durationMillis = 250),
-                                    ),
+                            Modifier
+                                .fillMaxWidth()
+                                .animateItemPlacement(
+                                    animationSpec = tween(durationMillis = 250),
+                                ),
                         ) {
                             MarketListItem(
                                 modifier = Modifier,

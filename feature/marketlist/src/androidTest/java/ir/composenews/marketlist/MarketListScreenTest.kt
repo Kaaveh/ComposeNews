@@ -24,22 +24,22 @@ class MarketListScreenTest {
         composeTestRule.setContent {
             TestableMarketListScreen(
                 marketListState =
-                    MarketListContract.State(
-                        marketList =
-                            persistentListOf(
-                                MarketModel(
-                                    id = "1",
-                                    name = "Bitcoin",
-                                    symbol = "BTC",
-                                    currentPrice = 50000.0,
-                                    priceChangePercentage24h = 5.0,
-                                    imageUrl = "",
-                                    isFavorite = false,
-                                ),
-                            ),
-                        refreshing = false,
-                        showFavoriteList = false,
+                MarketListContract.State(
+                    marketList =
+                    persistentListOf(
+                        MarketModel(
+                            id = "1",
+                            name = "Bitcoin",
+                            symbol = "BTC",
+                            currentPrice = 50000.0,
+                            priceChangePercentage24h = 5.0,
+                            imageUrl = "",
+                            isFavorite = false,
+                        ),
                     ),
+                    refreshing = false,
+                    showFavoriteList = false,
+                ),
                 showFavoriteList = false,
                 onNavigateToDetailScreen = {},
                 onFavoriteClick = {},
@@ -56,9 +56,9 @@ class MarketListScreenTest {
         composeTestRule.setContent {
             Box(
                 modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .testTag("pullToRefresh"),
+                Modifier
+                    .fillMaxSize()
+                    .testTag("pullToRefresh"),
             ) {}
         }
 
