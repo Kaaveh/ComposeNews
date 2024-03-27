@@ -1,4 +1,4 @@
-@file:Suppress("MaxLineLength", "ComplexCondition")
+@file:Suppress("MaxLineLength", "ComplexCondition", "ktlint:standard:function-naming")
 
 package ir.composenews.marketlist
 
@@ -86,6 +86,7 @@ fun MarketListRoute(
     }
 }
 
+@Suppress("ktlint:standard:function-naming")
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun MarketListScreen(
@@ -99,7 +100,8 @@ private fun MarketListScreen(
         rememberPullRefreshState(refreshing = marketListState.refreshing, onRefresh = onRefresh)
 
     Box(
-        modifier = Modifier
+        modifier =
+        Modifier
             .fillMaxWidth()
             .pullRefresh(refreshState),
     ) {
@@ -110,7 +112,8 @@ private fun MarketListScreen(
         ) {
             if (marketListState.showFavoriteEmptyState && marketListState.showFavoriteList) {
                 EmptyStateAnimation(
-                    lottieCompositionSpec = LottieCompositionSpec.RawRes(
+                    lottieCompositionSpec =
+                    LottieCompositionSpec.RawRes(
                         R.raw.empty_state_animation,
                     ),
                 )
@@ -121,7 +124,8 @@ private fun MarketListScreen(
                         key = { it.name },
                     ) { market ->
                         Column(
-                            modifier = Modifier
+                            modifier =
+                            Modifier
                                 .fillMaxWidth()
                                 .animateItemPlacement(
                                     animationSpec = tween(durationMillis = 250),
@@ -168,4 +172,21 @@ private fun MarketListScreenPrev(
             )
         }
     }
+}
+
+@Composable
+fun TestableMarketListScreen(
+    marketListState: MarketListContract.State,
+    showFavoriteList: Boolean,
+    onNavigateToDetailScreen: (market: MarketModel) -> Unit,
+    onFavoriteClick: (market: MarketModel) -> Unit,
+    onRefresh: () -> Unit,
+) {
+    MarketListScreen(
+        marketListState = marketListState,
+        showFavoriteList = showFavoriteList,
+        onNavigateToDetailScreen = onNavigateToDetailScreen,
+        onFavoriteClick = onFavoriteClick,
+        onRefresh = onRefresh,
+    )
 }
