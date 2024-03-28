@@ -49,7 +49,7 @@ fun FavoriteIcon(
                 keyframes {
                     durationMillis = 300
                     1f at 0
-                    1.3f at 150 with FastOutSlowInEasing
+                    1.3f at 150 using FastOutSlowInEasing
                     1f at 300
                 }
             } else {

@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -81,7 +81,7 @@ fun MarketDetailLoadingView() {
                         .shimmerEffect(),
                 )
             }
-            Divider(color = Color.Gray)
+            HorizontalDivider(color = Color.Gray)
             Row(
                 modifier = Modifier
                     .padding(16.dp)
