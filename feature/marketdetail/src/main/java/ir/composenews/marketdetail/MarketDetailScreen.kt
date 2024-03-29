@@ -14,8 +14,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Divider
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -233,7 +233,7 @@ private fun MarketData() {
             style = MaterialTheme.typography.titleLarge,
         )
     }
-    Divider(color = Color.Gray)
+    HorizontalDivider(color = Color.Gray)
 }
 
 fun formatNumber(number: Long?): String {

@@ -11,11 +11,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.DismissState
-import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SwipeToDismissBoxState
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -27,10 +27,10 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DismissBackgroundSwipe(modifier: Modifier, dismissState: DismissState) {
+fun DismissBackgroundSwipe(modifier: Modifier, dismissState: SwipeToDismissBoxState) {
     val color by animateColorAsState(
         targetValue = when (dismissState.targetValue) {
-            DismissValue.DismissedToStart -> if (isSystemInDarkTheme()) {
+            SwipeToDismissBoxValue.EndToStart -> if (isSystemInDarkTheme()) {
                 MaterialTheme.colorScheme.errorContainer
             } else {
                 Color.Red
@@ -42,7 +42,7 @@ fun DismissBackgroundSwipe(modifier: Modifier, dismissState: DismissState) {
     )
 
     val iconScale by animateFloatAsState(
-        targetValue = if (dismissState.targetValue == DismissValue.Default) 0.8f else 1.1f,
+        targetValue = if (dismissState.targetValue == SwipeToDismissBoxValue.StartToEnd) 0.8f else 1.1f,
         label = "",
     )
 

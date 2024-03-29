@@ -19,6 +19,7 @@ dependencies {
         implementation(kotlinx.serialization.json)
         implementation(kotlinx.serialization.converter)
         implementation(logging.interceptor)
+        implementation(lifecycle.viewmodel.ktx)
         debugImplementation(chucker)
         releaseImplementation(chucker.no.op)
         androidTestImplementation(runner)

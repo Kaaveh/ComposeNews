@@ -24,15 +24,14 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.DismissDirection
-import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.SwipeToDismiss
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberDismissState
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -74,9 +73,9 @@ fun MarketItem(
     var show by remember {
         mutableStateOf(true)
     }
-    val dismissState = rememberDismissState(
+    val dismissState = rememberSwipeToDismissBoxState(
         confirmValueChange = {
-            if (it == DismissValue.DismissedToStart) {
+            if (it == SwipeToDismissBoxValue.EndToStart) {
                 show = false
                 true
             } else {
@@ -90,7 +89,7 @@ fun MarketItem(
         AnimatedVisibility(visible = show, exit = fadeOut(spring())) {
             SwipeToDismiss(
                 state = dismissState,
-                directions = setOf(DismissDirection.EndToStart),
+                directions = setOf(SwipeToDismissBoxValue.EndToStart),
                 background = {
                     DismissBackgroundSwipe(
                         modifier = Modifier,
