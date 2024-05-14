@@ -15,13 +15,11 @@ android {
 
 dependencies {
     libs.apply {
-        implementation(retrofit)
-        implementation(kotlinx.serialization.json)
-        implementation(kotlinx.serialization.converter)
-        implementation(logging.interceptor)
-        implementation(lifecycle.viewmodel.ktx)
+        implementation(bundles.ktor)
+
         debugImplementation(chucker)
         releaseImplementation(chucker.no.op)
+
         androidTestImplementation(runner)
     }
 }

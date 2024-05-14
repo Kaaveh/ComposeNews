@@ -24,7 +24,11 @@ sealed interface DevicePosture {
 @OptIn(ExperimentalContracts::class)
 fun isBookPosture(foldFeature: FoldingFeature?): Boolean {
     contract { returns(true) implies (foldFeature != null) }
-    return foldFeature?.state == FoldingFeature.State.HALF_OPENED && foldFeature.orientation == FoldingFeature.Orientation.VERTICAL
+
+    val isBookPosture = foldFeature?.state == FoldingFeature.State.HALF_OPENED &&
+        foldFeature.orientation == FoldingFeature.Orientation.VERTICAL
+
+    return isBookPosture
 }
 
 @OptIn(ExperimentalContracts::class)

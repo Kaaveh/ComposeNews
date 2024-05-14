@@ -58,6 +58,8 @@ workRuntimeKtx = "2.9.0"
 windowsSizeClass = "1.2.1"
 adaptive = "0.26.2-beta"
 
+ktor = "2.3.5"
+
 kotest = "5.7.2"
 espressoCore = "3.5.1"
 
@@ -90,6 +92,13 @@ lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-view
 lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifeCycleRuntimeCompose" }
 
 navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
+
+# Ktor
+ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
+ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
+ktor-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-contentNegotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
 
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 kotlinx-serialization-converter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "kotlinx-serialization-converter" }
@@ -156,4 +165,11 @@ kotest = [
     "kotest-assertionsCore",
     "kotest-property",
     "kotest-runnerJUnit5"
+]
+ktor = [
+    "ktor-client-core",
+    "ktor-client-okhttp",
+    "ktor-contentNegotiation",
+    "ktor-json",
+    "ktor-logging"
 ]

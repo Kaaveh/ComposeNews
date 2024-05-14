@@ -1,4 +1,4 @@
-@file:Suppress("MagicNumber")
+@file:Suppress("MagicNumber", "MaxLineLength", "LongMethod")
 
 package ir.composenews.designsystem.component
 
@@ -41,6 +41,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -189,12 +190,21 @@ private fun MarketItemCard(
                 Text(text = "$price $", style = MaterialTheme.typography.titleMedium)
                 Spacer(modifier = Modifier.height(6.dp))
                 Row {
-                    ArrowIconUpOrDown(priceChangePercentage24h)
+                    val color = when {
+                        priceChangePercentage24h.contains("-") -> {
+                            if (isSystemInDarkTheme()) darkDownTrendRed else lightDownTrendRed
+                        }
+                        else -> {
+                            if (isSystemInDarkTheme()) darkUptrendGreen else lightUptrendGreen
+                        }
+                    }
+
+                    ArrowIconUpOrDown(priceChangePercentage24h, tint = color)
+
                     Text(
                         text = "$priceChangePercentage24h %",
                         style = MaterialTheme.typography.bodyLarge,
-                        color = if (priceChangePercentage24h.contains("-")) if (isSystemInDarkTheme()) darkDownTrendRed else lightDownTrendRed
-                        else if (isSystemInDarkTheme()) darkUptrendGreen else lightUptrendGreen,
+                        color = color,
                     )
                 }
             }
@@ -208,7 +218,7 @@ private fun MarketItemCard(
 }
 
 @Composable
-private fun ArrowIconUpOrDown(priceChangePercentage24h: String) {
+private fun ArrowIconUpOrDown(priceChangePercentage24h: String, tint: Color) {
     Icon(
         modifier = Modifier.size(size = 20.dp),
         painter = if (priceChangePercentage24h.contains("-")) {
@@ -217,8 +227,7 @@ private fun ArrowIconUpOrDown(priceChangePercentage24h: String) {
             painterResource(id = R.drawable.baseline_arrow_upward_24)
         },
         contentDescription = "",
-        tint = if (priceChangePercentage24h.contains("-")) if (isSystemInDarkTheme()) darkDownTrendRed else lightDownTrendRed
-        else if (isSystemInDarkTheme()) darkUptrendGreen else lightUptrendGreen,
+        tint = tint,
     )
 }
 
