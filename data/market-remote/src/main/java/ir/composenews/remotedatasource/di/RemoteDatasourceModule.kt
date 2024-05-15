@@ -1,59 +1,59 @@
 package ir.composenews.remotedatasource.di
 
-import android.app.Application
+import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerInterceptor
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
-import dagger.Reusable
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import ir.composenews.remotedatasource.api.BASE_URL
-import ir.composenews.remotedatasource.api.MarketsApi
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.okhttp.OkHttp
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.defaultRequest
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.Logging
+import io.ktor.serialization.kotlinx.json.json
+import ir.composenews.remotedatasource.util.HttpRoutes
 import kotlinx.serialization.json.Json
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
 
 @Module
 @InstallIn(SingletonComponent::class)
 object RemoteDatasourceModule {
 
     @Provides
-    @Reusable
-    fun provideOkHttpClient(
-        app: Application,
-    ): OkHttpClient = OkHttpClient.Builder()
-        .addInterceptor(ChuckerInterceptor(app))
-        .addNetworkInterceptor(
-            HttpLoggingInterceptor { message ->
-                println("LOG-NET: $message")
-            }.apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            },
-        )
-        .build()
+    fun provideHttpClient(
+        @ApplicationContext context: Context,
+    ): HttpClient {
+        return HttpClient(OkHttp) {
+            defaultRequest {
+                url(urlString = HttpRoutes.BASE_URL)
+            }
 
-    @Provides
-    fun providesJson(): Json = Json {
-        ignoreUnknownKeys = true
+            install(Logging) {
+                level = LogLevel.BODY
+
+                logger = object : Logger {
+                    override fun log(message: String) {
+                        println("LOG-NET: $message")
+                    }
+                }
+            }
+
+            install(ContentNegotiation) {
+                json(
+                    Json {
+                        prettyPrint = true
+                        isLenient = true
+                        ignoreUnknownKeys = true
+                    },
+                )
+            }
+
+            engine {
+                addInterceptor(ChuckerInterceptor.Builder(context).build())
+            }
+        }
     }
-
-    @Provides
-    fun provideRetrofit(
-        client: OkHttpClient,
-        json: Json,
-    ): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(client)
-            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
-            .build()
-    }
-
-    @Provides
-    fun provideMarketsApi(
-        retrofit: Retrofit,
-    ): MarketsApi = retrofit.create(MarketsApi::class.java)
 }
