@@ -30,7 +30,7 @@ For the detail of handling preview of composable functions in this code-base, pl
 - SQLDelight database
 - Dagger Hilt
 - Navigation
-- Retrofit
+- Ktor client
 - Work manager
 - Unit test
 - Support large screens
@@ -44,7 +44,7 @@ For the detail of handling preview of composable functions in this code-base, pl
 ### We are porting the project to KMP. Here's the steps:
 - [x] GSON &rarr; Kotlinx Serialization
 - [x] ROOM &rarr; SQLDelight
-- [ ] Retrofit &rarr; Ktor
+- [x] Retrofit &rarr; Ktor
 - [x] JUnit &rarr; Kotest
 - [ ] Dagger-Hilt &rarr; Koin
 - [ ] Jetpack Compose &rarr; Compose Multiplatform
