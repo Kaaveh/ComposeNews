@@ -2,6 +2,7 @@
 projectApplicationId = "ir.composenews"
 projectVersionName = "1.0.0"
 projectMinSdkVersion = "23"
+projectMinSdkVersionWear = "30"
 projectTargetSdkVersion = "34"
 projectCompileSdkVersion = "34"
 projectVersionCode = "1"
@@ -19,6 +20,9 @@ composeActivity = "1.8.2"
 composeCoil = "2.2.2"
 composeCompiler = "1.5.11"
 composeMaterial3 = "1.2.1"
+composeWear = "1.4.0-beta03"
+wearToolingPreview = "1.0.0"
+horologistComposeLayout = "0.6.17"
 
 detekt = "1.23.1"
 hilt = "2.50"
@@ -77,6 +81,10 @@ compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
 compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "composeMaterial3" }
 compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "composeActivity" }
 compose-coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "composeCoil" }
+compose-material-wear = { group = "androidx.wear.compose", name = "compose-material", version.ref = "composeWear" }
+compose-foundation-wear = { group = "androidx.wear.compose", name = "compose-foundation", version.ref = "composeWear" }
+compose-ui-preview-wear = { group = "androidx.wear", name = "wear-tooling-preview", version.ref = "wearToolingPreview" }
+compose-horologist-layout = { module = "com.google.android.horologist:horologist-compose-layout", version.ref = "horologistComposeLayout" }
 
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
@@ -92,6 +100,7 @@ lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-view
 lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifeCycleRuntimeCompose" }
 
 navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
+navigation-compose-wear = { group = "androidx.wear.compose", name = "compose-navigation", version.ref = "composeWear" }
 
 # Ktor
 ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
