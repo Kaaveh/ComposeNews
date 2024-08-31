@@ -14,6 +14,7 @@ android {
 }
 
 dependencies {
+    api(projects.core.ktor)
     libs.apply {
         implementation(bundles.ktor)
 
