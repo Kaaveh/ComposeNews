@@ -13,6 +13,7 @@ android {
 
 dependencies {
     api(projects.core.test)
+    api(projects.core.ktor)
     libs.apply {
         implementation(javax.inject)
         implementation(coroutines)
