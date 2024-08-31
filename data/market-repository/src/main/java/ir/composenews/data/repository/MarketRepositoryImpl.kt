@@ -11,15 +11,23 @@ import ir.composenews.data.mapper.toRemoteMarketDto
 import ir.composenews.domain.model.Chart
 import ir.composenews.domain.model.Market
 import ir.composenews.domain.model.MarketDetail
-import ir.composenews.domain.model.Resource
 import ir.composenews.domain.repository.MarketRepository
+import ir.composenews.ktor.Errors
+import ir.composenews.ktor.Resource
+import ir.composenews.ktor.mapMessageStatusCode
+import ir.composenews.ktor.onError
+import ir.composenews.ktor.onException
+import ir.composenews.ktor.statusCode
+import ir.composenews.ktor.suspendMap
+import ir.composenews.ktor.suspendOnError
+import ir.composenews.ktor.suspendOnException
+import ir.composenews.ktor.suspendOnSuccess
 import ir.composenews.localdatasource.database.MarketDao
 import ir.composenews.remotedatasource.api.MarketsApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
-import kotlin.coroutines.cancellation.CancellationException
 
 class MarketRepositoryImpl @Inject constructor(
     private val api: MarketsApi,
@@ -33,24 +41,21 @@ class MarketRepositoryImpl @Inject constructor(
         dao.getFavoriteMarketList().map { list -> list.map { it.toMarket() } }
 
     override suspend fun syncMarketList() {
-        try {
-            val marketList = api.getMarkets(
-                "usd",
-                "market_cap_desc",
-                20,
-                1,
-                false,
-            ).map { it.toRemoteMarketDto() }
-
-            dao.upsertMarket(marketList)
-        } catch (e: CancellationException) {
-            throw e
-        } catch (e: Exception) {
-            Log.d("debug", e.toString())
-            /* coins/markets API has rate limit. We should decide what should we do in catch block.
-               {"status":{"error_code":429,"error_message":"You've exceeded the Rate Limit.
-               Please visit https://www.coingecko.com/en/api/pricing to subscribe to our API plans for higher rate limits."}}
-             */
+        api.getMarkets(
+            "usd",
+            "market_cap_desc",
+            20,
+            1,
+            false,
+        ).suspendOnSuccess {
+            val toRemoteMarketDto = data.map {
+                it.toRemoteMarketDto()
+            }
+            dao.upsertMarket(toRemoteMarketDto)
+        }.onError {
+            Log.d("debug", message)
+        }.onException {
+            Log.d("debug", message.toString())
         }
     }
 
@@ -59,21 +64,53 @@ class MarketRepositoryImpl @Inject constructor(
         dao.insertMarket(news)
     }
 
-    override fun fetchChart(id: String): Flow<Resource<Chart>> = flow {
-        try {
-            val chart = api.getMarketChart(id, "usd", 1).toChart()
-            emit(Resource.Success(chart))
-        } catch (e: Exception) {
-            emit(Resource.Error(exception = e))
+    override fun fetchChart(id: String): Flow<Resource<Chart, Errors>> = flow {
+        val chart = api.getMarketChart(id, "usd", 1)
+        chart.suspendOnSuccess {
+            suspendMap {
+                emit(Resource.Success(it.data.toChart()))
+            }
+        }.suspendOnError {
+            suspendMap {
+                emit(
+                    Resource.Error(
+                        error = Errors.ApiError(
+                            it.statusCode.mapMessageStatusCode(),
+                            it.statusCode.code,
+                        ),
+                    ),
+                )
+            }
+        }.suspendOnException {
+            suspendMap {
+                emit(Resource.Error(Errors.ExceptionError(it.message, throwable)))
+            }
         }
     }
 
-    override fun fetchDetail(id: String): Flow<Resource<MarketDetail>> = flow {
-        try {
-            val detail = api.getMarketDetail(id).toDetail()
-            emit(Resource.Success(detail))
-        } catch (e: Exception) {
-            emit(Resource.Error(exception = e))
+    override fun fetchDetail(id: String): Flow<Resource<MarketDetail, Errors>> = flow {
+        val detail = api.getMarketDetail(id)
+        detail.suspendOnSuccess {
+            suspendMap {
+                emit(Resource.Success(data.toDetail()))
+            }
+        }.suspendOnError {
+            suspendMap {
+                emit(
+                    Resource.Error(
+                        Errors.ApiError(
+                            it.statusCode.mapMessageStatusCode(),
+                            it.statusCode.code,
+                        ),
+                    ),
+                )
+            }
+        }.suspendOnException {
+            suspendMap {
+                emit(
+                    Resource.Error(Errors.ExceptionError(it.message, it.throwable)),
+                )
+            }
         }
     }
 }
