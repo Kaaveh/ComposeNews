@@ -1,9 +1,9 @@
 package ir.composenews.remotedatasource.api
 
 import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.request.get
 import io.ktor.http.appendPathSegments
+import ir.composenews.ktor.ApiResponse
+import ir.composenews.ktor.getApiResponse
 import ir.composenews.remotedatasource.dto.MarketChartResponse
 import ir.composenews.remotedatasource.dto.MarketDetailResponse
 import ir.composenews.remotedatasource.dto.MarketResponse
@@ -29,8 +29,8 @@ class MarketsApiImpl @Inject constructor(
         perPage: Int,
         page: Int,
         sparkline: Boolean,
-    ): List<MarketResponse> = withContext(Dispatchers.IO) {
-        val response = httpClient.get {
+    ): ApiResponse<List<MarketResponse>> = withContext(Dispatchers.IO) {
+        val response = httpClient.getApiResponse<List<MarketResponse>> {
             url {
                 appendPathSegments(COINS, MARKETS)
                 parameters.append(VS_CURRENCY, currency)
@@ -40,33 +40,31 @@ class MarketsApiImpl @Inject constructor(
                 parameters.append(SPARKLINE, sparkline.toString())
             }
         }
-
-        response.body()
+        response
     }
 
     override suspend fun getMarketChart(
         id: String,
         currency: String,
         days: Int,
-    ): MarketChartResponse = withContext(Dispatchers.IO) {
-        val response = httpClient.get {
+    ): ApiResponse<MarketChartResponse> = withContext(Dispatchers.IO) {
+        val response = httpClient.getApiResponse<MarketChartResponse> {
             url {
                 appendPathSegments(COINS, id, MARKET_CHART)
                 parameters.append(VS_CURRENCY, currency)
                 parameters.append(DAYS, days.toString())
             }
         }
-
-        response.body()
+        response
     }
 
-    override suspend fun getMarketDetail(id: String): MarketDetailResponse = withContext(Dispatchers.IO) {
-        val response = httpClient.get {
-            url {
-                appendPathSegments(COINS, id)
+    override suspend fun getMarketDetail(id: String): ApiResponse<MarketDetailResponse> =
+        withContext(Dispatchers.IO) {
+            val response = httpClient.getApiResponse<MarketDetailResponse> {
+                url {
+                    appendPathSegments(COINS, id)
+                }
             }
+            response
         }
-
-        response.body()
-    }
 }

@@ -2,6 +2,7 @@
 
 package ir.composenews.remotedatasource.api
 
+import ir.composenews.ktor.ApiResponse
 import ir.composenews.remotedatasource.dto.MarketChartResponse
 import ir.composenews.remotedatasource.dto.MarketDetailResponse
 import ir.composenews.remotedatasource.dto.MarketResponse
@@ -13,13 +14,13 @@ interface MarketsApi {
         perPage: Int,
         page: Int,
         sparkline: Boolean,
-    ): List<MarketResponse>
+    ): ApiResponse<List<MarketResponse>>
 
     suspend fun getMarketChart(
         id: String,
         currency: String,
         days: Int,
-    ): MarketChartResponse
+    ): ApiResponse<MarketChartResponse>
 
-    suspend fun getMarketDetail(id: String): MarketDetailResponse
+    suspend fun getMarketDetail(id: String): ApiResponse<MarketDetailResponse>
 }
