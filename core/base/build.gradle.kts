@@ -10,7 +10,7 @@ android {
 dependencies {
     projects.library.apply {
         api(projects.core.test)
-        api(projects.core.ktor)
+        api(projects.core.network.ktor)
         implementation(projects.library.designsystem)
     }
     libs.apply {

@@ -2,8 +2,8 @@ package ir.composenews.remotedatasource.api
 
 import io.ktor.client.HttpClient
 import io.ktor.http.appendPathSegments
-import ir.composenews.ktor.ApiResponse
-import ir.composenews.ktor.getApiResponse
+import ir.composenews.network.ApiResponse
+import ir.composenews.network.getApiResponse
 import ir.composenews.remotedatasource.dto.MarketChartResponse
 import ir.composenews.remotedatasource.dto.MarketDetailResponse
 import ir.composenews.remotedatasource.dto.MarketResponse

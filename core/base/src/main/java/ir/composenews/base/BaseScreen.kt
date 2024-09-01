@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import ir.composenews.designsystem.widget.ErrorView
 import ir.composenews.designsystem.widget.LoadingView
-import ir.composenews.ktor.Errors
+import ir.composenews.network.Errors
 
 @Composable
 fun BaseRoute(

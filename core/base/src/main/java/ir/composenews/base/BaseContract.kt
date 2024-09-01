@@ -1,6 +1,6 @@
 package ir.composenews.base
 
-import ir.composenews.ktor.Errors
+import ir.composenews.network.Errors
 
 interface BaseContract :
     BaseUnidirectionalViewModel<BaseContract.BaseEvent, BaseContract.BaseEffect, BaseContract.BaseState> {

@@ -10,8 +10,8 @@ import ir.composenews.core_test.dispatcher.DispatcherProvider
 import ir.composenews.domain.use_case.GetMarketChartUseCase
 import ir.composenews.domain.use_case.GetMarketDetailUseCase
 import ir.composenews.domain.use_case.ToggleFavoriteMarketListUseCase
-import ir.composenews.ktor.Errors
-import ir.composenews.ktor.Resource
+import ir.composenews.network.Errors
+import ir.composenews.network.Resource
 import ir.composenews.uimarket.mapper.toMarket
 import ir.composenews.uimarket.model.MarketModel
 import kotlinx.coroutines.flow.MutableStateFlow

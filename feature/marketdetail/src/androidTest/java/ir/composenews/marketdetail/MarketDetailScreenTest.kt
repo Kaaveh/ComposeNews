@@ -13,8 +13,8 @@ import ir.composenews.domain.repository.MarketRepository
 import ir.composenews.domain.use_case.GetMarketChartUseCase
 import ir.composenews.domain.use_case.GetMarketDetailUseCase
 import ir.composenews.domain.use_case.ToggleFavoriteMarketListUseCase
-import ir.composenews.ktor.Errors
-import ir.composenews.ktor.Resource
+import ir.composenews.network.Errors
+import ir.composenews.network.Resource
 import ir.composenews.uimarket.model.MarketModel
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.CoroutineDispatcher

@@ -1,6 +1,6 @@
 package ir.composenews.remotedatasource.test
 
-import ir.composenews.ktor.ApiResponse
+import ir.composenews.network.ApiResponse
 import ir.composenews.remotedatasource.api.MarketsApi
 import ir.composenews.remotedatasource.dto.MarketChartResponse
 import ir.composenews.remotedatasource.dto.MarketDetailResponse
