@@ -152,6 +152,7 @@ kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", vers
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 kotliner = { id = "org.jmailen.kotlinter", version.ref = "kotlinter" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
+composenews-android-library = { id = "composenews.android.library", version = "unspecified" }
 
 [bundles]
 compose = [
