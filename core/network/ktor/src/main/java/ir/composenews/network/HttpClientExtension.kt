@@ -1,4 +1,4 @@
-package ir.composenews.ktor
+package ir.composenews.network
 
 import io.ktor.client.HttpClient
 import io.ktor.client.request.HttpRequestBuilder

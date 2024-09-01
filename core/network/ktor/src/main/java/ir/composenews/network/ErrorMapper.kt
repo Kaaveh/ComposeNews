@@ -1,5 +1,5 @@
 
-package ir.composenews.ktor
+package ir.composenews.network
 
 fun StatusCode.mapMessageStatusCode(): String {
     return when (this) {

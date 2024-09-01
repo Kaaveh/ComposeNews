@@ -1,5 +1,5 @@
 
-package ir.composenews.ktor
+package ir.composenews.network
 
 /**
  * https://docs.coingecko.com/reference/common-errors-rate-limit

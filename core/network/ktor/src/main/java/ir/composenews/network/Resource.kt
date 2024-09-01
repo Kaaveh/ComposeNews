@@ -1,4 +1,4 @@
-package ir.composenews.ktor
+package ir.composenews.network
 
 sealed class Resource<out T, out E> {
     data class Success<out T>(val data: T) : Resource<T, Nothing>()

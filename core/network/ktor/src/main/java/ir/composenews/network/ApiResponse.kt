@@ -1,4 +1,4 @@
-package ir.composenews.ktor
+package ir.composenews.network
 
 sealed interface ApiResponse<out T> {
     data class Success<T>(val data: T) : ApiResponse<T>

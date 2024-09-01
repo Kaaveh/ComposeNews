@@ -1,5 +1,5 @@
 
-package ir.composenews.ktor
+package ir.composenews.network
 
 sealed class Errors {
     data class ApiError(val message: String?, val code: Int) : Errors()

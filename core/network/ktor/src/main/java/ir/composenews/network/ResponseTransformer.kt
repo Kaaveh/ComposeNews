@@ -1,5 +1,5 @@
 
-package ir.composenews.ktor
+package ir.composenews.network
 
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
