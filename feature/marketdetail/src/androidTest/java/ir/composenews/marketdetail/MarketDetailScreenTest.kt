@@ -1,3 +1,4 @@
+
 package ir.composenews.marketdetail
 
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -8,11 +9,12 @@ import ir.composenews.core_test.dispatcher.DispatcherProvider
 import ir.composenews.domain.model.Chart
 import ir.composenews.domain.model.Market
 import ir.composenews.domain.model.MarketDetail
-import ir.composenews.domain.model.Resource
 import ir.composenews.domain.repository.MarketRepository
 import ir.composenews.domain.use_case.GetMarketChartUseCase
 import ir.composenews.domain.use_case.GetMarketDetailUseCase
 import ir.composenews.domain.use_case.ToggleFavoriteMarketListUseCase
+import ir.composenews.network.Errors
+import ir.composenews.network.Resource
 import ir.composenews.uimarket.model.MarketModel
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.CoroutineDispatcher
@@ -44,11 +46,11 @@ class MarketDetailScreenTest {
                 TODO("Not yet implemented")
             }
 
-            override fun fetchChart(id: String): Flow<Resource<Chart>> {
+            override fun fetchChart(id: String): Flow<Resource<Chart, Errors>> {
                 TODO("Not yet implemented")
             }
 
-            override fun fetchDetail(id: String): Flow<Resource<MarketDetail>> {
+            override fun fetchDetail(id: String): Flow<Resource<MarketDetail, Errors>> {
                 TODO("Not yet implemented")
             }
         }
@@ -56,14 +58,14 @@ class MarketDetailScreenTest {
     private fun createMockViewModel(): MarketDetailViewModel {
         val fakeGetMarketChartUseCase =
             object : GetMarketChartUseCase(fakeMarketRepository) {
-                override fun invoke(id: String): Flow<Resource<Chart>> {
+                override fun invoke(id: String): Flow<Resource<Chart, Errors>> {
                     return flowOf(Resource.Success(Chart(persistentListOf(Pair(0, 50000.0)))))
                 }
             }
 
         val fakeGetMarketDetailUseCase =
             object : GetMarketDetailUseCase(fakeMarketRepository) {
-                override fun invoke(id: String): Flow<Resource<MarketDetail>> {
+                override fun invoke(id: String): Flow<Resource<MarketDetail, Errors>> {
                     return flowOf(Resource.Success(MarketDetail(marketCapRank = 1)))
                 }
             }

@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import ir.composenews.designsystem.widget.ErrorView
 import ir.composenews.designsystem.widget.LoadingView
+import ir.composenews.network.Errors
 
 @Composable
 fun BaseRoute(
@@ -69,11 +70,23 @@ private fun BaseScreen(
                 BaseContract.BaseState.OnLoadingDialog -> TODO()
 
                 is BaseContract.BaseState.OnError -> {
-                    ErrorView(errorMessage = targetState.errorMessage)
+                    ErrorView(errorMessage = errorViewMapper(targetState.errors))
                 }
 
                 BaseContract.BaseState.OnSuccess -> content()
             }
+        }
+    }
+}
+
+fun errorViewMapper(errors: Errors): String {
+    return when (errors) {
+        is Errors.ApiError -> {
+            errors.message ?: "Unknown Error"
+        }
+
+        is Errors.ExceptionError -> {
+            errors.message ?: "Unknown Error"
         }
     }
 }
