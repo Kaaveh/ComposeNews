@@ -10,6 +10,7 @@ kotlin = "1.9.23"
 kotlinter = "3.16.0"
 ksp = "1.9.10-1.0.13"
 kotlinxImmutableCollection = "0.3.5"
+konsist = "0.16.0"
 androidGradlePlugin = "8.1.4"
 
 ktx = "1.12.0"
@@ -87,6 +88,7 @@ javax-inject = { group = "javax.inject", name = "javax.inject", version.ref = "j
 
 coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core-jvm", version.ref = "coroutinesCore" }
 
+konsist = { module = "com.lemonappdev:konsist", version.ref = "konsist" }
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifeCycle" }
 lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifeCycleViewModelKtx" }
 lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifeCycleRuntimeCompose" }
