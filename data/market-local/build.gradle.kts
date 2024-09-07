@@ -1,9 +1,7 @@
 plugins {
-    id("composenews.android.library")
+    alias(libs.plugins.composenews.android.library)
     id("composenews.android.hilt")
-    libs.plugins.apply {
-        alias(sqldelight)
-    }
+    alias(libs.plugins.sqldelight)
 }
 
 android {
@@ -20,6 +18,7 @@ sqldelight {
         }
     }
 }
+
 
 dependencies {
     libs.apply {

@@ -6,22 +6,21 @@ projectTargetSdkVersion = "34"
 projectCompileSdkVersion = "34"
 projectVersionCode = "1"
 
-kotlin = "1.9.23"
+kotlin = "2.0.20"
 kotlinter = "3.16.0"
-ksp = "1.9.10-1.0.13"
+ksp = "2.0.20-1.0.25"
 kotlinxImmutableCollection = "0.3.5"
-androidGradlePlugin = "8.1.4"
+androidGradlePlugin = "8.6.0"
 
 ktx = "1.12.0"
 
 composeBOM = "2024.03.00"
 composeActivity = "1.8.2"
 composeCoil = "2.2.2"
-composeCompiler = "1.5.11"
 composeMaterial3 = "1.2.1"
 
 detekt = "1.23.1"
-hilt = "2.50"
+hilt = "2.52"
 androidHiltCompiler = "1.2.0"
 hiltNavigationCompose = "1.2.0"
 hiltWork = "1.2.0"
@@ -30,9 +29,9 @@ lottieAnimation = "6.1.0"
 
 coroutinesCore = "1.7.3"
 
-lifeCycle = "2.7.0"
-lifeCycleViewModelKtx = "2.7.0"
-lifeCycleRuntimeCompose = "2.7.0"
+lifeCycle = "2.8.5"
+lifeCycleViewModelKtx = "2.8.5"
+lifeCycleRuntimeCompose = "2.8.5"
 
 navigationCompose = "2.7.7"
 
@@ -42,7 +41,7 @@ chucker = "3.5.2"
 kotlinx-serialization = "1.6.0"
 kotlinx-serialization-converter = "1.0.0"
 
-sqldelight = "2.0.1"
+sqldelight = "2.0.2"
 
 junit = "4.13.2"
 junitExt = "1.1.5"
@@ -67,7 +66,6 @@ espressoCore = "3.5.1"
 androidx-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "ktx" }
 
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBOM" }
-compose-compiler = { group = "androidx.compose.compiler", name = "compiler", version.ref = "composeCompiler" }
 compose-ui = { group = "androidx.compose.ui", name = "ui" }
 compose-ui-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
@@ -153,6 +151,7 @@ detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 kotliner = { id = "org.jmailen.kotlinter", version.ref = "kotlinter" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
 composenews-android-library = { id = "composenews.android.library", version = "unspecified" }
+compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 [bundles]
 compose = [

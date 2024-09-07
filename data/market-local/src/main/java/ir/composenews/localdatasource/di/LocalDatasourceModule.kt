@@ -1,11 +1,12 @@
 package ir.composenews.localdatasource.di
 
-import android.app.Application
+import android.content.Context
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ir.composenews.db.MarketDatabase
 import ir.composenews.localdatasource.database.MarketDao
@@ -18,8 +19,8 @@ object LocalDatasourceModule {
 
     @Singleton
     @Provides
-    fun provideMarketsDatabase(app: Application): MarketDatabase {
-        val driver: SqlDriver = AndroidSqliteDriver(MarketDatabase.Schema, app, "MarketDatabase")
+    fun provideMarketsDatabase(@ApplicationContext context: Context): MarketDatabase {
+        val driver: SqlDriver = AndroidSqliteDriver(MarketDatabase.Schema, context, "MarketDatabase")
         return MarketDatabase(driver)
     }
 
