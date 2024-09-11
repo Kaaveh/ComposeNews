@@ -7,7 +7,7 @@ plugins {
         alias(hilt.android) apply false
         alias(kotliner) apply false
         alias(detekt) apply false
-        alias(ksp) apply false
+//        alias(ksp) apply false
         alias(compose) apply false
     }
 }
