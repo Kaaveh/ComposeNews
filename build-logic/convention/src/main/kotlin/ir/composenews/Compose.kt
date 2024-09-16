@@ -8,16 +8,12 @@ import org.gradle.kotlin.dsl.dependencies
  * Configure Compose-specific options
  */
 internal fun Project.configureAndroidCompose(
-    commonExtension: CommonExtension<*, *, *, *, *>,
+    commonExtension: CommonExtension<*, *, *, *, *,*>,
 ) {
     commonExtension.apply {
         buildFeatures {
             compose = true
         }
-        composeOptions {
-            kotlinCompilerExtensionVersion = libs.findVersion("composeCompiler").get().toString()
-        }
-
         testOptions {
             unitTests {
                 isIncludeAndroidResources = true
@@ -27,9 +23,7 @@ internal fun Project.configureAndroidCompose(
 
         dependencies {
             val bom = libs.findLibrary("compose-bom").get()
-            val composeCompiler = libs.findLibrary("compose-compiler").get()
             "implementation"(platform(bom))
-            "implementation"(composeCompiler)
             "androidTestImplementation"(platform(bom))
         }
 
