@@ -82,7 +82,7 @@ fun MarketItem(
             }
         },
         positionalThreshold = { positionalThreshold },
-        initialValue = SwipeToDismissBoxValue.EndToStart
+        initialValue = SwipeToDismissBoxValue.EndToStart,
     )
 
     if (showFavoriteList) {
