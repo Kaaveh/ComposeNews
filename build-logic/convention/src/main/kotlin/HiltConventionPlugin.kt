@@ -14,14 +14,16 @@ class HiltConventionPlugin : Plugin<Project> {
     private fun Project.applyPlugins() {
         pluginManager.apply {
             apply("dagger.hilt.android.plugin")
-            apply("com.google.devtools.ksp")
+            apply("org.jetbrains.kotlin.kapt")
+//            apply("com.google.devtools.ksp")
         }
     }
 
     private fun Project.applyDependencies() {
         dependencies {
             "implementation"(libs.findLibrary("hilt.android").get())
-            "ksp"(libs.findLibrary("hilt.compiler").get())
+//            "ksp"(libs.findLibrary("hilt.compiler").get())
+            "kapt"(libs.findLibrary("hilt.compiler").get())
         }
     }
 }

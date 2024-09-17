@@ -1,12 +1,14 @@
 package ir.composenews.base
 
+import ir.composenews.network.Errors
+
 interface BaseContract :
     BaseUnidirectionalViewModel<BaseContract.BaseEvent, BaseContract.BaseEffect, BaseContract.BaseState> {
 
     sealed class BaseState {
         data object OnLoading : BaseState()
         data object OnLoadingDialog : BaseState()
-        data class OnError(val errorMessage: String) : BaseState()
+        data class OnError(val errors: Errors) : BaseState()
         data object OnSuccess : BaseState()
     }
 

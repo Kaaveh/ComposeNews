@@ -10,6 +10,7 @@ import ir.composenews.core_test.dispatcher.DispatcherProvider
 import ir.composenews.domain.use_case.GetFavoriteMarketListUseCase
 import ir.composenews.domain.use_case.GetMarketListUseCase
 import ir.composenews.domain.use_case.ToggleFavoriteMarketListUseCase
+import ir.composenews.network.Errors
 import ir.composenews.uimarket.mapper.toMarket
 import ir.composenews.uimarket.mapper.toMarketModel
 import ir.composenews.uimarket.model.MarketModel
@@ -81,8 +82,7 @@ class MarketListViewModel @Inject constructor(
             .catch { exception ->
                 mutableBaseState.update {
                     BaseContract.BaseState.OnError(
-                        errorMessage = exception.localizedMessage
-                            ?: "An unexpected error occurred.",
+                        errors = Errors.ExceptionError(message = exception.message),
                     )
                 }
             }

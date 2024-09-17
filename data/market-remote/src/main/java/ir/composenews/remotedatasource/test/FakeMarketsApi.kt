@@ -1,5 +1,6 @@
 package ir.composenews.remotedatasource.test
 
+import ir.composenews.network.ApiResponse
 import ir.composenews.remotedatasource.api.MarketsApi
 import ir.composenews.remotedatasource.dto.MarketChartResponse
 import ir.composenews.remotedatasource.dto.MarketDetailResponse
@@ -12,17 +13,17 @@ class FakeMarketsApi : MarketsApi {
         perPage: Int,
         page: Int,
         sparkline: Boolean,
-    ): List<MarketResponse> = listOf(marketDto)
+    ): ApiResponse<List<MarketResponse>> = ApiResponse.Success(listOf(marketDto))
 
     override suspend fun getMarketChart(
         id: String,
         currency: String,
         days: Int,
-    ): MarketChartResponse {
+    ): ApiResponse<MarketChartResponse> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getMarketDetail(id: String): MarketDetailResponse {
+    override suspend fun getMarketDetail(id: String): ApiResponse<MarketDetailResponse> {
         TODO("Not yet implemented")
     }
 }

@@ -10,10 +10,11 @@ import ir.composenews.base.BaseContract
 import ir.composenews.core_test.MainCoroutineListener
 import ir.composenews.core_test.dispatcher.TestDispatcherProvider
 import ir.composenews.domain.model.Chart
-import ir.composenews.domain.model.Resource
 import ir.composenews.domain.use_case.GetMarketChartUseCase
 import ir.composenews.domain.use_case.GetMarketDetailUseCase
 import ir.composenews.domain.use_case.ToggleFavoriteMarketListUseCase
+import ir.composenews.network.Errors
+import ir.composenews.network.Resource
 import ir.composenews.uimarket.mapper.toMarket
 import ir.composenews.uimarket.model.MarketModel
 import kotlinx.collections.immutable.persistentListOf
@@ -111,8 +112,12 @@ class MarketDetailViewModelTest : StringSpec({
     "Get market chart with force refresh is false returns error" {
         runTest {
             val market = provideFakeMarket()
-            val chart = provideFakeChart()
-            val chartResult = Resource.Error(SocketTimeoutException(), chart)
+            val chartResult = Resource.Error(
+                Errors.ExceptionError(
+                    "Socket Timeout Exception",
+                    throwable = SocketTimeoutException(),
+                ),
+            )
 
             coEvery { getMarketChartUseCase.invoke(any()) } returns flowOf(chartResult)
 
