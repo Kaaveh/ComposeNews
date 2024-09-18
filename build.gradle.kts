@@ -12,6 +12,8 @@ plugins {
     }
 }
 
+gradle.startParameter.excludedTaskNames.addAll(listOf(":build-logic:convention:testClasses"))
+
 // Run it with: gradle assembleRelease -PcomposeCompilerReports=true
 subprojects {
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
