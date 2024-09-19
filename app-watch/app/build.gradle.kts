@@ -42,7 +42,6 @@ dependencies {
     }
 
     projects.core.apply {
-        implementation(sync)
         implementation(base)
         implementation(uimarket)
     }
@@ -56,6 +55,7 @@ dependencies {
         implementation(libs.compose.ui.preview.wear)
         implementation(libs.compose.foundation.wear)
         implementation(libs.compose.horologist.layout)
+        implementation(work.runtime.ktx)
         androidTestImplementation(platform(libs.compose.bom))
         androidTestImplementation(libs.compose.ui.test.junit4)
         debugImplementation(libs.compose.ui.tooling)

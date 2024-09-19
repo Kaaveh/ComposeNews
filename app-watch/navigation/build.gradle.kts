@@ -11,7 +11,7 @@ dependencies {
     projects.apply {
         implementation(appWatch.ui)
         implementation(core.uimarket)
-        implementation(domain.market)
+
 
     }
     implementation(libs.navigation.compose.wear)

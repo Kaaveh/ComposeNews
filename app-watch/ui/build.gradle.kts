@@ -14,10 +14,6 @@ configurations.all {
 
 dependencies {
 
-    projects.appWatch.apply {
-        implementation(designsystem)
-    }
-
     projects.feature.apply {
         implementation(marketlist)
         implementation(marketdetail)

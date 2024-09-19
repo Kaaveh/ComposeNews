@@ -33,7 +33,6 @@ import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
-import ir.composenews.app_watch.designsystem.theme.ComposeNewsWearTheme
 import ir.composenews.designsystem.R
 import ir.composenews.designsystem.component.shimmerEffect
 import ir.composenews.designsystem.theme.darkDownTrendRed
@@ -155,7 +154,7 @@ private fun ArrowIconUpOrDown(priceChangePercentage24h: String, tint: Color) {
 @Preview(device = WearDevices.LARGE_ROUND, showSystemUi = true)
 @Composable
 private fun MarketItemPrev() {
-    ComposeNewsWearTheme {
+    MaterialTheme {
         MarketItem(
             modifier = Modifier,
             name = "Polkad",
