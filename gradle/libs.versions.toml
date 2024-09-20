@@ -10,7 +10,7 @@ kotlin = "2.0.20"
 kotlinter = "3.16.0"
 #ksp = "2.0.20-1.0.25"
 kotlinxImmutableCollection = "0.3.8"
-androidGradlePlugin = "8.6.0"
+androidGradlePlugin = "8.6.1"
 
 ktx = "1.13.1"
 
@@ -58,6 +58,7 @@ windowsSizeClass = "1.3.0"
 adaptive = "0.26.2-beta"
 
 ktor = "2.3.12"
+konsist = "0.16.1"
 
 kotest = "5.7.2"
 espressoCore = "3.6.1"
@@ -97,6 +98,7 @@ ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.r
 ktor-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-contentNegotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
+konsist = { module = "com.lemonappdev:konsist", version.ref = "konsist" }
 
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 kotlinx-serialization-converter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "kotlinx-serialization-converter" }
