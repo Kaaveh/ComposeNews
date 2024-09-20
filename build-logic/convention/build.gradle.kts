@@ -54,5 +54,9 @@ gradlePlugin {
             id = "composenews.android.ktlint"
             implementationClass = "AndroidKotlinterConventionPlugin"
         }
+        register("gitHooksPlugin") {
+            id = "composenews.git-hooks"
+            implementationClass = "GitHooksConventionPlugin"
+        }
     }
 }
