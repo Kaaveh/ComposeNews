@@ -15,8 +15,35 @@ internal fun Project.configureDetekt(extension: DetektExtension) = extension.app
             sarif.required.set(true)
             md.required.set(true)
         }
+        config.setFrom(files("$rootDir/config/detekt/detekt.yml"))
+        ignoreFailures = true
     }
     dependencies {
         "detektPlugins"(libs.findLibrary("detekt-formatting").get())
+    }
+    setupDetekt()
+}
+
+
+private fun Project.setupDetekt(vararg buildVariants: String) {
+    val detektAll = tasks.register("detektAll") {
+        group = "verification"
+        description = "Run detekt analysis in all the modules."
+
+        dependsOn(
+            if (buildVariants.isEmpty()) {
+                listOf(
+                    project.tasks.named("detektMain"),
+                    project.tasks.named("detektTest"),
+                )
+            } else {
+                buildVariants.flatMap { variant ->
+                    listOf(
+                        project.tasks.named("detekt$variant"),
+                        project.tasks.named("detekt${variant}UnitTest"),
+                    )
+                }
+            }
+        )
     }
 }

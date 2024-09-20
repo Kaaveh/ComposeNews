@@ -19,7 +19,7 @@ composeActivity = "1.9.2"
 composeCoil = "2.7.0"
 composeMaterial3 = "1.3.0"
 
-detekt = "1.23.2"
+detekt = "1.23.7"
 hilt = "2.52"
 androidHiltCompiler = "1.2.0"
 hiltNavigationCompose = "1.2.0"
