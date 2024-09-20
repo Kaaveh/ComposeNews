@@ -7,9 +7,12 @@ plugins {
         alias(hilt.android) apply false
         alias(kotliner) apply false
         alias(detekt) apply false
-        alias(ksp) apply false
+//        alias(ksp) apply false
+        alias(compose) apply false
     }
 }
+
+gradle.startParameter.excludedTaskNames.addAll(listOf(":build-logic:convention:testClasses"))
 
 // Run it with: gradle assembleRelease -PcomposeCompilerReports=true
 subprojects {

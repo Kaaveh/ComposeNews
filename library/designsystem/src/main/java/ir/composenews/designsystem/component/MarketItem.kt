@@ -24,11 +24,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.SwipeToDismiss
+import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberSwipeToDismissBoxState
@@ -56,7 +55,6 @@ import ir.composenews.designsystem.theme.lightUptrendGreen
 import kotlinx.coroutines.delay
 import java.util.Locale
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MarketItem(
     modifier: Modifier,
@@ -84,20 +82,22 @@ fun MarketItem(
             }
         },
         positionalThreshold = { positionalThreshold },
+        initialValue = SwipeToDismissBoxValue.EndToStart,
     )
 
     if (showFavoriteList) {
         AnimatedVisibility(visible = show, exit = fadeOut(spring())) {
-            SwipeToDismiss(
+            SwipeToDismissBox(
                 state = dismissState,
-                directions = setOf(SwipeToDismissBoxValue.EndToStart),
-                background = {
+                enableDismissFromStartToEnd = true,
+                enableDismissFromEndToStart = false,
+                backgroundContent = {
                     DismissBackgroundSwipe(
                         modifier = Modifier,
                         dismissState = dismissState,
                     )
                 },
-                dismissContent = {
+                content = {
                     MarketItemCard(
                         modifier = modifier,
                         name = name,
@@ -194,6 +194,7 @@ private fun MarketItemCard(
                         priceChangePercentage24h.contains("-") -> {
                             if (isSystemInDarkTheme()) darkDownTrendRed else lightDownTrendRed
                         }
+
                         else -> {
                             if (isSystemInDarkTheme()) darkUptrendGreen else lightUptrendGreen
                         }
