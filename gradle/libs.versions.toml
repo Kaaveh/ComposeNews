@@ -58,7 +58,7 @@ windowsSizeClass = "1.3.0"
 adaptive = "0.26.2-beta"
 
 ktor = "2.3.12"
-konsist = "0.16.0"
+konsist = "0.16.1"
 
 kotest = "5.7.2"
 espressoCore = "3.6.1"
