@@ -1,5 +1,3 @@
-@file:Suppress("MagicNumber", "TooGenericExceptionCaught", "MaxLineLength")
-
 package ir.composenews.data.repository
 
 import android.util.Log

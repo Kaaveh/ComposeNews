@@ -1,5 +1,3 @@
-@file:Suppress("ImplicitDefaultLocale")
-
 package ir.composenews.extensions
 
 fun Number.roundToTwoDecimalPlaces(): String {

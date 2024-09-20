@@ -1,5 +1,3 @@
-@file:Suppress("TopLevelPropertyNaming", "Indentation")
-
 package ir.composenews.base
 
 import android.app.Activity

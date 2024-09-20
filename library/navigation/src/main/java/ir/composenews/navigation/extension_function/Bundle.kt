@@ -1,5 +1,3 @@
-@file:Suppress("PackageNaming", "PackageName", "MagicNumber", "AnnotationOnSeparateLine")
-
 package ir.composenews.navigation.extension_function
 
 import android.os.Build

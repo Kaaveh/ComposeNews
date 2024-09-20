@@ -1,5 +1,3 @@
-@file:Suppress("MagicNumber", "MaxLineLength", "LongMethod")
-
 package ir.composenews.designsystem.component
 
 import androidx.compose.animation.AnimatedVisibility

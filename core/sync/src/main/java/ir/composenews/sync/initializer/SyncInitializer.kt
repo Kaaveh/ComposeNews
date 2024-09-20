@@ -11,15 +11,11 @@ import ir.composenews.sync.worker.SyncWorker
 
 class SyncInitializer : Initializer<Sync> {
     override fun create(context: Context): Sync {
-        WorkManager.getInstance(context).apply {
-            // Run sync on app startup and ensure only one sync worker runs at any time
-            enqueueUniqueWork(
-                SyncWorkName,
-                ExistingWorkPolicy.KEEP,
-                SyncWorker.startUpSyncWork(),
-            )
-        }
-
+        WorkManager.getInstance(context).enqueueUniqueWork(
+            SyncWorkName,
+            ExistingWorkPolicy.KEEP,
+            SyncWorker.startUpSyncWork(),
+        )
         return Sync
     }
 

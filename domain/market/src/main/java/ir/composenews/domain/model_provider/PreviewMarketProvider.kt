@@ -1,5 +1,3 @@
-@file:Suppress("PackageNaming", "PackageName")
-
 package ir.composenews.domain.model_provider
 
 import ir.composenews.domain.model.Market

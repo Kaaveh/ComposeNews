@@ -1,5 +1,3 @@
-@file:Suppress("PackageNaming", "PackageName")
-
 package ir.composenews.core_test
 
 import io.kotest.core.listeners.TestListener

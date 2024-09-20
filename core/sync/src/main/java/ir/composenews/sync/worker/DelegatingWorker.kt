@@ -1,10 +1,3 @@
-@file:Suppress(
-    "TopLevelPropertyNaming",
-    "Indentation",
-    "SwallowedException",
-    "TooGenericExceptionCaught",
-)
-
 package ir.composenews.sync.worker
 
 import android.content.Context

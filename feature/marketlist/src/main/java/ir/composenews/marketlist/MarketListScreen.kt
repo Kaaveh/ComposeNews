@@ -1,5 +1,3 @@
-@file:Suppress("MaxLineLength", "ComplexCondition", "ktlint:standard:function-naming")
-
 package ir.composenews.marketlist
 
 import androidx.compose.animation.AnimatedVisibility

@@ -1,5 +1,3 @@
-@file:Suppress("PackageNaming", "PackageName", "ImportOrdering")
-
 package ir.composenews.core_test.di
 
 import dagger.Binds
