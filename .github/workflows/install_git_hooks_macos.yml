@@ -1,0 +1,38 @@
+# THIS ACTION IS FOR VALIDATION WITHIN TEMPLATE REPO, AND WILL BE
+# REMOVED UPON RUNNING RENAMETEMPLATE GRADLE TASK.
+
+name: Install MacOS Hooks
+
+on: pull_request
+
+jobs:
+  install-macos-hooks:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set Up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: 17
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v3
+
+      - name: Install
+        run: ./gradlew installGitHooks
+
+      - name: Check Pre-Commit File
+        uses: GuillaumeFalourd/assert-command-line-output@v2.4
+        with:
+          command_line: cat .git/hooks/pre-commit
+          assert_file_path: git-hooks/pre-commit-macos.sh
+          expected_result: PASSED
+
+      - name: Check Pre-Push File
+        uses: GuillaumeFalourd/assert-command-line-output@v2.4
+        with:
+          command_line: cat .git/hooks/pre-push
+          assert_file_path: git-hooks/pre-push-macos.sh
+          expected_result: PASSED

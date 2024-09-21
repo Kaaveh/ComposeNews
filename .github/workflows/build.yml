@@ -35,8 +35,8 @@ jobs:
       - name: Test
         run: ./gradlew test
 
-      - name: Static Analysis
-        run: ./gradlew lintKotlin
+      - name: Lint Checks
+        run: ./gradlew detektAll lintKotlin lint
 
       - run: echo "Assembling main outputs"
       - name: Assemble
