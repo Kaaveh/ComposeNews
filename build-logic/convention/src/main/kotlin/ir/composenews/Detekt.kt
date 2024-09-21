@@ -16,7 +16,6 @@ internal fun Project.configureDetekt(extension: DetektExtension) = extension.app
             md.required.set(true)
         }
         config.setFrom(files("$rootDir/config/detekt/detekt.yml"))
-        ignoreFailures = true
     }
     dependencies {
         "detektPlugins"(libs.findLibrary("detekt-formatting").get())
