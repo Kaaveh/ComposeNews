@@ -76,17 +76,20 @@ fun Project.registerCopyGitHooksTask() {
 }
 
 fun Project.registerInstallGitHooksTask() {
-    tasks.register("installGitHooks", Exec::class.java) {
+    tasks.register("installGitHooks") {
         group = "git hooks"
-        description = "Installs the pre-commit git hooks from /git-hooks."
-        workingDir = rootDir
-        commandLine("chmod", "-R", "+x", ".git/hooks/")
-        if (!Os.isFamily(Os.FAMILY_WINDOWS)) {
-            commandLine("chmod", "-R", "+x", ".git/hooks/")
-        }
+        description = "Installs the pre-commit and pre-push git hooks."
         dependsOn("copyGitHooks")
+
         doLast {
-            logger.info("Git hook installed successfully.")
+            if (!Os.isFamily(Os.FAMILY_WINDOWS)) {
+                exec {
+                    commandLine("chmod", "-R", "+x", ".git/hooks/")
+                }
+                logger.info("Git hooks installed and made executable on macOS/Linux.")
+            } else {
+                logger.info("Git hooks copied for Windows, no need for chmod.")
+            }
         }
     }
 }
