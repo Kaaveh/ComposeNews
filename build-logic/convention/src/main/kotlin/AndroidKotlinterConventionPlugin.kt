@@ -5,7 +5,6 @@ class AndroidKotlinterConventionPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         project.run {
             applyPlugins()
-            tasks.withType()
         }
     }
 
