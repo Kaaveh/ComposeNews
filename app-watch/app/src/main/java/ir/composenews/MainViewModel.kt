@@ -2,7 +2,7 @@ package ir.composenews
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import ir.composenews.app_watch.navigation.graph.MainContract
+import ir.composenews.appwatch.navigation.graph.MainContract
 import ir.composenews.base.BaseViewModel
 import ir.composenews.core_test.dispatcher.DispatcherProvider
 import ir.composenews.uimarket.model.MarketModel

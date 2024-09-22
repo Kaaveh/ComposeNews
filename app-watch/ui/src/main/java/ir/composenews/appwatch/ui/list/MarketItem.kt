@@ -1,6 +1,6 @@
 @file:Suppress("MagicNumber", "MaxLineLength", "LongMethod")
 
-package ir.composenews.app_watch.ui.list
+package ir.composenews.appwatch.ui.list
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -51,7 +51,6 @@ fun MarketItem(
     priceChangePercentage24h: String,
     onItemClick: () -> Unit,
 ) {
-
     MarketItemCard(
         modifier = modifier,
         name = name,
@@ -75,7 +74,7 @@ private fun MarketItemCard(
 ) {
     Card(
         modifier = modifier.wrapContentHeight(),
-        onClick = { onItemClick() }
+        onClick = { onItemClick() },
     ) {
         Row(
             modifier = Modifier
@@ -93,25 +92,26 @@ private fun MarketItemCard(
             Column(
                 modifier = Modifier.fillMaxHeight(),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceAround
+                verticalArrangement = Arrangement.SpaceAround,
             ) {
                 Text(
                     text = symbol.uppercase(Locale.getDefault()),
-                    style = MaterialTheme.typography.caption3
+                    style = MaterialTheme.typography.caption3,
                 )
                 Text(
                     text = name,
                     style = MaterialTheme.typography.caption3,
-                    maxLines = 1
+                    maxLines = 1,
                 )
             }
             Column(
                 modifier = Modifier.fillMaxHeight(),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceAround
+                verticalArrangement = Arrangement.SpaceAround,
             ) {
                 Text(
-                    text = "$price $", style = MaterialTheme.typography.caption3
+                    text = "$price $",
+                    style = MaterialTheme.typography.caption3,
                 )
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     val color = when {
@@ -215,7 +215,7 @@ fun ShimmerMarketListItem() {
                 first = ScalingLazyColumnDefaults.ItemType.Card,
                 last = ScalingLazyColumnDefaults.ItemType.Card,
             ),
-        )
+        ),
     ) {
         items(20) {
             ShimmerMarketItem()

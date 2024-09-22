@@ -4,10 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.wear.compose.navigation.SwipeDismissableNavHost
-import ir.composenews.app_watch.navigation.graph.MainContract
-import ir.composenews.app_watch.navigation.graph.Destinations
-import ir.composenews.app_watch.navigation.graph.wearMarketDetail
-import ir.composenews.app_watch.navigation.graph.wearMarketList
+import ir.composenews.appwatch.navigation.graph.MainContract
+import ir.composenews.appwatch.navigation.graph.Destinations
+import ir.composenews.appwatch.navigation.graph.wearMarketDetail
+import ir.composenews.appwatch.navigation.graph.wearMarketList
 import ir.composenews.uimarket.model.MarketModel
 
 @Composable

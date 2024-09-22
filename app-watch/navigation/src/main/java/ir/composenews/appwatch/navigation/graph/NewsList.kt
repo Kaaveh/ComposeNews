@@ -1,8 +1,8 @@
-package ir.composenews.app_watch.navigation.graph
+package ir.composenews.appwatch.navigation.graph
 
 import androidx.navigation.NavGraphBuilder
 import androidx.wear.compose.navigation.composable
-import ir.composenews.app_watch.ui.list.MarketListWearRoute
+import ir.composenews.appwatch.ui.list.MarketListWearRoute
 import ir.composenews.uimarket.model.MarketModel
 
 fun NavGraphBuilder.wearMarketList(

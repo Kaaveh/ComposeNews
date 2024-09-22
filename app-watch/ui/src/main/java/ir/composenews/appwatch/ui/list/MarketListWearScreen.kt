@@ -1,4 +1,4 @@
-package ir.composenews.app_watch.ui.list
+package ir.composenews.appwatch.ui.list
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -51,9 +51,7 @@ fun MarketListWearRoute(
             },
         )
     }
-
 }
-
 
 @OptIn(ExperimentalHorologistApi::class)
 @Composable
@@ -63,7 +61,6 @@ private fun MarketListWearScreen(
     onRefresh: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-
     val refreshState =
         rememberPullRefreshState(refreshing = marketListState.refreshing, onRefresh = onRefresh)
 
@@ -77,7 +74,7 @@ private fun MarketListWearScreen(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .pullRefresh(refreshState)
+            .pullRefresh(refreshState),
     ) {
         AnimatedVisibility(
             visible = !marketListState.refreshing,
@@ -85,7 +82,7 @@ private fun MarketListWearScreen(
             exit = fadeOut(),
         ) {
             ScalingLazyColumn(
-                columnState = listState
+                columnState = listState,
             ) {
                 items(
                     items = marketListState.marketList,
@@ -105,5 +102,4 @@ private fun MarketListWearScreen(
             }
         }
     }
-
 }

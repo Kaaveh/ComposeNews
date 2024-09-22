@@ -1,4 +1,4 @@
-package ir.composenews.app_watch.ui.details
+package ir.composenews.appwatch.ui.details
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -78,7 +78,6 @@ fun MarketDetailWearRoute(
 private fun MarketDetailScreen(
     marketDetailState: State,
 ) {
-
     val listState = rememberResponsiveColumnState(
         contentPadding = ScalingLazyColumnDefaults.padding(
             first = ScalingLazyColumnDefaults.ItemType.Icon,
@@ -132,7 +131,7 @@ fun MarketDetail(marketData: MarketDetail.MarketData?) {
         Column(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalAlignment = Alignment.Start
+            horizontalAlignment = Alignment.Start,
         ) {
             data.marketCap?.let { marketCap ->
                 MarketDetailDataBlock("Market Cap", formatNumber(marketCap.usd))
@@ -155,7 +154,7 @@ private fun MarketDetailDataBlock(title: String, value: String) {
     Text(
         text = title,
         style = MaterialTheme.typography.title3,
-        color = MaterialTheme.colors.secondary
+        color = MaterialTheme.colors.secondary,
     )
     Text(
         text = value,
@@ -172,7 +171,8 @@ fun MarketDetailLoadingView() {
             .fillMaxSize()
             .semantics(
                 mergeDescendants = true,
-                properties = { contentDescription = "Loading. PLease wait" })
+                properties = { contentDescription = "Loading. PLease wait" },
+            ),
     ) {
         Box(
             modifier = Modifier
@@ -194,7 +194,6 @@ fun MarketDetailLoadingView() {
                 .height(12.dp)
                 .shimmerEffect(),
         )
-
     }
 }
 

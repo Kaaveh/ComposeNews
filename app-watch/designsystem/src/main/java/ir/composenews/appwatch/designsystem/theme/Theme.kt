@@ -1,4 +1,4 @@
-package ir.composenews.app_watch.designsystem.theme
+package ir.composenews.appwatch.designsystem.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
