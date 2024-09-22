@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-sdk tools:overrideLibrary="androidx.wear.compose.navigation, com.google.android.horologist.compose.layout, androidx.wear.compose.material.core, androidx.wear.compose.material, androidx.wear.compose.foundation" />
+
+</manifest>

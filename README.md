@@ -13,6 +13,9 @@ Check the apk [from here](asset/app_v1.0.0.apk)
 The main architecture of code based on MVI + CLEAN architecture. The division criteria is a hybrid strategy based on Feature + Layer by module.
 For the detail of architecture, please read [this article](https://medium.com/@kaaveh/migrate-from-mvvm-to-mvi-f938c27c214f).
 
+## Wear OS
+This project includes a WearOS module designed for Android-based smartwatches like the Galaxy Watch. The `app-watch` module contains `app`, `designsystem`, `navigation`, and `ui` submodules. You can build the `app-watch:app` to have wearOS version of the application.
+
 ## 🚦 Navigation
 
 For the detail of navigation implementations, please read [this article](https://proandroiddev.com/all-about-navigation-in-the-jetpack-compose-based-production-code-base-902706b8466d).
@@ -34,6 +37,7 @@ For the detail of handling preview of composable functions in this code-base, pl
 - Work manager
 - Unit test
 - Support large screens
+- Support WearOS devices
 - Monochromatic app icon
 - Version catalog & Convention Plugin (For the detail, please read [this article](https://proandroiddev.com/mastering-android-dependency-management-b94205595f6b))
 - CI
@@ -66,6 +70,9 @@ For the detail of handling preview of composable functions in this code-base, pl
 ### Large screen support (Foldable, Tablet, and Desktop)
 
 ![](asset/large_screen.jpg)
+
+### WearOS devises (Android based smart watches)
+![Wear OS screenshots](asset/wearos.jpg)
 
 ## Additional Resources
 
