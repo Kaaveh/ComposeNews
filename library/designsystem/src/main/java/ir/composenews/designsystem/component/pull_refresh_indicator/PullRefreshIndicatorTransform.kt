@@ -1,5 +1,3 @@
-@file:Suppress("MagicNumber", "PackageNaming", "PackageName")
-
 package ir.composenews.designsystem.component.pull_refresh_indicator
 
 import androidx.compose.animation.core.LinearOutSlowInEasing

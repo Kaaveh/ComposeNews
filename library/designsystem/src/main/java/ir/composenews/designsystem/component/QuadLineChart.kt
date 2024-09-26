@@ -1,5 +1,3 @@
-@file:Suppress("MagicNumber", "LongMethod")
-
 package ir.composenews.designsystem.component
 
 import android.graphics.Paint

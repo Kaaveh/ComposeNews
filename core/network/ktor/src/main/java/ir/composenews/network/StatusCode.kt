@@ -1,5 +1,3 @@
-@file:Suppress("MagicNumber")
-
 package ir.composenews.network
 
 /**

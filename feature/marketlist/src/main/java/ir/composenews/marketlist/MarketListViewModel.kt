@@ -1,5 +1,3 @@
-@file:Suppress("MaxLineLength", "TooGenericExceptionCaught")
-
 package ir.composenews.marketlist
 
 import androidx.lifecycle.viewModelScope

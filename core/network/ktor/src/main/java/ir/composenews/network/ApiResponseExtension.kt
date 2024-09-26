@@ -1,5 +1,3 @@
-@file:Suppress("TooGenericExceptionCaught", "ThrowingExceptionsWithoutMessageOrCause")
-
 package ir.composenews.network
 
 import io.ktor.client.call.body

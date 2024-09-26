@@ -1,5 +1,3 @@
-@file:Suppress("TopLevelPropertyNaming")
-
 package ir.composenews.remotedatasource.api
 
 import ir.composenews.network.ApiResponse

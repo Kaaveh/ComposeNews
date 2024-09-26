@@ -1,5 +1,3 @@
-@file:Suppress("MagicNumber", "LongMethod")
-
 package ir.composenews.marketdetail
 
 import androidx.compose.foundation.layout.Arrangement

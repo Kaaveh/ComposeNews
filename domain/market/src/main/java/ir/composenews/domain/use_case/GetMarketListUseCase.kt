@@ -1,5 +1,3 @@
-@file:Suppress("PackageNaming", "PackageName")
-
 package ir.composenews.domain.use_case
 
 import ir.composenews.domain.model.Market

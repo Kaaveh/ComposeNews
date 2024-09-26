@@ -1,4 +1,4 @@
-@file:Suppress("PackageNaming", "PackageName")
+
 
 package ir.composenews.marketdetail.preview_provider
 

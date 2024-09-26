@@ -1,5 +1,3 @@
-@file:Suppress("AnnotationOnSeparateLine", "NoConsecutiveBlankLines", "SpacingAroundComma")
-
 package ir.composenews.designsystem.theme
 
 import android.app.Activity

@@ -1,5 +1,3 @@
-@file:Suppress("ImportOrdering")
-
 package ir.composenews.marketdetail
 
 import androidx.lifecycle.viewModelScope
