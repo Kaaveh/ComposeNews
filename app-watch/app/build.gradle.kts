@@ -37,7 +37,7 @@ android {
 dependencies {
     projects.apply {
         implementation(appWatch.navigation)
-        implementation(appWatch.designsystem)
+        implementation(library.designsystem)
         implementation(core.base)
         implementation(core.uimarket)
     }

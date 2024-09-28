@@ -17,6 +17,7 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 rootProject.name = "ComposeNews"
 include ':library:designsystem'
 include ':library:navigation'
+include ':konsist'
 include ':core:sync'
 include ':core:test'
 include ':core:base'
@@ -34,5 +35,3 @@ include ':app-watch'
 include ':app-watch:app'
 include ':app-watch:navigation'
 include ':app-watch:ui'
-include ':app-watch:designsystem'
-include ':konsist'
