@@ -13,10 +13,12 @@ kotlin {
 }
 
 dependencies {
-    compileOnly(libs.android.gradlePlugin)
-    compileOnly(libs.kotlin.gradlePlugin)
-    compileOnly(libs.detekt.gradlePlugin)
-    compileOnly(libs.ktlint.kotlinter)
+    libs.apply {
+        compileOnly(android.gradlePlugin)
+        compileOnly(kotlin.gradlePlugin)
+        compileOnly(detekt.gradlePlugin)
+        compileOnly(ktlint.kotlinter)
+    }
 }
 
 gradlePlugin {

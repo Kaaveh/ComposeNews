@@ -15,9 +15,9 @@ import com.google.android.horologist.compose.layout.AppScaffold
 import com.google.android.horologist.compose.layout.ScreenScaffold
 import dagger.hilt.android.AndroidEntryPoint
 import ir.composenews.MainViewModel
-import ir.composenews.appwatch.designsystem.theme.ComposeNewsWearTheme
 import ir.composenews.appwatch.navigation.graph.Destinations
-import ir.composenews.appwatch.navigation.graph.MainContract
+import ir.composenews.appwatch.navigation.MainContract
+import ir.composenews.designsystem.theme.ComposeNewsTheme
 import ir.composenews.navigation.ComposeNewsWearNavHost
 
 @AndroidEntryPoint
@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
     fun WearApp() {
         val navController = rememberSwipeDismissableNavController()
         val state = mainViewModel.state.collectAsState()
-        ComposeNewsWearTheme {
+        ComposeNewsTheme {
             AppScaffold {
                 ScreenScaffold(timeText = { TimeText() }) {
                     ComposeNewsWearNavHost(

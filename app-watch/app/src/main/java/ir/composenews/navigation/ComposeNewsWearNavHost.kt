@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.wear.compose.navigation.SwipeDismissableNavHost
-import ir.composenews.appwatch.navigation.graph.MainContract
+import ir.composenews.appwatch.navigation.MainContract
 import ir.composenews.appwatch.navigation.graph.Destinations
 import ir.composenews.appwatch.navigation.graph.wearMarketDetail
 import ir.composenews.appwatch.navigation.graph.wearMarketList

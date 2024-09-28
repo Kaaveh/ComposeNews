@@ -17,10 +17,8 @@ dependencies {
     api(projects.core.network.ktor)
     libs.apply {
         implementation(bundles.ktor)
-
         debugImplementation(chucker)
         releaseImplementation(chucker.no.op)
-
         androidTestImplementation(runner)
     }
 }

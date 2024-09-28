@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="quad_line_chart_height">150dp</dimen>"
-    <dimen name="quad_line_chart_width">300dp</dimen>
-    <dimen name="quad_line_chart_padding">8dp</dimen>
-    <dimen name="quad_line_chart_text_x_size">15dp</dimen>
-    <dimen name="quad_line_chart_spacing">1dp</dimen>
-</resources>
