@@ -35,30 +35,25 @@ android {
 }
 
 dependencies {
-
     projects.apply {
         implementation(appWatch.navigation)
         implementation(appWatch.designsystem)
+        implementation(core.base)
+        implementation(core.uimarket)
     }
-
-    projects.core.apply {
-        implementation(base)
-        implementation(uimarket)
-    }
-
     libs.apply {
-        implementation(compose.activity)
         implementation(androidx.ktx)
         implementation(hilt.work)
         implementation(lifecycle.runtime.ktx)
-        implementation(libs.hilt.navigation.compose)
-        implementation(libs.compose.ui.preview.wear)
-        implementation(libs.compose.foundation.wear)
-        implementation(libs.compose.horologist.layout)
+        implementation(hilt.navigation.compose)
         implementation(work.runtime.ktx)
-        androidTestImplementation(platform(libs.compose.bom))
-        androidTestImplementation(libs.compose.ui.test.junit4)
-        debugImplementation(libs.compose.ui.tooling)
-        debugImplementation(libs.compose.ui.test.manifest)
+        implementation(compose.activity)
+        implementation(compose.ui.preview.wear)
+        implementation(compose.foundation.wear)
+        implementation(compose.horologist.layout)
+        androidTestImplementation(platform(compose.bom))
+        androidTestImplementation(compose.ui.test.junit4)
+        debugImplementation(compose.ui.tooling)
+        debugImplementation(compose.ui.test.manifest)
     }
 }

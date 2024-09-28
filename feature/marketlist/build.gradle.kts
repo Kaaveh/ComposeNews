@@ -13,11 +13,15 @@ configurations.all {
 }
 
 dependencies {
-    implementation(projects.data.marketRepository)
-    implementation(libs.kotlinx.collections.immutable)
-    implementation(projects.core.uimarket)
-    implementation(projects.core.extensions)
-    implementation(libs.espresso.core)
-    implementation(libs.compose.ui.test.manifest)
-    implementation(libs.compose.ui.test.junit4)
+    projects.apply {
+        implementation(data.marketRepository)
+        implementation(core.uimarket)
+        implementation(core.extensions)
+    }
+    libs.apply {
+        implementation(kotlinx.collections.immutable)
+        implementation(espresso.core)
+        implementation(compose.ui.test.manifest)
+        implementation(compose.ui.test.junit4)
+    }
 }

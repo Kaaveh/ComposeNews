@@ -8,6 +8,8 @@ android {
 }
 
 dependencies {
-    testImplementation(libs.konsist)
-    testImplementation(libs.bundles.kotest)
+    libs.apply {
+        testImplementation(konsist)
+        testImplementation(bundles.kotest)
+    }
 }

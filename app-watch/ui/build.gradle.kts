@@ -13,18 +13,18 @@ configurations.all {
 }
 
 dependencies {
-
-    projects.feature.apply {
-        implementation(marketlist)
-        implementation(marketdetail)
+    projects.apply {
+        implementation(feature.marketlist)
+        implementation(feature.marketdetail)
+        implementation(core.uimarket)
+        implementation(core.extensions)
+        implementation(data.marketRepository)
     }
-
-    implementation(projects.data.marketRepository)
-    implementation(projects.core.uimarket)
-    implementation(projects.core.extensions)
-    implementation(libs.compose.ui.preview.wear)
-    implementation(libs.compose.foundation.wear)
-    implementation(libs.compose.horologist.layout)
-    implementation(libs.compose.ui.test.manifest)
-    implementation(libs.compose.ui.test.junit4)
+    libs.apply {
+        implementation(compose.ui.preview.wear)
+        implementation(compose.foundation.wear)
+        implementation(compose.horologist.layout)
+        implementation(compose.ui.test.manifest)
+        implementation(compose.ui.test.junit4)
+    }
 }
