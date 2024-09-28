@@ -16,7 +16,7 @@ import com.google.android.horologist.compose.layout.ScreenScaffold
 import dagger.hilt.android.AndroidEntryPoint
 import ir.composenews.MainViewModel
 import ir.composenews.appwatch.navigation.graph.Destinations
-import ir.composenews.appwatch.navigation.graph.MainContract
+import ir.composenews.appwatch.navigation.MainContract
 import ir.composenews.designsystem.theme.ComposeNewsTheme
 import ir.composenews.navigation.ComposeNewsWearNavHost
 

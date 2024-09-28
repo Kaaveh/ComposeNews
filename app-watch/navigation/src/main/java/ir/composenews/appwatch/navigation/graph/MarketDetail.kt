@@ -6,6 +6,7 @@ import android.os.Parcelable
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.wear.compose.navigation.composable
+import ir.composenews.appwatch.navigation.MainContract
 import ir.composenews.appwatch.ui.details.MarketDetailWearRoute
 import ir.composenews.uimarket.model.MarketModel
 

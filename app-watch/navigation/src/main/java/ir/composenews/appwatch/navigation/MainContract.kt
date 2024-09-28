@@ -1,4 +1,4 @@
-package ir.composenews.appwatch.navigation.graph
+package ir.composenews.appwatch.navigation
 
 import ir.composenews.base.UnidirectionalViewModel
 import ir.composenews.uimarket.model.MarketModel
