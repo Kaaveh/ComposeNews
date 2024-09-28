@@ -35,6 +35,7 @@ import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
 import ir.composenews.designsystem.R
 import ir.composenews.designsystem.component.shimmerEffect
+import ir.composenews.designsystem.theme.ComposeNewsTheme
 import ir.composenews.designsystem.theme.darkDownTrendRed
 import ir.composenews.designsystem.theme.darkUptrendGreen
 import ir.composenews.designsystem.theme.lightDownTrendRed
@@ -151,23 +152,6 @@ private fun ArrowIconUpOrDown(priceChangePercentage24h: String, tint: Color) {
     )
 }
 
-@Preview(device = WearDevices.LARGE_ROUND, showSystemUi = true)
-@Composable
-private fun MarketItemPrev() {
-    MaterialTheme {
-        MarketItem(
-            modifier = Modifier,
-            name = "Polkad",
-            symbol = "NEARF",
-            urlToImage = "",
-            price = "100000",
-            priceChangePercentage24h = "100000",
-            onItemClick = {},
-        )
-    }
-}
-
-@Preview(device = WearDevices.LARGE_ROUND, showSystemUi = true)
 @Composable
 private fun ShimmerMarketItem() {
     Card(
@@ -220,5 +204,32 @@ fun ShimmerMarketListItem() {
         items(20) {
             ShimmerMarketItem()
         }
+    }
+}
+
+@Preview(
+    device = WearDevices.LARGE_ROUND,
+    showSystemUi = true,
+)
+@Composable
+private fun MarketItemPrev() {
+    ComposeNewsTheme {
+        MarketItem(
+            modifier = Modifier,
+            name = "Polkad",
+            symbol = "NEARF",
+            urlToImage = "",
+            price = "100000",
+            priceChangePercentage24h = "100000",
+            onItemClick = {},
+        )
+    }
+}
+
+@Preview(device = WearDevices.LARGE_ROUND, showSystemUi = true)
+@Composable
+private fun ShimmerMarketItemPrev() {
+    ComposeNewsTheme {
+        ShimmerMarketItem()
     }
 }
