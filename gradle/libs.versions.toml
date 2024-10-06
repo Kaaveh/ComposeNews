@@ -15,11 +15,11 @@ androidGradlePlugin = "8.6.1"
 
 ktx = "1.13.1"
 
-composeBOM = "2024.09.01"
+composeBOM = "2024.09.03"
 composeActivity = "1.9.2"
 composeCoil = "2.7.0"
 composeMaterial3 = "1.3.0"
-composeWear = "1.4.0-beta03"
+composeWear = "1.4.0"
 wearToolingPreview = "1.0.0"
 horologistComposeLayout = "0.6.17"
 
@@ -33,11 +33,11 @@ lottieAnimation = "6.3.0"
 
 coroutinesCore = "1.9.0"
 
-lifeCycle = "2.8.5"
-lifeCycleViewModelKtx = "2.8.5"
-lifeCycleRuntimeCompose = "2.8.5"
+lifeCycle = "2.8.6"
+lifeCycleViewModelKtx = "2.8.6"
+lifeCycleRuntimeCompose = "2.8.6"
 
-navigationCompose = "2.8.0"
+navigationCompose = "2.8.2"
 
 retrofit = "2.11.0"
 loggingInterceptor = "4.12.0"
@@ -54,7 +54,7 @@ mockitoKotlin = "4.1.0"
 mockk = "1.13.5"
 runner = "1.6.2"
 
-startupRuntime = "1.1.1"
+startupRuntime = "1.2.0"
 
 workRuntimeKtx = "2.9.1"
 
