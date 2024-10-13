@@ -15,4 +15,6 @@ dependencies {
         implementation(domain.market)
     }
     api(libs.navigation.compose)
+    implementation(libs.compose.material3.adaptive.navigation)
+    implementation(libs.compose.material3.adaptive.navigation.suite)
 }

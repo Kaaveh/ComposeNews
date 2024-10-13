@@ -33,7 +33,6 @@ import ir.composenews.designsystem.theme.ComposeNewsTheme
 import ir.composenews.marketlist.component.MarketListItem
 import ir.composenews.marketlist.preview_provider.MarketListStateProvider
 import ir.composenews.uimarket.model.MarketModel
-import ir.composenews.utils.ContentType
 
 /**
  * LongParameterList - > compose unimited
@@ -42,11 +41,7 @@ import ir.composenews.utils.ContentType
 fun MarketListRoute(
     viewModel: MarketListViewModel = hiltViewModel(),
     showFavoriteList: Boolean = false,
-    isDetailOnlyOpen: Boolean,
-    marketModel: MarketModel?,
-    closeDetailScreen: () -> Unit,
     onNavigateToDetailScreen: (market: MarketModel) -> Unit,
-    contentType: ContentType,
 ) {
     val (state, event) = use(viewModel = viewModel)
     LaunchedEffect(key1 = Unit) {
@@ -54,16 +49,6 @@ fun MarketListRoute(
         if (!showFavoriteList) {
             event.invoke(MarketListContract.Event.OnGetMarketList)
         }
-    }
-
-    LaunchedEffect(key1 = contentType) {
-        if (contentType == ContentType.SINGLE_PANE && !isDetailOnlyOpen) {
-            closeDetailScreen()
-        }
-    }
-
-    if (contentType == ContentType.DUAL_PANE && !state.refreshing && state.marketList.isNotEmpty() && marketModel == null) {
-        onNavigateToDetailScreen(state.marketList[0])
     }
 
     BaseRoute(

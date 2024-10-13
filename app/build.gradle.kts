@@ -48,6 +48,8 @@ dependencies {
         implementation(lifecycle.runtime.ktx)
         implementation(work.runtime.ktx)
         implementation(hilt.navigation.compose)
+        implementation(compose.material3.adaptive.navigation.suite)
+        implementation(compose.material3.adaptive.navigation)
         implementation(espresso.core)
         implementation(compose.ui.test.manifest)
         implementation(compose.ui.test.junit4)
