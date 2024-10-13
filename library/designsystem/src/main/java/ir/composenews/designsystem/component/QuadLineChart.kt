@@ -110,7 +110,7 @@ fun QuadLineChart(
                     } else {
                         medX = (x1 + x2) / 2f
                         medY = (y1 + y2) / 2f
-                        quadraticBezierTo(x1 = x1, y1 = y1, x2 = medX, y2 = medY)
+                        quadraticTo(x1 = x1, y1 = y1, x2 = medX, y2 = medY)
                     }
                 }
             }
