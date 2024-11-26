@@ -44,11 +44,6 @@
 
 -keep class * extends androidx.compose.runtime.Composable { *; }
 
--keepclassmembers class * {
-    @dagger.hilt.android.lifecycle.HiltViewModel *;
-}
--keep,@dagger.hilt.InstallIn class * { *; }
--keep class dagger.hilt.** { *; }
 -dontwarn dagger.internal.codegen.ComponentProcessor
 
 -keep class retrofit2.** { *; }

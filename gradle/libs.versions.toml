@@ -25,10 +25,6 @@ wearToolingPreview = "1.0.0"
 horologistComposeLayout = "0.6.17"
 
 detekt = "1.23.2"
-hilt = "2.52"
-androidHiltCompiler = "1.2.0"
-hiltNavigationCompose = "1.2.0"
-hiltWork = "1.2.0"
 javaxInject = "1"
 lottieAnimation = "6.3.0"
 
@@ -68,6 +64,9 @@ konsist = "0.16.1"
 kotest = "5.7.2"
 espressoCore = "3.6.1"
 
+koin = "3.5.6"
+koin-annotations = "1.3.1"
+
 [libraries]
 androidx-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "ktx" }
 
@@ -87,13 +86,6 @@ compose-material-wear = { group = "androidx.wear.compose", name = "compose-mater
 compose-foundation-wear = { group = "androidx.wear.compose", name = "compose-foundation", version.ref = "composeWear" }
 compose-ui-preview-wear = { group = "androidx.wear", name = "wear-tooling-preview", version.ref = "wearToolingPreview" }
 compose-horologist-layout = { module = "com.google.android.horologist:horologist-compose-layout", version.ref = "horologistComposeLayout" }
-
-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
-hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
-hilt-ext-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "androidHiltCompiler" }
-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
-hilt-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hiltWork" }
-javax-inject = { group = "javax.inject", name = "javax.inject", version.ref = "javaxInject" }
 
 coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core-jvm", version.ref = "coroutinesCore" }
 
@@ -153,11 +145,18 @@ kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest"
 kotest-runnerJUnit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 
+# koin
+koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
+koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
+koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
+koin-annotations = { group = "io.insert-koin", name = "koin-annotations", version.ref = "koin-annotations" }
+koin-viewmodel = { group = "io.insert-koin", name = "koin-androidx-viewmodel", version.ref = "koin" }
+koin-compiler = { group = "io.insert-koin", name = "koin-compiler", version.ref = "koin" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 #ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
@@ -186,4 +185,10 @@ ktor = [
     "ktor-contentNegotiation",
     "ktor-json",
     "ktor-logging"
+]
+koin = [
+    "koin-core",
+    "koin-android",
+    "koin-compose",
+    "koin-annotations",
 ]

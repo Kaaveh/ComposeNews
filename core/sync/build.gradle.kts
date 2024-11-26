@@ -1,6 +1,6 @@
 plugins {
     id("composenews.android.library")
-    id("composenews.android.hilt")
+    id("composenews.android.koin")
 }
 
 android {
@@ -10,7 +10,6 @@ android {
 dependencies {
     api(projects.domain.market)
     libs.apply {
-        implementation(hilt.work)
         implementation(startup.runtime)
         implementation(work.runtime.ktx)
     }

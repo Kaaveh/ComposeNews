@@ -21,13 +21,12 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
         pluginManager.apply {
             apply("composenews.android.library")
             apply("composenews.android.library.compose")
-            apply("composenews.android.hilt")
+            apply("composenews.android.koin")
         }
     }
 
     private fun Project.applyDependencies() {
         dependencies {
-            "implementation"(libs.findLibrary("hilt.navigation.compose").get())
             "androidTestImplementation"(libs.findLibrary("runner").get())
 
             "testImplementation"(project(":core:test"))

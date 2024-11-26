@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.wear.compose.foundation.lazy.items
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
@@ -22,13 +21,14 @@ import ir.composenews.extensions.roundToTwoDecimalPlaces
 import ir.composenews.marketlist.MarketListContract
 import ir.composenews.marketlist.MarketListViewModel
 import ir.composenews.uimarket.model.MarketModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun MarketListWearRoute(
     showFavoriteList: Boolean = false,
     onNavigateToDetailScreen: (market: MarketModel) -> Unit,
 ) {
-    val viewModel: MarketListViewModel = hiltViewModel()
+    val viewModel: MarketListViewModel = koinViewModel()
     val (state, event) = use(viewModel = viewModel)
     LaunchedEffect(key1 = Unit) {
         event.invoke(MarketListContract.Event.OnSetShowFavoriteList(showFavoriteList = showFavoriteList))

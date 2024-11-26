@@ -14,7 +14,7 @@ configurations.all {
 
 dependencies {
     projects.apply {
-        implementation(data.marketRepository)
+        api(data.marketRepository)
         implementation(core.uimarket)
         implementation(core.extensions)
     }

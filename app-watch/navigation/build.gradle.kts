@@ -9,7 +9,7 @@ android {
 
 dependencies {
     projects.apply {
-        implementation(appWatch.ui)
+        api(appWatch.ui)
         implementation(core.uimarket)
     }
     implementation(libs.navigation.compose.wear)

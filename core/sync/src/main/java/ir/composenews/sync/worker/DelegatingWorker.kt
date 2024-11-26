@@ -8,31 +8,17 @@
 package ir.composenews.sync.worker
 
 import android.content.Context
-import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.CoroutineWorker
 import androidx.work.Data
 import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
-import dagger.hilt.EntryPoint
-import dagger.hilt.InstallIn
-import dagger.hilt.android.EntryPointAccessors
-import dagger.hilt.components.SingletonComponent
+import org.koin.core.component.KoinComponent
 import kotlin.reflect.KClass
-
-/**
- * An entry point to retrieve the [HiltWorkerFactory] at runtime
- */
-@EntryPoint
-@InstallIn(SingletonComponent::class)
-interface HiltWorkerFactoryEntryPoint {
-    fun hiltWorkerFactory(): HiltWorkerFactory
-}
 
 private const val WORKER_CLASS_NAME = "RouterWorkerDelegateClassName"
 
 /**
- * Adds metadata to a WorkRequest to identify what [CoroutineWorker] the [DelegatingWorker] should
- * delegate to
+ * Adds metadata to a WorkRequest to identify what [CoroutineWorker] the [DelegatingWorker] should delegate to
  */
 internal fun KClass<out CoroutineWorker>.delegatedData() =
     Data.Builder()
@@ -40,32 +26,25 @@ internal fun KClass<out CoroutineWorker>.delegatedData() =
         .build()
 
 /**
- * A worker that delegates sync to another [CoroutineWorker] constructed with a [HiltWorkerFactory].
- *
- * This allows for creating and using [CoroutineWorker] instances with extended arguments
- * without having to provide a custom WorkManager configuration that the app module needs to utilize.
- *
- * In other words, it allows for custom workers in a library module without having to own
- * configuration of the WorkManager singleton.
+ * A worker that delegates sync to another [CoroutineWorker] constructed with Koin dependency injection.
  */
 class DelegatingWorker(
     appContext: Context,
     workerParams: WorkerParameters,
-) : CoroutineWorker(appContext, workerParams) {
+) : CoroutineWorker(appContext, workerParams), KoinComponent {
 
     private val workerClassName =
         workerParams.inputData.getString(WORKER_CLASS_NAME).orEmpty()
 
     private val delegateWorker = try {
-        EntryPointAccessors.fromApplication<HiltWorkerFactoryEntryPoint>(appContext)
-            .hiltWorkerFactory()
-            .createWorker(
-                appContext,
-                workerClassName,
-                workerParams,
-            ) as CoroutineWorker
+        // Dynamically create worker using Koin
+        val workerClass = Class.forName(workerClassName).kotlin
+        val worker = workerClass.constructors.first { it.parameters.size == 2 }
+            .call(appContext, workerParams) as CoroutineWorker
+
+        worker
     } catch (e: Exception) {
-        throw IllegalArgumentException("Unable to find appropriate worker " + e.message)
+        throw IllegalArgumentException("Unable to find appropriate worker: ${e.message}")
     }
 
     override suspend fun getForegroundInfo(): ForegroundInfo = delegateWorker.getForegroundInfo()

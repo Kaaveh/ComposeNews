@@ -1,7 +1,7 @@
 plugins {
     id("composenews.android.application")
     id("composenews.android.application.compose")
-    id("composenews.android.hilt")
+    id("composenews.android.koin")
 }
 
 android {
@@ -43,9 +43,7 @@ dependencies {
     }
     libs.apply {
         implementation(androidx.ktx)
-        implementation(hilt.work)
         implementation(lifecycle.runtime.ktx)
-        implementation(hilt.navigation.compose)
         implementation(work.runtime.ktx)
         implementation(compose.activity)
         implementation(compose.ui.preview.wear)

@@ -18,9 +18,8 @@ import ir.composenews.remotedatasource.util.HttpRoutes.SPARKLINE
 import ir.composenews.remotedatasource.util.HttpRoutes.VS_CURRENCY
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-class MarketsApiImpl @Inject constructor(
+class MarketsApiImpl(
     private val httpClient: HttpClient,
 ) : MarketsApi {
     override suspend fun getMarkets(

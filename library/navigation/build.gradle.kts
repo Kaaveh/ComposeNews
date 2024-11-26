@@ -9,8 +9,8 @@ android {
 
 dependencies {
     projects.apply {
-        implementation(feature.marketlist)
-        implementation(feature.marketdetail)
+        api(feature.marketlist)
+        api(feature.marketdetail)
         implementation(core.uimarket)
         implementation(domain.market)
     }

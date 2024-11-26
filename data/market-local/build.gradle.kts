@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.composenews.android.library)
-    id("composenews.android.hilt")
+    id("composenews.android.koin")
     alias(libs.plugins.sqldelight)
 }
 

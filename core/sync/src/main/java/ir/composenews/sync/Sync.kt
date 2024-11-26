@@ -58,7 +58,6 @@ private fun Context.syncWorkNotification(): Notification {
     // TODO
     return NotificationCompat
         .Builder(this, SyncNotificationChannelID)
-//        .setSmallIcon(androidx.hilt.work.R.drawable.notification_action_background)
         .setContentTitle("Background tasks for Compose News")
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         .build()

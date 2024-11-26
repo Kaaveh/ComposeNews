@@ -5,13 +5,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import dagger.hilt.android.AndroidEntryPoint
 import ir.composenews.designsystem.theme.ComposeNewsTheme
 import ir.composenews.permission.enum.PermissionType
 import ir.composenews.permission.manager.PermissionManager
 import ir.composenews.permission.manager.PermissionManagerImpl
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity(), PermissionManager by PermissionManagerImpl() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

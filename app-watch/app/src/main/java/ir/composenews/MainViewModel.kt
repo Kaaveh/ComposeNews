@@ -1,7 +1,6 @@
 package ir.composenews
 
 import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.composenews.appwatch.navigation.MainContract
 import ir.composenews.base.BaseViewModel
 import ir.composenews.core_test.dispatcher.DispatcherProvider
@@ -10,12 +9,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
+import org.koin.android.annotation.KoinViewModel
+import org.koin.core.component.KoinComponent
 
-@HiltViewModel
-class MainViewModel @Inject constructor(
+@KoinViewModel
+class MainViewModel(
     dispatcherProvider: DispatcherProvider,
-) : BaseViewModel(dispatcherProvider), MainContract {
+) : BaseViewModel(dispatcherProvider), MainContract{
 
     private val mutableState = MutableStateFlow(MainContract.State())
     override val state: StateFlow<MainContract.State> = mutableState.asStateFlow()

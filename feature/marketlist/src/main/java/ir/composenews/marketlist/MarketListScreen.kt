@@ -18,7 +18,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import ir.composenews.base.BaseRoute
 import ir.composenews.base.use
@@ -33,13 +32,14 @@ import ir.composenews.designsystem.theme.ComposeNewsTheme
 import ir.composenews.marketlist.component.MarketListItem
 import ir.composenews.marketlist.preview_provider.MarketListStateProvider
 import ir.composenews.uimarket.model.MarketModel
+import org.koin.androidx.compose.koinViewModel
 
 /**
  * LongParameterList - > compose unimited
  */
 @Composable
 fun MarketListRoute(
-    viewModel: MarketListViewModel = hiltViewModel(),
+    viewModel: MarketListViewModel = koinViewModel(),
     showFavoriteList: Boolean = false,
     onNavigateToDetailScreen: (market: MarketModel) -> Unit,
 ) {

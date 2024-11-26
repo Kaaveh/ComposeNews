@@ -1,6 +1,6 @@
 plugins {
     id("composenews.android.library")
-    id("composenews.android.hilt")
+    id("composenews.android.koin")
     libs.plugins.apply {
         alias(kotlin.parcelize)
     }
@@ -17,7 +17,6 @@ dependencies {
         api(core.network.ktor)
     }
     libs.apply {
-        implementation(javax.inject)
         implementation(coroutines)
         implementation(lifecycle.viewmodel.ktx)
         api(kotlinx.collections.immutable)

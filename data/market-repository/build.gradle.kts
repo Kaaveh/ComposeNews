@@ -1,6 +1,6 @@
 plugins {
     id("composenews.android.library")
-    id("composenews.android.hilt")
+    id("composenews.android.koin")
 }
 
 android {
@@ -13,8 +13,8 @@ android {
 dependencies {
     projects.apply {
         api(domain.market)
-        implementation(data.marketRemote)
-        implementation(data.marketLocal)
+        api(data.marketRemote)
+        api(data.marketLocal)
     }
     libs.apply {
         testImplementation(bundles.kotest)

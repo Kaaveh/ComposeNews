@@ -7,9 +7,8 @@ import ir.composenews.db.MarketEntity
 import ir.composenews.localdatasource.dto.RemoteMarketDto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
 
-class MarketDaoImpl @Inject constructor(
+class MarketDaoImpl(
     db: MarketDatabase,
 ) : MarketDao {
 

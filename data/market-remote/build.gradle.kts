@@ -1,6 +1,7 @@
 plugins {
     id("composenews.android.library")
-    id("composenews.android.hilt")
+    id("composenews.android.koin")
+
     libs.plugins.apply {
         alias(kotlinx.serialization)
     }

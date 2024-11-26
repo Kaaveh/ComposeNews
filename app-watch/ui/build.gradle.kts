@@ -1,5 +1,6 @@
 plugins {
     id("composenews.android.feature")
+    id("composenews.android.koin")
 }
 
 android {
@@ -14,8 +15,8 @@ configurations.all {
 
 dependencies {
     projects.apply {
-        implementation(feature.marketlist)
-        implementation(feature.marketdetail)
+        api(feature.marketlist)
+        api(feature.marketdetail)
         implementation(core.uimarket)
         implementation(core.extensions)
         implementation(data.marketRepository)

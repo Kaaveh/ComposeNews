@@ -31,10 +31,9 @@ gradlePlugin {
             id = "composenews.android.application.compose"
             implementationClass = "AndroidApplicationComposeConventionPlugin"
         }
-
-        register("androidHilt") {
-            id = "composenews.android.hilt"
-            implementationClass = "HiltConventionPlugin"
+        register("androidKoin") {
+            id = "composenews.android.koin"
+            implementationClass = "KoinConventionPlugin"
         }
         register("androidLibrary") {
             id = "composenews.android.library"
