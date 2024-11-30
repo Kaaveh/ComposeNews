@@ -15,7 +15,8 @@ val repositoryModule = module {
 
     includes(
         DispatcherModule,
-        apiModule, remoteDatasourceModule,
-        localDatasourceModule
+        apiModule,
+        remoteDatasourceModule,
+        localDatasourceModule,
     )
 }

@@ -15,7 +15,7 @@ import ir.composenews.sync.syncForegroundInfo
 class SyncWorker(
     private val appContext: Context,
     workerParams: WorkerParameters,
-    private val syncMarketListUseCase: SyncMarketListUseCase
+    private val syncMarketListUseCase: SyncMarketListUseCase,
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {

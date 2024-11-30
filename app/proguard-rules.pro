@@ -44,8 +44,6 @@
 
 -keep class * extends androidx.compose.runtime.Composable { *; }
 
--dontwarn dagger.internal.codegen.ComponentProcessor
-
 -keep class retrofit2.** { *; }
 -keep class okhttp3.** { *; }
 -keep class com.squareup.okhttp3.** { *; }

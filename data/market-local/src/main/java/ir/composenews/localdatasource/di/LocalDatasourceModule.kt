@@ -13,7 +13,7 @@ val localDatasourceModule = module {
         AndroidSqliteDriver(
             schema = MarketDatabase.Schema,
             context = androidContext(),
-            name = "MarketDatabase"
+            name = "MarketDatabase",
         )
     }
 

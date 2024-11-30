@@ -6,9 +6,7 @@ import org.koin.dsl.module
 
 val marketListFeatureModule = module {
     viewModel {
-        MarketListViewModel(
-            get(), get(), get(), get()
-        )
+        MarketListViewModel(get(), get(), get(), get())
     }
     includes(domainModule)
 }
