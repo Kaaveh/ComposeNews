@@ -66,16 +66,11 @@ private inline fun <reified T : KotlinBaseExtension> Project.configureKotlin() =
         else -> TODO("Unsupported project extension $this ${T::class}")
     }.apply {
         jvmTarget = JvmTarget.JVM_17
-        allWarningsAsErrors = warningsAsErrors.toBoolean()
         val warningsAsErrors: String? by project
         allWarningsAsErrors = warningsAsErrors.toBoolean()
         freeCompilerArgs.add(
             // Enable experimental coroutines APIs, including Flow
             "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
-        )
-        freeCompilerArgs.addAll(
-            "-P",
-            "plugin:androidx.compose.compiler.plugins.kotlin:featureFlag=StrongSkipping"
         )
     }
 }
