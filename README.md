@@ -71,6 +71,15 @@ For the details of handling the  preview of composable functions in this code-ba
 
 ![](asset/large_screen.jpg)
 
+## Compose compiler metrics
+
+Run the following command to get and analyse compose compiler metrics:
+
+```bash
+./gradlew assembleRelease -PenableComposeCompilerMetrics=true -PenableComposeCompilerReports=true
+```
+
+
 ### WearOS devices (Android-based smartwatches)
 ![Wear OS screenshots](asset/wearos.jpg)
 
