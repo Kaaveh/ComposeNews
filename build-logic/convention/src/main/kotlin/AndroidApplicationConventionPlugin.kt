@@ -1,4 +1,4 @@
-import ir.composenews.applicationGradle
+import ir.composenews.applicationExtension
 import ir.composenews.configureKotlinAndroid
 import ir.composenews.libs
 import org.gradle.api.Plugin
@@ -8,7 +8,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         project.run {
             applyPlugins()
-            applicationGradle {
+            applicationExtension {
                 configureKotlinAndroid(this)
                 defaultConfig.targetSdk =
                     Integer.parseInt(libs.findVersion("projectTargetSdkVersion").get().toString())

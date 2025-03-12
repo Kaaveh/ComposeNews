@@ -147,6 +147,7 @@ android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", ver
 detekt-gradlePlugin = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gradle-plugin", version.ref = "detekt" }
 detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "detekt" }
 ktlint-kotlinter = { group = "org.jmailen.gradle", name = "kotlinter-gradle", version.ref = "kotlinter" }
+compose-gradlePlugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 
 compose-lottie-animation = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottieAnimation" }
 
@@ -166,7 +167,6 @@ kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", vers
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 kotliner = { id = "org.jmailen.kotlinter", version.ref = "kotlinter" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
-composenews-android-library = { id = "composenews.android.library", version = "unspecified" }
 compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 

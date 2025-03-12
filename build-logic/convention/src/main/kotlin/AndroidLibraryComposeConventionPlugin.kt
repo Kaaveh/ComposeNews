@@ -1,4 +1,4 @@
-import ir.composenews.androidGradle
+import ir.composenews.libraryExtension
 import ir.composenews.configureAndroidCompose
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -7,7 +7,7 @@ class AndroidLibraryComposeConventionPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         project.run {
             applyPlugins()
-            androidGradle {
+            libraryExtension {
                 configureAndroidCompose(this)
             }
         }
