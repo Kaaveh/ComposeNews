@@ -1,3 +1,4 @@
+@file:Suppress("ForbiddenComment")
 plugins {
     alias(libs.plugins.composenews.android.application)
     alias(libs.plugins.composenews.android.application.compose)
