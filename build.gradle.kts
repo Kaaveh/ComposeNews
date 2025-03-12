@@ -10,39 +10,15 @@ import org.apache.tools.ant.taskdefs.condition.Os
  * replacing pre-existing dependencies.
  */
 plugins {
-    libs.plugins.apply {
-        alias(android.application) apply false
-        alias(android.library) apply false
-        alias(kotlin.android) apply false
-        alias(ksp) apply false
-        alias(kotlin.parcelize) apply false
-        alias(hilt.android) apply false
-        alias(kotliner) apply false
-        alias(detekt) apply true // Needs to be applied at the root, unlike others.
-        alias(compose) apply false
-    }
-}
-
-//gradle.startParameter.excludedTaskNames.addAll(listOf(":build-logic:convention:testClasses"))
-
-// Run it with: gradle assembleRelease -PcomposeCompilerReports=true
-subprojects {
-    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-        kotlinOptions {
-            if (project.findProperty("composeCompilerReports") == "true") {
-                freeCompilerArgs += listOf(
-                    "-P",
-                    "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=${project.layout.buildDirectory.asFile.get()}/compose_compiler"
-                )
-            }
-            if (project.findProperty("composeCompilerMetrics") == "true") {
-                freeCompilerArgs += listOf(
-                    "-P",
-                    "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=${project.layout.buildDirectory.asFile.get()}/compose_compiler"
-                )
-            }
-        }
-    }
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.ksp) apply false
+    alias(libs.plugins.kotlin.parcelize) apply false
+    alias(libs.plugins.hilt.android) apply false
+    alias(libs.plugins.kotliner) apply false
+    alias(libs.plugins.detekt) apply true // Needs to be applied at the root, unlike others.
+    alias(libs.plugins.compose) apply false
 }
 
 tasks.register("clean", Delete::class) {
@@ -140,9 +116,10 @@ fun Project.registerCopyGitHooksTask() {
     tasks.register("copyGitHooks", Copy::class.java) {
         group = "git hooks"
         description = "Copies the git hooks from /git-hooks to the .git folder."
-        dependsOn("copyPrePushHook", "copyPreCommitHook","copyCommitMsgHook")
+        dependsOn("copyPrePushHook", "copyPreCommitHook", "copyCommitMsgHook")
     }
 }
+
 fun Project.registerInstallGitHooksTask() {
     tasks.register("installGitHooks", Exec::class.java) {
         group = "git hooks"
