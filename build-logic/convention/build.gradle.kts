@@ -21,12 +21,11 @@ kotlin {
 }
 
 dependencies {
-    libs.apply {
-        compileOnly(android.gradlePlugin)
-        compileOnly(kotlin.gradlePlugin)
-        compileOnly(detekt.gradlePlugin)
-        compileOnly(ktlint.kotlinter)
-    }
+    compileOnly(libs.android.gradlePlugin)
+    compileOnly(libs.kotlin.gradlePlugin)
+    compileOnly(libs.detekt.gradlePlugin)
+    compileOnly(libs.ktlint.kotlinter)
+    compileOnly(libs.compose.gradlePlugin)
 }
 
 tasks {
@@ -39,36 +38,36 @@ tasks {
 gradlePlugin {
     plugins {
         register("androidApplication") {
-            id = "composenews.android.application"
+            id = libs.plugins.composenews.android.application.asProvider().get().pluginId
             implementationClass = "AndroidApplicationConventionPlugin"
         }
         register("androidApplicationCompose") {
-            id = "composenews.android.application.compose"
+            id = libs.plugins.composenews.android.application.compose.get().pluginId
             implementationClass = "AndroidApplicationComposeConventionPlugin"
         }
 
         register("androidHilt") {
-            id = "composenews.android.hilt"
+            id = libs.plugins.composenews.android.hilt.get().pluginId
             implementationClass = "HiltConventionPlugin"
         }
         register("androidLibrary") {
-            id = "composenews.android.library"
+            id = libs.plugins.composenews.android.library.asProvider().get().pluginId
             implementationClass = "AndroidLibraryConventionPlugin"
         }
         register("androidLibraryCompose") {
-            id = "composenews.android.library.compose"
+            id = libs.plugins.composenews.android.library.compose.get().pluginId
             implementationClass = "AndroidLibraryComposeConventionPlugin"
         }
         register("androidFeature") {
-            id = "composenews.android.feature"
+            id = libs.plugins.composenews.android.feature.get().pluginId
             implementationClass = "AndroidFeatureConventionPlugin"
         }
         register("androidDetekt") {
-            id = "composenews.android.detekt"
+            id = libs.plugins.composenews.android.detekt.get().pluginId
             implementationClass = "AndroidDetektConventionPlugin"
         }
         register("androidKtlint") {
-            id = "composenews.android.ktlint"
+            id = libs.plugins.composenews.android.ktlint.get().pluginId
             implementationClass = "AndroidKotlinterConventionPlugin"
         }
     }

@@ -1,9 +1,7 @@
 plugins {
-    id("composenews.android.library")
-    id("composenews.android.hilt")
-    libs.plugins.apply {
-        alias(kotlin.parcelize)
-    }
+    alias(libs.plugins.composenews.android.library)
+    alias(libs.plugins.composenews.android.hilt)
+    alias(libs.plugins.kotlin.parcelize)
 }
 
 android {

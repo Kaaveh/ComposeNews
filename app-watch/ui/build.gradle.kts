@@ -1,5 +1,5 @@
 plugins {
-    id("composenews.android.feature")
+    alias(libs.plugins.composenews.android.feature)
 }
 
 android {

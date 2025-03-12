@@ -1,4 +1,4 @@
-import ir.composenews.androidGradle
+import ir.composenews.libraryExtension
 import ir.composenews.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -9,7 +9,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
         with(target) {
             applyPlugins()
             applyDependencies()
-            androidGradle {
+            libraryExtension {
                 defaultConfig {
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                 }
@@ -19,9 +19,9 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
 
     private fun Project.applyPlugins() {
         pluginManager.apply {
-            apply("composenews.android.library")
-            apply("composenews.android.library.compose")
-            apply("composenews.android.hilt")
+            apply(libs.findPlugin("composenews-android-library").get().get().pluginId)
+            apply(libs.findPlugin("composenews-android-library.compose").get().get().pluginId)
+            apply(libs.findPlugin("composenews-android-hilt").get().get().pluginId)
         }
     }
 

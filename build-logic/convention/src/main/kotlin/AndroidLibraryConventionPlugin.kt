@@ -1,5 +1,6 @@
-import ir.composenews.androidGradle
+import ir.composenews.libraryExtension
 import ir.composenews.configureKotlinAndroid
+import ir.composenews.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
@@ -10,7 +11,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
         project.run {
             applyPlugins()
             applyDependencies()
-            androidGradle {
+            libraryExtension {
                 configureKotlinAndroid(this)
             }
         }
@@ -20,8 +21,8 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
         pluginManager.apply {
             apply("com.android.library")
             apply("org.jetbrains.kotlin.android")
-            apply("composenews.android.detekt")
-            apply("composenews.android.ktlint")
+            apply(libs.findPlugin("composenews-android-detekt").get().get().pluginId)
+            apply(libs.findPlugin("composenews-android-ktlint").get().get().pluginId)
         }
     }
 

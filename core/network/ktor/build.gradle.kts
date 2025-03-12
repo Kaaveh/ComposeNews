@@ -1,8 +1,6 @@
 plugins {
     alias(libs.plugins.composenews.android.library)
-    libs.plugins.apply {
-        alias(kotlinx.serialization)
-    }
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 android {
