@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.composenews.android.library)
-    alias(libs.plugins.composenews.android.hilt)
 }
 
 android {
@@ -10,7 +9,7 @@ android {
 dependencies {
     api(projects.domain.market)
     libs.apply {
-        implementation(hilt.work)
+        implementation(koin.work)
         implementation(startup.runtime)
         implementation(work.runtime.ktx)
     }

@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.composenews.android.library)
-    alias(libs.plugins.composenews.android.hilt)
 }
 
 android {
@@ -12,6 +11,7 @@ android {
 
 dependencies {
     libs.apply {
+        api(bundles.koin)
         api(bundles.kotest)
         api(coroutines.test)
         api(mockk)

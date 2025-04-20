@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.composenews.android.application)
     alias(libs.plugins.composenews.android.application.compose)
-    alias(libs.plugins.composenews.android.hilt)
 }
 
 android {
@@ -43,9 +42,7 @@ dependencies {
     }
     libs.apply {
         implementation(androidx.ktx)
-        implementation(hilt.work)
         implementation(lifecycle.runtime.ktx)
-        implementation(hilt.navigation.compose)
         implementation(work.runtime.ktx)
         implementation(compose.activity)
         implementation(compose.ui.preview.wear)

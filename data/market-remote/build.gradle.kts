@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.composenews.android.library)
-    alias(libs.plugins.composenews.android.hilt)
     alias(libs.plugins.kotlinx.serialization)
 }
 
@@ -15,6 +14,7 @@ dependencies {
     api(projects.core.network.ktor)
     libs.apply {
         implementation(bundles.ktor)
+        implementation(bundles.koin)
         debugImplementation(chucker)
         releaseImplementation(chucker.no.op)
         androidTestImplementation(runner)

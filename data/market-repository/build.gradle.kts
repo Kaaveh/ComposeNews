@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.composenews.android.library)
-    alias(libs.plugins.composenews.android.hilt)
 }
 
 android {

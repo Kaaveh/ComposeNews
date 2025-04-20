@@ -2,19 +2,18 @@
 
 package ir.composenews.data.di
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
 import ir.composenews.data.repository.MarketRepositoryImpl
 import ir.composenews.domain.repository.MarketRepository
+import ir.composenews.localdatasource.di.localDatasourceModule
+import ir.composenews.remotedatasource.di.apiModule
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.bind
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-interface DataModule {
-
-    @Binds
-    fun bindMarketRepository(
-        marketsRepository: MarketRepositoryImpl,
-    ): MarketRepository
+val dataModule = module {
+    includes(
+        apiModule,
+        localDatasourceModule,
+    )
+    singleOf(::MarketRepositoryImpl) bind MarketRepository::class
 }

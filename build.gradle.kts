@@ -15,7 +15,6 @@ plugins {
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.kotlin.parcelize) apply false
-    alias(libs.plugins.hilt.android) apply false
     alias(libs.plugins.kotliner) apply false
     alias(libs.plugins.detekt) apply true // Needs to be applied at the root, unlike others.
     alias(libs.plugins.compose) apply false

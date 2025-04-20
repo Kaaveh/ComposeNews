@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.composenews.android.library)
-    alias(libs.plugins.composenews.android.hilt)
 }
 
 android {
@@ -14,6 +13,7 @@ android {
 dependencies {
     api(projects.data.sqldelight)
     libs.apply {
+        implementation(bundles.koin)
         testImplementation(runner)
     }
     projects.apply {

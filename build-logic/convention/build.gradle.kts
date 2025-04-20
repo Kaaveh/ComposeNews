@@ -46,10 +46,6 @@ gradlePlugin {
             implementationClass = "AndroidApplicationComposeConventionPlugin"
         }
 
-        register("androidHilt") {
-            id = libs.plugins.composenews.android.hilt.get().pluginId
-            implementationClass = "HiltConventionPlugin"
-        }
         register("androidLibrary") {
             id = libs.plugins.composenews.android.library.asProvider().get().pluginId
             implementationClass = "AndroidLibraryConventionPlugin"

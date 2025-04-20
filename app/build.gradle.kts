@@ -2,7 +2,7 @@
 plugins {
     alias(libs.plugins.composenews.android.application)
     alias(libs.plugins.composenews.android.application.compose)
-    alias(libs.plugins.composenews.android.hilt)}
+}
 
 android {
     namespace = libs.versions.projectApplicationId.get()
@@ -48,10 +48,10 @@ dependencies {
     libs.apply {
         implementation(compose.activity)
         implementation(androidx.ktx)
-        implementation(hilt.work)
+        implementation(koin.work)
         implementation(lifecycle.runtime.ktx)
         implementation(work.runtime.ktx)
-        implementation(hilt.navigation.compose)
+        implementation(bundles.koin)
         implementation(compose.material3.adaptive.navigation.suite)
         implementation(compose.material3.adaptive.navigation)
         implementation(espresso.core)
