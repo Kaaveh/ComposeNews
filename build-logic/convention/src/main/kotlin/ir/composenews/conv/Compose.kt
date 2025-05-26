@@ -1,6 +1,7 @@
-package ir.composenews
+package ir.composenews.conv
 
 import com.android.build.api.dsl.CommonExtension
+import ir.composenews.utils.vLibs
 import org.gradle.api.Project
 import org.gradle.api.provider.Provider
 import org.gradle.kotlin.dsl.configure
@@ -26,7 +27,7 @@ internal fun Project.configureAndroidCompose(
         }
 
         dependencies {
-            val bom = libs.findLibrary("compose-bom").get()
+            val bom = vLibs.findLibrary("compose-bom").get()
             "implementation"(platform(bom))
             "androidTestImplementation"(platform(bom))
         }

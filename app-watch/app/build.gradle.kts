@@ -5,17 +5,6 @@ plugins {
 }
 
 android {
-    namespace = libs.versions.projectApplicationId.get()
-    defaultConfig {
-        applicationId = libs.versions.projectApplicationId.get()
-        versionCode = libs.versions.projectVersionCode.get().toInt()
-        versionName = libs.versions.projectVersionName.get()
-        minSdk = libs.versions.projectMinSdkVersionWear.get().toInt()
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
-    }
     buildTypes {
         getByName("debug") {
             isMinifyEnabled = false

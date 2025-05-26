@@ -144,13 +144,13 @@ fun osSuffix(): String {
         "unix"
     }
 }
+
 afterEvaluate {
     // We install the hook at the first occasion
     tasks.named("clean") {
         dependsOn(":installGitHooks")
     }
 }
-
 
 tasks {
     /**

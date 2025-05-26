@@ -1,20 +1,12 @@
 @file:Suppress("ForbiddenComment")
+
 plugins {
     alias(libs.plugins.composenews.android.application)
     alias(libs.plugins.composenews.android.application.compose)
-    alias(libs.plugins.composenews.android.hilt)}
+    alias(libs.plugins.composenews.android.hilt)
+}
 
 android {
-    namespace = libs.versions.projectApplicationId.get()
-    defaultConfig {
-        applicationId = libs.versions.projectApplicationId.get()
-        versionCode = libs.versions.projectVersionCode.get().toInt()
-        versionName = libs.versions.projectVersionName.get()
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
-    }
     buildTypes {
         getByName("debug") {
             isMinifyEnabled = false

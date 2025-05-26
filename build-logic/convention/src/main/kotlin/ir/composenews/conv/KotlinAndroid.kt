@@ -1,6 +1,8 @@
-package ir.composenews
+package ir.composenews.conv
 
 import com.android.build.api.dsl.CommonExtension
+import ir.composenews.config.Config
+import ir.composenews.utils.vLibs
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.assign
@@ -18,9 +20,9 @@ internal fun Project.configureKotlinAndroid(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
 ) {
     commonExtension.apply {
-        compileSdk = Integer.parseInt(libs.findVersion("projectCompileSdkVersion").get().toString())
+        compileSdk = Config.compileSdkVersion
         defaultConfig {
-            minSdk = Integer.parseInt(libs.findVersion("projectMinSdkVersion").get().toString())
+            minSdk = Config.minSdkVersion
         }
         compileOptions {
             sourceCompatibility = JavaVersion.VERSION_17
@@ -43,7 +45,7 @@ internal fun Project.configureKotlinAndroid(
                 resources.merges.add("META-INF/*.version")
 
                 // https://github.com/Kotlin/kotlinx.coroutines/issues/2023#issuecomment-858644393
-                resources.pickFirsts.add("win32-x86-64/attach_hotspot_windows.dll")
+                resources.pickFirsts.add("win3  2-x86-64/attach_hotspot_windows.dll")
                 resources.pickFirsts.add("win32-x86/attach_hotspot_windows.dll")
                 resources.excludes.add("META-INF/licenses/ASM")
             }
