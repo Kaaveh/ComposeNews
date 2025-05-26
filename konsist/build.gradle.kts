@@ -4,7 +4,6 @@ plugins {
 
 android {
     namespace = "ir.composenews.konsist"
-
 }
 
 dependencies {

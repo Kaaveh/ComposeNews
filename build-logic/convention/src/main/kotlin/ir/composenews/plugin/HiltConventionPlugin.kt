@@ -1,6 +1,9 @@
 package ir.composenews.plugin
 
 import ir.composenews.utils.applyPlugins
+import ir.composenews.utils.custom
+import ir.composenews.utils.implementation
+import ir.composenews.utils.library
 import ir.composenews.utils.plugin
 import ir.composenews.utils.vLibs
 import org.gradle.api.Plugin
@@ -18,8 +21,8 @@ class HiltConventionPlugin : Plugin<Project> {
             }
 
             dependencies {
-                "implementation"(vLibs.findLibrary("hilt.android").get())
-                "ksp"(vLibs.findLibrary("hilt.compiler").get())
+                implementation(vLibs.library("hilt.android"))
+                custom("ksp", vLibs.library("hilt.compiler"))
             }
         }
     }

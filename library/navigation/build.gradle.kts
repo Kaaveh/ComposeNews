@@ -14,7 +14,9 @@ dependencies {
         implementation(core.uimarket)
         implementation(domain.market)
     }
-    api(libs.navigation.compose)
-    implementation(libs.compose.material3.adaptive.navigation)
-    implementation(libs.compose.material3.adaptive.navigation.suite)
+    libs.apply {
+        api(navigation.compose)
+        implementation(compose.material3.adaptive.navigation)
+        implementation(compose.material3.adaptive.navigation.suite)
+    }
 }

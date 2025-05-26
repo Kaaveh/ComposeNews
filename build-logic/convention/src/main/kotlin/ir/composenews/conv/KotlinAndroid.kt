@@ -2,7 +2,6 @@ package ir.composenews.conv
 
 import com.android.build.api.dsl.CommonExtension
 import ir.composenews.config.Config
-import ir.composenews.utils.vLibs
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.assign

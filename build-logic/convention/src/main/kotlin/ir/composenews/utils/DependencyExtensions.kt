@@ -1,49 +1,58 @@
 package ir.composenews.utils
 
-import org.gradle.api.artifacts.MinimalExternalModuleDependency
 import org.gradle.api.provider.Provider
 import org.gradle.kotlin.dsl.DependencyHandlerScope
 
-fun DependencyHandlerScope.implementation(dep: Provider<*>) {
-    addDependency("implementation", dep)
+fun DependencyHandlerScope.api(dep: Any) {
+    safeAdd("api", dep)
 }
 
-fun DependencyHandlerScope.testImplementation(dep: Provider<*>) {
-    addDependency("testImplementation", dep)
+fun DependencyHandlerScope.implementation(dep: Any) {
+    safeAdd("implementation", dep)
 }
 
-fun DependencyHandlerScope.androidTestImplementation(dep: Provider<*>) {
-    addDependency("androidTestImplementation", dep)
+fun DependencyHandlerScope.testImplementation(dep: Any) {
+    safeAdd("testImplementation", dep)
 }
 
-fun DependencyHandlerScope.debugImplementation(dep: Provider<*>) {
-    addDependency("debugImplementation", dep)
+fun DependencyHandlerScope.androidTestImplementation(dep: Any) {
+    safeAdd("androidTestImplementation", dep)
 }
 
-fun DependencyHandlerScope.custom(configuration: String, dep: Provider<*>) {
-    addDependency(configuration, dep)
+fun DependencyHandlerScope.debugImplementation(dep: Any) {
+    safeAdd("debugImplementation", dep)
 }
 
-private fun DependencyHandlerScope.addDependency(
+fun DependencyHandlerScope.custom(configuration: String, dep: Any) {
+    safeAdd(configuration, dep)
+}
+
+private fun DependencyHandlerScope.safeAdd(
     configuration: String,
-    provider: Provider<*>,
+    dependency: Any,
 ) {
-    val dependency = provider.orNull
     when (dependency) {
-        is MinimalExternalModuleDependency -> {
-            add(configuration, dependency)
+        is Provider<*> -> {
+            val value = dependency.orNull
+            if (value != null) {
+                safeAdd(configuration, value)
+            }
         }
 
         is Collection<*> -> {
             dependency.forEach {
-                if (it is MinimalExternalModuleDependency) {
-                    add(configuration, it)
-                } else {
-                    throw IllegalArgumentException("Unsupported dependency in bundle: ${it?.javaClass?.name}")
+                if (it != null) {
+                    safeAdd(configuration, it)
                 }
             }
         }
 
-        else -> throw IllegalArgumentException("Unsupported dependency type: ${dependency?.javaClass?.name}")
+        else -> {
+            try {
+                add(configuration, dependency)
+            } catch (_: Exception) {
+                throw IllegalArgumentException("Unsupported dependency type: ${dependency.javaClass.name}")
+            }
+        }
     }
 }

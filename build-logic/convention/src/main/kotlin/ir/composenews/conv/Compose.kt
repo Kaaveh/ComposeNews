@@ -1,6 +1,9 @@
 package ir.composenews.conv
 
 import com.android.build.api.dsl.CommonExtension
+import ir.composenews.utils.androidTestImplementation
+import ir.composenews.utils.implementation
+import ir.composenews.utils.library
 import ir.composenews.utils.vLibs
 import org.gradle.api.Project
 import org.gradle.api.provider.Provider
@@ -13,7 +16,7 @@ import kotlin.takeIf
  * Configure Compose-specific options
  */
 internal fun Project.configureAndroidCompose(
-    commonExtension: CommonExtension<*, *, *, *, *,*>,
+    commonExtension: CommonExtension<*, *, *, *, *, *>,
 ) {
     commonExtension.apply {
         buildFeatures {
@@ -25,14 +28,14 @@ internal fun Project.configureAndroidCompose(
                 isReturnDefaultValues = true
             }
         }
-
         dependencies {
-            val bom = vLibs.findLibrary("compose-bom").get()
-            "implementation"(platform(bom))
-            "androidTestImplementation"(platform(bom))
-        }
+            val bom = vLibs.library("compose-bom")
 
+            implementation(platform(bom))
+            androidTestImplementation(platform(bom))
+        }
     }
+
     extensions.configure<ComposeCompilerGradlePluginExtension> {
         fun Provider<String>.onlyIfTrue() = flatMap { provider { it.takeIf(String::toBoolean) } }
         fun Provider<*>.relativeToRootProject(dir: String) = map {

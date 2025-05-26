@@ -2,6 +2,8 @@ package ir.composenews.conv
 
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
+import ir.composenews.utils.custom
+import ir.composenews.utils.library
 import ir.composenews.utils.vLibs
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
@@ -18,6 +20,6 @@ internal fun Project.configureDetekt(extension: DetektExtension) = extension.app
         }
     }
     dependencies {
-        "detektPlugins"(vLibs.findLibrary("detekt-formatting").get())
+        custom("detektPlugins", vLibs.library("detekt-formatting"))
     }
 }
