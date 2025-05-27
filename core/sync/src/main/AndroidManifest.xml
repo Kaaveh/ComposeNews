@@ -1,2 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ir.composenews.sync">
+
+    <application>
+        <meta-data
+            android:name="ir.composenews.sync.initializer.SyncInitializer"
+            android:value="androidx.startup" />
+    </application>
+</manifest>

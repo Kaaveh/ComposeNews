@@ -3,10 +3,10 @@ plugins {
     alias(libs.plugins.composenews.android.hilt)
     alias(libs.plugins.sqldelight)
 }
+
 android {
     namespace = "ir.composenews.sqldelight"
 }
-
 
 sqldelight {
     databases {
@@ -15,7 +15,6 @@ sqldelight {
         }
     }
 }
-
 
 dependencies {
     libs.apply {
