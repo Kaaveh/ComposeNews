@@ -36,7 +36,7 @@ class MarketListViewModelTest : StringSpec({
     val dispatcherProvider = TestDispatcherProvider(testScheduler)
     lateinit var viewModel: MarketListViewModel
 
-    listeners(MainCoroutineListener())
+    extension(MainCoroutineListener())
 
     beforeEach {
         viewModel = MarketListViewModel(
