@@ -43,7 +43,7 @@ lifeCycleRuntimeCompose = "2.8.7"
 navigationCompose = "2.8.8"
 
 loggingInterceptor = "4.12.0"
-chucker = "4.1.0"
+chucker = "4.2.0" #Last version witout any change in code
 kotlinx-serialization = "1.10.0"
 kotlinx-serialization-converter = "1.0.0"
 
