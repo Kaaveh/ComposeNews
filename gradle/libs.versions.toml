@@ -47,7 +47,7 @@ chucker = "4.2.0" #Last version witout any change in code
 kotlinx-serialization = "1.10.0"
 kotlinx-serialization-converter = "1.0.0"
 
-sqldelight = "2.0.2"
+sqldelight = "2.1.0" #Last version witout any change in code
 
 junit = "4.13.2"
 junitExt = "1.2.1"
