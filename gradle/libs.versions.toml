@@ -41,7 +41,6 @@ lifeCycleRuntimeCompose = "2.8.7"
 
 navigationCompose = "2.8.8"
 
-retrofit = "2.11.0"
 loggingInterceptor = "4.12.0"
 chucker = "4.1.0"
 kotlinx-serialization = "1.8.0"
@@ -113,7 +112,6 @@ ktor-contentNegotiation = { group = "io.ktor", name = "ktor-client-content-negot
 ktor-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
 konsist = { module = "com.lemonappdev:konsist", version.ref = "konsist" }
 
-retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 kotlinx-serialization-converter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "kotlinx-serialization-converter" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "loggingInterceptor" }
