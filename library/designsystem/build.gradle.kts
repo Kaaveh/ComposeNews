@@ -16,5 +16,7 @@ dependencies {
         api(window.size)
         api(accomponist.adaptive)
         api(compose.lottie.animation)
+        implementation(compose.icons.core)
+        implementation(compose.icons.extended)
     }
 }
