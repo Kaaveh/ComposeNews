@@ -50,8 +50,8 @@ kotlinx-serialization-converter = "1.0.0"
 sqldelight = "2.1.0" #Last version witout any change in code
 
 junit = "4.13.2"
-junitExt = "1.2.1"
-coroutinesTest = "1.10.1"
+junitExt = "1.3.0"
+coroutinesTest = "1.10.2"
 mockk = "1.14.9"
 runner = "1.6.2"
 
@@ -63,9 +63,9 @@ windowsSizeClass = "1.3.2" #Last version witout any change in code
 adaptive = "0.37.3"
 
 ktor = "3.0.1" #Last version witout any change in code
-konsist = "0.16.1"
+konsist = "0.17.3"
 
-kotest = "5.9.1"
+kotest = "5.9.1" #Last version witout any change in code
 
 [libraries]
 androidx-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "ktx" }
