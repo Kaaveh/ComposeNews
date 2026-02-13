@@ -8,7 +8,7 @@ projectTargetSdkVersion = "35"
 projectCompileSdkVersion = "35"
 
 kotlin = "2.1.10"
-kotlinter = "5.0.1"
+kotlinter = "5.4.2"
 ksp = "2.1.10-1.0.31"
 kotlinxImmutableCollection = "0.4.0"
 androidGradlePlugin = "8.13.2" #Last version witout any change in code
