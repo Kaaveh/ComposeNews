@@ -20,6 +20,5 @@ dependencies {
         implementation(lifecycle.viewmodel.ktx)
         api(kotlinx.collections.immutable)
         testImplementation(coroutines.test)
-        testImplementation(mokito.kotlin)
     }
 }
