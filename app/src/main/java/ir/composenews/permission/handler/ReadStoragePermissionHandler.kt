@@ -11,9 +11,7 @@ class ReadStoragePermissionHandler : PermissionHandler {
 
     override val permissionType: PermissionType = PermissionType.READ_EXTERNAL_STORAGE
 
-    override fun hasPermission(
-        context: Context
-    ): Boolean =
+    override fun hasPermission(context: Context): Boolean =
         ContextCompat.checkSelfPermission(
             context,
             permission,

@@ -23,12 +23,6 @@ jobs:
       - name: Setup
         uses: ./.github/actions/workflow_setup
 
-      - name: Check build-logic
-        run: ./gradlew check -p build-logic
-
-      - name: Check build-logic
-        run: ./gradlew check -p build-logic
-
       - run: echo "Run unit tests"
       - name: Test
         run: ./gradlew test

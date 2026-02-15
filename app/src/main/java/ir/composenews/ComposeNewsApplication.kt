@@ -6,10 +6,8 @@ import ir.composenews.sync.Sync
 
 @HiltAndroidApp
 class ComposeNewsApplication : Application() {
-
     override fun onCreate() {
         super.onCreate()
         Sync.init(this)
     }
-
 }

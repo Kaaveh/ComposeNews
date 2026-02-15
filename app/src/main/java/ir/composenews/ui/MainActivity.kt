@@ -12,14 +12,15 @@ import ir.composenews.permission.manager.PermissionManager
 import ir.composenews.permission.manager.PermissionManagerImpl
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity(), PermissionManager by PermissionManagerImpl() {
-
+class MainActivity :
+    ComponentActivity(),
+    PermissionManager by PermissionManagerImpl() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         performPermission(
             PermissionType.POST_NOTIFICATIONS,
-            this
+            this,
         )
 
         setContent {
@@ -32,45 +33,45 @@ class MainActivity : ComponentActivity(), PermissionManager by PermissionManager
 
 @Preview(showBackground = true)
 @Composable
-fun ComposeNewsAppPreview() {
+@Suppress("ktlint:standard:function-naming", "UnusedPrivateMember")
+private fun ComposeNewsAppPreview() {
     ComposeNewsTheme {
-        ComposeNewsApp(
-        )
+        ComposeNewsApp()
     }
 }
 
 @Preview(showBackground = true, widthDp = 700, heightDp = 500)
 @Composable
-fun ComposeNewsAppPreviewTablet() {
+@Suppress("ktlint:standard:function-naming", "UnusedPrivateMember")
+private fun ComposeNewsAppPreviewTablet() {
     ComposeNewsTheme {
-        ComposeNewsApp(
-        )
+        ComposeNewsApp()
     }
 }
 
 @Preview(showBackground = true, widthDp = 500, heightDp = 700)
 @Composable
-fun ComposeNewsAppPreviewTabletPortrait() {
+@Suppress("ktlint:standard:function-naming", "UnusedPrivateMember")
+private fun ComposeNewsAppPreviewTabletPortrait() {
     ComposeNewsTheme {
-        ComposeNewsApp(
-        )
+        ComposeNewsApp()
     }
 }
 
 @Preview(showBackground = true, widthDp = 1100, heightDp = 600)
 @Composable
-fun ComposeNewsAppPreviewDesktop() {
+@Suppress("ktlint:standard:function-naming", "UnusedPrivateMember")
+private fun ComposeNewsAppPreviewDesktop() {
     ComposeNewsTheme {
-        ComposeNewsApp(
-        )
+        ComposeNewsApp()
     }
 }
 
 @Preview(showBackground = true, widthDp = 600, heightDp = 1100)
 @Composable
-fun ComposeNewsAppPreviewDesktopPortrait() {
+@Suppress("ktlint:standard:function-naming", "UnusedPrivateMember")
+private fun ComposeNewsAppPreviewDesktopPortrait() {
     ComposeNewsTheme {
-        ComposeNewsApp(
-        )
+        ComposeNewsApp()
     }
 }

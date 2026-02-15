@@ -8,10 +8,10 @@ projectTargetSdkVersion = "35"
 projectCompileSdkVersion = "35"
 
 kotlin = "2.1.10"
-kotlinter = "5.0.1"
+kotlinter = "5.4.2"
 ksp = "2.1.10-1.0.31"
-kotlinxImmutableCollection = "0.3.8"
-androidGradlePlugin = "8.13.2"
+kotlinxImmutableCollection = "0.4.0"
+androidGradlePlugin = "8.13.2" #Last version witout any change in code
 
 ktx = "1.15.0"
 
@@ -19,9 +19,10 @@ composeBOM = "2025.02.00"
 composeActivity = "1.10.1"
 composeCoil = "2.7.0"
 composeMaterial3 = "1.3.1"
+composeIcons = "1.7.8"
 material3Adaptive = "1.0.0"
 composeWear = "1.4.1"
-turbine = "1.2.0"
+turbine = "1.2.1"
 wearToolingPreview = "1.0.0"
 horologistComposeLayout = "0.6.17"
 
@@ -31,7 +32,7 @@ androidHiltCompiler = "1.2.0"
 hiltNavigationCompose = "1.2.0"
 hiltWork = "1.2.0"
 javaxInject = "1"
-lottieAnimation = "6.6.1"
+lottieAnimation = "6.7.1"
 
 coroutinesCore = "1.10.1"
 
@@ -41,33 +42,30 @@ lifeCycleRuntimeCompose = "2.8.7"
 
 navigationCompose = "2.8.8"
 
-retrofit = "2.11.0"
 loggingInterceptor = "4.12.0"
-chucker = "4.1.0"
-kotlinx-serialization = "1.8.0"
+chucker = "4.2.0" #Last version witout any change in code
+kotlinx-serialization = "1.10.0"
 kotlinx-serialization-converter = "1.0.0"
 
-sqldelight = "2.0.2"
+sqldelight = "2.1.0" #Last version witout any change in code
 
 junit = "4.13.2"
-junitExt = "1.2.1"
-coroutinesTest = "1.10.1"
-mockitoKotlin = "4.1.0"
-mockk = "1.13.16"
-runner = "1.6.2"
+junitExt = "1.3.0"
+coroutinesTest = "1.10.2"
+mockk = "1.14.9"
+runner = "1.6.2" #Last version witout any change in code
 
 startupRuntime = "1.2.0"
 
 workRuntimeKtx = "2.10.0"
 
-windowsSizeClass = "1.3.1"
-adaptive = "0.26.2-beta"
+windowsSizeClass = "1.3.2" #Last version witout any change in code
+adaptive = "0.37.3"
 
-ktor = "3.0.1"
-konsist = "0.16.1"
+ktor = "3.0.1" #Last version witout any change in code
+konsist = "0.17.3"
 
-kotest = "5.9.1"
-espressoCore = "3.6.1"
+kotest = "5.9.1" #Last version witout any change in code
 
 [libraries]
 androidx-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "ktx" }
@@ -80,6 +78,8 @@ compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-mani
 compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
 compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "composeMaterial3" }
+compose-icons-core = { group = "androidx.compose.material", name = "material-icons-core", version.ref = "composeIcons" }
+compose-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "composeIcons" }
 compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "composeActivity" }
 compose-coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "composeCoil" }
 compose-material3-adaptive-navigation = { group = "androidx.compose.material3.adaptive", name = "adaptive-navigation", version.ref = "material3Adaptive" }
@@ -113,7 +113,6 @@ ktor-contentNegotiation = { group = "io.ktor", name = "ktor-client-content-negot
 ktor-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
 konsist = { module = "com.lemonappdev:konsist", version.ref = "konsist" }
 
-retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 kotlinx-serialization-converter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "kotlinx-serialization-converter" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "loggingInterceptor" }
@@ -127,7 +126,6 @@ sqldelight-test = { group = "app.cash.sqldelight", name = "sqlite-driver", versi
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 junit-ext = { group = "androidx.test.ext", name = "junit", version.ref = "junitExt" }
 coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutinesTest" }
-mokito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockitoKotlin" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 runner = { group = "androidx.test", name = "runner", version.ref = "runner" }
 
@@ -146,15 +144,6 @@ compose-lottie-animation = { group = "com.airbnb.android", name = "lottie-compos
 kotest-assertionsCore = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
 kotest-runnerJUnit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
-
-# ---> Dependencies of the included build-logic:
-kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
-android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
-detekt-gradlePlugin = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gradle-plugin", version.ref = "detekt" }
-detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "detekt" }
-ktlint-kotlinter = { group = "org.jmailen.gradle", name = "kotlinter-gradle", version.ref = "kotlinter" }
-compose-gradlePlugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
@@ -169,16 +158,6 @@ kotliner = { id = "org.jmailen.kotlinter", version.ref = "kotlinter" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
 compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
-# ---> Plugins defined by this project:
-composenews-android-application = { id = "composenews.android.application" }
-composenews-android-application-compose = { id = "composenews.android.application.compose" }
-composenews-android-hilt = { id = "composenews.android.hilt" }
-composenews-android-library = { id = "composenews.android.library" }
-composenews-android-library-compose = { id = "composenews.android.library.compose" }
-composenews-android-feature = { id = "composenews.android.feature" }
-composenews-android-detekt = { id = "composenews.android.detekt" }
-composenews-android-ktlint = { id = "composenews.android.ktlint" }
-
 [bundles]
 compose = [
     "compose-ui",
@@ -187,6 +166,8 @@ compose = [
     "compose-ui-test-manifest",
     "compose-ui-test-junit4",
     "compose-material3",
+    "compose-icons-core",
+    "compose-icons-extended",
 ]
 kotest = [
     "kotest-assertionsCore",

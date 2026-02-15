@@ -1,7 +1,8 @@
 @file:Suppress(
     "ktlint:standard:function-expression-body",
     "ktlint:standard:multiline-expression-wrapping",
-    "ktlint:standard:trailing-comma-on-call-site"
+    "ktlint:standard:trailing-comma-on-call-site",
+    "DEPRECATION",
 )
 
 package ir.composenews.appwatch.navigation.graph
@@ -32,10 +33,6 @@ private fun <T> NavBackStackEntry.parcelableData(key: String): T? {
 
 private inline fun <reified T : Parcelable> Bundle.parcelable(key: String): T? =
     when {
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU ->
-            getParcelable(key, T::class.java)
-
-        else ->
-            @Suppress("DEPRECATION")
-            getParcelable(key) as? T
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getParcelable(key, T::class.java)
+        else -> getParcelable(key) as? T
     }

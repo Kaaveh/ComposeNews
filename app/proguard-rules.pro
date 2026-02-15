@@ -51,11 +51,8 @@
 -keep class dagger.hilt.** { *; }
 -dontwarn dagger.internal.codegen.ComponentProcessor
 
--keep class retrofit2.** { *; }
 -keep class okhttp3.** { *; }
 -keep class com.squareup.okhttp3.** { *; }
--keep class * implements retrofit2.CallAdapter.Factory { *; }
--keep class * implements retrofit2.Converter.Factory { *; }
 -keepattributes Signature
 -keepattributes Exceptions
 
