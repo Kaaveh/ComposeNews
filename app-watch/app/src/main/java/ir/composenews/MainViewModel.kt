@@ -13,23 +13,28 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
-    dispatcherProvider: DispatcherProvider,
-) : BaseViewModel(dispatcherProvider), MainContract {
+class MainViewModel
+    @Inject
+    constructor(
+        dispatcherProvider: DispatcherProvider,
+    ) : BaseViewModel(dispatcherProvider),
+        MainContract {
+        private val mutableState = MutableStateFlow(MainContract.State())
 
-    private val mutableState = MutableStateFlow(MainContract.State())
-    override val state: StateFlow<MainContract.State> = mutableState.asStateFlow()
-    override fun event(event: MainContract.Event) {
-        when (event) {
-            is MainContract.Event.SetMarket -> setMarket(event.market)
+        override val state: StateFlow<MainContract.State> = mutableState.asStateFlow()
+
+        override fun event(event: MainContract.Event) {
+            when (event) {
+                is MainContract.Event.SetMarket -> setMarket(event.market)
+            }
         }
-    }
 
-    private fun setMarket(market: MarketModel?) = viewModelScope.launch {
-        mutableState.emit(
-            mutableState.value.copy(
-                market
-            )
-        )
+        private fun setMarket(market: MarketModel?) =
+            viewModelScope.launch {
+                mutableState.emit(
+                    mutableState.value.copy(
+                        market,
+                    ),
+                )
+            }
     }
-}

@@ -10,22 +10,22 @@ import org.junit.Rule
 import org.junit.Test
 
 class MainActivityTest {
-
     @get:Rule
     val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     @Test
     fun marketListScreen_DisplayedCorrectly() {
-
         composeTestRule.waitUntil(timeoutMillis = 5_000) {
             composeTestRule.onAllNodesWithText("BNB").fetchSemanticsNodes().isNotEmpty() ||
-                    composeTestRule.onAllNodesWithText("BTC").fetchSemanticsNodes().isNotEmpty()
+                composeTestRule.onAllNodesWithText("BTC").fetchSemanticsNodes().isNotEmpty()
         }
 
         composeTestRule.onNodeWithText("BNB").assertExists()
-        composeTestRule.onNodeWithText("Bitcoin").assertExists().onParent().performClick()
+        composeTestRule
+            .onNodeWithText("Bitcoin")
+            .assertExists()
+            .onParent()
+            .performClick()
         composeTestRule.onNodeWithContentDescription("Loading. PLease wait").assertExists()
-
-
     }
 }

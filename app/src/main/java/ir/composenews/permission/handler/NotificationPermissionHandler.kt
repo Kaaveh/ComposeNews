@@ -15,9 +15,7 @@ class NotificationPermissionHandler : PermissionHandler {
 
     override val permissionType: PermissionType = PermissionType.POST_NOTIFICATIONS
 
-    override fun hasPermission(
-        context: Context
-    ): Boolean =
+    override fun hasPermission(context: Context): Boolean =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             NotificationManagerCompat.from(context).areNotificationsEnabled()
         } else {
@@ -30,11 +28,9 @@ class NotificationPermissionHandler : PermissionHandler {
         callback: (isGranted: Boolean) -> Unit,
     ): ActivityResultLauncher<String> = super.permissionLauncher(activity, callback)
 
-
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun requestPermission(
         activity: ComponentActivity,
         callback: (isGranted: Boolean) -> Unit,
-    ): Unit? =
-        super.requestPermission(activity, callback)
+    ): Unit? = super.requestPermission(activity, callback)
 }

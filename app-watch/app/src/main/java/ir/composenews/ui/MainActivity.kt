@@ -15,14 +15,13 @@ import com.google.android.horologist.compose.layout.AppScaffold
 import com.google.android.horologist.compose.layout.ScreenScaffold
 import dagger.hilt.android.AndroidEntryPoint
 import ir.composenews.MainViewModel
-import ir.composenews.appwatch.navigation.graph.Destinations
 import ir.composenews.appwatch.navigation.MainContract
+import ir.composenews.appwatch.navigation.graph.Destinations
 import ir.composenews.designsystem.theme.ComposeNewsTheme
 import ir.composenews.navigation.ComposeNewsWearNavHost
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
     private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +32,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
+    @Suppress("ktlint:standard:function-naming")
     fun WearApp() {
         val navController = rememberSwipeDismissableNavController()
         val state = mainViewModel.state.collectAsStateWithLifecycle()
@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
                             navController.navigate(Destinations.MarketDetailScreen().route)
                         },
                         uiState = state.value,
-                        modifier = Modifier
+                        modifier = Modifier,
                     )
                 }
             }
@@ -55,6 +55,7 @@ class MainActivity : ComponentActivity() {
 
     @Preview(device = WearDevices.LARGE_ROUND, showSystemUi = true)
     @Composable
+    @Suppress("ktlint:standard:function-naming")
     fun DefaultPreview() {
         WearApp()
     }

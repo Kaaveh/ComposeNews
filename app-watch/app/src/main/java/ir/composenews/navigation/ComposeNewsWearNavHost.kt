@@ -11,11 +11,12 @@ import ir.composenews.appwatch.navigation.graph.wearMarketList
 import ir.composenews.uimarket.model.MarketModel
 
 @Composable
+@Suppress("ktlint:standard:function-naming")
 fun ComposeNewsWearNavHost(
     navController: NavHostController,
     modifier: Modifier,
     onMarketSelected: ((MarketModel) -> Unit)? = null,
-    uiState: MainContract.State
+    uiState: MainContract.State,
 ) {
     SwipeDismissableNavHost(
         navController = navController,
