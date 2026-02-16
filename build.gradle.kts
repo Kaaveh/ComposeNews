@@ -23,6 +23,14 @@ plugins {
     alias(libs.plugins.compose) apply false
 }
 
+subprojects {
+    afterEvaluate {
+        tasks.withType<Test>().configureEach {
+            failOnNoDiscoveredTests = false
+        }
+    }
+}
+
 tasks.register("clean", Delete::class) {
     delete(rootProject.layout.buildDirectory)
 }
