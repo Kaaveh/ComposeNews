@@ -9,7 +9,7 @@ projectCompileSdkVersion = "35"
 
 kotlin = "2.2.21"
 kotlinter = "5.4.2"
-ksp = "2.2.21-2.0.5"
+ksp = "2.3.2"
 kotlinxImmutableCollection = "0.4.0"
 androidGradlePlugin = "9.0.1"
 
