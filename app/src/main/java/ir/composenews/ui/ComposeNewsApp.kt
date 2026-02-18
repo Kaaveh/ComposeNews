@@ -77,10 +77,11 @@ private fun NavigationContent(
     currentRoute: String,
     navigator: ThreePaneScaffoldNavigator<Any>,
 ) {
-    val modifier = Modifier
-        .fillMaxSize()
-        .windowInsetsPadding(WindowInsets.safeDrawing)
-    
+    val modifier =
+        Modifier
+            .fillMaxSize()
+            .windowInsetsPadding(WindowInsets.safeDrawing)
+
     when (currentRoute) {
         Destinations.MarketListScreen.route -> {
             ListWithDetailScreen(modifier, navigator, showFavorite = false)
