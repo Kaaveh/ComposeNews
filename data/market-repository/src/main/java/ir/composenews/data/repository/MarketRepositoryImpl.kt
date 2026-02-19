@@ -12,6 +12,8 @@ import ir.composenews.data.mapper.toMarket
 import ir.composenews.data.mapper.toMarketChart
 import ir.composenews.data.mapper.toMarketDetail
 import ir.composenews.data.mapper.toMarketEntity
+import ir.composenews.localdatasource.database.FALSE
+import ir.composenews.localdatasource.database.TRUE
 import ir.composenews.domain.model.Market
 import ir.composenews.domain.model.MarketChart
 import ir.composenews.domain.model.MarketDetail
@@ -66,8 +68,10 @@ class MarketRepositoryImpl @Inject constructor(
     }
 
     override suspend fun toggleFavoriteMarket(oldMarket: Market) {
-        val marketEntity = oldMarket.copy(isFavorite = !oldMarket.isFavorite).toMarketEntity()
-        dao.insertMarket(marketEntity)
+        dao.updateFavoriteStatus(
+            id = oldMarket.id,
+            isFavorite = if (!oldMarket.isFavorite) TRUE else FALSE,
+        )
     }
 
     override fun fetchChart(id: String): Flow<Resource<MarketChart, Errors>> = flow {

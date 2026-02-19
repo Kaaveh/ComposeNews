@@ -32,7 +32,7 @@ import ir.composenews.designsystem.theme.ComposeNewsTheme
 @Composable
 fun FavoriteIcon(
     isFavorite: Boolean,
-    onFavoriteClick: () -> Unit,
+    onFavoriteClick: (() -> Unit)? = null,
 ) {
     val animationState by remember(isFavorite) { mutableStateOf(isFavorite) }
 
@@ -71,9 +71,7 @@ fun FavoriteIcon(
                 scaleY = scale
             }
             .clip(CircleShape)
-            .clickable {
-                onFavoriteClick()
-            }
+            .then(if (onFavoriteClick != null) Modifier.clickable { onFavoriteClick() } else Modifier)
             .padding(8.dp),
     )
 }
@@ -84,8 +82,8 @@ private fun FavoriteIconPrev() {
     ComposeNewsTheme {
         Surface {
             Column {
-                FavoriteIcon(isFavorite = true) {}
-                FavoriteIcon(isFavorite = false) {}
+                FavoriteIcon(isFavorite = true)
+                FavoriteIcon(isFavorite = false)
             }
         }
     }

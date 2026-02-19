@@ -19,7 +19,21 @@ FROM marketEntity
 WHERE isFavorite = 1
 ORDER BY name ASC;
 
-insertMarket:
-INSERT OR REPLACE
+insertOrIgnoreMarket:
+INSERT OR IGNORE
 INTO marketEntity(id, name, symbol, currentPrice, priceChangePercentage24h, imageUrl, isFavorite)
 VALUES (:id, :name, :symbol, :currentPrice, :priceChangePercentage24h, :imageUrl, :isFavorite);
+
+updateMarketData:
+UPDATE marketEntity
+SET name = :name,
+    symbol = :symbol,
+    currentPrice = :currentPrice,
+    priceChangePercentage24h = :priceChangePercentage24h,
+    imageUrl = :imageUrl
+WHERE id = :id;
+
+updateFavoriteStatus:
+UPDATE marketEntity
+SET isFavorite = :isFavorite
+WHERE id = :id;

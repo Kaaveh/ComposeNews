@@ -123,8 +123,7 @@ class MarketDetailViewModel @Inject constructor(
 
     private fun toggleFavoriteState() {
         val market = (mutableState.value.market as LoadableData.Loaded).data
-        val isFavorite = market.isFavorite
-        val newMarket = LoadableData.Loaded(market.copy(isFavorite = isFavorite))
+        val newMarket = LoadableData.Loaded(market.copy(isFavorite = !market.isFavorite))
         mutableState.update { it.copy(market = newMarket) }
     }
 }

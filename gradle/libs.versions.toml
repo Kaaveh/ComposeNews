@@ -57,7 +57,7 @@ startupRuntime = "1.2.0"
 
 workRuntimeKtx = "2.11.1"
 
-windowsSizeClass = "1.5.0-alpha12"
+windowsSizeClass = "1.5.0-alpha14"
 adaptive = "0.37.3"
 
 ktor = "3.4.0"

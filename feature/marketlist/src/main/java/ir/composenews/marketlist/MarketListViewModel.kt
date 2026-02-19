@@ -47,6 +47,10 @@ class MarketListViewModel @Inject constructor(
     }
 
     private fun onSetShowFavoriteList(showFavoriteList: Boolean) {
+        val currentState = mutableState.value
+        if (currentState.showFavoriteList == showFavoriteList && currentState.marketList !is LoadableData.Initial) {
+            return
+        }
         mutableState.update {
             it.copy(showFavoriteList = showFavoriteList)
         }
