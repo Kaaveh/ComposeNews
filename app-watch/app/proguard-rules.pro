@@ -21,3 +21,8 @@
 #-renamesourcefileattribute SourceFile
 -dontwarn reactor.blockhound.integration.BlockHoundIntegration
 -dontwarn java.sql.JDBCType
+
+# Desktop JVM classes referenced by transitive dependencies (e.g. mordant) — not present on Android
+-dontwarn edu.umd.cs.findbugs.annotations.SuppressFBWarnings
+-dontwarn java.awt.**
+-dontwarn javax.swing.**
