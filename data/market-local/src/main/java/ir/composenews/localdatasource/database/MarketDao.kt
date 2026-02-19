@@ -16,5 +16,8 @@ interface MarketDao {
 
     suspend fun insertMarket(marketEntity: MarketEntity)
 
-    suspend fun updateFavoriteStatus(id: String, isFavorite: Long)
+    suspend fun updateFavoriteStatus(
+        id: String,
+        isFavorite: Long,
+    )
 }
