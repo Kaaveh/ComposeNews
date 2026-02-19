@@ -113,11 +113,9 @@ private fun MarketDetailFloatingActionButton(
         loaded = { data ->
             FloatingActionButton(
                 modifier = modifier,
-                onClick = {},
+                onClick = { onFavoriteClick(data) },
             ) {
-                FavoriteIcon(isFavorite = data.isFavorite) {
-                    onFavoriteClick(data)
-                }
+                FavoriteIcon(isFavorite = data.isFavorite)
             }
         },
         error = { error -> },
