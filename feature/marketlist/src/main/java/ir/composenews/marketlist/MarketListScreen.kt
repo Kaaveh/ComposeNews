@@ -43,8 +43,8 @@ import ir.composenews.uimarket.model.MarketModel
 
 @Composable
 fun MarketListRoute(
-    viewModel: MarketListViewModel = hiltViewModel(),
     showFavoriteList: Boolean = false,
+    viewModel: MarketListViewModel = hiltViewModel(key = if (showFavoriteList) "favorites" else "markets"),
     onNavigateToDetailScreen: (market: MarketModel) -> Unit,
 ) {
     val (state, event) = use(viewModel = viewModel)
