@@ -7,43 +7,41 @@ projectMinSdkVersionWear = "30"
 projectTargetSdkVersion = "36"
 projectCompileSdkVersion = "36"
 
-kotlin = "2.2.21"
+kotlin = "2.3.10"
 kotlinter = "5.4.2"
-ksp = "2.3.2"
+ksp = "2.3.6"
 kotlinxImmutableCollection = "0.4.0"
 androidGradlePlugin = "9.0.1"
 
-ktx = "1.15.0"
+ktx = "1.17.0"
 
-composeBOM = "2025.02.00"
-composeActivity = "1.10.1"
+composeBOM = "2026.02.00"
+composeActivity = "1.12.4"
 composeCoil = "2.7.0"
-composeMaterial3 = "1.3.1"
-composeIcons = "1.7.8"
-material3Adaptive = "1.0.0"
-composeWear = "1.4.1"
+material3Adaptive = "1.2.0"
+composeWear = "1.5.6"
 turbine = "1.2.1"
 wearToolingPreview = "1.0.0"
-horologistComposeLayout = "0.6.17"
+horologistComposeLayout = "0.7.15"
 
 detekt = "1.23.8"
 hilt = "2.59.1"
-androidHiltCompiler = "1.2.0"
-hiltNavigationCompose = "1.2.0"
-hiltWork = "1.2.0"
+androidHiltCompiler = "1.3.0"
+hiltNavigationCompose = "1.3.0"
+hiltWork = "1.3.0"
 javaxInject = "1"
 lottieAnimation = "6.7.1"
 
-coroutinesCore = "1.10.1"
+coroutinesCore = "1.10.2"
 
-lifeCycle = "2.8.7"
-lifeCycleViewModelKtx = "2.8.7"
-lifeCycleRuntimeCompose = "2.8.7"
+lifeCycle = "2.10.0"
+lifeCycleViewModelKtx = "2.10.0"
+lifeCycleRuntimeCompose = "2.10.0"
 
-navigationCompose = "2.8.8"
+navigationCompose = "2.9.7"
 
-loggingInterceptor = "4.12.0"
-chucker = "4.2.0" #Last version witout any change in code
+loggingInterceptor = "5.3.2"
+chucker = "4.3.0"
 kotlinx-serialization = "1.10.0"
 kotlinx-serialization-converter = "1.0.0"
 
@@ -53,16 +51,16 @@ junit = "4.13.2"
 junitExt = "1.3.0"
 coroutinesTest = "1.10.2"
 mockk = "1.14.9"
-runner = "1.6.2" #Last version witout any change in code
+runner = "1.7.0"
 
 startupRuntime = "1.2.0"
 
-workRuntimeKtx = "2.10.0"
+workRuntimeKtx = "2.11.1"
 
-windowsSizeClass = "1.3.2" #Last version witout any change in code
+windowsSizeClass = "1.5.0-alpha12"
 adaptive = "0.37.3"
 
-ktor = "3.0.1" #Last version witout any change in code
+ktor = "3.4.0"
 konsist = "0.17.3"
 
 kotest = "5.9.1" #Last version witout any change in code
@@ -77,13 +75,13 @@ compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "composeMaterial3" }
-compose-icons-core = { group = "androidx.compose.material", name = "material-icons-core", version.ref = "composeIcons" }
-compose-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "composeIcons" }
+compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+compose-icons-core = { group = "androidx.compose.material", name = "material-icons-core" }
+compose-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "composeActivity" }
 compose-coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "composeCoil" }
 compose-material3-adaptive-navigation = { group = "androidx.compose.material3.adaptive", name = "adaptive-navigation", version.ref = "material3Adaptive" }
-compose-material3-adaptive-navigation-suite = { group = "androidx.compose.material3", name = "material3-adaptive-navigation-suite", version.ref = "composeMaterial3" }
+compose-material3-adaptive-navigation-suite = { group = "androidx.compose.material3", name = "material3-adaptive-navigation-suite" }
 compose-material-wear = { group = "androidx.wear.compose", name = "compose-material", version.ref = "composeWear" }
 compose-foundation-wear = { group = "androidx.wear.compose", name = "compose-foundation", version.ref = "composeWear" }
 compose-ui-preview-wear = { group = "androidx.wear", name = "wear-tooling-preview", version.ref = "wearToolingPreview" }

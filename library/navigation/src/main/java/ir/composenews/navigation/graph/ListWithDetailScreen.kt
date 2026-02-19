@@ -9,11 +9,13 @@ import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.navigation.NavigableListDetailPaneScaffold
 import androidx.compose.material3.adaptive.navigation.ThreePaneScaffoldNavigator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import ir.composenews.marketdetail.MarketDetailRoute
 import ir.composenews.marketlist.MarketListRoute
 import ir.composenews.uimarket.model.MarketModel
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
@@ -22,24 +24,28 @@ fun ListWithDetailScreen(
     navigator: ThreePaneScaffoldNavigator<Any>,
     showFavorite: Boolean,
 ) {
+    val scope = rememberCoroutineScope()
+    
     NavigableListDetailPaneScaffold(
         modifier = modifier,
         navigator = navigator,
         listPane = {
             MarketListRoute(
                 onNavigateToDetailScreen = { market ->
-                    navigator.navigateTo(
-                        pane = ListDetailPaneScaffoldRole.Detail,
-                        content = market,
-                    )
+                    scope.launch {
+                        navigator.navigateTo(
+                            pane = ListDetailPaneScaffoldRole.Detail,
+                            contentKey = market,
+                        )
+                    }
                 },
                 showFavoriteList = showFavorite,
             )
         },
         detailPane = {
-            (navigator.currentDestination?.content as? MarketModel)?.let { content ->
+            (navigator.currentDestination?.contentKey as? MarketModel)?.let { marketContent ->
                 MarketDetailRoute(
-                    market = content,
+                    market = marketContent,
                 )
             } ?: run {
                 Box(

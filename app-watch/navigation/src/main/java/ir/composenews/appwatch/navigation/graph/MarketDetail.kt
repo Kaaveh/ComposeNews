@@ -27,8 +27,8 @@ fun NavGraphBuilder.wearMarketDetail(uiState: MainContract.State) {
     }
 }
 
-private fun <T> NavBackStackEntry.parcelableData(key: String): T? {
-    return arguments?.parcelable(key) as? T
+private inline fun <reified T : Parcelable> NavBackStackEntry.parcelableData(key: String): T? {
+    return arguments?.parcelable<T>(key)
 }
 
 private inline fun <reified T : Parcelable> Bundle.parcelable(key: String): T? =
