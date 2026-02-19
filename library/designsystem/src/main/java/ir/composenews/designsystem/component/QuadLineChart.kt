@@ -36,7 +36,6 @@ import ir.composenews.designsystem.theme.ComposeNewsTheme
 import ir.composenews.designsystem.theme.graphColor
 import ir.composenews.designsystem.theme.lightGraphColor
 import kotlin.math.round
-import kotlin.math.roundToInt
 
 @Composable
 fun QuadLineChart(
@@ -48,10 +47,10 @@ fun QuadLineChart(
     val columnTextColor = MaterialTheme.colorScheme.onSurface.toArgb()
 
     val upperValue = remember(key1 = data) {
-        (data.maxOfOrNull { it.second }?.let { it + it * 0.05 })?.roundToInt() ?: 0
+        (data.maxOfOrNull { it.second }?.let { it + it * 0.05 }) ?: 0.0
     }
     val lowerValue = remember(key1 = data) {
-        (data.minOfOrNull { it.second }?.let { it - it * 0.02 }?.toInt() ?: 0)
+        (data.minOfOrNull { it.second }?.let { it - it * 0.02 }) ?: 0.0
     }
     val density = LocalDensity.current
 
@@ -84,12 +83,18 @@ fun QuadLineChart(
                 .height(dimensionResource(R.dimen.quad_line_chart_height)),
         ) {
             val spacePerHour = (size.width - spacing) / data.size
-            val priceStep = (upperValue - lowerValue) / 5f
+            val priceStep = (upperValue - lowerValue) / 5.0
 
             repeat(5) { i ->
                 drawContext.canvas.nativeCanvas.apply {
+                    val labelValue = lowerValue + priceStep * i
+                    val label = if (labelValue >= 1.0) {
+                        round(labelValue).toLong().toString()
+                    } else {
+                        "%.6f".format(labelValue).trimEnd('0').trimEnd('.')
+                    }
                     drawText(
-                        round(lowerValue + priceStep * i).toString(),
+                        label,
                         textXDimen,
                         size.height - spacing - i * size.height / 5f,
                         textPaint,
@@ -99,12 +104,13 @@ fun QuadLineChart(
 
             var medX: Float
             var medY: Float
+            val range = upperValue - lowerValue
             val strokePath = Path().apply {
                 val height = size.height
                 data.indices.forEach { i ->
                     val nextInfo = data.getOrNull(i + 1) ?: data.last()
-                    val firstRatio = (data[i].second - lowerValue) / (upperValue - lowerValue)
-                    val secondRatio = (nextInfo.second - lowerValue) / (upperValue - lowerValue)
+                    val firstRatio = if (range == 0.0) 0.5 else (data[i].second - lowerValue) / range
+                    val secondRatio = if (range == 0.0) 0.5 else (nextInfo.second - lowerValue) / range
 
                     val x1 = spacing + i * spacePerHour
                     val y1 = height - spacing - (firstRatio * height).toFloat()
