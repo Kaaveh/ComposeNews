@@ -29,7 +29,7 @@ class MarketDaoImpl @Inject constructor(
 
     override suspend fun insertMarket(marketEntity: MarketEntity) {
         marketEntity.run {
-            queries.insertMarket(
+            queries.insertOrIgnoreMarket(
                 id = id,
                 name = name,
                 symbol = symbol,
@@ -38,6 +38,18 @@ class MarketDaoImpl @Inject constructor(
                 imageUrl = imageUrl,
                 isFavorite = isFavorite,
             )
+            queries.updateMarketData(
+                name = name,
+                symbol = symbol,
+                currentPrice = currentPrice,
+                priceChangePercentage24h = priceChangePercentage24h,
+                imageUrl = imageUrl,
+                id = id,
+            )
         }
+    }
+
+    override suspend fun updateFavoriteStatus(id: String, isFavorite: Long) {
+        queries.updateFavoriteStatus(isFavorite = isFavorite, id = id)
     }
 }
