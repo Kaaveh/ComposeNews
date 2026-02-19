@@ -24,6 +24,9 @@ plugins {
 }
 
 subprojects {
+    configurations.all {
+        exclude(group = "com.github.ajalt.mordant", module = "mordant-jvm-ffm-jvm")
+    }
     afterEvaluate {
         tasks.withType<Test>().configureEach {
             failOnNoDiscoveredTests = false
