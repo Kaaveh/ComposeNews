@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.first
 class MarketDaoTest : SuspendSpec({
     lateinit var marketDao: MarketDao
 
-    beforeSpec {
+    beforeEach {
         val driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
         MarketDatabase.Schema.create(driver)
         val db = MarketDatabase(driver)
