@@ -49,8 +49,9 @@ fun ComposeNewsApp() {
         layoutType = NavigationSuiteScaffoldDefaults.calculateFromAdaptiveInfo(currentWindowAdaptiveInfo()),
         containerColor = androidx.compose.material3.MaterialTheme.colorScheme.background,
     ) {
-        val navigator = rememberListDetailPaneScaffoldNavigator<Any>()
-        NavigationContent(currentRoute, navigator)
+        val marketNavigator = rememberListDetailPaneScaffoldNavigator<Any>()
+        val favoriteNavigator = rememberListDetailPaneScaffoldNavigator<Any>()
+        NavigationContent(currentRoute, marketNavigator, favoriteNavigator)
     }
 }
 
@@ -75,7 +76,8 @@ private fun rememberNavigationItems(): ImmutableList<BottomNavItem> =
 @Composable
 private fun NavigationContent(
     currentRoute: String,
-    navigator: ThreePaneScaffoldNavigator<Any>,
+    marketNavigator: ThreePaneScaffoldNavigator<Any>,
+    favoriteNavigator: ThreePaneScaffoldNavigator<Any>,
 ) {
     val modifier =
         Modifier
@@ -84,11 +86,11 @@ private fun NavigationContent(
 
     when (currentRoute) {
         Destinations.MarketListScreen.route -> {
-            ListWithDetailScreen(modifier, navigator, showFavorite = false)
+            ListWithDetailScreen(modifier, marketNavigator, showFavorite = false)
         }
 
         Destinations.FavoriteMarketScreen.route -> {
-            ListWithDetailScreen(modifier, navigator, showFavorite = true)
+            ListWithDetailScreen(modifier, favoriteNavigator, showFavorite = true)
         }
     }
 }
