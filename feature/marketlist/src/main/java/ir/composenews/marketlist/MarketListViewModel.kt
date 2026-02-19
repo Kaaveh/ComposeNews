@@ -15,6 +15,7 @@ import ir.composenews.uimarket.mapper.toMarket
 import ir.composenews.uimarket.mapper.toMarketModel
 import ir.composenews.uimarket.model.MarketModel
 import kotlinx.collections.immutable.toPersistentList
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -35,6 +36,7 @@ class MarketListViewModel @Inject constructor(
 
     private val mutableState = MutableStateFlow(MarketListContract.State())
     override val state: StateFlow<MarketListContract.State> = mutableState.asStateFlow()
+    private var dataJob: Job? = null
 
     override fun event(event: MarketListContract.Event) = when (event) {
         is MarketListContract.Event.OnGetMarketList -> getData()
@@ -48,39 +50,42 @@ class MarketListViewModel @Inject constructor(
         mutableState.update {
             it.copy(showFavoriteList = showFavoriteList)
         }
+        getData()
     }
 
     private fun getData() {
-        viewModelScope.launch {
-            mutableState.update {
-                it.copy(marketList = LoadableData.Loading)
-            }
-
-            if (mutableState.value.showFavoriteList) {
-                getFavoriteMarketList()
-            } else {
-                getMarketList()
-            }
+        dataJob?.cancel()
+        mutableState.update {
+            it.copy(marketList = LoadableData.Loading)
+        }
+        dataJob = if (mutableState.value.showFavoriteList) {
+            getFavoriteMarketList()
+        } else {
+            getMarketList()
         }
     }
 
-    private suspend fun getMarketList() = getMarketListUseCase().onEach { newList ->
-        val marketList = newList.map { it.toMarketModel() }.toPersistentList()
+    private fun getMarketList(): Job = viewModelScope.launch {
+        getMarketListUseCase()
+            .onEach { newList ->
+                val marketList = newList.map { it.toMarketModel() }.toPersistentList()
+                mutableState.update {
+                    it.copy(marketList = LoadableData.Loaded(data = marketList))
+                }
+            }
+            .catch { exception ->
+                mutableState.update {
+                    it.copy(
+                        marketList = LoadableData.Error(
+                            error = Errors.ExceptionError(message = exception.message),
+                        ),
+                    )
+                }
+            }
+            .collect {}
+    }
 
-        mutableState.update {
-            it.copy(marketList = LoadableData.Loaded(data = marketList))
-        }
-    }.catch { exception ->
-        mutableState.update {
-            it.copy(
-                marketList = LoadableData.Error(
-                    error = Errors.ExceptionError(message = exception.message),
-                ),
-            )
-        }
-    }.launchIn(viewModelScope)
-
-    private fun getFavoriteMarketList() = getFavoriteMarketListUseCase().onEach { newList ->
+    private fun getFavoriteMarketList(): Job = getFavoriteMarketListUseCase().onEach { newList ->
         val marketList = newList.map { it.toMarketModel() }.toPersistentList()
 
         mutableState.update {
