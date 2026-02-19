@@ -92,16 +92,12 @@ class MarketRepositoryImplTest : StringSpec({
 
     "Given an existing market, When ToggleFavoriteMarket is called, Then updates market favorite status" {
         val market = Market("1", "Bitcoin", "BTC", 50000.0, 5.0, "url", false)
-        coEvery { marketDao.insertMarket(any()) } just Runs
+        coEvery { marketDao.updateFavoriteStatus(any(), any()) } just Runs
 
         repository.toggleFavoriteMarket(market)
 
         coVerify(exactly = 1) {
-            marketDao.insertMarket(
-                match {
-                    it.id == "1" && it.isFavorite == TRUE
-                },
-            )
+            marketDao.updateFavoriteStatus(id = "1", isFavorite = TRUE)
         }
     }
 
