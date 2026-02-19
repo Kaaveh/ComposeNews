@@ -1,4 +1,4 @@
-@file:Suppress("MagicNumber", "LongMethod", "ktlint")
+@file:Suppress("MagicNumber", "LongMethod", "ktlint", "CyclomaticComplexMethod")
 
 package ir.composenews.designsystem.component
 
