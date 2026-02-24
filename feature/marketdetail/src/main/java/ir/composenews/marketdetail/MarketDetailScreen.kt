@@ -69,7 +69,7 @@ fun MarketDetailRoute(
 }
 
 @Composable
-private fun MarketDetailScreen(
+internal fun MarketDetailScreen(
     modifier: Modifier = Modifier,
     marketDetailState: State,
     onFavoriteClick: (market: MarketModel) -> Unit,

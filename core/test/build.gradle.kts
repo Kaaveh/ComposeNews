@@ -64,5 +64,7 @@ dependencies {
         api(bundles.kotest)
         api(coroutines.test)
         api(mockk)
+        api(robolectric)
+        api(kotest.extensions.robolectric)
     }
 }
