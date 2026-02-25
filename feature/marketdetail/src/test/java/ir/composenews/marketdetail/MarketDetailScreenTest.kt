@@ -93,7 +93,8 @@ class MarketDetailScreenTest {
                 onFavoriteClick = {},
             )
         }
-        composeTestRule.onNodeWithContentDescription("Favorited")
+        composeTestRule
+            .onNodeWithContentDescription("Favorited")
             .assertExists()
     }
 }
