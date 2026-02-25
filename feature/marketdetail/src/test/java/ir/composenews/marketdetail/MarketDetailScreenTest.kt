@@ -10,6 +10,7 @@ package ir.composenews.marketdetail
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import ir.composenews.base.LoadableData
 import ir.composenews.uimarket.model.MarketModel
@@ -80,5 +81,19 @@ class MarketDetailScreenTest {
             )
         }
         composeTestRule.onNodeWithText("Bitcoin").assertIsDisplayed()
+    }
+
+    @Test
+    fun givenLoadedMarketStateWithFavorite_whenRendered_thenFavoriteIconIsRed() {
+        composeTestRule.setContent {
+            MarketDetailScreen(
+                marketDetailState = MarketDetailContract.State(
+                    market = LoadableData.Loaded(buildMarketModel(isFavorite = true)),
+                ),
+                onFavoriteClick = {},
+            )
+        }
+        composeTestRule.onNodeWithContentDescription("Favorited")
+            .assertExists()
     }
 }

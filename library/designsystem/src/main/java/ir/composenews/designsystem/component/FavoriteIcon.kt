@@ -63,7 +63,7 @@ fun FavoriteIcon(
 
     Icon(
         imageVector = Icons.Filled.Favorite,
-        contentDescription = "",
+        contentDescription = if (isFavorite) "Favorited" else "Not favorited",
         tint = colorTintFavorite,
         modifier = Modifier
             .graphicsLayer {
