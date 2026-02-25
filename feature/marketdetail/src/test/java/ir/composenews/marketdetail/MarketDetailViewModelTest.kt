@@ -133,6 +133,114 @@ class MarketDetailViewModelTest : StringSpec({
 
         coVerify { toggleFavoriteMarketListUseCase(marketModel.toMarket()) }
     }
+
+    "Given a market that is already favorited, When set market event fires, Then market state has isFavorite true" {
+        val marketModel = provideMarketList(1, isFavorite = true).first().toMarketModel()
+
+        viewModel.event(MarketDetailContract.Event.SetMarket(market = marketModel))
+
+        val marketState = viewModel.state.value.market
+        marketState.shouldBeInstanceOf<LoadableData.Loaded<MarketModel>>()
+        marketState.data.isFavorite shouldBe true
+    }
+
+    "Given a favorited market, When favorite FAB is clicked, Then isFavorite flips to false in state" {
+        val marketModel = provideMarketList(1, isFavorite = true).first().toMarketModel()
+        coEvery { toggleFavoriteMarketListUseCase(any()) } returns Unit
+
+        viewModel.event(MarketDetailContract.Event.SetMarket(market = marketModel))
+        viewModel.event(MarketDetailContract.Event.OnFavoriteClick(market = marketModel))
+
+        val marketState = viewModel.state.value.market
+        marketState.shouldBeInstanceOf<LoadableData.Loaded<MarketModel>>()
+        marketState.data.isFavorite shouldBe false
+    }
+
+    "Given a non-favorited market, When favorite FAB is clicked, Then isFavorite flips to true in state" {
+        val marketModel = provideMarketList(1, isFavorite = false).first().toMarketModel()
+        coEvery { toggleFavoriteMarketListUseCase(any()) } returns Unit
+
+        viewModel.event(MarketDetailContract.Event.SetMarket(market = marketModel))
+        viewModel.event(MarketDetailContract.Event.OnFavoriteClick(market = marketModel))
+
+        val marketState = viewModel.state.value.market
+        marketState.shouldBeInstanceOf<LoadableData.Loaded<MarketModel>>()
+        marketState.data.isFavorite shouldBe true
+    }
+
+    "Given a market with positive price change, When set market event fires, Then priceChangePercentage24h is positive in state" {
+        val market = Market(
+            id = "btc",
+            name = "Bitcoin",
+            symbol = "BTC",
+            currentPrice = 50000.0,
+            priceChangePercentage24h = 7.5,
+            imageUrl = "",
+            isFavorite = false,
+        )
+
+        viewModel.event(MarketDetailContract.Event.SetMarket(market = market.toMarketModel()))
+
+        val marketState = viewModel.state.value.market
+        marketState.shouldBeInstanceOf<LoadableData.Loaded<MarketModel>>()
+        (marketState.data.priceChangePercentage24h > 0) shouldBe true
+    }
+
+    "Given a market with negative price change, When set market event fires, Then priceChangePercentage24h is negative in state" {
+        val market = Market(
+            id = "eth",
+            name = "Ethereum",
+            symbol = "ETH",
+            currentPrice = 3000.0,
+            priceChangePercentage24h = -3.2,
+            imageUrl = "",
+            isFavorite = false,
+        )
+
+        viewModel.event(MarketDetailContract.Event.SetMarket(market = market.toMarketModel()))
+
+        val marketState = viewModel.state.value.market
+        marketState.shouldBeInstanceOf<LoadableData.Loaded<MarketModel>>()
+        (marketState.data.priceChangePercentage24h < 0) shouldBe true
+    }
+
+    "Given market chart with multiple data points, When loaded, Then all data points are present in state" {
+        val prices = persistentListOf(
+            Pair(1000L, 100.0),
+            Pair(2000L, 110.0),
+            Pair(3000L, 105.0),
+        )
+        val marketChart = MarketChart(prices = prices)
+        coEvery { getMarketChartUseCase(id = any()) } returns flowOf(Resource.Success(marketChart))
+
+        viewModel.event(MarketDetailContract.Event.GetMarketChart(marketId = "btc"))
+
+        val chartState = viewModel.state.value.marketChart
+        chartState.shouldBeInstanceOf<LoadableData.Loaded<MarketChart>>()
+        chartState.data.prices.size shouldBe 3
+    }
+
+    "Given chart and detail fetch together, When both complete, Then both states are Loaded" {
+        coEvery { getMarketChartUseCase(id = any()) } returns flowOf(Resource.Success(provideMarketChart()))
+        coEvery { getMarketDetailUseCase(id = any()) } returns flowOf(Resource.Success(provideMarketDetail()))
+
+        viewModel.event(MarketDetailContract.Event.GetMarketChart(marketId = "btc"))
+        viewModel.event(MarketDetailContract.Event.GetMarketDetail(marketId = "btc"))
+
+        viewModel.state.value.marketChart.shouldBeInstanceOf<LoadableData.Loaded<MarketChart>>()
+        viewModel.state.value.marketDetail.shouldBeInstanceOf<LoadableData.Loaded<MarketDetail>>()
+    }
+
+    "Given market detail API returns Resource.Error, When event triggered, Then error state contains the API error" {
+        val apiError = Errors.ApiError(message = "Not Found", code = 404)
+        coEvery { getMarketDetailUseCase(id = any()) } returns flowOf(Resource.Error(apiError))
+
+        viewModel.event(MarketDetailContract.Event.GetMarketDetail(marketId = "unknown"))
+
+        val state = viewModel.state.value.marketDetail
+        state.shouldBeInstanceOf<LoadableData.Error>()
+        (state.error as Errors.ApiError).code shouldBe 404
+    }
 })
 
 private fun provideMarketList(size: Int, isFavorite: Boolean = false): List<Market> =

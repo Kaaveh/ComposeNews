@@ -110,6 +110,74 @@ class MarketListViewModelTest : StringSpec({
         errorState.shouldBeInstanceOf<LoadableData.Error>()
         (errorState.error as Errors.ExceptionError).message shouldBe exception.message
     }
+
+    "Given favorite list is enabled, When favorites are empty, Then loaded state has empty list" {
+        coEvery { getFavoriteMarketListUseCase() } returns flowOf(emptyList())
+
+        viewModel.event(MarketListContract.Event.OnSetShowFavoriteList(showFavoriteList = true))
+        viewModel.event(MarketListContract.Event.OnGetMarketList)
+
+        val loadedState = viewModel.state.value.marketList
+        loadedState.shouldBeInstanceOf<LoadableData.Loaded<PersistentList<MarketModel>>>()
+        loadedState.data.isEmpty() shouldBe true
+    }
+
+    "Given market list is fetching, When state is observed, Then Loading is emitted before Loaded" {
+        coEvery { getMarketListUseCase() } returns flowOf(provideMarketList(1))
+
+        viewModel.state.test {
+            awaitItem() // Initial
+
+            viewModel.event(MarketListContract.Event.OnGetMarketList)
+
+            val loadingState = awaitItem()
+            loadingState.marketList.shouldBeInstanceOf<LoadableData.Loading>()
+            cancelAndConsumeRemainingEvents()
+        }
+    }
+
+    "Given markets are already loaded, When refresh event fires, Then state transitions through Loading to Loaded again" {
+        val marketList = provideMarketList(2)
+        coEvery { getMarketListUseCase() } returns flowOf(marketList)
+
+        viewModel.state.test {
+            awaitItem() // Initial
+
+            viewModel.event(MarketListContract.Event.OnGetMarketList)
+            awaitItem() // Loading
+            awaitItem() // Loaded (first load)
+
+            viewModel.event(MarketListContract.Event.OnGetMarketList)
+            val refreshLoadingState = awaitItem().marketList
+            refreshLoadingState.shouldBeInstanceOf<LoadableData.Loading>()
+
+            val refreshLoadedState = awaitItem().marketList
+            refreshLoadedState shouldBe LoadableData.Loaded(data = marketList.map { it.toMarketModel() })
+            cancelAndConsumeRemainingEvents()
+        }
+    }
+
+    "Given a market list use case with multiple items, When loaded, Then all markets are present and count matches" {
+        val count = 5
+        val marketList = provideMarketList(count)
+        coEvery { getMarketListUseCase() } returns flowOf(marketList)
+
+        viewModel.event(MarketListContract.Event.OnGetMarketList)
+
+        val loadedState = viewModel.state.value.marketList
+        loadedState.shouldBeInstanceOf<LoadableData.Loaded<PersistentList<MarketModel>>>()
+        loadedState.data.size shouldBe count
+    }
+
+    "Given markets tab is active, When toggled to favorites and back to markets, Then showFavoriteList reflects each toggle" {
+        viewModel.state.value.showFavoriteList shouldBe false
+
+        viewModel.event(MarketListContract.Event.OnSetShowFavoriteList(showFavoriteList = true))
+        viewModel.state.value.showFavoriteList shouldBe true
+
+        viewModel.event(MarketListContract.Event.OnSetShowFavoriteList(showFavoriteList = false))
+        viewModel.state.value.showFavoriteList shouldBe false
+    }
 })
 
 private fun provideMarketList(size: Int, isFavorite: Boolean = false): List<Market> =

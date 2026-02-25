@@ -138,4 +138,46 @@ class MarketRepositoryImplTest : StringSpec({
 
         actualMarkets.shouldBeInstanceOf<Resource.Error<Errors>>()
     }
+
+    "Given a favorited market, When ToggleFavoriteMarket is called, Then updates market favorite status to FALSE" {
+        val market = Market("1", "Bitcoin", "BTC", 50000.0, 5.0, "url", true)
+        coEvery { marketDao.updateFavoriteStatus(any(), any()) } just Runs
+
+        repository.toggleFavoriteMarket(market)
+
+        coVerify(exactly = 1) {
+            marketDao.updateFavoriteStatus(id = "1", isFavorite = FALSE)
+        }
+    }
+
+    "Given API throws exception, When SyncMarketList is called, Then does not update database" {
+        coEvery {
+            api.getMarkets(any(), any(), any(), any(), any())
+        } returns ApiResponse.Failure.Exception(IOException())
+
+        repository.syncMarketList()
+
+        coVerify(exactly = 0) { marketDao.insertMarket(any()) }
+    }
+
+    "Given API provides multiple markets, When SyncMarketList is called, Then each market is inserted" {
+        val responses = listOf(
+            MarketResponse("1", "Bitcoin", "BTC", 50000.0, 5.0, "url"),
+            MarketResponse("2", "Ethereum", "ETH", 3000.0, 2.0, "url"),
+        )
+        coEvery { api.getMarkets(any(), any(), any(), any(), any()) } returns ApiResponse.Success(responses)
+        coEvery { marketDao.insertMarket(any()) } just Runs
+
+        repository.syncMarketList()
+
+        coVerify(exactly = responses.size) { marketDao.insertMarket(any()) }
+    }
+
+    "Given database is empty, When GetMarketList is called, Then returns empty list" {
+        every { marketDao.getMarketList() } returns flowOf(emptyList())
+
+        val result = repository.getMarketList().first()
+
+        result shouldBe emptyList()
+    }
 })

@@ -90,5 +90,9 @@ dependencies {
     libs.apply {
         implementation(kotlinx.collections.immutable)
         testImplementation(turbine)
+        testImplementation(robolectric)
+        testImplementation(compose.ui.test.junit4)
     }
+    testRuntimeOnly(libs.junit.vintage.engine)
+    testImplementation(platform(libs.compose.bom))
 }
