@@ -58,7 +58,6 @@ startupRuntime = "1.2.0"
 workRuntimeKtx = "2.11.1"
 
 windowsSizeClass = "1.5.0-alpha14"
-adaptive = "0.37.3"
 
 ktor = "3.4.0"
 konsist = "0.17.3"
@@ -137,7 +136,6 @@ work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version
 kotlinx-collections-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinxImmutableCollection" }
 
 window-size = { group = "androidx.compose.material3", name = "material3-window-size-class", version.ref = "windowsSizeClass" }
-accomponist-adaptive = { group = "com.google.accompanist", name = "accompanist-adaptive", version.ref = "adaptive" }
 
 compose-lottie-animation = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottieAnimation" }
 
