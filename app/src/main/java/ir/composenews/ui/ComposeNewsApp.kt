@@ -18,42 +18,34 @@ import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaf
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
+import androidx.navigation3.ui.NavDisplay
 import ir.composenews.navigation.BottomNavItem
 import ir.composenews.navigation.Destinations
 import ir.composenews.navigation.graph.ListWithDetailScreen
 import ir.composenews.uimarket.model.MarketModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 fun ComposeNewsApp() {
     val items = rememberNavigationItems()
-    val navController = rememberNavController()
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route ?: Destinations.MarketListScreen.route
+    val backStack = remember { androidx.compose.runtime.mutableStateListOf<Destinations>(Destinations.MarketListScreen) }
+    val currentDestination = backStack.lastOrNull() ?: Destinations.MarketListScreen
 
     NavigationSuiteScaffold(
         navigationSuiteItems = {
             items.forEach { item ->
                 item(
-                    selected = item.route == currentRoute,
+                    selected = item.route == currentDestination,
                     onClick = {
-                        navController.navigate(item.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
-                            }
-                            launchSingleTop = true
-                            restoreState = true
+                        if (item.route != currentDestination) {
+                            backStack.clear()
+                            backStack.add(item.route as Destinations)
                         }
                     },
                     icon = { Icon(imageVector = item.icon, contentDescription = item.name) },
@@ -66,7 +58,7 @@ fun ComposeNewsApp() {
     ) {
         val marketNavigator = rememberListDetailPaneScaffoldNavigator<MarketModel>()
         val favoriteNavigator = rememberListDetailPaneScaffoldNavigator<MarketModel>()
-        NavigationContent(navController, marketNavigator, favoriteNavigator)
+        NavigationContent(backStack, marketNavigator, favoriteNavigator)
     }
 }
 
@@ -76,12 +68,12 @@ private fun rememberNavigationItems(): ImmutableList<BottomNavItem> =
         persistentListOf(
             BottomNavItem(
                 name = "Markets",
-                route = Destinations.MarketListScreen.route,
+                route = Destinations.MarketListScreen,
                 icon = Icons.Default.Home,
             ),
             BottomNavItem(
                 name = "Favorite",
-                route = Destinations.FavoriteMarketScreen.route,
+                route = Destinations.FavoriteMarketScreen,
                 icon = Icons.Default.Favorite,
             ),
         )
@@ -90,7 +82,7 @@ private fun rememberNavigationItems(): ImmutableList<BottomNavItem> =
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 private fun NavigationContent(
-    navController: NavHostController,
+    backStack: MutableList<Destinations>,
     marketNavigator: ThreePaneScaffoldNavigator<MarketModel>,
     favoriteNavigator: ThreePaneScaffoldNavigator<MarketModel>,
 ) {
@@ -99,24 +91,30 @@ private fun NavigationContent(
             .fillMaxSize()
             .windowInsetsPadding(WindowInsets.safeDrawing)
 
-    NavHost(
-        navController = navController,
-        startDestination = Destinations.MarketListScreen.route,
+    NavDisplay(
+        backStack = backStack,
+        onBack = { backStack.removeLastOrNull() },
         modifier = modifier,
-    ) {
-        composable(route = Destinations.MarketListScreen.route) {
-            ListWithDetailScreen(
-                modifier = Modifier.fillMaxSize(),
-                navigator = marketNavigator,
-                showFavorite = false,
-            )
-        }
-        composable(route = Destinations.FavoriteMarketScreen.route) {
-            ListWithDetailScreen(
-                modifier = Modifier.fillMaxSize(),
-                navigator = favoriteNavigator,
-                showFavorite = true,
-            )
-        }
-    }
+        entryDecorators =
+            listOf(
+                rememberSaveableStateHolderNavEntryDecorator(),
+            ),
+        entryProvider =
+            entryProvider {
+                entry<Destinations.MarketListScreen> {
+                    ListWithDetailScreen(
+                        modifier = Modifier.fillMaxSize(),
+                        navigator = marketNavigator,
+                        showFavorite = false,
+                    )
+                }
+                entry<Destinations.FavoriteMarketScreen> {
+                    ListWithDetailScreen(
+                        modifier = Modifier.fillMaxSize(),
+                        navigator = favoriteNavigator,
+                        showFavorite = true,
+                    )
+                }
+            },
+    )
 }

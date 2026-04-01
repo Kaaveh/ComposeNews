@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.compose)
     alias(libs.plugins.detekt)
     alias(libs.plugins.kotliner)
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 android {
@@ -69,7 +70,10 @@ dependencies {
         implementation(domain.market)
     }
     libs.apply {
-        api(navigation.compose)
+        api(navigation3.runtime)
+        api(navigation3.ui)
+        implementation(lifecycle.viewmodel.navigation3)
+        implementation(kotlinx.serialization.json)
         implementation(compose.material3.adaptive.navigation)
         implementation(compose.material3.adaptive.navigation.suite)
     }
