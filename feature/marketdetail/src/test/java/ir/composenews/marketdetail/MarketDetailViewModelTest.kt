@@ -14,6 +14,7 @@ import ir.composenews.core_test.MainCoroutineListener
 import ir.composenews.core_test.dispatcher.TestDispatcherProvider
 import ir.composenews.domain.model.Market
 import ir.composenews.domain.model.MarketChart
+import ir.composenews.domain.model.PricePoint
 import ir.composenews.domain.model.MarketDetail
 import ir.composenews.domain.use_case.GetMarketChartUseCase
 import ir.composenews.domain.use_case.GetMarketDetailUseCase
@@ -265,7 +266,7 @@ private fun provideMarketDetail(): MarketDetail = MarketDetail(
 
 private fun provideMarketChart(): MarketChart = MarketChart(
     prices = persistentListOf(
-        Pair(System.currentTimeMillis(), 100.0),
-        Pair(System.currentTimeMillis(), 101.0),
+        PricePoint(System.currentTimeMillis(), 100.0),
+        PricePoint(System.currentTimeMillis(), 101.0),
     ),
 )
