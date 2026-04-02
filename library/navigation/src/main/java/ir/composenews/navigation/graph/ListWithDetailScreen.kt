@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun ListWithDetailScreen(
     modifier: Modifier = Modifier,
-    navigator: ThreePaneScaffoldNavigator<Any>,
+    navigator: ThreePaneScaffoldNavigator<MarketModel>,
     showFavorite: Boolean,
 ) {
     val scope = rememberCoroutineScope()
@@ -43,7 +43,7 @@ fun ListWithDetailScreen(
             )
         },
         detailPane = {
-            (navigator.currentDestination?.contentKey as? MarketModel)?.let { marketContent ->
+            navigator.currentDestination?.contentKey?.let { marketContent ->
                 MarketDetailRoute(
                     market = marketContent,
                 )

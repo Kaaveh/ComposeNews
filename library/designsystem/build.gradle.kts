@@ -68,7 +68,6 @@ dependencies {
         api(compose.coil)
         api(lifecycle.runtime.compose)
         api(window.size)
-        api(accomponist.adaptive)
         api(compose.lottie.animation)
         implementation(compose.icons.core)
         implementation(compose.icons.extended)

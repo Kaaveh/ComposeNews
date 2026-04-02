@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.detekt)
     alias(libs.plugins.kotliner)
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 android {
@@ -114,7 +115,9 @@ dependencies {
         implementation(hilt.work)
         implementation(lifecycle.runtime.ktx)
         implementation(work.runtime.ktx)
-        implementation(hilt.navigation.compose)
+        implementation(navigation3.runtime)
+        implementation(navigation3.ui)
+        implementation(lifecycle.viewmodel.navigation3)
         implementation(compose.material3.adaptive.navigation.suite)
         implementation(compose.material3.adaptive.navigation)
         implementation(compose.ui.test.manifest)
