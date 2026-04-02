@@ -18,6 +18,7 @@ import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaf
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.entryProvider
@@ -34,7 +35,7 @@ import kotlinx.collections.immutable.persistentListOf
 @Composable
 fun ComposeNewsApp() {
     val items = rememberNavigationItems()
-    val backStack = remember { androidx.compose.runtime.mutableStateListOf<Destinations>(Destinations.MarketListScreen) }
+    val backStack = remember { mutableStateListOf<Destinations>(Destinations.MarketListScreen) }
     val currentDestination = backStack.lastOrNull() ?: Destinations.MarketListScreen
 
     NavigationSuiteScaffold(
