@@ -69,6 +69,7 @@ dependencies {
         implementation(coroutines)
         implementation(lifecycle.viewmodel.ktx)
         api(kotlinx.collections.immutable)
+        api(paging.common)
         testImplementation(coroutines.test)
     }
 }
