@@ -42,12 +42,13 @@ class MarketsPagingSource(
                 ).suspendOnSuccess {
                     val markets = data.map { it.toMarket() }
                     data.forEach { dao.insertMarket(it.toMarketEntity()) }
-                    Log.d("MarketsPaging", "Page $page loaded: ${markets.size} items, nextKey=${if (markets.isEmpty()) null else page + 1}")
+                    val nextKey = if (markets.isEmpty()) null else page + 1
+                    Log.d("MarketsPaging", "Page $page loaded: ${markets.size} items, nextKey=$nextKey")
                     result =
                         LoadResult.Page(
                             data = markets,
                             prevKey = if (page == 1) null else page - 1,
-                            nextKey = if (markets.isEmpty()) null else page + 1,
+                            nextKey = nextKey,
                         )
                 }.onError {
                     Log.e("MarketsPaging", "Page $page error: $message")
