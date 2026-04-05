@@ -50,11 +50,10 @@ class MarketListScreenTest {
     @Test
     fun givenLoadedStateWithMarkets_whenRendered_thenMarketNameIsVisible() {
         composeTestRule.setContent {
-            MarketListScreen(
+            FavoriteMarketListScreen(
                 state = MarketListContract.State(
-                    marketList = LoadableData.Loaded(persistentListOf(buildMarketModel())),
+                    favoriteMarketList = LoadableData.Loaded(persistentListOf(buildMarketModel())),
                 ),
-                showFavoriteList = false,
                 onNavigateToDetailScreen = {},
                 onFavoriteClick = {},
                 onRefresh = {},
@@ -66,12 +65,11 @@ class MarketListScreenTest {
     @Test
     fun givenEmptyFavoritesState_whenShowFavoriteListIsTrue_thenEmptyMessageIsVisible() {
         composeTestRule.setContent {
-            MarketListScreen(
+            FavoriteMarketListScreen(
                 state = MarketListContract.State(
-                    marketList = LoadableData.Loaded(persistentListOf()),
+                    favoriteMarketList = LoadableData.Loaded(persistentListOf()),
                     showFavoriteList = true,
                 ),
-                showFavoriteList = true,
                 onNavigateToDetailScreen = {},
                 onFavoriteClick = {},
                 onRefresh = {},
@@ -83,13 +81,12 @@ class MarketListScreenTest {
     @Test
     fun givenErrorState_whenRendered_thenErrorMessageIsVisible() {
         composeTestRule.setContent {
-            MarketListScreen(
+            FavoriteMarketListScreen(
                 state = MarketListContract.State(
-                    marketList = LoadableData.Error(
+                    favoriteMarketList = LoadableData.Error(
                         Errors.ApiError(message = "Network Error", code = 500),
                     ),
                 ),
-                showFavoriteList = false,
                 onNavigateToDetailScreen = {},
                 onFavoriteClick = {},
                 onRefresh = {},
@@ -103,11 +100,10 @@ class MarketListScreenTest {
         val market = buildMarketModel()
         var navigatedMarket: MarketModel? = null
         composeTestRule.setContent {
-            MarketListScreen(
+            FavoriteMarketListScreen(
                 state = MarketListContract.State(
-                    marketList = LoadableData.Loaded(persistentListOf(market)),
+                    favoriteMarketList = LoadableData.Loaded(persistentListOf(market)),
                 ),
-                showFavoriteList = false,
                 onNavigateToDetailScreen = { navigatedMarket = it },
                 onFavoriteClick = {},
                 onRefresh = {},

@@ -89,6 +89,8 @@ dependencies {
     }
     libs.apply {
         implementation(kotlinx.collections.immutable)
+        implementation(paging.runtime)
+        implementation(paging.compose)
         testImplementation(turbine)
         testImplementation(robolectric)
         testImplementation(compose.ui.test.junit4)

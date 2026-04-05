@@ -2,23 +2,19 @@
 
 package ir.composenews.appwatch.ui.list
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.wear.compose.foundation.lazy.items
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
-import ir.composenews.base.LoadableComponent
-import ir.composenews.base.errorViewMapper
-import ir.composenews.base.isLoading
 import ir.composenews.base.use
 import ir.composenews.designsystem.component.pull_refresh_indicator.pullRefresh
 import ir.composenews.designsystem.component.pull_refresh_indicator.rememberPullRefreshState
@@ -41,28 +37,25 @@ fun MarketListWearRoute(
             event.invoke(MarketListContract.Event.OnGetMarketList)
         }
     }
+    val lazyPagingItems = viewModel.pagedMarketList.collectAsLazyPagingItems()
     MarketListWearScreen(
-        state = state,
+        lazyPagingItems = lazyPagingItems,
         onNavigateToDetailScreen = onNavigateToDetailScreen,
-        onRefresh = {
-            event.invoke(MarketListContract.Event.OnGetMarketList)
-        },
     )
 }
 
 @OptIn(ExperimentalHorologistApi::class)
 @Composable
 private fun MarketListWearScreen(
-    state: MarketListContract.State,
+    lazyPagingItems: LazyPagingItems<MarketModel>,
     onNavigateToDetailScreen: (market: MarketModel) -> Unit,
-    onRefresh: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val isRefreshing = lazyPagingItems.loadState.refresh is LoadState.Loading
     val refreshState = rememberPullRefreshState(
-        refreshing = state.marketList.isLoading,
-        onRefresh = onRefresh,
+        refreshing = isRefreshing,
+        onRefresh = { lazyPagingItems.refresh() },
     )
-
     val listState = rememberResponsiveColumnState(
         contentPadding = ScalingLazyColumnDefaults.padding(
             first = ScalingLazyColumnDefaults.ItemType.Card,
@@ -74,27 +67,22 @@ private fun MarketListWearScreen(
             .fillMaxWidth()
             .pullRefresh(refreshState),
     ) {
-        LoadableComponent(
-            loadableData = state.marketList,
-            loading = {
+        when (val refreshLoadState = lazyPagingItems.loadState.refresh) {
+            is LoadState.Loading -> {
                 ShimmerMarketListItem()
-            },
-            error = { error ->
-                ErrorView(errorMessage = errorViewMapper(error))
-            },
-            loaded = { data ->
-                AnimatedVisibility(
-                    visible = !state.marketList.isLoading,
-                    enter = fadeIn(),
-                    exit = fadeOut(),
+            }
+            is LoadState.Error -> {
+                ErrorView(errorMessage = refreshLoadState.error.message ?: "Unknown error")
+            }
+            else -> {
+                ScalingLazyColumn(
+                    columnState = listState,
                 ) {
-                    ScalingLazyColumn(
-                        columnState = listState,
-                    ) {
-                        items(
-                            items = data,
-                            key = { it.name },
-                        ) { market ->
+                    items(
+                        count = lazyPagingItems.itemCount,
+                    ) { index ->
+                        val market = lazyPagingItems[index]
+                        if (market != null) {
                             MarketItem(
                                 modifier = modifier,
                                 name = market.name,
@@ -108,7 +96,7 @@ private fun MarketListWearScreen(
                         }
                     }
                 }
-            },
-        )
+            }
+        }
     }
 }
