@@ -14,16 +14,24 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemKey
+import androidx.paging.compose.LazyPagingItems
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import ir.composenews.base.LoadableComponent
 import ir.composenews.base.errorViewMapper
@@ -51,47 +59,138 @@ fun MarketListRoute(
     LaunchedEffect(key1 = Unit) {
         event.invoke(MarketListContract.Event.OnSetShowFavoriteList(showFavoriteList = showFavoriteList))
     }
-    MarketListScreen(
-        state = state,
-        onNavigateToDetailScreen = onNavigateToDetailScreen,
-        showFavoriteList = showFavoriteList,
-        onFavoriteClick = { market ->
-            event.invoke(MarketListContract.Event.OnFavoriteClick(market = market))
-        },
-        onRefresh = {
-            event.invoke(MarketListContract.Event.OnGetMarketList)
-        },
-    )
+    if (showFavoriteList) {
+        FavoriteMarketListScreen(
+            state = state,
+            onNavigateToDetailScreen = onNavigateToDetailScreen,
+            onFavoriteClick = { market ->
+                event.invoke(MarketListContract.Event.OnFavoriteClick(market = market))
+            },
+            onRefresh = {
+                event.invoke(MarketListContract.Event.OnGetMarketList)
+            },
+        )
+    } else {
+        val lazyPagingItems = viewModel.pagedMarketList.collectAsLazyPagingItems()
+        PagedMarketListScreen(
+            lazyPagingItems = lazyPagingItems,
+            onNavigateToDetailScreen = onNavigateToDetailScreen,
+            onFavoriteClick = { market ->
+                event.invoke(MarketListContract.Event.OnFavoriteClick(market = market))
+            },
+        )
+    }
 }
 
 @Composable
-fun MarketListScreen(
+fun PagedMarketListScreen(
+    lazyPagingItems: LazyPagingItems<MarketModel>,
+    onNavigateToDetailScreen: (market: MarketModel) -> Unit,
+    onFavoriteClick: (market: MarketModel) -> Unit,
+) {
+    val isRefreshing = lazyPagingItems.loadState.refresh is LoadState.Loading
+    val refreshState = rememberPullRefreshState(
+        refreshing = isRefreshing,
+        onRefresh = { lazyPagingItems.refresh() },
+    )
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .pullRefresh(refreshState),
+    ) {
+        PullRefreshIndicator(
+            isRefreshing,
+            refreshState,
+            Modifier.align(Alignment.TopCenter),
+        )
+        when (val refreshLoadState = lazyPagingItems.loadState.refresh) {
+            is LoadState.Error -> {
+                ErrorView(errorMessage = refreshLoadState.error.message ?: "Unknown error")
+            }
+            else -> {
+                LazyColumn(modifier = Modifier.fillMaxSize()) {
+                    items(
+                        count = lazyPagingItems.itemCount,
+                        key = lazyPagingItems.itemKey { it.name },
+                    ) { index ->
+                        val market = lazyPagingItems[index]
+                        if (market != null) {
+                            Column(
+                                modifier = Modifier.animateItem(
+                                    placementSpec = tween(durationMillis = 250),
+                                    fadeInSpec = null,
+                                    fadeOutSpec = null,
+                                ),
+                            ) {
+                                MarketListItem(
+                                    modifier = Modifier,
+                                    market = market,
+                                    showFavoriteList = false,
+                                    onItemClick = { onNavigateToDetailScreen(market) },
+                                    onFavoriteClick = { onFavoriteClick(market) },
+                                )
+                            }
+                        }
+                    }
+                    if (lazyPagingItems.loadState.append is LoadState.Loading) {
+                        item {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp),
+                                contentAlignment = Alignment.Center,
+                            ) {
+                                CircularProgressIndicator()
+                            }
+                        }
+                    }
+                    if (lazyPagingItems.loadState.append is LoadState.Error) {
+                        item {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp),
+                                contentAlignment = Alignment.Center,
+                            ) {
+                                ErrorView(
+                                    errorMessage = (lazyPagingItems.loadState.append as LoadState.Error)
+                                        .error.message ?: "Unknown error",
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun FavoriteMarketListScreen(
     state: MarketListContract.State,
-    showFavoriteList: Boolean,
     onNavigateToDetailScreen: (market: MarketModel) -> Unit,
     onFavoriteClick: (market: MarketModel) -> Unit,
     onRefresh: () -> Unit,
 ) {
     val refreshState = rememberPullRefreshState(
-        refreshing = state.marketList.isLoading,
+        refreshing = state.favoriteMarketList.isLoading,
         onRefresh = onRefresh,
     )
     Box(
-        modifier =
-        Modifier
+        modifier = Modifier
             .fillMaxWidth()
             .pullRefresh(refreshState),
     ) {
         PullRefreshIndicator(
-            state.marketList.isLoading,
+            state.favoriteMarketList.isLoading,
             refreshState,
             Modifier.align(Alignment.TopCenter),
         )
         LoadableComponent(
-            loadableData = state.marketList,
+            loadableData = state.favoriteMarketList,
             loaded = { data ->
                 AnimatedVisibility(
-                    visible = !state.marketList.isLoading,
+                    visible = !state.favoriteMarketList.isLoading,
                     enter = fadeIn(),
                     exit = fadeOut(),
                 ) {
@@ -107,11 +206,8 @@ fun MarketListScreen(
                                 items = data,
                                 key = { it.name },
                             ) { market ->
-                                Modifier
-                                    .fillMaxWidth()
                                 Column(
-                                    modifier =
-                                    Modifier.animateItem(
+                                    modifier = Modifier.animateItem(
                                         placementSpec = tween(durationMillis = 250),
                                         fadeInSpec = null,
                                         fadeOutSpec = null,
@@ -120,13 +216,9 @@ fun MarketListScreen(
                                     MarketListItem(
                                         modifier = Modifier,
                                         market = market,
-                                        showFavoriteList = showFavoriteList,
-                                        onItemClick = {
-                                            onNavigateToDetailScreen(market)
-                                        },
-                                        onFavoriteClick = {
-                                            onFavoriteClick(market)
-                                        },
+                                        showFavoriteList = true,
+                                        onItemClick = { onNavigateToDetailScreen(market) },
+                                        onFavoriteClick = { onFavoriteClick(market) },
                                     )
                                 }
                             }
@@ -149,9 +241,8 @@ private fun MarketListScreenPrev(
 ) {
     ComposeNewsTheme {
         Surface {
-            MarketListScreen(
+            FavoriteMarketListScreen(
                 state = marketListState,
-                showFavoriteList = false,
                 onNavigateToDetailScreen = {},
                 onFavoriteClick = {},
                 onRefresh = {},

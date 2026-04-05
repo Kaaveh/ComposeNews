@@ -11,7 +11,7 @@ interface MarketListContract :
     UnidirectionalViewModel<MarketListContract.Event, MarketListContract.State> {
 
     data class State(
-        val marketList: LoadableData<PersistentList<MarketModel>> = LoadableData.Initial,
+        val favoriteMarketList: LoadableData<PersistentList<MarketModel>> = LoadableData.Initial,
         val showFavoriteList: Boolean = false,
     )
 

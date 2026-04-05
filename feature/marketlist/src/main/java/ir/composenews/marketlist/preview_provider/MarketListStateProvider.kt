@@ -12,7 +12,7 @@ import kotlinx.collections.immutable.toPersistentList
 class MarketListStateProvider : PreviewParameterProvider<MarketListContract.State> {
     override val values: Sequence<MarketListContract.State> = sequenceOf(
         MarketListContract.State(
-            marketList = LoadableData.Loaded(
+            favoriteMarketList = LoadableData.Loaded(
                 data = marketList.map { it.toMarketModel() }
                     .toPersistentList(),
             ),

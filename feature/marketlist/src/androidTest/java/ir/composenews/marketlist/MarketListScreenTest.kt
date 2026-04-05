@@ -22,14 +22,12 @@ import org.junit.Test
 @Composable
 fun TestableMarketListScreen(
     marketListState: MarketListContract.State,
-    showFavoriteList: Boolean,
     onNavigateToDetailScreen: (market: MarketModel) -> Unit,
     onFavoriteClick: (market: MarketModel) -> Unit,
     onRefresh: () -> Unit,
 ) {
-    MarketListScreen(
+    FavoriteMarketListScreen(
         state = marketListState,
-        showFavoriteList = showFavoriteList,
         onNavigateToDetailScreen = onNavigateToDetailScreen,
         onFavoriteClick = onFavoriteClick,
         onRefresh = onRefresh,
@@ -46,7 +44,7 @@ class MarketListScreenTest {
             TestableMarketListScreen(
                 marketListState =
                 MarketListContract.State(
-                    marketList = LoadableData.Loaded(
+                    favoriteMarketList = LoadableData.Loaded(
                         persistentListOf(
                             MarketModel(
                                 id = "1",
@@ -61,7 +59,6 @@ class MarketListScreenTest {
                     ),
                     showFavoriteList = false,
                 ),
-                showFavoriteList = false,
                 onNavigateToDetailScreen = {},
                 onFavoriteClick = {},
                 onRefresh = {},

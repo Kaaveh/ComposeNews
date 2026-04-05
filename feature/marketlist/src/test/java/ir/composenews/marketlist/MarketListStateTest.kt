@@ -11,10 +11,10 @@ import kotlinx.collections.immutable.persistentListOf
 
 class MarketListStateTest : StringSpec({
 
-    "Given default state, Then marketList is Initial and showFavoriteList is false" {
+    "Given default state, Then favoriteMarketList is Initial and showFavoriteList is false" {
         val state = MarketListContract.State()
 
-        state.marketList.shouldBeInstanceOf<LoadableData.Initial>()
+        state.favoriteMarketList.shouldBeInstanceOf<LoadableData.Initial>()
         state.showFavoriteList shouldBe false
     }
 
@@ -27,19 +27,19 @@ class MarketListStateTest : StringSpec({
         original.showFavoriteList shouldBe false
     }
 
-    "Given a Loaded marketList, When isLoading is checked, Then it returns false" {
+    "Given a Loaded favoriteMarketList, When isLoading is checked, Then it returns false" {
         val state = MarketListContract.State(
-            marketList = LoadableData.Loaded(persistentListOf()),
+            favoriteMarketList = LoadableData.Loaded(persistentListOf()),
         )
 
-        state.marketList.isLoading shouldBe false
+        state.favoriteMarketList.isLoading shouldBe false
     }
 
-    "Given a Loading marketList, When isLoading is checked, Then it returns true" {
+    "Given a Loading favoriteMarketList, When isLoading is checked, Then it returns true" {
         val state = MarketListContract.State(
-            marketList = LoadableData.Loading,
+            favoriteMarketList = LoadableData.Loading,
         )
 
-        state.marketList.isLoading shouldBe true
+        state.favoriteMarketList.isLoading shouldBe true
     }
 })

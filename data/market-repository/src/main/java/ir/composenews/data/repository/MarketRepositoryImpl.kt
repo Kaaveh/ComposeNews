@@ -8,6 +8,9 @@
 package ir.composenews.data.repository
 
 import android.util.Log
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import ir.composenews.data.mapper.toMarket
 import ir.composenews.data.mapper.toMarketChart
 import ir.composenews.data.mapper.toMarketDetail
@@ -29,11 +32,14 @@ import ir.composenews.network.suspendMap
 import ir.composenews.network.suspendOnError
 import ir.composenews.network.suspendOnException
 import ir.composenews.network.suspendOnSuccess
+import ir.composenews.data.paging.MarketsPagingSource
 import ir.composenews.remotedatasource.api.MarketsApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+
+private const val PAGE_SIZE = 20
 
 class MarketRepositoryImpl @Inject constructor(
     private val api: MarketsApi,
@@ -42,6 +48,15 @@ class MarketRepositoryImpl @Inject constructor(
 
     override fun getMarketList(): Flow<List<Market>> =
         dao.getMarketList().map { list -> list.map { it.toMarket() } }
+
+    override fun getPagedMarketList(): Flow<PagingData<Market>> = Pager(
+        config = PagingConfig(
+            pageSize = PAGE_SIZE,
+            initialLoadSize = PAGE_SIZE,
+            enablePlaceholders = false,
+        ),
+        pagingSourceFactory = { MarketsPagingSource(api, dao) },
+    ).flow
 
     override fun getFavoriteMarketList(): Flow<List<Market>> =
         dao.getFavoriteMarketList().map { list -> list.map { it.toMarket() } }

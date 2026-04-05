@@ -3,14 +3,15 @@
 package ir.composenews.marketlist
 
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
+import androidx.paging.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.composenews.base.BaseViewModel
 import ir.composenews.base.LoadableData
 import ir.composenews.core_test.dispatcher.DispatcherProvider
 import ir.composenews.domain.use_case.GetFavoriteMarketListUseCase
-import ir.composenews.domain.use_case.GetMarketListUseCase
+import ir.composenews.domain.use_case.GetPagedMarketListUseCase
 import ir.composenews.domain.use_case.ToggleFavoriteMarketListUseCase
-import ir.composenews.network.Errors
 import ir.composenews.uimarket.mapper.toMarket
 import ir.composenews.uimarket.mapper.toMarketModel
 import ir.composenews.uimarket.model.MarketModel
@@ -19,8 +20,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -28,11 +29,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MarketListViewModel @Inject constructor(
-    private val getMarketListUseCase: GetMarketListUseCase,
+    private val getPagedMarketListUseCase: GetPagedMarketListUseCase,
     private val getFavoriteMarketListUseCase: GetFavoriteMarketListUseCase,
     private val toggleFavoriteMarketListUseCase: ToggleFavoriteMarketListUseCase,
     dispatcherProvider: DispatcherProvider,
 ) : BaseViewModel(dispatcherProvider), MarketListContract {
+
+    val pagedMarketList = getPagedMarketListUseCase()
+        .map { pagingData -> pagingData.map { it.toMarketModel() } }
+        .cachedIn(viewModelScope)
 
     private val mutableState = MutableStateFlow(MarketListContract.State())
     override val state: StateFlow<MarketListContract.State> = mutableState.asStateFlow()
@@ -48,7 +53,7 @@ class MarketListViewModel @Inject constructor(
 
     private fun onSetShowFavoriteList(showFavoriteList: Boolean) {
         val currentState = mutableState.value
-        if (currentState.showFavoriteList == showFavoriteList && currentState.marketList !is LoadableData.Initial) {
+        if (currentState.showFavoriteList == showFavoriteList && currentState.favoriteMarketList !is LoadableData.Initial) {
             return
         }
         mutableState.update {
@@ -59,41 +64,16 @@ class MarketListViewModel @Inject constructor(
 
     private fun getData() {
         dataJob?.cancel()
-        mutableState.update {
-            it.copy(marketList = LoadableData.Loading)
+        if (mutableState.value.showFavoriteList) {
+            mutableState.update { it.copy(favoriteMarketList = LoadableData.Loading) }
+            dataJob = getFavoriteMarketList()
         }
-        dataJob = if (mutableState.value.showFavoriteList) {
-            getFavoriteMarketList()
-        } else {
-            getMarketList()
-        }
-    }
-
-    private fun getMarketList(): Job = viewModelScope.launch {
-        getMarketListUseCase()
-            .onEach { newList ->
-                val marketList = newList.map { it.toMarketModel() }.toPersistentList()
-                mutableState.update {
-                    it.copy(marketList = LoadableData.Loaded(data = marketList))
-                }
-            }
-            .catch { exception ->
-                mutableState.update {
-                    it.copy(
-                        marketList = LoadableData.Error(
-                            error = Errors.ExceptionError(message = exception.message),
-                        ),
-                    )
-                }
-            }
-            .collect {}
     }
 
     private fun getFavoriteMarketList(): Job = getFavoriteMarketListUseCase().onEach { newList ->
         val marketList = newList.map { it.toMarketModel() }.toPersistentList()
-
         mutableState.update {
-            it.copy(marketList = LoadableData.Loaded(data = marketList))
+            it.copy(favoriteMarketList = LoadableData.Loaded(data = marketList))
         }
     }.launchIn(viewModelScope)
 

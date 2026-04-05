@@ -11,8 +11,8 @@ fun MarketResponse.toMarketEntity(): MarketEntity = MarketEntity(
     id = id,
     name = name,
     symbol = symbol,
-    currentPrice = currentPrice,
-    priceChangePercentage24h = priceChangePercentage24h,
+    currentPrice = currentPrice ?: 0.0,
+    priceChangePercentage24h = priceChangePercentage24h ?: 0.0,
     imageUrl = imageUrl,
     isFavorite = FALSE,
 )
@@ -21,7 +21,7 @@ fun MarketResponse.toMarket(): Market = Market(
     id = id,
     name = name,
     symbol = symbol,
-    currentPrice = currentPrice,
-    priceChangePercentage24h = priceChangePercentage24h,
+    currentPrice = currentPrice ?: 0.0,
+    priceChangePercentage24h = priceChangePercentage24h ?: 0.0,
     imageUrl = imageUrl,
 )
