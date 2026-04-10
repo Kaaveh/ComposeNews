@@ -5,8 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import dagger.hilt.android.AndroidEntryPoint
+import ir.composenews.designsystem.preview.DevicesPreviews
 import ir.composenews.designsystem.theme.ComposeNewsTheme
 import ir.composenews.permission.enum.PermissionType
 import ir.composenews.permission.manager.PermissionManager
@@ -34,46 +34,10 @@ class MainActivity :
     }
 }
 
-@Preview(showBackground = true)
+@DevicesPreviews
 @Composable
 @Suppress("ktlint:standard:function-naming", "UnusedPrivateMember")
 private fun ComposeNewsAppPreview() {
-    ComposeNewsTheme {
-        ComposeNewsApp()
-    }
-}
-
-@Preview(showBackground = true, widthDp = 700, heightDp = 500)
-@Composable
-@Suppress("ktlint:standard:function-naming", "UnusedPrivateMember")
-private fun ComposeNewsAppPreviewTablet() {
-    ComposeNewsTheme {
-        ComposeNewsApp()
-    }
-}
-
-@Preview(showBackground = true, widthDp = 500, heightDp = 700)
-@Composable
-@Suppress("ktlint:standard:function-naming", "UnusedPrivateMember")
-private fun ComposeNewsAppPreviewTabletPortrait() {
-    ComposeNewsTheme {
-        ComposeNewsApp()
-    }
-}
-
-@Preview(showBackground = true, widthDp = 1100, heightDp = 600)
-@Composable
-@Suppress("ktlint:standard:function-naming", "UnusedPrivateMember")
-private fun ComposeNewsAppPreviewDesktop() {
-    ComposeNewsTheme {
-        ComposeNewsApp()
-    }
-}
-
-@Preview(showBackground = true, widthDp = 600, heightDp = 1100)
-@Composable
-@Suppress("ktlint:standard:function-naming", "UnusedPrivateMember")
-private fun ComposeNewsAppPreviewDesktopPortrait() {
     ComposeNewsTheme {
         ComposeNewsApp()
     }
