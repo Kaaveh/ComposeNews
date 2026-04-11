@@ -65,6 +65,7 @@ import java.util.Locale
 @Composable
 fun MarketItem(
     modifier: Modifier,
+    id: String,
     name: String,
     symbol: String,
     urlToImage: String,
@@ -107,6 +108,7 @@ fun MarketItem(
                 content = {
                     MarketItemCard(
                         modifier = modifier,
+                        id = id,
                         name = name,
                         symbol = symbol,
                         urlToImage = urlToImage,
@@ -122,6 +124,7 @@ fun MarketItem(
     } else {
         MarketItemCard(
             modifier = modifier,
+            id = id,
             name = name,
             symbol = symbol,
             urlToImage = urlToImage,
@@ -144,6 +147,7 @@ fun MarketItem(
 @Composable
 private fun MarketItemCard(
     modifier: Modifier,
+    id: String,
     name: String,
     symbol: String,
     urlToImage: String,
@@ -175,10 +179,24 @@ private fun MarketItemCard(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
+            val sharedTransitionScope = LocalSharedTransitionScope.current
+            val animatedVisibilityScope = LocalAnimatedVisibilityScope.current
             Image(
                 painter = rememberAsyncImagePainter(model = urlToImage),
                 contentDescription = name,
                 modifier = Modifier
+                    .then(
+                        if (sharedTransitionScope != null && animatedVisibilityScope != null) {
+                            with(sharedTransitionScope) {
+                                Modifier.sharedElement(
+                                    sharedContentState = rememberSharedContentState(key = "market_icon_$id"),
+                                    animatedVisibilityScope = animatedVisibilityScope,
+                                )
+                            }
+                        } else {
+                            Modifier
+                        },
+                    )
                     .size(48.dp)
                     .clip(CircleShape),
             )
@@ -246,6 +264,7 @@ private fun MarketItemPrev() {
         Surface {
             MarketItem(
                 modifier = Modifier,
+                id = "",
                 name = "Title",
                 symbol = "BTC",
                 urlToImage = "",

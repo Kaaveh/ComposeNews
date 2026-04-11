@@ -34,6 +34,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import ir.composenews.base.LoadableComponent
+import ir.composenews.designsystem.component.LocalAnimatedVisibilityScope
+import ir.composenews.designsystem.component.LocalSharedTransitionScope
 import ir.composenews.base.LoadableData
 import ir.composenews.base.use
 import ir.composenews.designsystem.component.FavoriteIcon
@@ -139,10 +141,26 @@ private fun TopAppBar(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
+                    val sharedTransitionScope = LocalSharedTransitionScope.current
+                    val animatedVisibilityScope = LocalAnimatedVisibilityScope.current
                     Image(
                         painter = rememberAsyncImagePainter(model = data.imageUrl),
                         contentDescription = data.name,
                         modifier = Modifier
+                            .then(
+                                if (sharedTransitionScope != null && animatedVisibilityScope != null) {
+                                    with(sharedTransitionScope) {
+                                        Modifier.sharedElement(
+                                            sharedContentState = rememberSharedContentState(
+                                                key = "market_icon_${data.id}",
+                                            ),
+                                            animatedVisibilityScope = animatedVisibilityScope,
+                                        )
+                                    }
+                                } else {
+                                    Modifier
+                                },
+                            )
                             .size(48.dp)
                             .clip(CircleShape),
                     )

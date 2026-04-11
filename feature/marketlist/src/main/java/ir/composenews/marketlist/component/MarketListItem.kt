@@ -19,6 +19,7 @@ fun MarketListItem(
     with(market) {
         MarketItem(
             modifier = modifier,
+            id = id,
             name = name,
             symbol = symbol,
             urlToImage = imageUrl,
