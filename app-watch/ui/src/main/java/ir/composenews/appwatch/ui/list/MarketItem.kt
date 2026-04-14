@@ -10,6 +10,7 @@
 package ir.composenews.appwatch.ui.list
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -110,6 +111,7 @@ private fun MarketItemCard(
                     text = name,
                     style = MaterialTheme.typography.caption3,
                     maxLines = 1,
+                    modifier = Modifier.basicMarquee(),
                 )
             }
             Column(
