@@ -13,6 +13,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -207,7 +208,12 @@ private fun MarketItemCard(
                     text = symbol.uppercase(Locale.getDefault()),
                     style = MaterialTheme.typography.headlineSmall,
                 )
-                Text(text = name, style = MaterialTheme.typography.bodyLarge)
+                Text(
+                    text = name,
+                    style = MaterialTheme.typography.bodyLarge,
+                    maxLines = 1,
+                    modifier = Modifier.basicMarquee(),
+                )
             }
             Column(
                 modifier = Modifier.weight(1.5F),
