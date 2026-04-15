@@ -17,10 +17,10 @@ import ir.composenews.appwatch.navigation.MainContract
 import ir.composenews.appwatch.navigation.graph.Destinations
 import ir.composenews.designsystem.theme.ComposeNewsTheme
 import ir.composenews.navigation.ComposeNewsWearNavHost
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
-    private val mainViewModel: MainViewModel by org.koin.androidx.viewmodel.ext.android
-        .viewModel()
+    private val mainViewModel: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
