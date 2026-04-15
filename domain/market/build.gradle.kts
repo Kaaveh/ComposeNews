@@ -3,8 +3,6 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.hilt.android)
-    alias(libs.plugins.ksp)
     alias(libs.plugins.detekt)
     alias(libs.plugins.kotliner)
     alias(libs.plugins.kotlin.parcelize)
@@ -52,9 +50,8 @@ kotlin {
 }
 
 dependencies {
-    // Hilt
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
+    // Koin
+    implementation(libs.koin.android)
 
     // Test
     androidTestImplementation(kotlin("test"))
@@ -65,7 +62,6 @@ dependencies {
         api(core.network.ktor)
     }
     libs.apply {
-        implementation(javax.inject)
         implementation(coroutines)
         implementation(lifecycle.viewmodel.ktx)
         api(kotlinx.collections.immutable)

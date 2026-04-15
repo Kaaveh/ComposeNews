@@ -31,7 +31,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import androidx.wear.tooling.preview.devices.WearDevices
@@ -54,6 +53,7 @@ import ir.composenews.marketdetail.MarketDetailViewModel
 import ir.composenews.marketdetail.formatNumber
 import ir.composenews.marketdetail.preview_provider.MarketDetailStateProvider
 import ir.composenews.uimarket.model.MarketModel
+import org.koin.androidx.compose.koinViewModel
 
 private const val HALF_WIDTH_RATIO = 0.5f
 private const val SMALL_WIDTH_RATIO = 0.2f
@@ -62,7 +62,7 @@ private const val SMALL_WIDTH_RATIO = 0.2f
 fun MarketDetailWearRoute(
     market: MarketModel,
 ) {
-    val viewModel: MarketDetailViewModel = hiltViewModel()
+    val viewModel: MarketDetailViewModel = koinViewModel()
     val (state, event) = use(viewModel = viewModel)
     LaunchedEffect(key1 = market) {
         event.invoke(MarketDetailContract.Event.SetMarket(market = market))

@@ -4,8 +4,6 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose)
-    alias(libs.plugins.hilt.android)
-    alias(libs.plugins.ksp)
     alias(libs.plugins.detekt)
     alias(libs.plugins.kotliner)
 }
@@ -63,9 +61,9 @@ configurations.all {
 }
 
 dependencies {
-    // Hilt
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
+    // Koin
+    implementation(libs.koin.android)
+    implementation(libs.koin.androidx.compose)
 
     // Compose BOM
     implementation(platform(libs.compose.bom))
@@ -76,7 +74,6 @@ dependencies {
     testImplementation(kotlin("test"))
 
     // Feature dependencies
-    implementation(libs.hilt.navigation.compose)
     androidTestImplementation(libs.runner)
     testImplementation(projects.core.test)
     api(projects.library.designsystem)

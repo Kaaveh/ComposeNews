@@ -4,8 +4,6 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose)
-    alias(libs.plugins.hilt.android)
-    alias(libs.plugins.ksp)
     alias(libs.plugins.detekt)
     alias(libs.plugins.kotliner)
 }
@@ -83,9 +81,9 @@ kotlin {
 }
 
 dependencies {
-    // Hilt
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
+    // Koin
+    implementation(libs.koin.android)
+    implementation(libs.koin.androidx.compose)
 
     // Compose BOM
     implementation(platform(libs.compose.bom))
@@ -103,9 +101,7 @@ dependencies {
     }
     libs.apply {
         implementation(androidx.ktx)
-        implementation(hilt.work)
         implementation(lifecycle.runtime.ktx)
-        implementation(hilt.navigation.compose)
         implementation(work.runtime.ktx)
         implementation(compose.activity)
         implementation(compose.ui.preview.wear)

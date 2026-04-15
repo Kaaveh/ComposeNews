@@ -2,7 +2,6 @@
     "SwallowedException",
     "TooGenericExceptionCaught",
     "ktlint:standard:annotation",
-    "ktlint:standard:no-empty-first-line-in-class-body",
     "ktlint:standard:function-expression-body",
     "ktlint:standard:function-signature",
     "ktlint:standard:multiline-expression-wrapping",
@@ -11,24 +10,23 @@
 package ir.composenews.sync.worker
 
 import android.content.Context
-import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.ForegroundInfo
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.OutOfQuotaPolicy
 import androidx.work.WorkerParameters
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedInject
 import ir.composenews.domain.use_case.SyncMarketListUseCase
 import ir.composenews.sync.SyncConstraints
 import ir.composenews.sync.syncForegroundInfo
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-@HiltWorker
-class SyncWorker @AssistedInject constructor(
-    @Assisted private val appContext: Context,
-    @Assisted workerParams: WorkerParameters,
-    private val syncMarketListUseCase: SyncMarketListUseCase,
-) : CoroutineWorker(appContext, workerParams) {
+class SyncWorker(
+    private val appContext: Context,
+    workerParams: WorkerParameters,
+) : CoroutineWorker(appContext, workerParams),
+    KoinComponent {
+    private val syncMarketListUseCase: SyncMarketListUseCase by inject()
 
     override suspend fun doWork(): Result {
         return try {
@@ -43,10 +41,9 @@ class SyncWorker @AssistedInject constructor(
         appContext.syncForegroundInfo()
 
     companion object {
-        fun startUpSyncWork() = OneTimeWorkRequestBuilder<DelegatingWorker>()
+        fun startUpSyncWork() = OneTimeWorkRequestBuilder<SyncWorker>()
             .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
             .setConstraints(SyncConstraints)
-            .setInputData(SyncWorker::class.delegatedData())
             .build()
     }
 }

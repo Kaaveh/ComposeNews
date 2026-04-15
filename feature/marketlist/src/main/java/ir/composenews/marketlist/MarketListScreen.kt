@@ -27,7 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import org.koin.androidx.compose.koinViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
@@ -52,7 +52,7 @@ import ir.composenews.uimarket.model.MarketModel
 @Composable
 fun MarketListRoute(
     showFavoriteList: Boolean = false,
-    viewModel: MarketListViewModel = hiltViewModel(key = if (showFavoriteList) "favorites" else "markets"),
+    viewModel: MarketListViewModel = koinViewModel(key = if (showFavoriteList) "favorites" else "markets"),
     onNavigateToDetailScreen: (market: MarketModel) -> Unit,
 ) {
     val (state, event) = use(viewModel = viewModel)

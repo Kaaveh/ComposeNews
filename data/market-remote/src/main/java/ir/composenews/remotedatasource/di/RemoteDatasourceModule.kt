@@ -2,13 +2,7 @@
 
 package ir.composenews.remotedatasource.di
 
-import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerInterceptor
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -17,18 +11,16 @@ import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
+import ir.composenews.remotedatasource.api.MarketsApi
+import ir.composenews.remotedatasource.api.MarketsApiImpl
 import ir.composenews.remotedatasource.util.HttpRoutes
 import kotlinx.serialization.json.Json
+import org.koin.android.ext.koin.androidContext
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-object RemoteDatasourceModule {
-
-    @Provides
-    fun provideHttpClient(
-        @ApplicationContext context: Context,
-    ): HttpClient {
-        return HttpClient(OkHttp) {
+val remoteDatasourceModule = module {
+    single<HttpClient> {
+        HttpClient(OkHttp) {
             defaultRequest {
                 url(urlString = HttpRoutes.BASE_URL)
             }
@@ -54,8 +46,9 @@ object RemoteDatasourceModule {
             }
 
             engine {
-                addInterceptor(ChuckerInterceptor.Builder(context).build())
+                addInterceptor(ChuckerInterceptor.Builder(androidContext()).build())
             }
         }
     }
+    single<MarketsApi> { MarketsApiImpl(get()) }
 }

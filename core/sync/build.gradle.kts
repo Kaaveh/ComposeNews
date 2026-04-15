@@ -3,8 +3,6 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.hilt.android)
-    alias(libs.plugins.ksp)
     alias(libs.plugins.detekt)
     alias(libs.plugins.kotliner)
 }
@@ -51,9 +49,9 @@ kotlin {
 }
 
 dependencies {
-    // Hilt
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
+    // Koin
+    implementation(libs.koin.android)
+    implementation(libs.koin.workmanager)
 
     // Test
     androidTestImplementation(kotlin("test"))
@@ -61,7 +59,6 @@ dependencies {
 
     api(projects.domain.market)
     libs.apply {
-        implementation(hilt.work)
         implementation(startup.runtime)
         implementation(work.runtime.ktx)
     }
