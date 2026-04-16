@@ -37,11 +37,10 @@ import ir.composenews.remotedatasource.api.MarketsApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
 private const val PAGE_SIZE = 20
 
-class MarketRepositoryImpl @Inject constructor(
+class MarketRepositoryImpl(
     private val api: MarketsApi,
     private val dao: MarketDao,
 ) : MarketRepository {

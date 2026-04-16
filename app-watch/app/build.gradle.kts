@@ -4,8 +4,6 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose)
-    alias(libs.plugins.hilt.android)
-    alias(libs.plugins.ksp)
     alias(libs.plugins.detekt)
     alias(libs.plugins.kotliner)
 }
@@ -83,9 +81,9 @@ kotlin {
 }
 
 dependencies {
-    // Hilt
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
+    // Koin
+    implementation(libs.koin.android)
+    implementation(libs.koin.androidx.compose)
 
     // Compose BOM
     implementation(platform(libs.compose.bom))
@@ -100,12 +98,17 @@ dependencies {
         implementation(library.designsystem)
         implementation(core.base)
         implementation(core.uimarket)
+        implementation(core.test)
+        implementation(domain.market)
+        implementation(data.marketLocal)
+        implementation(data.marketRemote)
+        implementation(data.marketRepository)
+        implementation(feature.marketlist)
+        implementation(feature.marketdetail)
     }
     libs.apply {
         implementation(androidx.ktx)
-        implementation(hilt.work)
         implementation(lifecycle.runtime.ktx)
-        implementation(hilt.navigation.compose)
         implementation(work.runtime.ktx)
         implementation(compose.activity)
         implementation(compose.ui.preview.wear)

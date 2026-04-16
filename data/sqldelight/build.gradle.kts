@@ -3,7 +3,6 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.hilt.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.detekt)
     alias(libs.plugins.kotliner)
@@ -60,10 +59,6 @@ sqldelight {
 }
 
 dependencies {
-    // Hilt
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
-
     // Test
     androidTestImplementation(kotlin("test"))
     testImplementation(kotlin("test"))

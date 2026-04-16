@@ -16,7 +16,6 @@ plugins {
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.kotlin.parcelize) apply false
     alias(libs.plugins.kotlinx.serialization) apply false
-    alias(libs.plugins.hilt.android) apply false
     alias(libs.plugins.kotliner) apply false
     alias(libs.plugins.sqldelight) apply false
     alias(libs.plugins.detekt) apply true // Needs to be applied at the root, unlike others.

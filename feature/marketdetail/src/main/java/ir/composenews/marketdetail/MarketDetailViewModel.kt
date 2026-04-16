@@ -3,7 +3,6 @@
 package ir.composenews.marketdetail
 
 import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.composenews.base.BaseViewModel
 import ir.composenews.base.LoadableData
 import ir.composenews.core_test.dispatcher.DispatcherProvider
@@ -22,10 +21,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class MarketDetailViewModel @Inject constructor(
+class MarketDetailViewModel(
     private val getMarketChartUseCase: GetMarketChartUseCase,
     private val getMarketDetailUseCase: GetMarketDetailUseCase,
     private val toggleFavoriteMarketListUseCase: ToggleFavoriteMarketListUseCase,

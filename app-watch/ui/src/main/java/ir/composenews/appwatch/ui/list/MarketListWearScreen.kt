@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
+import org.koin.androidx.compose.koinViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -29,7 +29,7 @@ fun MarketListWearRoute(
     showFavoriteList: Boolean = false,
     onNavigateToDetailScreen: (market: MarketModel) -> Unit,
 ) {
-    val viewModel: MarketListViewModel = hiltViewModel()
+    val viewModel: MarketListViewModel = koinViewModel()
     val (state, event) = use(viewModel = viewModel)
     LaunchedEffect(key1 = Unit) {
         event.invoke(MarketListContract.Event.OnSetShowFavoriteList(showFavoriteList = showFavoriteList))

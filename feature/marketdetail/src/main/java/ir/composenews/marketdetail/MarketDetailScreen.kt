@@ -31,7 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import org.koin.androidx.compose.koinViewModel
 import coil.compose.rememberAsyncImagePainter
 import ir.composenews.base.LoadableComponent
 import ir.composenews.designsystem.component.LocalAnimatedVisibilityScope
@@ -51,7 +51,7 @@ import ir.composenews.uimarket.model.MarketModel
 @Composable
 fun MarketDetailRoute(
     market: MarketModel,
-    viewModel: MarketDetailViewModel = hiltViewModel(),
+    viewModel: MarketDetailViewModel = koinViewModel(),
 ) {
     val (state, event) = use(viewModel = viewModel)
 

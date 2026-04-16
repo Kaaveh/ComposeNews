@@ -6,9 +6,8 @@ import androidx.paging.PagingData
 import ir.composenews.domain.model.Market
 import ir.composenews.domain.repository.MarketRepository
 import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
 
-class GetPagedMarketListUseCase @Inject constructor(
+class GetPagedMarketListUseCase(
     private val repository: MarketRepository,
 ) {
     operator fun invoke(): Flow<PagingData<Market>> = repository.getPagedMarketList()

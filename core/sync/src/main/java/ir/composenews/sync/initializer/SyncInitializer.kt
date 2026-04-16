@@ -10,7 +10,6 @@ import android.content.Context
 import androidx.startup.Initializer
 import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkManager
-import androidx.work.WorkManagerInitializer
 import ir.composenews.sync.SYNC_WORK_NAME
 import ir.composenews.sync.Sync
 import ir.composenews.sync.worker.SyncWorker
@@ -29,6 +28,5 @@ class SyncInitializer : Initializer<Sync> {
         return Sync
     }
 
-    override fun dependencies(): List<Class<out Initializer<*>>> =
-        listOf(WorkManagerInitializer::class.java)
+    override fun dependencies(): List<Class<out Initializer<*>>> = emptyList()
 }
