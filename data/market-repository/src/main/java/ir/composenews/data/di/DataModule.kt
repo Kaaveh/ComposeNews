@@ -6,5 +6,5 @@ import org.koin.dsl.module
 
 val dataModule =
     module {
-        single<MarketRepository> { MarketRepositoryImpl(get(), get()) }
+        factory<MarketRepository> { MarketRepositoryImpl(get(), get()) }
     }

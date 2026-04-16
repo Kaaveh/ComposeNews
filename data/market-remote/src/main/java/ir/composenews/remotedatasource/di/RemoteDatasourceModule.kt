@@ -50,5 +50,5 @@ val remoteDatasourceModule = module {
             }
         }
     }
-    single<MarketsApi> { MarketsApiImpl(get()) }
+    factory<MarketsApi> { MarketsApiImpl(get()) }
 }

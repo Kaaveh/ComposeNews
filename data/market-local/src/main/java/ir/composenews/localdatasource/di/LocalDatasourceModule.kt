@@ -12,5 +12,5 @@ val localDatasourceModule =
         single<MarketDatabase> {
             MarketDatabase(AndroidSqliteDriver(MarketDatabase.Schema, androidContext(), "MarketDatabase"))
         }
-        single<MarketDao> { MarketDaoImpl(get()) }
+        factory<MarketDao> { MarketDaoImpl(get()) }
     }
