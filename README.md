@@ -50,7 +50,7 @@ For the details of handling the  preview of composable functions in this code-ba
 - [x] ROOM &rarr; SQLDelight
 - [x] Retrofit &rarr; Ktor
 - [x] JUnit &rarr; Kotest
-- [ ] Dagger-Hilt &rarr; Koin
+- [x] Dagger-Hilt &rarr; Koin
 - [ ] Jetpack Compose &rarr; Compose Multiplatform
 
 ## 📸 Screenshots
