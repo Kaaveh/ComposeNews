@@ -62,7 +62,6 @@ dependencies {
         api(core.network.ktor)
     }
     libs.apply {
-        implementation(coroutines)
         implementation(lifecycle.viewmodel.ktx)
         api(kotlinx.collections.immutable)
         api(paging.common)
