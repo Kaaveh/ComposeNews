@@ -25,6 +25,7 @@ wearToolingPreview = "1.0.0"
 horologistComposeLayout = "0.7.15"
 
 detekt = "1.23.8"
+kermit = "2.0.5"
 koin = "4.0.4"
 lottieAnimation = "6.7.1"
 
@@ -85,6 +86,7 @@ compose-foundation-wear = { group = "androidx.wear.compose", name = "compose-fou
 compose-ui-preview-wear = { group = "androidx.wear", name = "wear-tooling-preview", version.ref = "wearToolingPreview" }
 compose-horologist-layout = { module = "com.google.android.horologist:horologist-compose-layout", version.ref = "horologistComposeLayout" }
 
+kermit = { group = "co.touchlab", name = "kermit", version.ref = "kermit" }
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }

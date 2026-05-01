@@ -7,7 +7,6 @@
 
 package ir.composenews.data.repository
 
-import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -32,6 +31,7 @@ import ir.composenews.network.suspendMap
 import ir.composenews.network.suspendOnError
 import ir.composenews.network.suspendOnException
 import ir.composenews.network.suspendOnSuccess
+import co.touchlab.kermit.Logger
 import ir.composenews.data.paging.MarketsPagingSource
 import ir.composenews.remotedatasource.api.MarketsApi
 import kotlinx.coroutines.flow.Flow
@@ -39,6 +39,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
 private const val PAGE_SIZE = 20
+private val logger = Logger.withTag("MarketRepository")
 
 class MarketRepositoryImpl(
     private val api: MarketsApi,
@@ -75,9 +76,9 @@ class MarketRepositoryImpl(
                 dao.insertMarket(marketEntity = marketEntity)
             }
         }.onError {
-            Log.d("debug", message)
+            logger.d { message }
         }.onException {
-            Log.d("debug", message.toString())
+            logger.d { message.toString() }
         }
     }
 

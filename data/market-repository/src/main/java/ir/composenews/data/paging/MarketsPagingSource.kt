@@ -2,9 +2,9 @@
 
 package ir.composenews.data.paging
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import co.touchlab.kermit.Logger
 import ir.composenews.data.mapper.toMarket
 import ir.composenews.data.mapper.toMarketEntity
 import ir.composenews.domain.model.Market
@@ -15,6 +15,7 @@ import ir.composenews.network.suspendOnSuccess
 import ir.composenews.remotedatasource.api.MarketsApi
 
 private const val PAGE_SIZE = 20
+private val logger = Logger.withTag("MarketsPaging")
 
 class MarketsPagingSource(
     private val api: MarketsApi,
@@ -28,7 +29,7 @@ class MarketsPagingSource(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Market> {
         val page = params.key ?: 1
-        Log.d("MarketsPaging", "Loading page: $page")
+        logger.d { "Loading page: $page" }
         return try {
             var result: LoadResult<Int, Market> =
                 LoadResult.Error(Exception("Unknown error"))
@@ -43,7 +44,7 @@ class MarketsPagingSource(
                     val markets = data.map { it.toMarket() }
                     data.forEach { dao.insertMarket(it.toMarketEntity()) }
                     val nextKey = if (markets.isEmpty()) null else page + 1
-                    Log.d("MarketsPaging", "Page $page loaded: ${markets.size} items, nextKey=$nextKey")
+                    logger.d { "Page $page loaded: ${markets.size} items, nextKey=$nextKey" }
                     result =
                         LoadResult.Page(
                             data = markets,
@@ -51,15 +52,15 @@ class MarketsPagingSource(
                             nextKey = nextKey,
                         )
                 }.onError {
-                    Log.e("MarketsPaging", "Page $page error: $message")
+                    logger.e { "Page $page error: $message" }
                     result = LoadResult.Error(Exception(message))
                 }.onException {
-                    Log.e("MarketsPaging", "Page $page exception: $message", throwable)
+                    logger.e(throwable) { "Page $page exception: $message" }
                     result = LoadResult.Error(throwable)
                 }
             result
         } catch (e: Exception) {
-            Log.e("MarketsPaging", "Page $page caught exception: ${e.message}", e)
+            logger.e(e) { "Page $page caught exception: ${e.message}" }
             LoadResult.Error(e)
         }
     }
