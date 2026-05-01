@@ -50,6 +50,9 @@ kotlin {
 }
 
 dependencies {
+    // Logging
+    implementation(libs.kermit)
+
     // Koin
     implementation(libs.koin.android)
 
