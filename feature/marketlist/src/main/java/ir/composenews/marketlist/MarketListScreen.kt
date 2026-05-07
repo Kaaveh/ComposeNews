@@ -32,12 +32,10 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import androidx.paging.compose.LazyPagingItems
-import com.airbnb.lottie.compose.LottieCompositionSpec
 import ir.composenews.base.LoadableComponent
 import ir.composenews.base.errorViewMapper
 import ir.composenews.base.isLoading
 import ir.composenews.base.use
-import ir.composenews.designsystem.R
 import ir.composenews.designsystem.component.EmptyStateAnimation
 import ir.composenews.designsystem.component.pull_refresh_indicator.PullRefreshIndicator
 import ir.composenews.designsystem.component.pull_refresh_indicator.pullRefresh
@@ -195,11 +193,7 @@ fun FavoriteMarketListScreen(
                     exit = fadeOut(),
                 ) {
                     if (data.isEmpty() && state.showFavoriteList) {
-                        EmptyStateAnimation(
-                            lottieCompositionSpec = LottieCompositionSpec.RawRes(
-                                R.raw.empty_state_animation,
-                            ),
-                        )
+                        EmptyStateAnimation()
                     } else {
                         LazyColumn(modifier = Modifier.fillMaxWidth()) {
                             items(

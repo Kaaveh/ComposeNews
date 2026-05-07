@@ -11,20 +11,27 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.airbnb.lottie.compose.LottieCompositionSpec
+import io.github.alexzhirkevich.compottie.LottieCompositionSpec
+import io.github.alexzhirkevich.compottie.rememberLottieComposition
 import ir.composenews.designsystem.R
 import ir.composenews.designsystem.preview.ThemePreviews
 import ir.composenews.designsystem.theme.ComposeNewsTheme
 
 @Composable
-fun EmptyStateAnimation(
-    lottieCompositionSpec: LottieCompositionSpec,
-) {
+fun EmptyStateAnimation() {
+    val context = LocalContext.current
+    val composition by rememberLottieComposition {
+        val json = context.resources.openRawResource(R.raw.empty_state_animation)
+            .use { it.bufferedReader().readText() }
+        LottieCompositionSpec.JsonString(json)
+    }
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -32,7 +39,7 @@ fun EmptyStateAnimation(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         LottieAnimationComposable(
-            animationSpec = lottieCompositionSpec,
+            composition = composition,
             modifier = Modifier
                 .size(250.dp, 250.dp)
                 .scale(
@@ -54,9 +61,7 @@ fun EmptyStateAnimation(
 fun EmptyStateAnimationPrev() {
     ComposeNewsTheme {
         Surface {
-            EmptyStateAnimation(
-                lottieCompositionSpec = LottieCompositionSpec.RawRes(R.raw.empty_state_animation),
-            )
+            EmptyStateAnimation()
         }
     }
 }
