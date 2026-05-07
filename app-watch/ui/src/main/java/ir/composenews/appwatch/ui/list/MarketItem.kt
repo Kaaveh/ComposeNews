@@ -23,12 +23,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDownward
+import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.Card
@@ -41,7 +43,6 @@ import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
-import ir.composenews.designsystem.R
 import ir.composenews.designsystem.component.shimmerEffect
 import ir.composenews.designsystem.theme.ComposeNewsTheme
 import ir.composenews.designsystem.theme.darkDownTrendRed
@@ -151,10 +152,10 @@ private fun MarketItemCard(
 private fun ArrowIconUpOrDown(priceChangePercentage24h: String, tint: Color) {
     Icon(
         modifier = Modifier.size(size = 10.dp),
-        painter = if (priceChangePercentage24h.contains("-")) {
-            painterResource(id = R.drawable.baseline_arrow_downward_24)
+        imageVector = if (priceChangePercentage24h.contains("-")) {
+            Icons.Default.ArrowDownward
         } else {
-            painterResource(id = R.drawable.baseline_arrow_upward_24)
+            Icons.Default.ArrowUpward
         },
         contentDescription = "",
         tint = tint,

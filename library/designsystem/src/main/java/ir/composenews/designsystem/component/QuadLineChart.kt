@@ -27,10 +27,8 @@ import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ir.composenews.designsystem.R
 import ir.composenews.designsystem.preview.ThemePreviews
 import ir.composenews.designsystem.theme.ComposeNewsTheme
 import ir.composenews.designsystem.theme.graphColor
@@ -42,8 +40,7 @@ fun QuadLineChart(
     modifier: Modifier = Modifier,
     data: List<Pair<Long, Double>>,
 ) {
-    val spacing =
-        dimensionResource(R.dimen.quad_line_chart_spacing).value // Reduced spacing to minimize horizontal padding
+    val spacing = 100.dp.value // Reduced spacing to minimize horizontal padding
     val columnTextColor = MaterialTheme.colorScheme.onSurface.toArgb()
 
     val upperValue = remember(key1 = data) {
@@ -73,14 +70,14 @@ fun QuadLineChart(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(dimensionResource(R.dimen.quad_line_chart_height))
-            .padding(dimensionResource(R.dimen.quad_line_chart_padding)),
+            .height(400.dp)
+            .padding(20.dp),
     ) {
-        val textXDimen = dimensionResource(R.dimen.quad_line_chart_text_x_size).value
+        val textXDimen = 30.dp.value
         Canvas(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(dimensionResource(R.dimen.quad_line_chart_height)),
+                .height(400.dp),
         ) {
             val spacePerHour = (size.width - spacing) / data.size
             val priceStep = (upperValue - lowerValue) / 5.0
