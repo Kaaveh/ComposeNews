@@ -5,7 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.detekt)
     alias(libs.plugins.kotliner)
-    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 android {
@@ -64,6 +64,7 @@ dependencies {
     libs.apply {
         implementation(lifecycle.viewmodel.ktx)
         api(kotlinx.collections.immutable)
+        api(kotlinx.serialization.json)
         api(paging.common)
         testImplementation(coroutines.test)
     }

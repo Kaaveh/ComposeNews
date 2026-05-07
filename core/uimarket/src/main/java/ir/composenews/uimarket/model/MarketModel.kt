@@ -1,9 +1,8 @@
 package ir.composenews.uimarket.model
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
-@Parcelize
+@Serializable
 data class MarketModel(
     val id: String,
     val name: String,
@@ -12,4 +11,4 @@ data class MarketModel(
     val priceChangePercentage24h: Double,
     val imageUrl: String,
     val isFavorite: Boolean = false,
-) : Parcelable
+)

@@ -6,7 +6,7 @@ plugins {
     alias(libs.plugins.compose)
     alias(libs.plugins.detekt)
     alias(libs.plugins.kotliner)
-    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 android {
@@ -70,5 +70,6 @@ dependencies {
     libs.apply {
         api(platform(compose.bom))
         api(bundles.compose)
+        api(kotlinx.serialization.json)
     }
 }
