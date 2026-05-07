@@ -31,7 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.viewmodel.koinViewModel
 import coil.compose.rememberAsyncImagePainter
 import ir.composenews.base.LoadableComponent
 import ir.composenews.designsystem.component.LocalAnimatedVisibilityScope

@@ -51,7 +51,7 @@ kotlin {
 
 dependencies {
     // Koin
-    implementation(libs.koin.android)
+    implementation(libs.koin.core)
 
     // Test
     androidTestImplementation(kotlin("test"))
