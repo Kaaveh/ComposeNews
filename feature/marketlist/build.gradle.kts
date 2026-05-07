@@ -62,8 +62,10 @@ configurations.all {
 
 dependencies {
     // Koin
-    implementation(libs.koin.android)
-    implementation(libs.koin.androidx.compose)
+    implementation(libs.koin.core)
+    implementation(libs.koin.compose)
+    implementation(libs.koin.compose.viewmodel)
+    implementation(libs.koin.core.viewmodel)
 
     // Compose BOM
     implementation(platform(libs.compose.bom))

@@ -54,7 +54,7 @@ dependencies {
     implementation(libs.kermit)
 
     // Koin
-    implementation(libs.koin.android)
+    implementation(libs.koin.core)
 
     // Test
     androidTestImplementation(kotlin("test"))
