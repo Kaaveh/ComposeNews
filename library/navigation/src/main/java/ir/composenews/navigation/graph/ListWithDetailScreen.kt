@@ -13,7 +13,11 @@ import androidx.compose.material3.adaptive.navigation.NavigableListDetailPaneSca
 import androidx.compose.material3.adaptive.navigation.ThreePaneScaffoldNavigator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import ir.composenews.designsystem.component.LocalAnimatedVisibilityScope
@@ -21,16 +25,20 @@ import ir.composenews.designsystem.component.LocalSharedTransitionScope
 import ir.composenews.marketdetail.MarketDetailRoute
 import ir.composenews.marketlist.MarketListRoute
 import ir.composenews.uimarket.model.MarketModel
+import ir.composenews.uimarket.model.MarketModelSaver
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class, ExperimentalSharedTransitionApi::class)
 @Composable
 fun ListWithDetailScreen(
     modifier: Modifier = Modifier,
-    navigator: ThreePaneScaffoldNavigator<MarketModel>,
+    navigator: ThreePaneScaffoldNavigator<String>,
     showFavorite: Boolean,
 ) {
     val scope = rememberCoroutineScope()
+    var selectedMarket: MarketModel? by rememberSaveable(stateSaver = MarketModelSaver) {
+        mutableStateOf(null)
+    }
 
     SharedTransitionLayout {
         CompositionLocalProvider(LocalSharedTransitionScope provides this@SharedTransitionLayout) {
@@ -42,10 +50,11 @@ fun ListWithDetailScreen(
                         CompositionLocalProvider(LocalAnimatedVisibilityScope provides this@AnimatedPane) {
                             MarketListRoute(
                                 onNavigateToDetailScreen = { market ->
+                                    selectedMarket = market
                                     scope.launch {
                                         navigator.navigateTo(
                                             pane = ListDetailPaneScaffoldRole.Detail,
-                                            contentKey = market,
+                                            contentKey = market.id,
                                         )
                                     }
                                 },
@@ -57,7 +66,7 @@ fun ListWithDetailScreen(
                 detailPane = {
                     AnimatedPane {
                         CompositionLocalProvider(LocalAnimatedVisibilityScope provides this@AnimatedPane) {
-                            navigator.currentDestination?.contentKey?.let { marketContent ->
+                            selectedMarket?.let { marketContent ->
                                 MarketDetailRoute(
                                     market = marketContent,
                                 )

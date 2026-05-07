@@ -27,7 +27,6 @@ import androidx.navigation3.ui.NavDisplay
 import ir.composenews.navigation.BottomNavItem
 import ir.composenews.navigation.Destinations
 import ir.composenews.navigation.graph.ListWithDetailScreen
-import ir.composenews.uimarket.model.MarketModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -57,8 +56,8 @@ fun ComposeNewsApp() {
         layoutType = NavigationSuiteScaffoldDefaults.calculateFromAdaptiveInfo(currentWindowAdaptiveInfo()),
         containerColor = androidx.compose.material3.MaterialTheme.colorScheme.background,
     ) {
-        val marketNavigator = rememberListDetailPaneScaffoldNavigator<MarketModel>()
-        val favoriteNavigator = rememberListDetailPaneScaffoldNavigator<MarketModel>()
+        val marketNavigator = rememberListDetailPaneScaffoldNavigator<String>()
+        val favoriteNavigator = rememberListDetailPaneScaffoldNavigator<String>()
         NavigationContent(backStack, marketNavigator, favoriteNavigator)
     }
 }
@@ -84,8 +83,8 @@ private fun rememberNavigationItems(): ImmutableList<BottomNavItem> =
 @Composable
 private fun NavigationContent(
     backStack: MutableList<Destinations>,
-    marketNavigator: ThreePaneScaffoldNavigator<MarketModel>,
-    favoriteNavigator: ThreePaneScaffoldNavigator<MarketModel>,
+    marketNavigator: ThreePaneScaffoldNavigator<String>,
+    favoriteNavigator: ThreePaneScaffoldNavigator<String>,
 ) {
     val modifier =
         Modifier
