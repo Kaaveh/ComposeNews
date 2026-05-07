@@ -27,7 +27,7 @@ horologistComposeLayout = "0.7.15"
 detekt = "1.23.8"
 kermit = "2.0.5"
 koin = "4.0.4"
-lottieAnimation = "6.7.1"
+compottie = "2.1.0"
 
 lifeCycle = "2.10.0"
 lifeCycleViewModelKtx = "2.10.0"
@@ -135,7 +135,7 @@ kotlinx-collections-immutable = { group = "org.jetbrains.kotlinx", name = "kotli
 
 window-size = { group = "androidx.compose.material3", name = "material3-window-size-class", version.ref = "windowsSizeClass" }
 
-compose-lottie-animation = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottieAnimation" }
+compottie = { module = "io.github.alexzhirkevich:compottie", version.ref = "compottie" }
 
 paging-common = { group = "androidx.paging", name = "paging-common", version.ref = "paging" }
 paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }

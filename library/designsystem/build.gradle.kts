@@ -68,7 +68,8 @@ dependencies {
         api(compose.coil)
         api(lifecycle.runtime.compose)
         api(window.size)
-        api(compose.lottie.animation)
+        api(libs.compottie)
+        implementation(androidx.ktx)
         implementation(compose.icons.core)
         implementation(compose.icons.extended)
     }

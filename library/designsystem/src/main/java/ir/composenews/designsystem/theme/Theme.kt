@@ -20,7 +20,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
-import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 
 private val LightColorScheme = lightColorScheme(
     primary = md_theme_light_primary,
@@ -111,10 +111,9 @@ fun ComposeNewsTheme(
         SideEffect {
             val window = (view.context as Activity).window
             window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars =
-                useDarkTheme
-            WindowCompat.getInsetsController(window, view).isAppearanceLightNavigationBars =
-                useDarkTheme.not()
+            val insetsController = WindowInsetsControllerCompat(window, view)
+            insetsController.isAppearanceLightStatusBars = useDarkTheme
+            insetsController.isAppearanceLightNavigationBars = useDarkTheme.not()
             window.navigationBarColor = colorScheme.background.toArgb()
         }
     }
