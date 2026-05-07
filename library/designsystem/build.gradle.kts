@@ -69,6 +69,7 @@ dependencies {
         api(lifecycle.runtime.compose)
         api(window.size)
         api(libs.compottie)
+        implementation(androidx.ktx)
         implementation(compose.icons.core)
         implementation(compose.icons.extended)
     }
