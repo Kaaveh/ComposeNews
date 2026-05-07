@@ -10,10 +10,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.unit.dp
 import ir.composenews.base.LoadableComponent
 import ir.composenews.base.LoadableData
-import ir.composenews.designsystem.R
 import ir.composenews.designsystem.component.shimmerEffect
 import ir.composenews.domain.model.MarketChart
 import ir.composenews.designsystem.component.QuadLineChart as DesignSystemQuadLineChart
@@ -27,8 +26,8 @@ internal fun QuadLineChart(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(dimensionResource(R.dimen.quad_line_chart_height))
-                    .padding(dimensionResource(R.dimen.quad_line_chart_padding))
+                    .height(400.dp)
+                    .padding(20.dp)
                     .clip(MaterialTheme.shapes.large)
                     .shimmerEffect(),
             )

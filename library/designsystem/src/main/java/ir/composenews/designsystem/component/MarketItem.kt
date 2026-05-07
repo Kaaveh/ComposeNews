@@ -30,6 +30,9 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDownward
+import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -50,10 +53,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import ir.composenews.designsystem.R
 import ir.composenews.designsystem.preview.ThemePreviews
 import ir.composenews.designsystem.theme.ComposeNewsTheme
 import ir.composenews.designsystem.theme.darkDownTrendRed
@@ -253,10 +254,10 @@ private fun MarketItemCard(
 private fun ArrowIconUpOrDown(priceChangePercentage24h: String, tint: Color) {
     Icon(
         modifier = Modifier.size(size = 20.dp),
-        painter = if (priceChangePercentage24h.contains("-")) {
-            painterResource(id = R.drawable.baseline_arrow_downward_24)
+        imageVector = if (priceChangePercentage24h.contains("-")) {
+            Icons.Default.ArrowDownward
         } else {
-            painterResource(id = R.drawable.baseline_arrow_upward_24)
+            Icons.Default.ArrowUpward
         },
         contentDescription = "",
         tint = tint,
