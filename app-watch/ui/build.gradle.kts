@@ -92,7 +92,6 @@ dependencies {
         implementation(compose.horologist.layout)
         implementation(compose.ui.test.manifest)
         implementation(compose.ui.test.junit4)
-        implementation(paging.runtime)
         implementation(paging.compose)
     }
 }

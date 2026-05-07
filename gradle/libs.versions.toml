@@ -138,7 +138,6 @@ window-size = { group = "androidx.compose.material3", name = "material3-window-s
 compose-lottie-animation = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottieAnimation" }
 
 paging-common = { group = "androidx.paging", name = "paging-common", version.ref = "paging" }
-paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
 paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
 
 kotest-assertionsCore = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
