@@ -19,6 +19,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -32,9 +34,19 @@ class MarketListViewModel(
     dispatcherProvider: DispatcherProvider,
 ) : BaseViewModel(dispatcherProvider), MarketListContract {
 
+    private val favoriteIds = getFavoriteMarketListUseCase()
+        .map { list -> list.mapTo(hashSetOf()) { it.id } }
+        .distinctUntilChanged()
+
+    // Ordering is load-bearing: cachedIn MUST stay upstream of combine.
+    // Moving combine upstream would re-create the PagingSource on every favorite
+    // toggle and silently re-fetch every page from the network.
     val pagedMarketList = getPagedMarketListUseCase()
         .map { pagingData -> pagingData.map { it.toMarketModel() } }
         .cachedIn(viewModelScope)
+        .combine(favoriteIds) { paging, ids ->
+            paging.map { model -> model.copy(isFavorite = model.id in ids) }
+        }
 
     private val mutableState = MutableStateFlow(MarketListContract.State())
     override val state: StateFlow<MarketListContract.State> = mutableState.asStateFlow()

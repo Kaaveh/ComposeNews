@@ -1,6 +1,7 @@
 package ir.composenews.domain.di
 
 import ir.composenews.domain.use_case.GetFavoriteMarketListUseCase
+import ir.composenews.domain.use_case.GetMarketByIdUseCase
 import ir.composenews.domain.use_case.GetMarketChartUseCase
 import ir.composenews.domain.use_case.GetMarketDetailUseCase
 import ir.composenews.domain.use_case.GetMarketListUseCase
@@ -12,6 +13,7 @@ import org.koin.dsl.module
 val domainModule =
     module {
         factory { GetFavoriteMarketListUseCase(get()) }
+        factory { GetMarketByIdUseCase(get()) }
         factory { GetMarketChartUseCase(get()) }
         factory { GetMarketDetailUseCase(get()) }
         factory { GetMarketListUseCase(get()) }

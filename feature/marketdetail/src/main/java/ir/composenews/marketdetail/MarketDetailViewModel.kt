@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import ir.composenews.base.BaseViewModel
 import ir.composenews.base.LoadableData
 import ir.composenews.core_test.dispatcher.DispatcherProvider
+import ir.composenews.domain.use_case.GetMarketByIdUseCase
 import ir.composenews.domain.use_case.GetMarketChartUseCase
 import ir.composenews.domain.use_case.GetMarketDetailUseCase
 import ir.composenews.domain.use_case.ToggleFavoriteMarketListUseCase
@@ -13,10 +14,12 @@ import ir.composenews.network.Errors
 import ir.composenews.network.Resource
 import ir.composenews.uimarket.mapper.toMarket
 import ir.composenews.uimarket.model.MarketModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
@@ -26,8 +29,11 @@ class MarketDetailViewModel(
     private val getMarketChartUseCase: GetMarketChartUseCase,
     private val getMarketDetailUseCase: GetMarketDetailUseCase,
     private val toggleFavoriteMarketListUseCase: ToggleFavoriteMarketListUseCase,
+    private val getMarketByIdUseCase: GetMarketByIdUseCase,
     dispatcherProvider: DispatcherProvider,
 ) : BaseViewModel(dispatcherProvider), MarketDetailContract {
+
+    private var favoriteObserverJob: Job? = null
 
     private val mutableState = MutableStateFlow(MarketDetailContract.State())
     override val state: StateFlow<MarketDetailContract.State> = mutableState.asStateFlow()
@@ -75,6 +81,28 @@ class MarketDetailViewModel(
         mutableState.update {
             it.copy(market = LoadableData.Loaded(market))
         }
+        observeFavoriteState(market.id)
+    }
+
+    private fun observeFavoriteState(id: String) {
+        favoriteObserverJob?.cancel()
+        favoriteObserverJob = getMarketByIdUseCase(id)
+            .distinctUntilChanged()
+            .onEach { dbMarket ->
+                if (dbMarket == null) return@onEach
+                mutableState.update { state ->
+                    val current = state.market
+                    if (current is LoadableData.Loaded && current.data.isFavorite != dbMarket.isFavorite) {
+                        state.copy(
+                            market = LoadableData.Loaded(
+                                current.data.copy(isFavorite = dbMarket.isFavorite),
+                            ),
+                        )
+                    } else {
+                        state
+                    }
+                }
+            }.launchIn(viewModelScope)
     }
 
     private fun getMarketChart(id: String) {
@@ -114,13 +142,6 @@ class MarketDetailViewModel(
             onIO {
                 toggleFavoriteMarketListUseCase(market.toMarket())
             }
-            toggleFavoriteState()
         }
-    }
-
-    private fun toggleFavoriteState() {
-        val market = (mutableState.value.market as LoadableData.Loaded).data
-        val newMarket = LoadableData.Loaded(market.copy(isFavorite = !market.isFavorite))
-        mutableState.update { it.copy(market = newMarket) }
     }
 }

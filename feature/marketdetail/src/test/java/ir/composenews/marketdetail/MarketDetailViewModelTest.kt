@@ -16,6 +16,7 @@ import ir.composenews.domain.model.Market
 import ir.composenews.domain.model.MarketChart
 import ir.composenews.domain.model.PricePoint
 import ir.composenews.domain.model.MarketDetail
+import ir.composenews.domain.use_case.GetMarketByIdUseCase
 import ir.composenews.domain.use_case.GetMarketChartUseCase
 import ir.composenews.domain.use_case.GetMarketDetailUseCase
 import ir.composenews.domain.use_case.ToggleFavoriteMarketListUseCase
@@ -34,6 +35,7 @@ class MarketDetailViewModelTest : StringSpec({
     val getMarketChartUseCase: GetMarketChartUseCase = mockk(relaxed = true)
     val getMarketDetailUseCase: GetMarketDetailUseCase = mockk(relaxed = true)
     val toggleFavoriteMarketListUseCase: ToggleFavoriteMarketListUseCase = mockk(relaxed = true)
+    val getMarketByIdUseCase: GetMarketByIdUseCase = mockk(relaxed = true)
     val testScheduler = TestCoroutineScheduler()
     val dispatcherProvider = TestDispatcherProvider(testScheduler)
     lateinit var viewModel: MarketDetailViewModel
@@ -41,10 +43,12 @@ class MarketDetailViewModelTest : StringSpec({
     extensions(MainCoroutineListener())
 
     beforeEach {
+        coEvery { getMarketByIdUseCase(any()) } returns flowOf(null)
         viewModel = MarketDetailViewModel(
             getMarketChartUseCase = getMarketChartUseCase,
             getMarketDetailUseCase = getMarketDetailUseCase,
             toggleFavoriteMarketListUseCase = toggleFavoriteMarketListUseCase,
+            getMarketByIdUseCase = getMarketByIdUseCase,
             dispatcherProvider = dispatcherProvider,
         )
     }
@@ -145,28 +149,28 @@ class MarketDetailViewModelTest : StringSpec({
         marketState.data.isFavorite shouldBe true
     }
 
-    "Given a favorited market, When favorite FAB is clicked, Then isFavorite flips to false in state" {
-        val marketModel = provideMarketList(1, isFavorite = true).first().toMarketModel()
-        coEvery { toggleFavoriteMarketListUseCase(any()) } returns Unit
-
-        viewModel.event(MarketDetailContract.Event.SetMarket(market = marketModel))
-        viewModel.event(MarketDetailContract.Event.OnFavoriteClick(market = marketModel))
-
-        val marketState = viewModel.state.value.market
-        marketState.shouldBeInstanceOf<LoadableData.Loaded<MarketModel>>()
-        marketState.data.isFavorite shouldBe false
-    }
-
-    "Given a non-favorited market, When favorite FAB is clicked, Then isFavorite flips to true in state" {
+    "Given DB emits a favorited market, When set market fires, Then isFavorite reflects DB value" {
         val marketModel = provideMarketList(1, isFavorite = false).first().toMarketModel()
-        coEvery { toggleFavoriteMarketListUseCase(any()) } returns Unit
+        val dbMarket = marketModel.toMarket().copy(isFavorite = true)
+        coEvery { getMarketByIdUseCase(marketModel.id) } returns flowOf(dbMarket)
 
         viewModel.event(MarketDetailContract.Event.SetMarket(market = marketModel))
-        viewModel.event(MarketDetailContract.Event.OnFavoriteClick(market = marketModel))
 
         val marketState = viewModel.state.value.market
         marketState.shouldBeInstanceOf<LoadableData.Loaded<MarketModel>>()
         marketState.data.isFavorite shouldBe true
+    }
+
+    "Given DB emits a non-favorited market, When set market fires, Then isFavorite reflects DB value" {
+        val marketModel = provideMarketList(1, isFavorite = true).first().toMarketModel()
+        val dbMarket = marketModel.toMarket().copy(isFavorite = false)
+        coEvery { getMarketByIdUseCase(marketModel.id) } returns flowOf(dbMarket)
+
+        viewModel.event(MarketDetailContract.Event.SetMarket(market = marketModel))
+
+        val marketState = viewModel.state.value.market
+        marketState.shouldBeInstanceOf<LoadableData.Loaded<MarketModel>>()
+        marketState.data.isFavorite shouldBe false
     }
 
     "Given a market with positive price change, When set market event fires, Then priceChangePercentage24h is positive in state" {

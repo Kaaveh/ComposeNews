@@ -14,6 +14,8 @@ interface MarketDao {
 
     fun getFavoriteMarketList(): Flow<List<MarketEntity>>
 
+    fun getMarketById(id: String): Flow<MarketEntity?>
+
     suspend fun insertMarket(marketEntity: MarketEntity)
 
     suspend fun updateFavoriteStatus(
