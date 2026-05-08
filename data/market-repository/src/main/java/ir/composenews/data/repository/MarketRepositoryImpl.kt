@@ -61,6 +61,9 @@ class MarketRepositoryImpl(
     override fun getFavoriteMarketList(): Flow<List<Market>> =
         dao.getFavoriteMarketList().map { list -> list.map { it.toMarket() } }
 
+    override fun getMarketById(id: String): Flow<Market?> =
+        dao.getMarketById(id).map { entity -> entity?.toMarket() }
+
     override suspend fun syncMarketList() {
         api.getMarkets(
             "usd",

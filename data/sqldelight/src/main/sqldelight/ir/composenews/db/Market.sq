@@ -19,6 +19,11 @@ FROM marketEntity
 WHERE isFavorite = 1
 ORDER BY name ASC;
 
+getMarketById:
+SELECT *
+FROM marketEntity
+WHERE id = :id;
+
 insertOrIgnoreMarket:
 INSERT OR IGNORE
 INTO marketEntity(id, name, symbol, currentPrice, priceChangePercentage24h, imageUrl, isFavorite)

@@ -6,5 +6,5 @@ import org.koin.dsl.module
 
 val marketDetailModule =
     module {
-        viewModel { MarketDetailViewModel(get(), get(), get(), get()) }
+        viewModel { MarketDetailViewModel(get(), get(), get(), get(), get()) }
     }

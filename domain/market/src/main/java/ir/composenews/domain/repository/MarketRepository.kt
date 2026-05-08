@@ -16,6 +16,7 @@ interface MarketRepository {
     fun getMarketList(): Flow<List<Market>>
     fun getPagedMarketList(): Flow<PagingData<Market>>
     fun getFavoriteMarketList(): Flow<List<Market>>
+    fun getMarketById(id: String): Flow<Market?>
     suspend fun syncMarketList()
     suspend fun toggleFavoriteMarket(oldMarket: Market)
     fun fetchChart(id: String): Flow<Resource<MarketChart, Errors>>
