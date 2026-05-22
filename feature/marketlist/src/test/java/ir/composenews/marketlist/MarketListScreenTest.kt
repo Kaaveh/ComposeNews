@@ -8,10 +8,13 @@
 
 package ir.composenews.marketlist
 
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTouchInput
 import ir.composenews.base.LoadableData
 import ir.composenews.network.Errors
 import ir.composenews.uimarket.model.MarketModel
@@ -111,5 +114,81 @@ class MarketListScreenTest {
         }
         composeTestRule.onNodeWithText("Bitcoin").performClick()
         assertEquals(market, navigatedMarket)
+    }
+
+    @Test
+    fun givenLoadedState_whenFavoriteIconClicked_thenFavoriteCallbackInvoked() {
+        val market = buildMarketModel()
+        var clickedMarket: MarketModel? = null
+        composeTestRule.setContent {
+            FavoriteMarketListScreen(
+                state = MarketListContract.State(
+                    favoriteMarketList = LoadableData.Loaded(persistentListOf(market))
+                ),
+                onNavigateToDetailScreen = { },
+                onFavoriteClick = { clickedMarket = market },
+                onRefresh = {}
+            )
+        }
+        composeTestRule.onNodeWithContentDescription("Not favorited").performClick()
+        assertEquals(market, clickedMarket)
+    }
+
+    @Test
+    fun givenLoadingState_whenFavoritesAreLoading_NoItemInScreen() {
+        composeTestRule.setContent {
+            FavoriteMarketListScreen(
+                state = MarketListContract.State(
+                    favoriteMarketList = LoadableData.Loading
+                ),
+                onNavigateToDetailScreen = {},
+                onFavoriteClick = {},
+                onRefresh = {}
+            )
+        }
+        composeTestRule.onNodeWithText("Bitcoin").assertDoesNotExist()
+    }
+
+    @Test
+    fun givenLoadedState_whenSwipeRefreshTriggered_thenOnRefreshCallbackInvoked() {
+        val market = buildMarketModel()
+        var refreshCount = 0
+        composeTestRule.setContent {
+            FavoriteMarketListScreen(
+                state = MarketListContract.State(
+                    favoriteMarketList = LoadableData.Loaded(persistentListOf(market))
+                ),
+                onNavigateToDetailScreen = {},
+                onFavoriteClick = {},
+                onRefresh = {
+                    refreshCount++;
+                }
+            )
+        }
+        composeTestRule.onNodeWithText("Bitcoin").performTouchInput {
+            down(center)
+            moveBy(Offset(0f, 400f))
+            up()
+        }
+        composeTestRule.waitForIdle()
+        assertEquals(1, refreshCount)
+    }
+
+    @Test
+    fun givenLoadedMultipleItems_whenRendered_thenItemsAreDisplayed() {
+        val bitcoin = buildMarketModel()
+        val ethereum = buildMarketModel(id = "eth", name = "Ethereum", symbol = "ETH")
+        composeTestRule.setContent {
+            FavoriteMarketListScreen(
+                state = MarketListContract.State(
+                    favoriteMarketList = LoadableData.Loaded(persistentListOf(bitcoin, ethereum))
+                ),
+                onNavigateToDetailScreen = {},
+                onFavoriteClick = {},
+                onRefresh = {}
+            )
+        }
+        composeTestRule.onNodeWithText("Bitcoin").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Ethereum").assertIsDisplayed()
     }
 }
