@@ -62,7 +62,7 @@ dependencies {
         api(core.network.ktor)
     }
     libs.apply {
-        implementation(lifecycle.viewmodel.ktx)
+        implementation(lifecycle.viewmodel)
         api(kotlinx.collections.immutable)
         api(kotlinx.serialization.json)
         api(paging.common)
