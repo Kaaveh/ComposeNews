@@ -67,5 +67,5 @@ dependencies {
         api(core.network.ktor)
         implementation(library.designsystem)
     }
-    implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(libs.lifecycle.viewmodel)
 }

@@ -117,7 +117,7 @@ dependencies {
     libs.apply {
         implementation(compose.activity)
         implementation(androidx.ktx)
-        implementation(lifecycle.runtime.ktx)
+        implementation(lifecycle.runtime)
         implementation(work.runtime.ktx)
         implementation(navigation3.runtime)
         implementation(navigation3.ui)
