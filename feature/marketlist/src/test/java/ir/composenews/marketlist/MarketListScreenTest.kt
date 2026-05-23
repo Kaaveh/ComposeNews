@@ -191,4 +191,37 @@ class MarketListScreenTest {
         composeTestRule.onNodeWithText("Bitcoin").assertIsDisplayed()
         composeTestRule.onNodeWithText("Ethereum").assertIsDisplayed()
     }
+
+    @Test
+    fun givenFavoriteLoadedState_whenUserSwipedItem_thenOnFavoriteCallbackInvoked() {
+        val bitcoin = buildMarketModel()
+        var removedMarket: MarketModel? = null
+        composeTestRule.setContent {
+            FavoriteMarketListScreen(
+                state = MarketListContract.State(
+                    favoriteMarketList = LoadableData.Loaded(persistentListOf(bitcoin)),
+                    showFavoriteList = true
+                ),
+                onNavigateToDetailScreen = {},
+                onFavoriteClick = {
+                    removedMarket = it
+                },
+                onRefresh = {}
+            )
+        }
+
+        composeTestRule.onNodeWithText("Bitcoin").performTouchInput {
+            down(center)
+            moveBy(Offset(-300f, 0f))
+            up()
+            // Also we can use
+            // swipeLeft()
+        }
+
+        composeTestRule.waitUntil(1000) {
+            removedMarket != null
+        }
+
+        assertEquals(bitcoin, removedMarket)
+    }
 }
