@@ -6,10 +6,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.unit.dp
 import ir.composenews.marketlist.component.MarketListItem
 import ir.composenews.uimarket.model.MarketModel
@@ -28,9 +30,15 @@ fun MockMarketListTvRoute(
             .padding(horizontal = 48.dp, vertical = 24.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        items(items = data, key = { it.id }) { market ->
+        itemsIndexed(items = data, key = { _, market -> market.id }) { index, market ->
+            val isFirst = index == 0
+            val isLast = index == data.lastIndex
+            val itemModifier = Modifier.focusProperties {
+                if (isFirst) up = FocusRequester.Cancel
+                if (isLast) down = FocusRequester.Cancel
+            }
             MarketListItem(
-                modifier = Modifier,
+                modifier = itemModifier,
                 market = market,
                 showFavoriteList = showFavoriteList,
                 onItemClick = { onNavigateToDetailScreen(market) },
