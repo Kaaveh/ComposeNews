@@ -52,6 +52,10 @@ include(":app-watch")
 include(":app-watch:app")
 include(":app-watch:navigation")
 include(":app-watch:ui")
+include(":app-tv")
+include(":app-tv:app")
+include(":app-tv:navigation")
+include(":app-tv:ui")
 include(":data:sqldelight")
 
 check(JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) {
