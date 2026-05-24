@@ -4,22 +4,28 @@ package ir.composenews.tv.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import androidx.tv.material3.ExperimentalTvMaterial3Api
+import androidx.tv.material3.Icon
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.NavigationDrawer
 import androidx.tv.material3.NavigationDrawerItem
@@ -38,16 +44,35 @@ fun ComposeNewsTvApp() {
     val backStack = remember { mutableStateListOf<Destinations>(Destinations.MarketListScreen) }
     val currentDestination = backStack.lastOrNull() ?: Destinations.MarketListScreen
 
+    val marketsFocusRequester = remember { FocusRequester() }
+    val favoritesFocusRequester = remember { FocusRequester() }
+
+    LaunchedEffect(currentDestination) {
+        when (currentDestination) {
+            Destinations.MarketListScreen -> {
+                runCatching { marketsFocusRequester.requestFocus() }
+            }
+
+            Destinations.FavoriteMarketScreen -> {
+                runCatching { favoritesFocusRequester.requestFocus() }
+            }
+
+            else -> { /* no-op */ }
+        }
+    }
+
     NavigationDrawer(
         drawerContent = {
             Column(
                 modifier =
                     Modifier
                         .fillMaxHeight()
-                        .padding(16.dp),
+                        .padding(16.dp)
+                        .focusRestorer(),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 NavigationDrawerItem(
+                    modifier = Modifier.focusRequester(marketsFocusRequester),
                     selected = currentDestination == Destinations.MarketListScreen,
                     onClick = {
                         if (currentDestination != Destinations.MarketListScreen) {
@@ -55,11 +80,17 @@ fun ComposeNewsTvApp() {
                             backStack.add(Destinations.MarketListScreen)
                         }
                     },
-                    leadingContent = { Text(text = "M") },
+                    leadingContent = {
+                        Icon(
+                            imageVector = Icons.Default.Home,
+                            contentDescription = "Markets",
+                        )
+                    },
                 ) {
                     Text(text = "Markets")
                 }
                 NavigationDrawerItem(
+                    modifier = Modifier.focusRequester(favoritesFocusRequester),
                     selected = currentDestination == Destinations.FavoriteMarketScreen,
                     onClick = {
                         if (currentDestination != Destinations.FavoriteMarketScreen) {
@@ -67,33 +98,27 @@ fun ComposeNewsTvApp() {
                             backStack.add(Destinations.FavoriteMarketScreen)
                         }
                     },
-                    leadingContent = { Text(text = "F") },
+                    leadingContent = {
+                        Icon(
+                            imageVector = Icons.Default.Favorite,
+                            contentDescription = "Favorites",
+                        )
+                    },
                 ) {
                     Text(text = "Favorites")
                 }
             }
         },
     ) {
-        Row(modifier = Modifier.fillMaxSize()) {
-            Column(
-                modifier =
-                    Modifier
-                        .width(8.dp)
-                        .fillMaxHeight(),
-            ) {}
-            NavigationContent(
-                backStack = backStack,
-                state = state,
-                onMarketSelected = { market ->
-                    viewModel.event(MainContract.Event.SetMarket(market))
-                    backStack.add(Destinations.MarketDetailScreen)
-                },
-                modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .padding(start = 16.dp),
-            )
-        }
+        NavigationContent(
+            backStack = backStack,
+            state = state,
+            onMarketSelected = { market ->
+                viewModel.event(MainContract.Event.SetMarket(market))
+                backStack.add(Destinations.MarketDetailScreen)
+            },
+            modifier = Modifier.fillMaxSize(),
+        )
     }
 }
 
@@ -107,7 +132,7 @@ private fun NavigationContent(
     NavDisplay(
         backStack = backStack,
         onBack = { backStack.removeLastOrNull() },
-        modifier = modifier,
+        modifier = modifier.focusRestorer(),
         entryDecorators =
             listOf(
                 rememberSaveableStateHolderNavEntryDecorator(),
