@@ -199,4 +199,35 @@ class MarketDetailScreenTest {
             )
         }
     }
+
+    @Test
+    fun givenEmptyChartData_whenRendered_thenEmptyTextIsVisible() {
+        val bitcoin = buildMarketModel()
+        val bitcoinDetail = MarketDetail(
+            id = bitcoin.id,
+            marketCapRank = 1,
+            marketData = MarketDetail.MarketData(
+                high24hUSD = 100_000.0,
+                low24hUSD = 50_000.0,
+                marketCapUSD = 255_000_000_000,
+                marketCapRank = 1
+            ),
+            name = bitcoin.name,
+        )
+        composeTestRule.setContent {
+            MarketDetailScreen(
+                marketDetailState = MarketDetailContract.State(
+                    market = LoadableData.Loaded(bitcoin),
+                    marketChart = LoadableData.Loaded(MarketChart(persistentListOf())),
+                    marketDetail = LoadableData.Loaded(bitcoinDetail)
+                ),
+                onFavoriteClick = {}
+            )
+        }
+
+        composeTestRule.onNodeWithText("No chart data").assertExists()
+        composeTestRule.onNodeWithText("No chart data").assertIsDisplayed()
+    }
+
+
 }
