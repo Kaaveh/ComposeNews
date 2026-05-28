@@ -130,18 +130,20 @@ class MarketDetailScreenTest {
                 high24hUSD = 100_000.0,
                 low24hUSD = 50_000.0,
                 marketCapUSD = 255_000_000_000,
-                marketCapRank = 1
+                marketCapRank = 1,
             ),
-            name = bitcoin.name
+            name = bitcoin.name,
         )
         composeTestRule.setContent {
             MarketDetailScreen(
                 marketDetailState = MarketDetailContract.State(
                     market = LoadableData.Loaded(bitcoin),
-                    marketChart = LoadableData.Loaded(MarketChart(
-                        prices = persistentListOf(1L to 100.0, 2L to 200.0)
-                    )),
-                    marketDetail = LoadableData.Loaded(bitcoinDetail)
+                    marketChart = LoadableData.Loaded(
+                        MarketChart(
+                            prices = persistentListOf(1L to 100.0, 2L to 200.0),
+                        ),
+                    ),
+                    marketDetail = LoadableData.Loaded(bitcoinDetail),
                 ),
                 onFavoriteClick = {},
             )
@@ -181,7 +183,7 @@ class MarketDetailScreenTest {
                 high24hUSD = 100_000.0,
                 low24hUSD = 50_000.0,
                 marketCapUSD = 255_000_000_000,
-                marketCapRank = 1
+                marketCapRank = 1,
             ),
             name = bitcoin.name,
         )
@@ -190,12 +192,14 @@ class MarketDetailScreenTest {
             MarketDetailScreen(
                 marketDetailState = MarketDetailContract.State(
                     market = LoadableData.Loaded(bitcoin),
-                    marketChart = LoadableData.Loaded(MarketChart(
-                        prices = persistentListOf(1L to 100.0, 2L to 200.0)
-                    )),
-                    marketDetail = LoadableData.Loaded(bitcoinDetail)
+                    marketChart = LoadableData.Loaded(
+                        MarketChart(
+                            prices = persistentListOf(1L to 100.0, 2L to 200.0),
+                        ),
+                    ),
+                    marketDetail = LoadableData.Loaded(bitcoinDetail),
                 ),
-                onFavoriteClick = {}
+                onFavoriteClick = {},
             )
         }
     }
@@ -210,7 +214,7 @@ class MarketDetailScreenTest {
                 high24hUSD = 100_000.0,
                 low24hUSD = 50_000.0,
                 marketCapUSD = 255_000_000_000,
-                marketCapRank = 1
+                marketCapRank = 1,
             ),
             name = bitcoin.name,
         )
@@ -219,15 +223,13 @@ class MarketDetailScreenTest {
                 marketDetailState = MarketDetailContract.State(
                     market = LoadableData.Loaded(bitcoin),
                     marketChart = LoadableData.Loaded(MarketChart(persistentListOf())),
-                    marketDetail = LoadableData.Loaded(bitcoinDetail)
+                    marketDetail = LoadableData.Loaded(bitcoinDetail),
                 ),
-                onFavoriteClick = {}
+                onFavoriteClick = {},
             )
         }
 
         composeTestRule.onNodeWithText("No chart data").assertExists()
         composeTestRule.onNodeWithText("No chart data").assertIsDisplayed()
     }
-
-
 }

@@ -33,20 +33,19 @@ import kotlin.test.assertEquals
 fun TestablePagedMarketListScreen(
     pagedData: PagingData<MarketModel>,
     onNavigateToDetailScreen: (MarketModel) -> Unit,
-    onFavoriteClick: (MarketModel) -> Unit
+    onFavoriteClick: (MarketModel) -> Unit,
 ) {
     val lazyPagingItems = flowOf(pagedData).collectAsLazyPagingItems()
     PagedMarketListScreen(
         lazyPagingItems = lazyPagingItems,
         onNavigateToDetailScreen = onNavigateToDetailScreen,
-        onFavoriteClick = onFavoriteClick
+        onFavoriteClick = onFavoriteClick,
     )
 }
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [35])
 class PagedMarketListScreenTest {
-
     @get:Rule
     val composeTestRule = createComposeRule()
 
@@ -75,15 +74,15 @@ class PagedMarketListScreenTest {
             sourceLoadStates = LoadStates(
                 refresh = LoadState.Error(Exception("Network failed")),
                 prepend = LoadState.NotLoading(endOfPaginationReached = false),
-                append = LoadState.NotLoading(endOfPaginationReached = false)
-            )
+                append = LoadState.NotLoading(endOfPaginationReached = false),
+            ),
         )
 
         composeTestRule.setContent {
             TestablePagedMarketListScreen(
                 pagedData = pagingData,
                 onNavigateToDetailScreen = {},
-                onFavoriteClick = {}
+                onFavoriteClick = {},
             )
         }
 
@@ -101,7 +100,7 @@ class PagedMarketListScreenTest {
             TestablePagedMarketListScreen(
                 pagedData = pagedDate,
                 onNavigateToDetailScreen = {},
-                onFavoriteClick = {}
+                onFavoriteClick = {},
             )
         }
         composeTestRule.waitForIdle()
@@ -119,7 +118,7 @@ class PagedMarketListScreenTest {
             TestablePagedMarketListScreen(
                 pagedData = pagedDate,
                 onNavigateToDetailScreen = { navigatedMarket = it },
-                onFavoriteClick = {}
+                onFavoriteClick = {},
             )
         }
         composeTestRule.waitForIdle()
@@ -136,7 +135,7 @@ class PagedMarketListScreenTest {
             TestablePagedMarketListScreen(
                 pagedData = pagedDate,
                 onNavigateToDetailScreen = {},
-                onFavoriteClick = { clickedMarket = it }
+                onFavoriteClick = { clickedMarket = it },
             )
         }
         composeTestRule.waitForIdle()
@@ -153,14 +152,14 @@ class PagedMarketListScreenTest {
             sourceLoadStates = LoadStates(
                 refresh = LoadState.NotLoading(endOfPaginationReached = true),
                 prepend = LoadState.NotLoading(endOfPaginationReached = false),
-                append = LoadState.Loading
-            )
+                append = LoadState.Loading,
+            ),
         )
         composeTestRule.setContent {
             TestablePagedMarketListScreen(
                 pagedData = pagingData,
                 onNavigateToDetailScreen = {},
-                onFavoriteClick = {}
+                onFavoriteClick = {},
             )
         }
 
@@ -176,14 +175,14 @@ class PagedMarketListScreenTest {
             sourceLoadStates = LoadStates(
                 refresh = LoadState.NotLoading(endOfPaginationReached = false),
                 prepend = LoadState.NotLoading(endOfPaginationReached = false),
-                append = LoadState.Error(Exception("Could not load more"))
-            )
+                append = LoadState.Error(Exception("Could not load more")),
+            ),
         )
         composeTestRule.setContent {
             TestablePagedMarketListScreen(
                 pagedData = pagingData,
                 onNavigateToDetailScreen = {},
-                onFavoriteClick = {}
+                onFavoriteClick = {},
             )
         }
         composeTestRule.waitForIdle()

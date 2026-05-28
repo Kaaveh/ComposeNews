@@ -123,11 +123,11 @@ class MarketListScreenTest {
         composeTestRule.setContent {
             FavoriteMarketListScreen(
                 state = MarketListContract.State(
-                    favoriteMarketList = LoadableData.Loaded(persistentListOf(market))
+                    favoriteMarketList = LoadableData.Loaded(persistentListOf(market)),
                 ),
                 onNavigateToDetailScreen = { },
                 onFavoriteClick = { clickedMarket = market },
-                onRefresh = {}
+                onRefresh = {},
             )
         }
         composeTestRule.onNodeWithContentDescription("Not favorited").performClick()
@@ -139,11 +139,11 @@ class MarketListScreenTest {
         composeTestRule.setContent {
             FavoriteMarketListScreen(
                 state = MarketListContract.State(
-                    favoriteMarketList = LoadableData.Loading
+                    favoriteMarketList = LoadableData.Loading,
                 ),
                 onNavigateToDetailScreen = {},
                 onFavoriteClick = {},
-                onRefresh = {}
+                onRefresh = {},
             )
         }
         composeTestRule.onNodeWithText("Bitcoin").assertDoesNotExist()
@@ -156,13 +156,13 @@ class MarketListScreenTest {
         composeTestRule.setContent {
             FavoriteMarketListScreen(
                 state = MarketListContract.State(
-                    favoriteMarketList = LoadableData.Loaded(persistentListOf(market))
+                    favoriteMarketList = LoadableData.Loaded(persistentListOf(market)),
                 ),
                 onNavigateToDetailScreen = {},
                 onFavoriteClick = {},
                 onRefresh = {
-                    refreshCount++;
-                }
+                    refreshCount++
+                },
             )
         }
         composeTestRule.onNodeWithText("Bitcoin").performTouchInput {
@@ -181,11 +181,11 @@ class MarketListScreenTest {
         composeTestRule.setContent {
             FavoriteMarketListScreen(
                 state = MarketListContract.State(
-                    favoriteMarketList = LoadableData.Loaded(persistentListOf(bitcoin, ethereum))
+                    favoriteMarketList = LoadableData.Loaded(persistentListOf(bitcoin, ethereum)),
                 ),
                 onNavigateToDetailScreen = {},
                 onFavoriteClick = {},
-                onRefresh = {}
+                onRefresh = {},
             )
         }
         composeTestRule.onNodeWithText("Bitcoin").assertIsDisplayed()
@@ -200,13 +200,13 @@ class MarketListScreenTest {
             FavoriteMarketListScreen(
                 state = MarketListContract.State(
                     favoriteMarketList = LoadableData.Loaded(persistentListOf(bitcoin)),
-                    showFavoriteList = true
+                    showFavoriteList = true,
                 ),
                 onNavigateToDetailScreen = {},
                 onFavoriteClick = {
                     removedMarket = it
                 },
-                onRefresh = {}
+                onRefresh = {},
             )
         }
 
