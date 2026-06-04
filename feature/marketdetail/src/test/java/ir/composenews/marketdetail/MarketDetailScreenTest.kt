@@ -11,12 +11,14 @@ package ir.composenews.marketdetail
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import ir.composenews.base.LoadableData
 import ir.composenews.core_test.fixture.MarketModelFixtures.buildMarketModel
 import ir.composenews.domain.model.MarketChart
 import ir.composenews.domain.model.MarketDetail
+import ir.composenews.marketdetail.components.MARKET_DETAIL_CHART_TEST_TAG
 import ir.composenews.uimarket.model.MarketModel
 import kotlinx.collections.immutable.persistentListOf
 import org.junit.Rule
@@ -185,6 +187,8 @@ class MarketDetailScreenTest {
                 onFavoriteClick = {},
             )
         }
+
+        composeTestRule.onNodeWithTag(MARKET_DETAIL_CHART_TEST_TAG).assertIsDisplayed()
     }
 
     @Test
