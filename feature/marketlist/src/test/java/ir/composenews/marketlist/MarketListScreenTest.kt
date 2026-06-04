@@ -109,7 +109,7 @@ class MarketListScreenTest {
                     favoriteMarketList = LoadableData.Loaded(persistentListOf(market)),
                 ),
                 onNavigateToDetailScreen = { },
-                onFavoriteClick = { clickedMarket = market },
+                onFavoriteClick = { clickedMarket = it },
                 onRefresh = {},
             )
         }

@@ -30,7 +30,7 @@ import org.robolectric.annotation.Config
 import kotlin.test.assertEquals
 
 @Composable
-fun TestablePagedMarketListScreen(
+internal fun TestablePagedMarketListScreen(
     pagedData: PagingData<MarketModel>,
     onNavigateToDetailScreen: (MarketModel) -> Unit,
     onFavoriteClick: (MarketModel) -> Unit,
