@@ -123,28 +123,36 @@ class MarketDetailScreenTest {
         }
 
         // Stat rows are below the fixed-height chart, so scroll them into view before display assertions.
-        composeTestRule.onNodeWithText("Market Cap")
+        composeTestRule
+            .onNodeWithText("Market Cap")
             .performScrollTo()
             .assertIsDisplayed()
-        composeTestRule.onNodeWithText("$255B")
+        composeTestRule
+            .onNodeWithText("$255B")
             .performScrollTo()
             .assertIsDisplayed()
-        composeTestRule.onNodeWithText("High 24h")
+        composeTestRule
+            .onNodeWithText("High 24h")
             .performScrollTo()
             .assertIsDisplayed()
-        composeTestRule.onNodeWithText("100000.0")
+        composeTestRule
+            .onNodeWithText("100000.0")
             .performScrollTo()
             .assertIsDisplayed()
-        composeTestRule.onNodeWithText("Low 24h")
+        composeTestRule
+            .onNodeWithText("Low 24h")
             .performScrollTo()
             .assertIsDisplayed()
-        composeTestRule.onNodeWithText("50000.0")
+        composeTestRule
+            .onNodeWithText("50000.0")
             .performScrollTo()
             .assertIsDisplayed()
-        composeTestRule.onNodeWithText("Rank")
+        composeTestRule
+            .onNodeWithText("Rank")
             .performScrollTo()
             .assertIsDisplayed()
-        composeTestRule.onNodeWithText("#1")
+        composeTestRule
+            .onNodeWithText("#1")
             .performScrollTo()
             .assertIsDisplayed()
     }
