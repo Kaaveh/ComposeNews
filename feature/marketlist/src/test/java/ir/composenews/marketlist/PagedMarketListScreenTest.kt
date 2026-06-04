@@ -10,7 +10,6 @@ package ir.composenews.marketlist
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.hasProgressBarRangeInfo
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
@@ -20,6 +19,7 @@ import androidx.paging.LoadState
 import androidx.paging.LoadStates
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
+import ir.composenews.core_test.fixture.MarketModelFixtures.buildMarketModel
 import ir.composenews.uimarket.model.MarketModel
 import kotlinx.coroutines.flow.flowOf
 import org.junit.Rule
@@ -49,24 +49,6 @@ class PagedMarketListScreenTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    private fun buildMarketModel(
-        id: String = "btc",
-        name: String = "Bitcoin",
-        symbol: String = "BTC",
-        currentPrice: Double = 50000.0,
-        priceChangePercentage24h: Double = 2.5,
-        imageUrl: String = "",
-        isFavorite: Boolean = false,
-    ) = MarketModel(
-        id = id,
-        name = name,
-        symbol = symbol,
-        currentPrice = currentPrice,
-        priceChangePercentage24h = priceChangePercentage24h,
-        imageUrl = imageUrl,
-        isFavorite = isFavorite,
-    )
-
     @Test
     fun givenRefreshError_whenRendered_thenErrorMessageIsVisible() {
         val pagingData = PagingData.from<MarketModel>(
@@ -94,7 +76,7 @@ class PagedMarketListScreenTest {
     @Test
     fun givenLoadedItems_whenRendered_thenMarketNamesAreVisible() {
         val bitcoin = buildMarketModel()
-        val ethereum = buildMarketModel(id = "eth", name = "Ethereum", symbol = "ETH")
+        val ethereum = buildMarketModel("eth", "Ethereum", "ETH")
         val pagedDate = PagingData.from(listOf(bitcoin, ethereum))
         composeTestRule.setContent {
             TestablePagedMarketListScreen(

@@ -60,6 +60,7 @@ dependencies {
     projects.apply {
         api(core.test)
         api(core.network.ktor)
+        testImplementation(testFixtures(core.test))
     }
     libs.apply {
         implementation(lifecycle.viewmodel.ktx)

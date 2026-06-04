@@ -14,6 +14,7 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import ir.composenews.base.LoadableData
+import ir.composenews.core_test.fixture.MarketModelFixtures.buildMarketModel
 import ir.composenews.domain.model.MarketChart
 import ir.composenews.domain.model.MarketDetail
 import ir.composenews.uimarket.model.MarketModel
@@ -30,24 +31,6 @@ import kotlin.test.assertEquals
 class MarketDetailScreenTest {
     @get:Rule
     val composeTestRule = createComposeRule()
-
-    private fun buildMarketModel(
-        id: String = "btc",
-        name: String = "Bitcoin",
-        symbol: String = "BTC",
-        currentPrice: Double = 50000.0,
-        priceChangePercentage24h: Double = 2.5,
-        imageUrl: String = "",
-        isFavorite: Boolean = false,
-    ) = MarketModel(
-        id = id,
-        name = name,
-        symbol = symbol,
-        currentPrice = currentPrice,
-        priceChangePercentage24h = priceChangePercentage24h,
-        imageUrl = imageUrl,
-        isFavorite = isFavorite,
-    )
 
     @Test
     fun givenLoadedMarketState_whenRendered_thenMarketNameIsVisible() {
@@ -80,7 +63,7 @@ class MarketDetailScreenTest {
         composeTestRule.setContent {
             MarketDetailScreen(
                 marketDetailState = MarketDetailContract.State(
-                    market = LoadableData.Loaded(buildMarketModel(isFavorite = true)),
+                    market = LoadableData.Loaded(buildMarketModel(true)),
                 ),
                 onFavoriteClick = {},
             )
@@ -93,7 +76,7 @@ class MarketDetailScreenTest {
         composeTestRule.setContent {
             MarketDetailScreen(
                 marketDetailState = MarketDetailContract.State(
-                    market = LoadableData.Loaded(buildMarketModel(isFavorite = true)),
+                    market = LoadableData.Loaded(buildMarketModel(true)),
                 ),
                 onFavoriteClick = {},
             )
@@ -105,7 +88,7 @@ class MarketDetailScreenTest {
 
     @Test
     fun givenLoadedMarketState_whenFavoriteClicked_thenFavoriteCallbackIsInvoked() {
-        val bitcoin = buildMarketModel(isFavorite = false)
+        val bitcoin = buildMarketModel(false)
         var clickedMarket: MarketModel? = null
         composeTestRule.setContent {
             MarketDetailScreen(

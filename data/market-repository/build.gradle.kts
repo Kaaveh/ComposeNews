@@ -64,6 +64,7 @@ dependencies {
         api(domain.market)
         implementation(data.marketRemote)
         implementation(data.marketLocal)
+        testImplementation(testFixtures(core.test))
     }
     libs.apply {
         testImplementation(bundles.kotest)

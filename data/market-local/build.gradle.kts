@@ -62,6 +62,6 @@ dependencies {
         testImplementation(runner)
     }
     projects.apply {
-        testImplementation(core.test)
+        testImplementation(testFixtures(core.test))
     }
 }

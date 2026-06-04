@@ -16,6 +16,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTouchInput
 import ir.composenews.base.LoadableData
+import ir.composenews.core_test.fixture.MarketModelFixtures.buildMarketModel
 import ir.composenews.network.Errors
 import ir.composenews.uimarket.model.MarketModel
 import kotlinx.collections.immutable.persistentListOf
@@ -31,24 +32,6 @@ import org.robolectric.annotation.Config
 class MarketListScreenTest {
     @get:Rule
     val composeTestRule = createComposeRule()
-
-    private fun buildMarketModel(
-        id: String = "btc",
-        name: String = "Bitcoin",
-        symbol: String = "BTC",
-        currentPrice: Double = 50000.0,
-        priceChangePercentage24h: Double = 2.5,
-        imageUrl: String = "",
-        isFavorite: Boolean = false,
-    ) = MarketModel(
-        id = id,
-        name = name,
-        symbol = symbol,
-        currentPrice = currentPrice,
-        priceChangePercentage24h = priceChangePercentage24h,
-        imageUrl = imageUrl,
-        isFavorite = isFavorite,
-    )
 
     @Test
     fun givenLoadedStateWithMarkets_whenRendered_thenMarketNameIsVisible() {
@@ -177,7 +160,7 @@ class MarketListScreenTest {
     @Test
     fun givenLoadedMultipleItems_whenRendered_thenItemsAreDisplayed() {
         val bitcoin = buildMarketModel()
-        val ethereum = buildMarketModel(id = "eth", name = "Ethereum", symbol = "ETH")
+        val ethereum = buildMarketModel("eth", "Ethereum", "ETH")
         composeTestRule.setContent {
             FavoriteMarketListScreen(
                 state = MarketListContract.State(
