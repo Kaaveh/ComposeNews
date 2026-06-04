@@ -66,7 +66,7 @@ dependencies {
         testFixturesApi(mockk)
     }
     projects.apply {
-        testFixturesApi(core.base)
+        api(core.base)
         testFixturesApi(core.uimarket)
     }
 }
