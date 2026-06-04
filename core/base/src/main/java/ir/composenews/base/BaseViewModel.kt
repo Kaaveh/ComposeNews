@@ -9,8 +9,8 @@
 package ir.composenews.base
 
 import androidx.lifecycle.ViewModel
-import ir.composenews.core_test.dispatcher.DispatcherProvider
-import ir.composenews.core_test.dispatcher.PlatformDispatcherProvider
+import ir.composenews.base.dispatcher.DispatcherProvider
+import ir.composenews.base.dispatcher.PlatformDispatcherProvider
 import kotlinx.coroutines.withContext
 
 abstract class BaseViewModel(

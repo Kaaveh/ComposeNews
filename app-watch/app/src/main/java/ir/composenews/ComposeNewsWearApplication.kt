@@ -1,7 +1,7 @@
 package ir.composenews
 
 import android.app.Application
-import ir.composenews.core_test.di.dispatcherModule
+import ir.composenews.base.di.dispatcherModule
 import ir.composenews.data.di.dataModule
 import ir.composenews.di.appWatchModule
 import ir.composenews.domain.di.domainModule

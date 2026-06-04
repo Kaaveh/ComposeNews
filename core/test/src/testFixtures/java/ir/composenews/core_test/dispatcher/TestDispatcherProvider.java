@@ -1,5 +1,6 @@
 package ir.composenews.core_test.dispatcher;
 
+import ir.composenews.base.dispatcher.DispatcherProvider;
 import kotlinx.coroutines.CoroutineDispatcher;
 import kotlinx.coroutines.test.TestCoroutineDispatchersKt;
 import kotlinx.coroutines.test.TestCoroutineScheduler;

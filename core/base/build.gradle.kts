@@ -63,9 +63,11 @@ dependencies {
     testImplementation(kotlin("test"))
 
     projects.apply {
-        api(core.test)
         api(core.network.ktor)
         implementation(library.designsystem)
     }
-    implementation(libs.lifecycle.viewmodel.ktx)
+    libs.apply {
+        implementation(koin.core)
+        implementation(lifecycle.viewmodel.ktx)
+    }
 }

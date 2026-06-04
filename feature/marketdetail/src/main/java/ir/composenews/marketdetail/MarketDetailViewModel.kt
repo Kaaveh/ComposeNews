@@ -5,7 +5,7 @@ package ir.composenews.marketdetail
 import androidx.lifecycle.viewModelScope
 import ir.composenews.base.BaseViewModel
 import ir.composenews.base.LoadableData
-import ir.composenews.core_test.dispatcher.DispatcherProvider
+import ir.composenews.base.dispatcher.DispatcherProvider
 import ir.composenews.domain.use_case.GetMarketByIdUseCase
 import ir.composenews.domain.use_case.GetMarketChartUseCase
 import ir.composenews.domain.use_case.GetMarketDetailUseCase

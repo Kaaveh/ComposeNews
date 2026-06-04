@@ -1,7 +1,7 @@
 package ir.composenews.ui
 
 import androidx.paging.PagingData
-import ir.composenews.core_test.dispatcher.DispatcherProvider
+import ir.composenews.base.dispatcher.DispatcherProvider
 import ir.composenews.domain.model.Market
 import ir.composenews.domain.model.MarketChart
 import ir.composenews.domain.model.MarketDetail

@@ -98,7 +98,6 @@ dependencies {
         implementation(library.designsystem)
         implementation(core.base)
         implementation(core.uimarket)
-        implementation(core.test)
         implementation(domain.market)
         implementation(data.marketLocal)
         implementation(data.marketRemote)
