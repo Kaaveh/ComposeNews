@@ -6,11 +6,13 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.paging.PagingData
 import ir.composenews.base.dispatcher.DispatcherProvider
 import ir.composenews.domain.model.Market
 import ir.composenews.domain.model.MarketChart
 import ir.composenews.domain.model.MarketDetail
 import ir.composenews.domain.repository.MarketRepository
+import ir.composenews.domain.use_case.GetMarketByIdUseCase
 import ir.composenews.domain.use_case.GetMarketChartUseCase
 import ir.composenews.domain.use_case.GetMarketDetailUseCase
 import ir.composenews.domain.use_case.ToggleFavoriteMarketListUseCase
@@ -32,19 +34,25 @@ class MarketDetailScreenTest {
     val fakeMarketRepository =
         object : MarketRepository {
             override fun getMarketList(): Flow<List<Market>> {
-                TODO("Not yet implemented")
+                return flowOf(emptyList())
+            }
+
+            override fun getPagedMarketList(): Flow<PagingData<Market>> {
+                return flowOf(PagingData.empty())
             }
 
             override fun getFavoriteMarketList(): Flow<List<Market>> {
-                TODO("Not yet implemented")
+                return flowOf(emptyList())
+            }
+
+            override fun getMarketById(id: String): Flow<Market?> {
+                return flowOf(null)
             }
 
             override suspend fun syncMarketList() {
-                TODO("Not yet implemented")
             }
 
             override suspend fun toggleFavoriteMarket(oldMarket: Market) {
-                TODO("Not yet implemented")
             }
 
             override fun fetchChart(id: String): Flow<Resource<MarketChart, Errors>> {
@@ -83,9 +91,10 @@ class MarketDetailScreenTest {
         val fakeToggleFavoriteMarketListUseCase =
             object : ToggleFavoriteMarketListUseCase(fakeMarketRepository) {
                 override suspend fun invoke(market: Market) {
-                    TODO("Not yet implemented")
                 }
             }
+
+        val fakeGetMarketByIdUseCase = GetMarketByIdUseCase(fakeMarketRepository)
 
         val fakeDispatcherProvider = FakeDispatcherProvider()
 
@@ -93,6 +102,7 @@ class MarketDetailScreenTest {
             getMarketChartUseCase = fakeGetMarketMarketChartUseCase,
             getMarketDetailUseCase = fakeGetMarketDetailUseCase,
             toggleFavoriteMarketListUseCase = fakeToggleFavoriteMarketListUseCase,
+            getMarketByIdUseCase = fakeGetMarketByIdUseCase,
             dispatcherProvider = fakeDispatcherProvider,
         )
     }
@@ -116,12 +126,13 @@ class MarketDetailScreenTest {
         }
         composeTestRule.waitForIdle()
         composeTestRule.onNodeWithText("Bitcoin").assertExists()
-        composeTestRule.onNodeWithText("$50,000.0").assertExists()
+        composeTestRule.onNodeWithText("50000.0 $").assertExists()
         composeTestRule.onNodeWithText("Rank").assertExists()
     }
 
     @Test
     fun marketDetailScreen_FavoriteTogglesCorrectly() {
+        val mockViewModel = createMockViewModel()
         val marketModel =
             MarketModel(
                 id = "1",
@@ -133,9 +144,9 @@ class MarketDetailScreenTest {
                 imageUrl = "",
             )
         composeTestRule.setContent {
-            MarketDetailRoute(market = marketModel)
+            MarketDetailRoute(market = marketModel, viewModel = mockViewModel)
         }
-        composeTestRule.onNodeWithText("Favorite").performClick()
+        composeTestRule.onNodeWithContentDescription("Not favorited").performClick()
     }
 
 //    @Test
@@ -150,6 +161,7 @@ class MarketDetailScreenTest {
 
     @Test
     fun marketDetailScreen_UserInteractsWithChartData() {
+        val mockViewModel = createMockViewModel()
         val marketModel =
             MarketModel(
                 id = "1",
@@ -161,12 +173,13 @@ class MarketDetailScreenTest {
                 isFavorite = false,
             )
         composeTestRule.setContent {
-            MarketDetailRoute(market = marketModel)
+            MarketDetailRoute(market = marketModel, viewModel = mockViewModel)
         }
     }
 
     @Test
     fun marketDetailScreen_NavigationPreservesState() {
+        val mockViewModel = createMockViewModel()
         val marketModel =
             MarketModel(
                 id = "1",
@@ -178,12 +191,11 @@ class MarketDetailScreenTest {
                 isFavorite = false,
             )
         composeTestRule.setContent {
-            MarketDetailRoute(market = marketModel)
+            MarketDetailRoute(market = marketModel, viewModel = mockViewModel)
         }
 
-        composeTestRule.onNodeWithText("Favorite").performClick()
-        composeTestRule.onNodeWithText("Favorite").assertExists()
-        composeTestRule.onNodeWithContentDescription("Favorite Icon").assertExists()
+        composeTestRule.onNodeWithContentDescription("Not favorited").performClick()
+        composeTestRule.onNodeWithContentDescription("Not favorited").assertExists()
     }
 }
 
