@@ -14,6 +14,7 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import ir.composenews.base.LoadableData
 import ir.composenews.core_test.fixture.MarketModelFixtures.buildMarketModel
 import ir.composenews.domain.model.MarketChart
@@ -121,14 +122,31 @@ class MarketDetailScreenTest {
             )
         }
 
-        composeTestRule.onNodeWithText("Market Cap").assertExists()
-        composeTestRule.onNodeWithText("$255B").assertExists()
-        composeTestRule.onNodeWithText("High 24h").assertExists()
-        composeTestRule.onNodeWithText("100000.0").assertExists()
-        composeTestRule.onNodeWithText("Low 24h").assertExists()
-        composeTestRule.onNodeWithText("50000.0").assertExists()
-        composeTestRule.onNodeWithText("Rank").assertExists()
-        composeTestRule.onNodeWithText("#1").assertExists()
+        // Stat rows are below the fixed-height chart, so scroll them into view before display assertions.
+        composeTestRule.onNodeWithText("Market Cap")
+            .performScrollTo()
+            .assertIsDisplayed()
+        composeTestRule.onNodeWithText("$255B")
+            .performScrollTo()
+            .assertIsDisplayed()
+        composeTestRule.onNodeWithText("High 24h")
+            .performScrollTo()
+            .assertIsDisplayed()
+        composeTestRule.onNodeWithText("100000.0")
+            .performScrollTo()
+            .assertIsDisplayed()
+        composeTestRule.onNodeWithText("Low 24h")
+            .performScrollTo()
+            .assertIsDisplayed()
+        composeTestRule.onNodeWithText("50000.0")
+            .performScrollTo()
+            .assertIsDisplayed()
+        composeTestRule.onNodeWithText("Rank")
+            .performScrollTo()
+            .assertIsDisplayed()
+        composeTestRule.onNodeWithText("#1")
+            .performScrollTo()
+            .assertIsDisplayed()
     }
 
     @Test
