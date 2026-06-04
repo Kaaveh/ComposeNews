@@ -197,8 +197,6 @@ class MarketListScreenTest {
             down(center)
             moveBy(Offset(-300f, 0f))
             up()
-            // Also we can use
-            // swipeLeft()
         }
 
         composeTestRule.waitUntil(1000) {
