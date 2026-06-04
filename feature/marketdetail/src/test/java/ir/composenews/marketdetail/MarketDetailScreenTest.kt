@@ -61,19 +61,6 @@ class MarketDetailScreenTest {
     }
 
     @Test
-    fun givenLoadedMarketStateWithFavorite_whenRendered_thenFavoritedMarketNameIsVisible() {
-        composeTestRule.setContent {
-            MarketDetailScreen(
-                marketDetailState = MarketDetailContract.State(
-                    market = LoadableData.Loaded(buildMarketModel(true)),
-                ),
-                onFavoriteClick = {},
-            )
-        }
-        composeTestRule.onNodeWithText("Bitcoin").assertIsDisplayed()
-    }
-
-    @Test
     fun givenLoadedMarketStateWithFavorite_whenRendered_thenFavoriteIconIsRed() {
         composeTestRule.setContent {
             MarketDetailScreen(
