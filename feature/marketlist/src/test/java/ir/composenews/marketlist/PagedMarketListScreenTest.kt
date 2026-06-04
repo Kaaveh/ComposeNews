@@ -77,10 +77,10 @@ class PagedMarketListScreenTest {
     fun givenLoadedItems_whenRendered_thenMarketNamesAreVisible() {
         val bitcoin = buildMarketModel()
         val ethereum = buildMarketModel("eth", "Ethereum", "ETH")
-        val pagedDate = PagingData.from(listOf(bitcoin, ethereum))
+        val pagingData = PagingData.from(listOf(bitcoin, ethereum))
         composeTestRule.setContent {
             TestablePagedMarketListScreen(
-                pagedData = pagedDate,
+                pagedData = pagingData,
                 onNavigateToDetailScreen = {},
                 onFavoriteClick = {},
             )
@@ -94,11 +94,11 @@ class PagedMarketListScreenTest {
     @Test
     fun givenLoadedItems_whenItemClicked_thenNavigateCallbackIsInvoked() {
         val bitcoin = buildMarketModel()
-        val pagedDate = PagingData.from(listOf(bitcoin))
+        val pagingData = PagingData.from(listOf(bitcoin))
         var navigatedMarket: MarketModel? = null
         composeTestRule.setContent {
             TestablePagedMarketListScreen(
-                pagedData = pagedDate,
+                pagedData = pagingData,
                 onNavigateToDetailScreen = { navigatedMarket = it },
                 onFavoriteClick = {},
             )
@@ -111,11 +111,11 @@ class PagedMarketListScreenTest {
     @Test
     fun givenLoadedItems_whenFavoriteClicked_thenFavoriteCallbackIsInvoked() {
         val bitcoin = buildMarketModel()
-        val pagedDate = PagingData.from(listOf(bitcoin))
+        val pagingData = PagingData.from(listOf(bitcoin))
         var clickedMarket: MarketModel? = null
         composeTestRule.setContent {
             TestablePagedMarketListScreen(
-                pagedData = pagedDate,
+                pagedData = pagingData,
                 onNavigateToDetailScreen = {},
                 onFavoriteClick = { clickedMarket = it },
             )
