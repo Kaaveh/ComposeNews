@@ -80,7 +80,8 @@ fun QuadLineChart(
             Text(
                 modifier = Modifier
                     .align(Alignment.Center),
-                text = "No chart data"
+                text = "No chart data",
+                style = MaterialTheme.typography.bodyMedium
             )
             return@Box
         }
