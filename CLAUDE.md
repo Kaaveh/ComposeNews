@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-ComposeNews is a production-ready Android news application demonstrating modern Android development best practices. It follows **MVI + Clean Architecture** with a multi-module structure organized by feature and layer. The project is actively migrating toward **Kotlin Multiplatform (KMP)**.
+ComposeNews is a production-ready Android crypto application demonstrating modern Android development best practices. It follows **MVI + Clean Architecture** with a multi-module structure organized by feature and layer. The project is actively migrating toward **Kotlin Multiplatform (KMP)**.
 
 - **Min SDK**: 23 (Android 6.0) | **Target SDK**: 36 (Android 15)
 - **Language**: Kotlin 2.x | **UI**: Jetpack Compose

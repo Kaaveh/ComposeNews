@@ -107,7 +107,7 @@ dependencies {
     }
     libs.apply {
         implementation(androidx.ktx)
-        implementation(lifecycle.runtime.ktx)
+        implementation(lifecycle.runtime)
         implementation(work.runtime.ktx)
         implementation(compose.activity)
         implementation(compose.ui.preview.wear)

@@ -20,6 +20,7 @@ composeActivity = "1.12.4"
 composeCoil = "2.7.0"
 material3Adaptive = "1.2.0"
 composeWear = "1.5.6"
+composeTv = "1.0.0"
 turbine = "1.2.1"
 wearToolingPreview = "1.0.0"
 horologistComposeLayout = "0.7.15"
@@ -29,9 +30,7 @@ kermit = "2.0.5"
 koin = "4.0.4"
 compottie = "2.1.0"
 
-lifeCycle = "2.10.0"
-lifeCycleViewModelKtx = "2.10.0"
-lifeCycleRuntimeCompose = "2.10.0"
+lifecycle = "2.10.0"
 
 navigationCompose = "2.9.7"
 nav3Core = "1.0.1"
@@ -84,6 +83,8 @@ compose-material3-adaptive-navigation-suite = { group = "androidx.compose.materi
 compose-material-wear = { group = "androidx.wear.compose", name = "compose-material", version.ref = "composeWear" }
 compose-foundation-wear = { group = "androidx.wear.compose", name = "compose-foundation", version.ref = "composeWear" }
 compose-ui-preview-wear = { group = "androidx.wear", name = "wear-tooling-preview", version.ref = "wearToolingPreview" }
+compose-tv-material = { group = "androidx.tv", name = "tv-material", version.ref = "composeTv" }
+compose-tv-foundation = { group = "androidx.tv", name = "tv-foundation", version.ref = "composeTv" }
 compose-horologist-layout = { module = "com.google.android.horologist:horologist-compose-layout", version.ref = "horologistComposeLayout" }
 
 kermit = { group = "co.touchlab", name = "kermit", version.ref = "kermit" }
@@ -95,9 +96,9 @@ koin-compose-viewmodel = { group = "io.insert-koin", name = "koin-compose-viewmo
 koin-core-viewmodel = { group = "io.insert-koin", name = "koin-core-viewmodel", version.ref = "koin" }
 koin-workmanager = { group = "io.insert-koin", name = "koin-androidx-workmanager", version.ref = "koin" }
 
-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifeCycle" }
-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifeCycleViewModelKtx" }
-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifeCycleRuntimeCompose" }
+lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime", version.ref = "lifecycle" }
+lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "lifecycle" }
+lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycle" }
 
 navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "nav3Core" }

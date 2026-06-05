@@ -1,5 +1,3 @@
-@file:Suppress("ForbiddenComment")
-
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -12,17 +10,17 @@ plugins {
 }
 
 android {
-    namespace = libs.versions.projectApplicationId.get()
+    namespace = "ir.composenews.tv"
     compileSdk = libs.versions.projectCompileSdkVersion.get().toInt()
 
     defaultConfig {
-        applicationId = libs.versions.projectApplicationId.get()
+        applicationId = "${libs.versions.projectApplicationId.get()}.tv"
         minSdk = libs.versions.projectMinSdkVersion.get().toInt()
         targetSdk = libs.versions.projectTargetSdkVersion.get().toInt()
         versionCode = libs.versions.projectVersionCode.get().toInt()
         versionName = libs.versions.projectVersionName.get()
 
-        testInstrumentationRunner = "ir.composenews.ui.InstrumentationTestRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         vectorDrawables {
             useSupportLibrary = true
@@ -43,10 +41,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
-            // To publish on the Play store a private signing key is required, but to allow anyone
-            // who clones the code to sign and run the release variant, use the debug signing key.
-            // TODO: Abstract the signing configuration to a separate file to avoid hardcoding this.
-            signingConfig = signingConfigs.named("debug").get()
         }
     }
 
@@ -90,7 +84,8 @@ kotlin {
 dependencies {
     // Koin
     implementation(libs.koin.android)
-    implementation(libs.koin.workmanager)
+    implementation(libs.koin.androidx.compose)
+    implementation(libs.koin.compose.viewmodel)
 
     // Compose BOM
     implementation(platform(libs.compose.bom))
@@ -101,11 +96,12 @@ dependencies {
     testImplementation(kotlin("test"))
 
     projects.apply {
-        implementation(library.navigation)
+        implementation(appTv.navigation)
+        implementation(appTv.ui)
         implementation(library.designsystem)
-        implementation(core.sync)
         implementation(core.base)
         implementation(core.uimarket)
+        implementation(core.test)
         implementation(domain.market)
         implementation(data.marketLocal)
         implementation(data.marketRemote)
@@ -114,18 +110,18 @@ dependencies {
         implementation(feature.marketdetail)
     }
     libs.apply {
-        implementation(compose.activity)
         implementation(androidx.ktx)
         implementation(lifecycle.runtime)
-        implementation(work.runtime.ktx)
+        implementation(lifecycle.runtime.compose)
+        implementation(compose.activity)
+        implementation(compose.tv.material)
+        implementation(compose.tv.foundation)
         implementation(navigation3.runtime)
         implementation(navigation3.ui)
         implementation(lifecycle.viewmodel.navigation3)
-        implementation(compose.material3.adaptive.navigation.suite)
-        implementation(compose.material3.adaptive.navigation)
-        implementation(compose.ui.test.manifest)
-        implementation(compose.ui.test.junit4)
-        androidTestImplementation(mockk.android)
-        androidTestImplementation(rules)
+        androidTestImplementation(platform(compose.bom))
+        androidTestImplementation(compose.ui.test.junit4)
+        debugImplementation(compose.ui.tooling)
+        debugImplementation(compose.ui.test.manifest)
     }
 }

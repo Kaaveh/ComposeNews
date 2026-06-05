@@ -3,13 +3,14 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.compose)
     alias(libs.plugins.detekt)
     alias(libs.plugins.kotliner)
     alias(libs.plugins.kotlinx.serialization)
 }
 
 android {
-    namespace = "ir.composenews.domain"
+    namespace = "ir.composenews.app_tv.navigation"
     compileSdk = libs.versions.projectCompileSdkVersion.get().toInt()
 
     defaultConfig {
@@ -19,6 +20,10 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    buildFeatures {
+        compose = true
     }
 
     testOptions {
@@ -50,22 +55,23 @@ kotlin {
 }
 
 dependencies {
-    // Koin
-    implementation(libs.koin.core)
+    // Compose BOM
+    implementation(platform(libs.compose.bom))
+    androidTestImplementation(platform(libs.compose.bom))
 
     // Test
     androidTestImplementation(kotlin("test"))
     testImplementation(kotlin("test"))
 
     projects.apply {
-        api(core.network.ktor)
-        testImplementation(testFixtures(core.test))
+        implementation(appTv.ui)
+        implementation(core.base)
+        implementation(core.uimarket)
     }
     libs.apply {
-        implementation(lifecycle.viewmodel)
-        api(kotlinx.collections.immutable)
-        api(kotlinx.serialization.json)
-        api(paging.common)
-        testImplementation(coroutines.test)
+        api(navigation3.runtime)
+        api(navigation3.ui)
+        implementation(lifecycle.viewmodel.navigation3)
+        implementation(kotlinx.serialization.json)
     }
 }

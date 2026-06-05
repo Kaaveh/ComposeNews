@@ -68,6 +68,6 @@ dependencies {
     }
     libs.apply {
         implementation(koin.core)
-        implementation(lifecycle.viewmodel.ktx)
+        implementation(lifecycle.viewmodel)
     }
 }
