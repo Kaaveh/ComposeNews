@@ -123,8 +123,8 @@ dependencies {
         implementation(lifecycle.viewmodel.navigation3)
         implementation(compose.material3.adaptive.navigation.suite)
         implementation(compose.material3.adaptive.navigation)
-        implementation(compose.ui.test.manifest)
-        implementation(compose.ui.test.junit4)
+        debugImplementation(compose.ui.test.manifest)
+        androidTestImplementation(compose.ui.test.junit4)
         androidTestImplementation(mockk.android)
         androidTestImplementation(rules)
     }
