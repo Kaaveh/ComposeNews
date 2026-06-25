@@ -9,8 +9,13 @@
 package ir.composenews.marketlist
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasContentDescription
+import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
@@ -68,7 +73,7 @@ class PagedMarketListScreenTest {
             )
         }
 
-        composeTestRule.waitForIdle()
+        composeTestRule.waitUntilExists(hasText("Network failed"))
         composeTestRule.onNodeWithText("Network failed").assertIsDisplayed()
         composeTestRule.onNodeWithText("Bitcoin").assertDoesNotExist()
     }
@@ -85,7 +90,7 @@ class PagedMarketListScreenTest {
                 onFavoriteClick = {},
             )
         }
-        composeTestRule.waitForIdle()
+        composeTestRule.waitUntilExists(hasText("Bitcoin"))
         composeTestRule.onNodeWithText("Bitcoin").assertIsDisplayed()
         composeTestRule.onNodeWithText("BTC").assertIsDisplayed()
         composeTestRule.onNodeWithText("Ethereum").assertIsDisplayed()
@@ -103,7 +108,7 @@ class PagedMarketListScreenTest {
                 onFavoriteClick = {},
             )
         }
-        composeTestRule.waitForIdle()
+        composeTestRule.waitUntilExists(hasText("Bitcoin"))
         composeTestRule.onNodeWithText("Bitcoin").performClick()
         assertEquals(bitcoin, navigatedMarket)
     }
@@ -120,7 +125,7 @@ class PagedMarketListScreenTest {
                 onFavoriteClick = { clickedMarket = it },
             )
         }
-        composeTestRule.waitForIdle()
+        composeTestRule.waitUntilExists(hasContentDescription("Not favorited"))
         composeTestRule.onNodeWithContentDescription("Not favorited").performClick()
         composeTestRule.waitForIdle()
         assertEquals(bitcoin, clickedMarket)
@@ -145,7 +150,7 @@ class PagedMarketListScreenTest {
             )
         }
 
-        composeTestRule.waitForIdle()
+        composeTestRule.waitUntilExists(hasTestTag("Paging Progress Bar"))
         composeTestRule.onNodeWithTag("Paging Progress Bar").assertExists()
     }
 
@@ -167,7 +172,16 @@ class PagedMarketListScreenTest {
                 onFavoriteClick = {},
             )
         }
-        composeTestRule.waitForIdle()
+        composeTestRule.waitUntilExists(hasText("Could not load more"))
         composeTestRule.onNodeWithText("Could not load more").assertIsDisplayed()
+    }
+}
+
+private fun ComposeContentTestRule.waitUntilExists(
+    matcher: SemanticsMatcher,
+    timeoutMillis: Long = 5_000,
+) {
+    waitUntil(timeoutMillis = timeoutMillis) {
+        onAllNodes(matcher).fetchSemanticsNodes().isNotEmpty()
     }
 }
