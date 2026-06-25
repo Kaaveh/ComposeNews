@@ -49,11 +49,9 @@ class MarketDetailScreenTest {
                 return flowOf(null)
             }
 
-            override suspend fun syncMarketList() {
-            }
+            override suspend fun syncMarketList() = Unit
 
-            override suspend fun toggleFavoriteMarket(oldMarket: Market) {
-            }
+            override suspend fun toggleFavoriteMarket(oldMarket: Market) = Unit
 
             override fun fetchChart(id: String): Flow<Resource<MarketChart, Errors>> {
                 TODO("Not yet implemented")
@@ -90,8 +88,7 @@ class MarketDetailScreenTest {
 
         val fakeToggleFavoriteMarketListUseCase =
             object : ToggleFavoriteMarketListUseCase(fakeMarketRepository) {
-                override suspend fun invoke(market: Market) {
-                }
+                override suspend fun invoke(market: Market) = Unit
             }
 
         val fakeGetMarketByIdUseCase = GetMarketByIdUseCase(fakeMarketRepository)

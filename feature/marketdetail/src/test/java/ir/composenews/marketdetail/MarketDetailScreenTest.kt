@@ -122,39 +122,7 @@ class MarketDetailScreenTest {
             )
         }
 
-        // Stat rows are below the fixed-height chart, so scroll them into view before display assertions.
-        composeTestRule
-            .onNodeWithText("Market Cap")
-            .performScrollTo()
-            .assertIsDisplayed()
-        composeTestRule
-            .onNodeWithText("$255B")
-            .performScrollTo()
-            .assertIsDisplayed()
-        composeTestRule
-            .onNodeWithText("High 24h")
-            .performScrollTo()
-            .assertIsDisplayed()
-        composeTestRule
-            .onNodeWithText("100000.0")
-            .performScrollTo()
-            .assertIsDisplayed()
-        composeTestRule
-            .onNodeWithText("Low 24h")
-            .performScrollTo()
-            .assertIsDisplayed()
-        composeTestRule
-            .onNodeWithText("50000.0")
-            .performScrollTo()
-            .assertIsDisplayed()
-        composeTestRule
-            .onNodeWithText("Rank")
-            .performScrollTo()
-            .assertIsDisplayed()
-        composeTestRule
-            .onNodeWithText("#1")
-            .performScrollTo()
-            .assertIsDisplayed()
+        assertStatRowsAreVisible("Market Cap", "$255B", "High 24h", "100000.0", "Low 24h", "50000.0", "Rank", "#1")
     }
 
     @Test
@@ -231,5 +199,14 @@ class MarketDetailScreenTest {
 
         composeTestRule.onNodeWithText("No chart data").assertExists()
         composeTestRule.onNodeWithText("No chart data").assertIsDisplayed()
+    }
+
+    private fun assertStatRowsAreVisible(vararg texts: String) {
+        texts.forEach { text ->
+            composeTestRule
+                .onNodeWithText(text)
+                .performScrollTo()
+                .assertIsDisplayed()
+        }
     }
 }
