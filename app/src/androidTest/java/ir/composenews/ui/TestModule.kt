@@ -6,6 +6,7 @@ import ir.composenews.core_test.dispatcher.TestDispatcherProvider
 import ir.composenews.domain.model.Market
 import ir.composenews.domain.model.MarketChart
 import ir.composenews.domain.model.MarketDetail
+import ir.composenews.domain.repository.FakeMarketRepository
 import ir.composenews.domain.repository.MarketRepository
 import ir.composenews.domain.use_case.GetFavoriteMarketListUseCase
 import ir.composenews.domain.use_case.GetMarketByIdUseCase
@@ -40,49 +41,3 @@ val testModule =
         viewModel { MarketDetailViewModel(get(), get(), get(), get(), get()) }
     }
 
-private class FakeMarketRepository : MarketRepository {
-    private val markets =
-        listOf(
-            Market(
-                id = "bitcoin",
-                name = "Bitcoin",
-                symbol = "btc",
-                currentPrice = 100000.0,
-                priceChangePercentage24h = 2.5,
-                imageUrl = "",
-            ),
-        )
-
-    override fun getMarketList(): Flow<List<Market>> = flowOf(markets)
-
-    override fun getPagedMarketList(): Flow<PagingData<Market>> = flowOf(PagingData.from(markets))
-
-    override fun getFavoriteMarketList(): Flow<List<Market>> = flowOf(emptyList())
-
-    override fun getMarketById(id: String): Flow<Market?> = flowOf(markets.firstOrNull { it.id == id })
-
-    override suspend fun syncMarketList() = Unit
-
-    override suspend fun toggleFavoriteMarket(oldMarket: Market) = Unit
-
-    override fun fetchChart(id: String): Flow<Resource<MarketChart, Errors>> =
-        flowOf(Resource.Success(MarketChart(persistentListOf(0L to 100000.0))))
-
-    override fun fetchDetail(id: String): Flow<Resource<MarketDetail, Errors>> =
-        flowOf(
-            Resource.Success(
-                MarketDetail(
-                    id = id,
-                    marketCapRank = 1,
-                    marketData =
-                        MarketDetail.MarketData(
-                            high24hUSD = 101000.0,
-                            low24hUSD = 99000.0,
-                            marketCapUSD = 1_000_000_000L,
-                            marketCapRank = 1,
-                        ),
-                    name = "Bitcoin",
-                ),
-            ),
-        )
-}

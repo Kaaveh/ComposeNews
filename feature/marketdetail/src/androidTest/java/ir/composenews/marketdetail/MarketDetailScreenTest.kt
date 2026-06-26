@@ -11,6 +11,7 @@ import ir.composenews.base.dispatcher.DispatcherProvider
 import ir.composenews.domain.model.Market
 import ir.composenews.domain.model.MarketChart
 import ir.composenews.domain.model.MarketDetail
+import ir.composenews.domain.repository.FakeMarketRepository
 import ir.composenews.domain.repository.MarketRepository
 import ir.composenews.domain.use_case.GetMarketByIdUseCase
 import ir.composenews.domain.use_case.GetMarketChartUseCase
@@ -31,36 +32,7 @@ class MarketDetailScreenTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    val fakeMarketRepository =
-        object : MarketRepository {
-            override fun getMarketList(): Flow<List<Market>> {
-                return flowOf(emptyList())
-            }
-
-            override fun getPagedMarketList(): Flow<PagingData<Market>> {
-                return flowOf(PagingData.empty())
-            }
-
-            override fun getFavoriteMarketList(): Flow<List<Market>> {
-                return flowOf(emptyList())
-            }
-
-            override fun getMarketById(id: String): Flow<Market?> {
-                return flowOf(null)
-            }
-
-            override suspend fun syncMarketList() = Unit
-
-            override suspend fun toggleFavoriteMarket(oldMarket: Market) = Unit
-
-            override fun fetchChart(id: String): Flow<Resource<MarketChart, Errors>> {
-                TODO("Not yet implemented")
-            }
-
-            override fun fetchDetail(id: String): Flow<Resource<MarketDetail, Errors>> {
-                TODO("Not yet implemented")
-            }
-        }
+    val fakeMarketRepository = FakeMarketRepository()
 
     private fun createMockViewModel(): MarketDetailViewModel {
         val fakeGetMarketMarketChartUseCase =
