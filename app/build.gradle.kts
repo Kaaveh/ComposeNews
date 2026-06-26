@@ -112,6 +112,7 @@ dependencies {
         implementation(data.marketRepository)
         implementation(feature.marketlist)
         implementation(feature.marketdetail)
+        androidTestImplementation(testFixtures(core.test))
     }
     libs.apply {
         implementation(compose.activity)

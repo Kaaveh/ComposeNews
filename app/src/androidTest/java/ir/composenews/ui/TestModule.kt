@@ -2,6 +2,7 @@ package ir.composenews.ui
 
 import androidx.paging.PagingData
 import ir.composenews.base.dispatcher.DispatcherProvider
+import ir.composenews.core_test.dispatcher.TestDispatcherProvider
 import ir.composenews.domain.model.Market
 import ir.composenews.domain.model.MarketChart
 import ir.composenews.domain.model.MarketDetail
@@ -17,10 +18,9 @@ import ir.composenews.marketlist.MarketListViewModel
 import ir.composenews.network.Errors
 import ir.composenews.network.Resource
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.TestCoroutineScheduler
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
@@ -34,11 +34,7 @@ val testModule =
         factory { GetMarketChartUseCase(get()) }
         factory { GetMarketDetailUseCase(get()) }
         single<DispatcherProvider> {
-            object : DispatcherProvider {
-                override val ui: CoroutineDispatcher = Dispatchers.Unconfined
-                override val io: CoroutineDispatcher = Dispatchers.Unconfined
-                override val bg: CoroutineDispatcher = Dispatchers.Unconfined
-            }
+            TestDispatcherProvider(TestCoroutineScheduler())
         }
         viewModel { MarketListViewModel(get(), get(), get(), get()) }
         viewModel { MarketDetailViewModel(get(), get(), get(), get(), get()) }
