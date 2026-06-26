@@ -40,4 +40,3 @@ val testModule =
         viewModel { MarketListViewModel(get(), get(), get(), get()) }
         viewModel { MarketDetailViewModel(get(), get(), get(), get(), get()) }
     }
-

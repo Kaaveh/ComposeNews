@@ -25,7 +25,6 @@ interface MarketRepository {
     fun fetchDetail(id: String): Flow<Resource<MarketDetail, Errors>>
 }
 
-
 class FakeMarketRepository : MarketRepository {
     private val markets =
         listOf(
@@ -52,7 +51,7 @@ class FakeMarketRepository : MarketRepository {
     override suspend fun toggleFavoriteMarket(oldMarket: Market) = Unit
 
     override fun fetchChart(id: String): Flow<Resource<MarketChart, Errors>> =
-        flowOf(Resource.Success(MarketChart(persistentListOf(0L to 100000.0))))
+        flowOf(Resource.Success(MarketChart(persistentListOf(START to END))))
 
     override fun fetchDetail(id: String): Flow<Resource<MarketDetail, Errors>> =
         flowOf(
@@ -71,4 +70,9 @@ class FakeMarketRepository : MarketRepository {
                 ),
             ),
         )
+
+        companion object {
+            const val START = 0L 
+            const val END = 100000.0
+        }
 }
