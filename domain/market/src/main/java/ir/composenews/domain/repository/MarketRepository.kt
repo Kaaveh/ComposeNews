@@ -71,8 +71,8 @@ class FakeMarketRepository : MarketRepository {
             ),
         )
 
-        companion object {
-            const val START = 0L 
-            const val END = 100000.0
-        }
+    companion object {
+        const val START = 0L
+        const val END = 100000.0
+    }
 }
