@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.detekt)
     alias(libs.plugins.kotliner)
     alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.androidx.baselineprofile)
 }
 
 android {
@@ -94,6 +95,7 @@ dependencies {
 
     // Compose BOM
     implementation(platform(libs.compose.bom))
+    implementation(libs.profileinstaller)
     androidTestImplementation(platform(libs.compose.bom))
 
     // Test
