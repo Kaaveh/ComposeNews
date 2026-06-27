@@ -6,13 +6,11 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.paging.PagingData
-import ir.composenews.base.dispatcher.DispatcherProvider
+import ir.composenews.core_test.dispatcher.TestDispatcherProvider
 import ir.composenews.domain.model.Market
 import ir.composenews.domain.model.MarketChart
 import ir.composenews.domain.model.MarketDetail
 import ir.composenews.domain.repository.FakeMarketRepository
-import ir.composenews.domain.repository.MarketRepository
 import ir.composenews.domain.use_case.GetMarketByIdUseCase
 import ir.composenews.domain.use_case.GetMarketChartUseCase
 import ir.composenews.domain.use_case.GetMarketDetailUseCase
@@ -21,8 +19,6 @@ import ir.composenews.network.Errors
 import ir.composenews.network.Resource
 import ir.composenews.uimarket.model.MarketModel
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import org.junit.Rule
@@ -65,7 +61,7 @@ class MarketDetailScreenTest {
 
         val fakeGetMarketByIdUseCase = GetMarketByIdUseCase(fakeMarketRepository)
 
-        val fakeDispatcherProvider = FakeDispatcherProvider()
+        val fakeDispatcherProvider = TestDispatcherProvider()
 
         return MarketDetailViewModel(
             getMarketChartUseCase = fakeGetMarketMarketChartUseCase,
@@ -166,10 +162,4 @@ class MarketDetailScreenTest {
         composeTestRule.onNodeWithContentDescription("Not favorited").performClick()
         composeTestRule.onNodeWithContentDescription("Not favorited").assertExists()
     }
-}
-
-class FakeDispatcherProvider : DispatcherProvider {
-    override val ui: CoroutineDispatcher = Dispatchers.Unconfined
-    override val io: CoroutineDispatcher = Dispatchers.Unconfined
-    override val bg: CoroutineDispatcher = Dispatchers.Unconfined
 }

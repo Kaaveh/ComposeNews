@@ -11,6 +11,10 @@ public final class TestDispatcherProvider implements DispatcherProvider {
     private final TestDispatcher io;
     private final TestDispatcher bg;
 
+    public TestDispatcherProvider()  {
+       this(new TestCoroutineScheduler());
+    }
+
     public TestDispatcherProvider(TestCoroutineScheduler testScheduler) {
         ui = TestCoroutineDispatchersKt.UnconfinedTestDispatcher(testScheduler, null);
         io = TestCoroutineDispatchersKt.UnconfinedTestDispatcher(testScheduler, null);

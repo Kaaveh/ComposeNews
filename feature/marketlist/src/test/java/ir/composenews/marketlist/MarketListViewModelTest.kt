@@ -30,8 +30,7 @@ class MarketListViewModelTest : StringSpec({
     val getPagedMarketListUseCase: GetPagedMarketListUseCase = mockk(relaxed = true)
     val getFavoriteMarketListUseCase: GetFavoriteMarketListUseCase = mockk(relaxed = true)
     val toggleFavoriteMarketListUseCase: ToggleFavoriteMarketListUseCase = mockk(relaxed = true)
-    val testScheduler = TestCoroutineScheduler()
-    val dispatcherProvider = TestDispatcherProvider(testScheduler)
+    val dispatcherProvider = TestDispatcherProvider()
     lateinit var viewModel: MarketListViewModel
 
     extensions(MainCoroutineListener())
