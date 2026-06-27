@@ -55,6 +55,6 @@ dependencies {
     testImplementation(kotlin("test"))
 
     projects.apply {
-        testImplementation(core.test)
+        testImplementation(testFixtures(core.test))
     }
 }

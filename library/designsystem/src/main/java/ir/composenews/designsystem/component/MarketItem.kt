@@ -99,8 +99,8 @@ fun MarketItem(
         AnimatedVisibility(visible = show, exit = fadeOut(spring())) {
             SwipeToDismissBox(
                 state = dismissState,
-                enableDismissFromStartToEnd = true,
-                enableDismissFromEndToStart = false,
+                enableDismissFromStartToEnd = false,
+                enableDismissFromEndToStart = true,
                 backgroundContent = {
                     DismissBackgroundSwipe(
                         modifier = Modifier,

@@ -3,7 +3,7 @@ package ir.composenews.tv
 import androidx.lifecycle.viewModelScope
 import ir.composenews.apptv.navigation.MainContract
 import ir.composenews.base.BaseViewModel
-import ir.composenews.core_test.dispatcher.DispatcherProvider
+import ir.composenews.base.dispatcher.DispatcherProvider
 import ir.composenews.uimarket.model.MarketModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

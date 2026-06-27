@@ -12,9 +12,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -73,6 +75,17 @@ fun QuadLineChart(
             .height(400.dp)
             .padding(20.dp),
     ) {
+        // Prevent from division by zero when calculating `spacePerHour`
+        if (data.isEmpty()) {
+            Text(
+                modifier = Modifier
+                    .align(Alignment.Center),
+                text = "No chart data",
+                style = MaterialTheme.typography.bodyMedium
+            )
+            return@Box
+        }
+
         val textXDimen = 30.dp.value
         Canvas(
             modifier = Modifier
@@ -168,6 +181,18 @@ fun QuadLineChartPreview() {
                     Pair(4, 7.2),
                     Pair(5, 3.0),
                 ),
+            )
+        }
+    }
+}
+
+@ThemePreviews
+@Composable
+fun QuadLineChartEmptyStatePreview() {
+    ComposeNewsTheme {
+        Surface {
+            QuadLineChart(
+                data = emptyList(),
             )
         }
     }

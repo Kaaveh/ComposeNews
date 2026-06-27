@@ -31,6 +31,10 @@ android {
         }
     }
 
+    testFixtures {
+        enable = true
+    }
+
     packaging {
         resources {
             excludes += "META-INF/*"
@@ -56,8 +60,14 @@ dependencies {
 
     libs.apply {
         api(bundles.kotest)
-        api(coroutines.test)
-        api(mockk)
         api(koin.core)
+        testFixturesApi(bundles.kotest)
+        testFixturesApi(coroutines.test)
+        testFixturesApi(mockk)
+    }
+    projects.apply {
+        api(core.base)
+        testFixturesApi(core.uimarket)
+        testFixturesApi(domain.market)
     }
 }

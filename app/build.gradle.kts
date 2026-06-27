@@ -22,7 +22,7 @@ android {
         versionCode = libs.versions.projectVersionCode.get().toInt()
         versionName = libs.versions.projectVersionName.get()
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "ir.composenews.ui.InstrumentationTestRunner"
 
         vectorDrawables {
             useSupportLibrary = true
@@ -106,13 +106,13 @@ dependencies {
         implementation(core.sync)
         implementation(core.base)
         implementation(core.uimarket)
-        implementation(core.test)
         implementation(domain.market)
         implementation(data.marketLocal)
         implementation(data.marketRemote)
         implementation(data.marketRepository)
         implementation(feature.marketlist)
         implementation(feature.marketdetail)
+        androidTestImplementation(testFixtures(core.test))
     }
     libs.apply {
         implementation(compose.activity)
@@ -126,5 +126,7 @@ dependencies {
         implementation(compose.material3.adaptive.navigation)
         implementation(compose.ui.test.manifest)
         implementation(compose.ui.test.junit4)
+        androidTestImplementation(mockk.android)
+        androidTestImplementation(rules)
     }
 }

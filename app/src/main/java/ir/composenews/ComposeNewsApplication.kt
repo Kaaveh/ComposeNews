@@ -2,7 +2,7 @@ package ir.composenews
 
 import android.app.Application
 import androidx.work.Configuration
-import ir.composenews.core_test.di.dispatcherModule
+import ir.composenews.base.di.dispatcherModule
 import ir.composenews.data.di.dataModule
 import ir.composenews.domain.di.domainModule
 import ir.composenews.localdatasource.di.localDatasourceModule

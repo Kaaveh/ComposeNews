@@ -6,14 +6,14 @@
 package ir.composenews.localdatasource.database
 
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
+import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
-import ir.composenews.core_test.SuspendSpec
 import ir.composenews.db.MarketDatabase
 import ir.composenews.db.MarketEntity
 import kotlinx.coroutines.flow.first
 
-class MarketDaoTest : SuspendSpec({
+class MarketDaoTest : FreeSpec({
     lateinit var marketDao: MarketDao
 
     beforeEach {
