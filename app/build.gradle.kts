@@ -131,4 +131,5 @@ dependencies {
         androidTestImplementation(mockk.android)
         androidTestImplementation(rules)
     }
+    "baselineProfile"(project(":baselineprofile"))
 }

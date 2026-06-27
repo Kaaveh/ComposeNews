@@ -67,6 +67,8 @@ baselineProfile = "1.4.1"
 profileinstaller = "1.4.1"
 benchmarkMacro = "1.4.1"
 uiautomator = "2.3.0"
+espressoCore = "3.7.0"
+androidBuiltInKotlin = "9.0.1"
 
 [libraries]
 androidx-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "ktx" }
@@ -160,6 +162,7 @@ junit-vintage-engine = { module = "org.junit.vintage:junit-vintage-engine", vers
 profileinstaller = { group = "androidx.profileinstaller", name = "profileinstaller", version.ref = "profileinstaller" }
 benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "benchmarkMacro" }
 test-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
@@ -173,6 +176,8 @@ kotliner = { id = "org.jmailen.kotlinter", version.ref = "kotlinter" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
 compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 androidx-baselineprofile = { id = "androidx.baselineprofile", version.ref = "baselineProfile" }
+android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
+android-built-in1-kotlin = { id = "com.android.built-in-kotlin", version.ref = "androidBuiltInKotlin" }
 
 [bundles]
 compose = [
