@@ -68,5 +68,6 @@ dependencies {
     projects.apply {
         api(core.base)
         testFixturesApi(core.uimarket)
+        testFixturesApi(domain.market)
     }
 }
