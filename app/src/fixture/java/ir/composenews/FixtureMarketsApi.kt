@@ -6,27 +6,27 @@ import ir.composenews.remotedatasource.dto.MarketChartResponse
 import ir.composenews.remotedatasource.dto.MarketDetailResponse
 import ir.composenews.remotedatasource.dto.MarketResponse
 
-internal class FixtureMarketsApi: MarketsApi {
-
+internal class FixtureMarketsApi : MarketsApi {
     // There are 60 entries so the LazyColumn is
     // guaranteed to be scrollable.
-    private val markets = (1..60).map { index ->
-        MarketResponse(
-            id = "market-$index",
-            name = "Market $index",
-            symbol = "m$index",
-            currentPrice = 1_000.0 + index,
-            priceChangePercentage24h = index / 10.0,
-            imageUrl = ""
-        )
-    }
+    private val markets =
+        (1..60).map { index ->
+            MarketResponse(
+                id = "market-$index",
+                name = "Market $index",
+                symbol = "m$index",
+                currentPrice = 1_000.0 + index,
+                priceChangePercentage24h = index / 10.0,
+                imageUrl = "",
+            )
+        }
 
     override suspend fun getMarkets(
         currency: String,
         order: String,
         perPage: Int,
         page: Int,
-        sparkline: Boolean
+        sparkline: Boolean,
     ): ApiResponse<List<MarketResponse>> {
         val offset = ((page - 1) * perPage).coerceAtLeast(0)
         val pageItems = markets.drop(offset).take(perPage)
@@ -48,9 +48,7 @@ internal class FixtureMarketsApi: MarketsApi {
             ),
         )
 
-    override suspend fun getMarketDetail(
-        id: String,
-    ): ApiResponse<MarketDetailResponse> =
+    override suspend fun getMarketDetail(id: String): ApiResponse<MarketDetailResponse> =
         ApiResponse.Success(
             MarketDetailResponse(
                 id = id,
