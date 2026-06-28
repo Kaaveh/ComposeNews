@@ -58,7 +58,8 @@ class BaselineProfileGenerator {
         // The application id for the running build variant is read from the instrumentation arguments.
         rule.collect(
             packageName = "ir.composenews",
-
+            maxIterations = 10,
+            stableIterations = 3,
             // See: https://d.android.com/topic/performance/baselineprofiles/dex-layout-optimizations
             includeInStartupProfile = true
         ) {

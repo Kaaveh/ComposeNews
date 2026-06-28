@@ -56,8 +56,21 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
+    // To create a Mock MarketApi we need to create a
+    // separate build variant and provide a mock implementation.
     buildFeatures {
         compose = true
+    }
+
+    flavorDimensions += "backend"
+    productFlavors {
+        create("live") {
+            dimension = "backend"
+        }
+
+        create("fixture") {
+            dimension = "backend"
+        }
     }
 
     testOptions {
@@ -85,6 +98,17 @@ kotlin {
     compilerOptions {
         jvmTarget = JvmTarget.JVM_17
         freeCompilerArgs.add("-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi")
+    }
+}
+
+baselineProfile {
+    hideSyntheticBuildTypesInAndroidStudio = true
+
+    variants {
+        create("fixtureRelease") {
+            mergeIntoMain = true
+            from(project(":baselineprofile"))
+        }
     }
 }
 
@@ -131,5 +155,4 @@ dependencies {
         androidTestImplementation(mockk.android)
         androidTestImplementation(rules)
     }
-    "baselineProfile"(project(":baselineprofile"))
 }

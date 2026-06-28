@@ -8,7 +8,6 @@ import ir.composenews.domain.di.domainModule
 import ir.composenews.localdatasource.di.localDatasourceModule
 import ir.composenews.marketdetail.di.marketDetailModule
 import ir.composenews.marketlist.di.marketListModule
-import ir.composenews.remotedatasource.di.remoteDatasourceModule
 import ir.composenews.sync.Sync
 import ir.composenews.sync.di.syncModule
 import org.koin.android.ext.android.getKoin
@@ -34,12 +33,12 @@ class ComposeNewsApplication :
             modules(
                 dispatcherModule,
                 localDatasourceModule,
-                remoteDatasourceModule,
                 dataModule,
                 domainModule,
                 syncModule,
                 marketListModule,
                 marketDetailModule,
+                *backendModules.toTypedArray(),
             )
         }
         Sync.init(this)
