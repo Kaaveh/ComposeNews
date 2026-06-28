@@ -43,6 +43,7 @@ For the details of handling the  preview of composable functions in this code-ba
 - CI
 - Git Hooks
 - GitHub Actions
+- Baseline and Startup Profiles
 - Static Analysis(Kotlinter, Detekt) (For the detail, please read [this article](https://blog.kotlin-academy.com/detekt-gradle-configuration-guide-d6d2301b823a))
 
 ### We are porting the project to KMP. Here are the steps:
@@ -74,6 +75,67 @@ For the details of handling the  preview of composable functions in this code-ba
 
 ### WearOS devices (Android-based smartwatches)
 ![Wear OS screenshots](asset/wearos.jpg)
+
+## 🚀 Baseline Profiles and startup benchmarks
+
+The `baselineprofile` module generates Baseline and Startup Profiles for the app and measures their
+effect on cold startup. Profile generation and benchmarks use the `fixture` backend flavor, which
+returns deterministic market data and avoids depending on the rate-limited production API. The
+`live` flavor continues to use the production backend.
+
+Fixture-only implementation classes are excluded from generated profile rules. The resulting
+profiles are merged into the main source set and packaged with the production release:
+
+```text
+app/src/main/generated/baselineProfiles/baseline-prof.txt
+app/src/main/generated/baselineProfiles/startup-prof.txt
+```
+
+### Generate the profiles
+
+Start an API 33+ emulator or connect an API 33+ physical device, then run:
+
+```bash
+ANDROID_SERIAL=<device-serial> ./gradlew :app:generateBaselineProfile
+```
+
+Use `adb devices -l` to find the device serial. Profile generation can run on an emulator, but
+performance benchmarks should run on a physical device.
+
+### Measure startup performance
+
+Run the cold-start benchmarks on a physical device:
+
+```bash
+ANDROID_SERIAL=<device-serial> \
+./gradlew :baselineprofile:connectedFixtureBenchmarkReleaseAndroidTest
+```
+
+The benchmark compares startup with no compilation against startup with the generated Baseline
+Profile. It records:
+
+- **TTID (Time To Initial Display):** time until the first activity frame is rendered.
+- **TTFD (Time To Full Display):** time until market content is loaded and the screen reports that
+  it is fully drawn.
+
+Results and Perfetto traces are written under:
+
+```text
+baselineprofile/build/outputs/connected_android_test_additional_output/
+```
+
+### Reference result
+
+The following result was measured over 20 cold-start iterations on a physical Samsung SM-S731B
+running Android 16 (API 36):
+
+| Metric | No profile | Baseline Profile | Improvement |
+|---|---:|---:|---:|
+| Median TTID | 294.4 ms | 263.6 ms | 10.5% faster |
+| Median TTFD | 428.2 ms | 340.8 ms | 20.4% faster |
+
+Benchmark numbers are device-specific and should primarily be used to detect regressions and
+compare changes under the same test conditions.
 
 ## Additional Resources
 
