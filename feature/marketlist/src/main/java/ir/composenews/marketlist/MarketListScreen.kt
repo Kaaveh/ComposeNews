@@ -8,6 +8,7 @@
 
 package ir.composenews.marketlist
 
+import androidx.activity.compose.ReportDrawnWhen
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -87,6 +88,13 @@ fun PagedMarketListScreen(
     onNavigateToDetailScreen: (market: MarketModel) -> Unit,
     onFavoriteClick: (market: MarketModel) -> Unit,
 ) {
+    // Report the app as fully drawn once market content is ready so
+    // startup benchmarks can measure TTFD (Time To Full Display).
+    ReportDrawnWhen {
+        lazyPagingItems.itemCount > 0 &&
+            lazyPagingItems.loadState.refresh is LoadState.NotLoading
+    }
+
     val isRefreshing = lazyPagingItems.loadState.refresh is LoadState.Loading
     val refreshState = rememberPullRefreshState(
         refreshing = isRefreshing,
@@ -106,6 +114,7 @@ fun PagedMarketListScreen(
             is LoadState.Error -> {
                 ErrorView(errorMessage = refreshLoadState.error.message ?: "Unknown error")
             }
+
             else -> {
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
                     items(
