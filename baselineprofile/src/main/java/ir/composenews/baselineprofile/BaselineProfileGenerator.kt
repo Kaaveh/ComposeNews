@@ -13,6 +13,11 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
+private const val SCREEN_TIMEOUT_MILLIS = 10_000L
+private const val FAVORITE_TIMEOUT_MILLIS = 5_000L
+private const val SCROLL_TIMEOUT_MILLIS = 15_000L
+private const val GESTURE_MARGIN_DIVISOR = 5
+
 /**
  * This test class generates a basic startup baseline profile for the target package.
  *
@@ -39,7 +44,6 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 @LargeTest
 class BaselineProfileGenerator {
-
     @get:Rule
     val rule = BaselineProfileRule()
 
@@ -51,9 +55,8 @@ class BaselineProfileGenerator {
             .uiAutomation
             .grantRuntimePermission(
                 "ir.composenews",
-                Manifest.permission.POST_NOTIFICATIONS
+                Manifest.permission.POST_NOTIFICATIONS,
             )
-
 
         // The application id for the running build variant is read from the instrumentation arguments.
         rule.collect(
@@ -63,10 +66,10 @@ class BaselineProfileGenerator {
             // See: https://d.android.com/topic/performance/baselineprofiles/dex-layout-optimizations
             includeInStartupProfile = true,
             // Exclude fixture-only classes to not be included in the baseline profile.
-            filterPredicate = { rule ->
-                !rule.contains("FixtureMarketsApi") &&
-                        !rule.contains("BackendModulesKt")
-            }
+            filterPredicate = { profileRule ->
+                !profileRule.contains("FixtureMarketsApi") &&
+                    !profileRule.contains("BackendModulesKt")
+            },
         ) {
             // This block defines the app's critical user journey. Here we are interested in
             // optimizing for app startup. But you can also navigate and scroll through your most important UI.
@@ -78,8 +81,8 @@ class BaselineProfileGenerator {
             check(
                 device.wait(
                     Until.hasObject(By.text("Markets")),
-                    10_000
-                )
+                    SCREEN_TIMEOUT_MILLIS,
+                ),
             ) {
                 "Markets screen was not displayed"
             }
@@ -91,13 +94,16 @@ class BaselineProfileGenerator {
 
     private fun MacrobenchmarkScope.favoriteScreenJourney() {
         device.findObject(By.text("Favorite"))?.click()
-        device.wait(Until.hasObject(By.text("Your favorite list is empty")), 5_000)
+        device.wait(
+            Until.hasObject(By.text("Your favorite list is empty")),
+            FAVORITE_TIMEOUT_MILLIS,
+        )
     }
 
     private fun MacrobenchmarkScope.scrollScreenJourney() {
         val scrollable = device.wait(
             Until.findObject(By.scrollable(true)),
-            15_000
+            SCROLL_TIMEOUT_MILLIS,
         )
 
         checkNotNull(scrollable) {
@@ -105,7 +111,7 @@ class BaselineProfileGenerator {
         }
 
         // Set gesture margin to avoid triggering gesture navigation.
-        scrollable.setGestureMargin(device.displayWidth / 5)
+        scrollable.setGestureMargin(device.displayWidth / GESTURE_MARGIN_DIVISOR)
         scrollable.fling(Direction.DOWN)
         device.waitForIdle()
     }

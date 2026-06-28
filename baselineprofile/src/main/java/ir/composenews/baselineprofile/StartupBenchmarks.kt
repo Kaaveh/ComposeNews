@@ -17,6 +17,9 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
+private const val BENCHMARK_ITERATIONS = 20
+private const val CONTENT_TIMEOUT_MILLIS = 10_000L
+
 /**
  * This test class benchmarks the speed of app startup.
  * Run this benchmark to verify how effective a Baseline Profile is.
@@ -34,13 +37,12 @@ import org.junit.runner.RunWith
  * You should run the benchmarks on a physical device, not an Android emulator, because the
  * emulator doesn't represent real world performance and shares system resources with its host.
  *
- * For more information, see the [Macrobenchmark documentation](https://d.android.com/macrobenchmark#create-macrobenchmark)
- * and the [instrumentation arguments documentation](https://d.android.com/topic/performance/benchmarking/macrobenchmark-instrumentation-args).
+ * For more information, see the
+ * [Macrobenchmark documentation](https://d.android.com/macrobenchmark#create-macrobenchmark).
  **/
 @RunWith(AndroidJUnit4::class)
 @LargeTest
 class StartupBenchmarks {
-
     @get:Rule
     val rule = MacrobenchmarkRule()
 
@@ -58,7 +60,7 @@ class StartupBenchmarks {
                 .uiAutomation
                 .grantRuntimePermission(
                     targetPackage,
-                    Manifest.permission.POST_NOTIFICATIONS
+                    Manifest.permission.POST_NOTIFICATIONS,
                 )
         }
     }
@@ -78,7 +80,7 @@ class StartupBenchmarks {
             metrics = listOf(StartupTimingMetric()),
             compilationMode = compilationMode,
             startupMode = StartupMode.COLD,
-            iterations = 20,
+            iterations = BENCHMARK_ITERATIONS,
             setupBlock = {
                 pressHome()
             },
@@ -88,8 +90,8 @@ class StartupBenchmarks {
                 check(
                     device.wait(
                         Until.hasObject(By.text("Market 1")),
-                        10_000
-                    )
+                        CONTENT_TIMEOUT_MILLIS,
+                    ),
                 ) {
                     "Market content was not displayed"
                 }

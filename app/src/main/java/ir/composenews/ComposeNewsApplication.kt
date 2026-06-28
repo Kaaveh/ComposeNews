@@ -31,14 +31,15 @@ class ComposeNewsApplication :
             androidContext(this@ComposeNewsApplication)
             workManagerFactory()
             modules(
-                dispatcherModule,
-                localDatasourceModule,
-                dataModule,
-                domainModule,
-                syncModule,
-                marketListModule,
-                marketDetailModule,
-                *backendModules.toTypedArray(),
+                listOf(
+                    dispatcherModule,
+                    localDatasourceModule,
+                    dataModule,
+                    domainModule,
+                    syncModule,
+                    marketListModule,
+                    marketDetailModule,
+                ) + backendModules,
             )
         }
         Sync.init(this)
