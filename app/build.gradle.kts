@@ -56,12 +56,11 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    // To create a Mock MarketApi we need to create a
-    // separate build variant and provide a mock implementation.
     buildFeatures {
         compose = true
     }
 
+    // Use a separate build variant to provide the fixture MarketApi implementation.
     flavorDimensions += "backend"
     productFlavors {
         create("live") {

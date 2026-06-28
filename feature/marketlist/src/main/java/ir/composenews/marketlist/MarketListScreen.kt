@@ -91,8 +91,7 @@ fun PagedMarketListScreen(
     // Report the app as fully drawn once market content is ready so
     // startup benchmarks can measure TTFD (Time To Full Display).
     ReportDrawnWhen {
-        lazyPagingItems.itemCount > 0 &&
-            lazyPagingItems.loadState.refresh is LoadState.NotLoading
+        lazyPagingItems.loadState.refresh !is LoadState.Loading
     }
 
     val isRefreshing = lazyPagingItems.loadState.refresh is LoadState.Loading

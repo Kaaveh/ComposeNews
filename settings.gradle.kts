@@ -57,7 +57,7 @@ include(":app-tv:app")
 include(":app-tv:navigation")
 include(":app-tv:ui")
 include(":data:sqldelight")
-//include(":baselineprofile")
+include(":baselineprofile")
 
 check(JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) {
     """
@@ -66,4 +66,3 @@ check(JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) {
     https://developer.android.com/build/jdks#jdk-config-in-studio
     """.trimIndent()
 }
-include(":baselineprofile")

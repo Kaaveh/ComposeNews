@@ -1,5 +1,3 @@
-import com.android.build.api.dsl.ManagedVirtualDevice
-
 plugins {
     alias(libs.plugins.android.test)
     alias(libs.plugins.android.built.in1.kotlin)
@@ -15,8 +13,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     defaultConfig {
@@ -27,14 +25,6 @@ android {
     }
 
     targetProjectPath = ":app"
-
-//    testOptions.managedDevices.allDevices {
-//        create<ManagedVirtualDevice>("mediumPhoneApi36") {
-//            device = "Medium Phone"
-//            apiLevel = 36
-//            systemImageSource = "aosp"
-//        }
-//    }
 
     flavorDimensions += "backend"
     productFlavors {
@@ -47,7 +37,6 @@ android {
 // This is the configuration block for the Baseline Profile plugin.
 // You can specify to run the generators on a managed devices or connected devices.
 baselineProfile {
-    //managedDevices += "mediumPhoneApi36"
     useConnectedDevices = true
 }
 

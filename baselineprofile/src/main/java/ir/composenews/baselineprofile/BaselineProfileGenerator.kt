@@ -1,6 +1,7 @@
 package ir.composenews.baselineprofile
 
 import android.Manifest
+import android.os.Build
 import androidx.benchmark.macro.MacrobenchmarkScope
 import androidx.benchmark.macro.junit4.BaselineProfileRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -47,20 +48,25 @@ class BaselineProfileGenerator {
     @get:Rule
     val rule = BaselineProfileRule()
 
+    private val targetPackage: String
+        get() = InstrumentationRegistry.getArguments().getString("targetAppId")
+            ?: error("targetAppId instrumentation argument not set")
+
     @Test
     fun generate() {
-        // Grant notification permission
-        InstrumentationRegistry
-            .getInstrumentation()
-            .uiAutomation
-            .grantRuntimePermission(
-                "ir.composenews",
-                Manifest.permission.POST_NOTIFICATIONS,
-            )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            InstrumentationRegistry
+                .getInstrumentation()
+                .uiAutomation
+                .grantRuntimePermission(
+                    targetPackage,
+                    Manifest.permission.POST_NOTIFICATIONS,
+                )
+        }
 
         // The application id for the running build variant is read from the instrumentation arguments.
         rule.collect(
-            packageName = "ir.composenews",
+            packageName = targetPackage,
             maxIterations = 10,
             stableIterations = 3,
             // See: https://d.android.com/topic/performance/baselineprofiles/dex-layout-optimizations
