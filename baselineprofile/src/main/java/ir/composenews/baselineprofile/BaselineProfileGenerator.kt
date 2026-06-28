@@ -61,7 +61,12 @@ class BaselineProfileGenerator {
             maxIterations = 10,
             stableIterations = 3,
             // See: https://d.android.com/topic/performance/baselineprofiles/dex-layout-optimizations
-            includeInStartupProfile = true
+            includeInStartupProfile = true,
+            // Exclude fixture-only classes to not be included in the baseline profile.
+            filterPredicate = { rule ->
+                !rule.contains("FixtureMarketsApi") &&
+                        !rule.contains("BackendModulesKt")
+            }
         ) {
             // This block defines the app's critical user journey. Here we are interested in
             // optimizing for app startup. But you can also navigate and scroll through your most important UI.
