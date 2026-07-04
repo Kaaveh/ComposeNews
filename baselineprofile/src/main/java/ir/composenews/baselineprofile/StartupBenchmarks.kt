@@ -31,7 +31,7 @@ private const val CONTENT_TIMEOUT_MILLIS = 10_000L
  * Studio as an instrumentation test, or run all benchmarks for a variant, for example benchmarkRelease,
  * with this Gradle task:
  * ```
- * ./gradlew :baselineprofile:connectedBenchmarkReleaseAndroidTest
+ * ./gradlew :baselineprofile:connectedFixtureBenchmarkReleaseAndroidTest
  * ```
  *
  * You should run the benchmarks on a physical device, not an Android emulator, because the

@@ -60,7 +60,8 @@ android {
         compose = true
     }
 
-    // Use a separate build variant to provide the fixture MarketApi implementation.
+    // Use a separate build variant to be able to provide a mock version of MarketApi for
+    // benchmark build
     flavorDimensions += "backend"
     productFlavors {
         create("live") {

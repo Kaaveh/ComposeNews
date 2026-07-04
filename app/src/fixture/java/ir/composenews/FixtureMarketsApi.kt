@@ -6,7 +6,7 @@ import ir.composenews.remotedatasource.dto.MarketChartResponse
 import ir.composenews.remotedatasource.dto.MarketDetailResponse
 import ir.composenews.remotedatasource.dto.MarketResponse
 
-// Fixed numeric values keep benchmark fixture data deterministic.
+// Keep benchmark fixture data deterministic.
 @Suppress("MagicNumber")
 internal class FixtureMarketsApi : MarketsApi {
     // There are 60 entries so the LazyColumn is
