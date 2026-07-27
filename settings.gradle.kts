@@ -57,6 +57,7 @@ include(":app-tv:app")
 include(":app-tv:navigation")
 include(":app-tv:ui")
 include(":data:sqldelight")
+include(":baselineprofile")
 
 check(JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) {
     """

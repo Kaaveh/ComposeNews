@@ -34,7 +34,8 @@
             android:name="ir.composenews.ui.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.ComposeNews">
+            android:theme="@style/Theme.ComposeNews"
+            tools:ignore="Instantiatable">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.detekt)
     alias(libs.plugins.kotliner)
     alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.androidx.baselineprofile)
 }
 
 android {
@@ -59,6 +60,19 @@ android {
         compose = true
     }
 
+    // Use a separate build variant to be able to provide a mock version of MarketApi for
+    // benchmark build
+    flavorDimensions += "backend"
+    productFlavors {
+        create("live") {
+            dimension = "backend"
+        }
+
+        create("fixture") {
+            dimension = "backend"
+        }
+    }
+
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
@@ -87,6 +101,17 @@ kotlin {
     }
 }
 
+baselineProfile {
+    hideSyntheticBuildTypesInAndroidStudio = true
+
+    variants {
+        create("fixtureRelease") {
+            mergeIntoMain = true
+            from(project(":baselineprofile"))
+        }
+    }
+}
+
 dependencies {
     // Koin
     implementation(libs.koin.android)
@@ -94,6 +119,7 @@ dependencies {
 
     // Compose BOM
     implementation(platform(libs.compose.bom))
+    implementation(libs.profileinstaller)
     androidTestImplementation(platform(libs.compose.bom))
 
     // Test

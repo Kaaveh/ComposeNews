@@ -20,6 +20,9 @@ plugins {
     alias(libs.plugins.sqldelight) apply false
     alias(libs.plugins.detekt) apply true // Needs to be applied at the root, unlike others.
     alias(libs.plugins.compose) apply false
+    alias(libs.plugins.androidx.baselineprofile) apply false
+    alias(libs.plugins.android.test) apply false
+    alias(libs.plugins.android.built.in1.kotlin) apply false
 }
 
 subprojects {
