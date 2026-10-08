@@ -8,11 +8,161 @@ Check the app apk [from here](asset/app_v1.0.0.apk)
 
 ## ⚙️ Architecture
 
-![Architecture diagram](asset/architecture.jpg)
-
 The main architecture of the code is based on MVI + CLEAN architecture. The division criteria is a hybrid strategy based on Feature + Layer by module.
 For the details of architecture, please read [this article](https://medium.com/@kaaveh/migrate-from-mvvm-to-mvi-f938c27c214f).
 
+The module graph below is generated from the Gradle build by [module-graph](https://github.com/iurysza/module-graph). Run `./gradlew createModuleGraph` to update it after changing dependencies between modules.
+
+### Module Graph
+
+```mermaid
+%%{
+  init: {
+    'theme': 'neutral'
+  }
+}%%
+
+graph TB
+  subgraph :app-tv
+    :app-tv:navigation["navigation"]
+    :app-tv:ui["ui"]
+    :app-tv:app["app"]
+  end
+  subgraph :app-watch
+    :app-watch:app["app"]
+    :app-watch:navigation["navigation"]
+    :app-watch:ui["ui"]
+  end
+  subgraph :core
+    :core:base["base"]
+    :core:uimarket["uimarket"]
+    :core:extensions["extensions"]
+    :core:sync["sync"]
+    :core:test["test"]
+  end
+  subgraph :core:network
+    :core:network:ktor["ktor"]
+  end
+  subgraph :data
+    :data:market-local["market-local"]
+    :data:market-remote["market-remote"]
+    :data:market-repository["market-repository"]
+    :data:sqldelight["sqldelight"]
+  end
+  subgraph :domain
+    :domain:market["market"]
+  end
+  subgraph :feature
+    :feature:marketlist["marketlist"]
+    :feature:marketdetail["marketdetail"]
+  end
+  subgraph :library
+    :library:designsystem["designsystem"]
+    :library:navigation["navigation"]
+  end
+  :core:base --> :core:network:ktor
+  :core:base --> :library:designsystem
+  :app-watch:app --> :app-watch:navigation
+  :app-watch:app --> :library:designsystem
+  :app-watch:app --> :core:base
+  :app-watch:app --> :core:uimarket
+  :app-watch:app --> :domain:market
+  :app-watch:app --> :data:market-local
+  :app-watch:app --> :data:market-remote
+  :app-watch:app --> :data:market-repository
+  :app-watch:app --> :feature:marketlist
+  :app-watch:app --> :feature:marketdetail
+  :core:uimarket --> :domain:market
+  :feature:marketdetail --> :library:designsystem
+  :feature:marketdetail --> :core:base
+  :feature:marketdetail --> :data:market-repository
+  :feature:marketdetail --> :core:uimarket
+  :app-tv:navigation --> :app-tv:ui
+  :app-tv:navigation --> :core:base
+  :app-tv:navigation --> :core:uimarket
+  :app-tv:ui --> :library:designsystem
+  :app-tv:ui --> :core:base
+  :app-tv:ui --> :feature:marketlist
+  :app-tv:ui --> :feature:marketdetail
+  :app-tv:ui --> :core:uimarket
+  :app-tv:ui --> :core:extensions
+  :app-tv:ui --> :data:market-repository
+  :app-watch:ui --> :library:designsystem
+  :app-watch:ui --> :core:base
+  :app-watch:ui --> :feature:marketlist
+  :app-watch:ui --> :feature:marketdetail
+  :app-watch:ui --> :core:uimarket
+  :app-watch:ui --> :core:extensions
+  :app-watch:ui --> :data:market-repository
+  :data:market-remote --> :core:network:ktor
+  :core:sync --> :domain:market
+  :domain:market --> :core:network:ktor
+  :app-tv:app --> :app-tv:navigation
+  :app-tv:app --> :app-tv:ui
+  :app-tv:app --> :library:designsystem
+  :app-tv:app --> :core:base
+  :app-tv:app --> :core:uimarket
+  :app-tv:app --> :core:test
+  :app-tv:app --> :domain:market
+  :app-tv:app --> :data:market-local
+  :app-tv:app --> :data:market-remote
+  :app-tv:app --> :data:market-repository
+  :app-tv:app --> :feature:marketlist
+  :app-tv:app --> :feature:marketdetail
+  :app-watch:navigation --> :app-watch:ui
+  :app-watch:navigation --> :core:uimarket
+  :app --> :library:navigation
+  :app --> :library:designsystem
+  :app --> :core:sync
+  :app --> :core:base
+  :app --> :core:uimarket
+  :app --> :domain:market
+  :app --> :data:market-local
+  :app --> :data:market-remote
+  :app --> :data:market-repository
+  :app --> :feature:marketlist
+  :app --> :feature:marketdetail
+  :feature:marketlist --> :library:designsystem
+  :feature:marketlist --> :core:base
+  :feature:marketlist --> :data:market-repository
+  :feature:marketlist --> :core:uimarket
+  :feature:marketlist --> :core:extensions
+  :core:test --> :core:base
+  :library:navigation --> :feature:marketlist
+  :library:navigation --> :feature:marketdetail
+  :library:navigation --> :core:uimarket
+  :library:navigation --> :domain:market
+  :data:market-local --> :data:sqldelight
+  :data:market-repository --> :domain:market
+  :data:market-repository --> :data:market-remote
+  :data:market-repository --> :data:market-local
+
+classDef android-library fill:#3BD482,stroke:#fff,stroke-width:2px,color:#fff;
+classDef android-application fill:#2C4162,stroke:#fff,stroke-width:2px,color:#fff;
+class :core:base android-library
+class :core:network:ktor android-library
+class :library:designsystem android-library
+class :app-watch:app android-application
+class :app-watch:navigation android-library
+class :core:uimarket android-library
+class :domain:market android-library
+class :data:market-local android-library
+class :data:market-remote android-library
+class :data:market-repository android-library
+class :feature:marketlist android-library
+class :feature:marketdetail android-library
+class :app-tv:navigation android-library
+class :app-tv:ui android-library
+class :core:extensions android-library
+class :app-watch:ui android-library
+class :core:sync android-library
+class :app-tv:app android-application
+class :core:test android-library
+class :app android-application
+class :library:navigation android-library
+class :data:sqldelight android-library
+
+```
 ## Wear OS
 This project includes a WearOS module for Android-based smartwatches like the Galaxy Watch. The `app-watch` module contains `app`, `designsystem`, `navigation`, and `ui` submodules. You can build the `app-watch:app` to have a wearOS version of the application.
 

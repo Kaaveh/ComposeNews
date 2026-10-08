@@ -14,6 +14,10 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+plugins {
+    // Collects every module's dependencies for `./gradlew createModuleGraph` (see README.md).
+    id("dev.iurysouza.modulegraph.settings") version "0.15.0"
+}
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {

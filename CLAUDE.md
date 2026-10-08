@@ -42,6 +42,9 @@ Dependencies are managed via the **version catalog** at `gradle/libs.versions.to
 
 # Compose compiler metrics (for release optimization analysis)
 ./gradlew assembleRelease -PenableComposeCompilerMetrics=true -PenableComposeCompilerReports=true
+
+# Regenerate the Mermaid module graph in README.md (run after changing inter-module dependencies)
+./gradlew createModuleGraph
 ```
 
 ## Dependency Injection

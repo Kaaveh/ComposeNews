@@ -1,5 +1,7 @@
 @file:Suppress("MaxLineLength", "ktlint")
 
+import dev.iurysouza.modulegraph.Orientation
+import dev.iurysouza.modulegraph.Theme
 import org.apache.tools.ant.taskdefs.condition.Os
 
 /*
@@ -19,6 +21,7 @@ plugins {
     alias(libs.plugins.kotliner) apply false
     alias(libs.plugins.sqldelight) apply false
     alias(libs.plugins.detekt) apply true // Needs to be applied at the root, unlike others.
+    id("dev.iurysouza.modulegraph") // Version is set by the settings plugin in settings.gradle.kts.
     alias(libs.plugins.compose) apply false
     alias(libs.plugins.androidx.baselineprofile) apply false
     alias(libs.plugins.android.test) apply false
@@ -34,6 +37,20 @@ subprojects {
             failOnNoDiscoveredTests = false
         }
     }
+}
+
+/*
+ * Generates the Mermaid module dependency graph under the "### Module Graph" heading of README.md.
+ * Run `./gradlew createModuleGraph` after changing dependencies between modules.
+ */
+moduleGraphConfig {
+    readmePath.set("$rootDir/README.md")
+    heading.set("### Module Graph")
+    theme.set(Theme.NEUTRAL)
+    orientation.set(Orientation.TOP_TO_BOTTOM)
+    setStyleByModuleType.set(true)
+    rootModulesRegex.set(":app|:app-watch:app|:app-tv:app")
+    excludedConfigurationsRegex.set(".*[Tt]est.*|.*[Bb]aselineProfile.*")
 }
 
 tasks.register("clean", Delete::class) {
