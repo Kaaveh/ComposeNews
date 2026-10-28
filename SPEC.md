@@ -26,7 +26,9 @@ with limited disk and RAM.
    downgraded to match Footballi.
 3. Libraries only ComposeNews uses (SQLDelight, Paging, Wear, Detekt, Kotlinter, Konsist, MockK,
    Chucker, Coil 2, etc.) keep their versions, except where the new Kotlin forces a bump.
-4. Compile and target SDK stay at 36. XO's 37 is not part of this migration.
+4. Target SDK stays at 36. Compile SDK moves to 37 (XO's value, platform already installed):
+   Compose BOM 2026.08.00 and OkHttp 5.5.0 (pulled in by Ktor 3.6.0) fail `checkAarMetadata` on 36.
+   Approved by the maintainer on 2026-10-28.
 5. The Gradle distribution comes from `services.gradle.org`, not XO's `nexus.oddrun.ir` mirror.
 
 ## Tech Stack (current → target)
@@ -54,7 +56,8 @@ with limited disk and RAM.
 | Compose BOM | `composeBOM` | 2026.02.00 | **2026.08.00** | Footballi |
 | Navigation 3 | `nav3Core` | 1.0.1 | **1.1.1** | Footballi |
 | OkHttp logging-interceptor | `loggingInterceptor` | 5.3.2 | **5.5.0** | Footballi |
-| TV Material | `composeTv` | 1.0.0 | **1.1.0** | Footballi (see Open Question 2) |
+| TV Material | `composeTvMaterial` (was `composeTv`) | 1.0.0 | **1.1.0** | Footballi (see Open Question 2) |
+| TV Foundation | `composeTvFoundation` (was `composeTv`) | 1.0.0 | **1.0.0** | 1.1.0 doesn't exist |
 | Robolectric | `robolectric` | 4.14.1 | **4.16.1** | Footballi |
 
 ### Unchanged on purpose (ComposeNews is already higher than Footballi; XO doesn't use them)
@@ -269,8 +272,8 @@ The test count must not drop. A test that fails after the bump is fixed, not del
 
 1. **Koin target:** XO uses the Koin BOM. Keep per-module `version.ref = "koin"` at 4.2.2 (smallest
    diff), or switch ComposeNews to the BOM like XO? Default: keep version refs.
-2. **TV Foundation:** if `androidx.tv:tv-foundation:1.1.0` doesn't exist, split `composeTv` into
-   `composeTvMaterial = "1.1.0"` and `composeTvFoundation = "<current>"`?
+2. ~~**TV Foundation**~~ Resolved: `tv-foundation` tops out at 1.0.0, so `composeTv` is split into
+   `composeTvMaterial = "1.1.0"` and `composeTvFoundation = "1.0.0"`.
 3. **Build cache:** `caches/build-cache-1` is 3.1 GB. It's not version-specific so it isn't in the
    Delete list, but it is safe to delete (it only costs one slower build per project). Add it?
 4. **Next migrations:** ComposeBreak, R and sdp-compose (Gradle 9.2.1) and AwesomeLineup

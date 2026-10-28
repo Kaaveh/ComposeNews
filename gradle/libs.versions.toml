@@ -5,47 +5,48 @@ projectVersionCode = "1"
 projectMinSdkVersion = "23"
 projectMinSdkVersionWear = "30"
 projectTargetSdkVersion = "36"
-projectCompileSdkVersion = "36"
+projectCompileSdkVersion = "37"
 
-kotlin = "2.3.10"
+kotlin = "2.4.21"
 kotlinter = "5.4.2"
-ksp = "2.3.6"
+ksp = "2.3.12"
 kotlinxImmutableCollection = "0.4.0"
-androidGradlePlugin = "9.0.1"
+androidGradlePlugin = "9.3.3"
 
 ktx = "1.17.0"
 
-composeBOM = "2026.02.00"
-composeActivity = "1.12.4"
+composeBOM = "2026.08.00"
+composeActivity = "1.13.0"
 composeCoil = "2.7.0"
 material3Adaptive = "1.2.0"
 composeWear = "1.5.6"
-composeTv = "1.0.0"
+composeTvMaterial = "1.1.0"
+composeTvFoundation = "1.0.0"
 turbine = "1.2.1"
 wearToolingPreview = "1.0.0"
 horologistComposeLayout = "0.7.15"
 
 detekt = "1.23.8"
 kermit = "2.0.5"
-koin = "4.0.4"
+koin = "4.2.2"
 compottie = "2.1.0"
 
 lifecycle = "2.10.0"
 
 navigationCompose = "2.9.7"
-nav3Core = "1.0.1"
+nav3Core = "1.1.1"
 lifecycleViewmodelNav3 = "2.11.0-alpha03"
 
-loggingInterceptor = "5.3.2"
+loggingInterceptor = "5.5.0"
 chucker = "4.3.0"
-kotlinx-serialization = "1.10.0"
+kotlinx-serialization = "1.11.0"
 kotlinx-serialization-converter = "1.0.0"
 
 sqldelight = "2.2.1"
 
 junit = "4.13.2"
 junitExt = "1.3.0"
-coroutinesTest = "1.10.2"
+coroutinesTest = "1.11.0"
 mockk = "1.14.9"
 runner = "1.7.0"
 
@@ -55,12 +56,12 @@ workRuntimeKtx = "2.11.1"
 
 windowsSizeClass = "1.5.0-alpha14"
 
-ktor = "3.4.0"
+ktor = "3.6.0"
 konsist = "0.17.3"
 
-kotest = "6.1.3"
+kotest = "6.2.5"
 paging = "3.3.6"
-robolectric = "4.14.1"
+robolectric = "4.16.1"
 junitVintage = "5.11.4"
 
 baselineProfile = "1.4.1"
@@ -68,7 +69,6 @@ profileinstaller = "1.4.1"
 benchmarkMacro = "1.4.1"
 uiautomator = "2.3.0"
 espressoCore = "3.7.0"
-androidBuiltInKotlin = "9.0.1"
 
 [libraries]
 androidx-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "ktx" }
@@ -90,8 +90,8 @@ compose-material3-adaptive-navigation-suite = { group = "androidx.compose.materi
 compose-material-wear = { group = "androidx.wear.compose", name = "compose-material", version.ref = "composeWear" }
 compose-foundation-wear = { group = "androidx.wear.compose", name = "compose-foundation", version.ref = "composeWear" }
 compose-ui-preview-wear = { group = "androidx.wear", name = "wear-tooling-preview", version.ref = "wearToolingPreview" }
-compose-tv-material = { group = "androidx.tv", name = "tv-material", version.ref = "composeTv" }
-compose-tv-foundation = { group = "androidx.tv", name = "tv-foundation", version.ref = "composeTv" }
+compose-tv-material = { group = "androidx.tv", name = "tv-material", version.ref = "composeTvMaterial" }
+compose-tv-foundation = { group = "androidx.tv", name = "tv-foundation", version.ref = "composeTvFoundation" }
 compose-horologist-layout = { module = "com.google.android.horologist:horologist-compose-layout", version.ref = "horologistComposeLayout" }
 
 kermit = { group = "co.touchlab", name = "kermit", version.ref = "kermit" }
@@ -177,7 +177,7 @@ sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
 compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 androidx-baselineprofile = { id = "androidx.baselineprofile", version.ref = "baselineProfile" }
 android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
-android-built-in1-kotlin = { id = "com.android.built-in-kotlin", version.ref = "androidBuiltInKotlin" }
+android-built-in1-kotlin = { id = "com.android.built-in-kotlin", version.ref = "androidGradlePlugin" }
 
 [bundles]
 compose = [
