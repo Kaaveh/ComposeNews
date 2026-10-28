@@ -29,6 +29,7 @@ dependencies {
 
     projects.apply {
         implementation(data.marketRepository)
+        implementation(core.ui)
         implementation(core.uimarket)
         implementation(core.extensions)
     }

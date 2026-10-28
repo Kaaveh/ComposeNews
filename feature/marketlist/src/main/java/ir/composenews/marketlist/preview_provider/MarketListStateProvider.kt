@@ -4,7 +4,7 @@ package ir.composenews.marketlist.preview_provider
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import ir.composenews.base.LoadableData
-import ir.composenews.domain.model_provider.marketList
+import ir.composenews.core.ui.marketList
 import ir.composenews.marketlist.MarketListContract
 import ir.composenews.uimarket.mapper.toMarketModel
 import kotlinx.collections.immutable.toPersistentList

@@ -1,20 +1,17 @@
 plugins {
-    alias(libs.plugins.composenews.android.library.compose)
+    alias(libs.plugins.composenews.kmp.library)
     alias(libs.plugins.kotlinx.serialization)
 }
 
-android {
-    namespace = "ir.composenews.uimarket"
-}
-
-dependencies {
-    projects.apply {
-        implementation(domain.market)
+kotlin {
+    android {
+        namespace = "ir.composenews.uimarket"
     }
-    libs.apply {
-        api(platform(compose.bom))
-        api(bundles.compose)
-        api(kotlinx.serialization.json)
-        testImplementation(bundles.kotest)
+
+    sourceSets {
+        commonMain.dependencies {
+            implementation(projects.domain.market)
+            api(libs.kotlinx.serialization.json)
+        }
     }
 }

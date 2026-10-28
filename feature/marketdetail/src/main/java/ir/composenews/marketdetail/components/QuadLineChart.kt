@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import ir.composenews.base.LoadableComponent
+import ir.composenews.core.ui.LoadableComponent
 import ir.composenews.base.LoadableData
 import ir.composenews.designsystem.component.shimmerEffect
 import ir.composenews.domain.model.MarketChart

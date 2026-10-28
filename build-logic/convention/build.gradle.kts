@@ -8,6 +8,7 @@ group = "ir.composenews.buildlogic"
 dependencies {
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
+    compileOnly(libs.compose.compiler.gradlePlugin)
     compileOnly(libs.room.gradlePlugin)
 }
 

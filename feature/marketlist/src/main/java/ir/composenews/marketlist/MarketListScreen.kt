@@ -34,10 +34,10 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import androidx.paging.compose.LazyPagingItems
-import ir.composenews.base.LoadableComponent
+import ir.composenews.core.ui.LoadableComponent
 import ir.composenews.base.errorViewMapper
 import ir.composenews.base.isLoading
-import ir.composenews.base.use
+import ir.composenews.core.ui.use
 import ir.composenews.designsystem.component.EmptyStateAnimation
 import ir.composenews.designsystem.component.pull_refresh_indicator.PullRefreshIndicator
 import ir.composenews.designsystem.component.pull_refresh_indicator.pullRefresh

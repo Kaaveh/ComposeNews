@@ -1,26 +1,28 @@
 plugins {
-    alias(libs.plugins.composenews.android.library)
+    alias(libs.plugins.composenews.kmp.library)
     alias(libs.plugins.kotlinx.serialization)
 }
 
-android {
-    namespace = "ir.composenews.domain"
-}
-
-dependencies {
-    // Koin
-    implementation(libs.koin.core)
-
-    projects.apply {
-        api(core.network.ktor)
-        testImplementation(core.testing)
+kotlin {
+    android {
+        namespace = "ir.composenews.domain"
     }
-    libs.apply {
-        implementation(lifecycle.viewmodel)
-        api(kotlinx.collections.immutable)
-        api(kotlinx.serialization.json)
-        api(paging.common)
-        testImplementation(coroutines.test)
-        testImplementation(mockk)
+
+    sourceSets {
+        commonMain.dependencies {
+            api(projects.core.network.ktor)
+            libs.apply {
+                implementation(koin.core)
+                api(kotlinx.collections.immutable)
+                api(kotlinx.serialization.json)
+                api(paging.common)
+            }
+        }
+        androidHostTest.dependencies {
+            libs.apply {
+                implementation(coroutines.test)
+                implementation(mockk)
+            }
+        }
     }
 }

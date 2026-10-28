@@ -14,7 +14,7 @@ class KonsistUseCaseTest : AnnotationSpec() {
     private val domainModuleUseCasesScope = Konsist
         .scopeFromProject(
             moduleName = "domain/market",
-            sourceSetName = "main",
+            sourceSetName = "commonMain",
         )
         .classes()
         .filter { it.resideInPackage("..use_case..") }

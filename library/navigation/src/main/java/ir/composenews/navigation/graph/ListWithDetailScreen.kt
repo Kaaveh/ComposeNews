@@ -25,7 +25,7 @@ import ir.composenews.designsystem.component.LocalSharedTransitionScope
 import ir.composenews.marketdetail.MarketDetailRoute
 import ir.composenews.marketlist.MarketListRoute
 import ir.composenews.uimarket.model.MarketModel
-import ir.composenews.uimarket.model.MarketModelSaver
+import ir.composenews.core.ui.MarketModelSaver
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class, ExperimentalSharedTransitionApi::class)
