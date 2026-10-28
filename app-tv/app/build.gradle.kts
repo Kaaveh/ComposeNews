@@ -114,7 +114,6 @@ dependencies {
         implementation(lifecycle.runtime.compose)
         implementation(compose.activity)
         implementation(compose.tv.material)
-        implementation(compose.tv.foundation)
         implementation(navigation3.runtime)
         implementation(navigation3.ui)
         implementation(lifecycle.viewmodel.navigation3)
