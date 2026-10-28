@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         if (System.getenv("CI") == null) {
             maven { url = uri("https://maven.myket.ir") }

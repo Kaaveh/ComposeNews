@@ -35,6 +35,9 @@ ComposeNews is a production-ready Android crypto application demonstrating moder
 
 Dependencies are managed via the **version catalog** at `gradle/libs.versions.toml`.
 
+Module scripts apply a convention plugin from `build-logic/` (SDK levels, Java 17, test options, packaging, detekt, kotlinter), so they only hold their namespace and dependencies:
+`composenews.android.application`, `composenews.android.library`, `composenews.android.library.compose`, `composenews.kmp.library` (KMP, Android target; iOS behind `composenews.ios`), `composenews.kmp.room` (KSP + Room, unused until the Room migration in #360). `baselineprofile` (`com.android.test`) is the one module without one.
+
 ```bash
 # Build
 ./gradlew assemble
@@ -58,7 +61,7 @@ Dependencies are managed via the **version catalog** at `gradle/libs.versions.to
 - **Repository pattern**: data layer abstracts remote + local sources
 - **Reactive**: Kotlin Coroutine Flows throughout (no LiveData)
 - **Pagination**: Paging 3 library in list features
-- **Database**: SQLDelight (KMP-ready, replacing Room)
+- **Database**: SQLDelight today; `data:market-local` moves to Room KMP in #360
 - **HTTP**: Ktor client (KMP-ready, replacing Retrofit)
 
 ## Testing
