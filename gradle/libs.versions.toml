@@ -34,12 +34,12 @@ lifecycle = "2.11.0"
 navigationCompose = "2.9.7"
 nav3Core = "1.1.1"
 
-loggingInterceptor = "5.5.0"
 chucker = "4.3.0"
 kotlinx-serialization = "1.11.0"
-kotlinx-serialization-converter = "1.0.0"
 
 sqldelight = "2.2.1"
+room = "2.8.5"
+ksp = "2.3.12"
 
 junit = "4.13.2"
 junitExt = "1.3.0"
@@ -50,8 +50,6 @@ runner = "1.7.0"
 startupRuntime = "1.2.0"
 
 workRuntimeKtx = "2.11.1"
-
-windowsSizeClass = "1.5.0-alpha14"
 
 ktor = "3.6.0"
 konsist = "0.17.3"
@@ -117,15 +115,15 @@ ktor-contentNegotiation = { group = "io.ktor", name = "ktor-client-content-negot
 ktor-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
 konsist = { module = "com.lemonappdev:konsist", version.ref = "konsist" }
 
-kotlinx-serialization-converter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "kotlinx-serialization-converter" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "loggingInterceptor" }
 chucker = { group = "com.github.chuckerteam.chucker", name = "library", version.ref = "chucker" }
 chucker-no-op = { group = "com.github.chuckerteam.chucker", name = "library-no-op", version.ref = "chucker" }
 
 sqldelight-android = { group = "app.cash.sqldelight", name = "android-driver", version.ref = "sqldelight" }
 sqldelight-coroutines = { group = "app.cash.sqldelight", name = "coroutines-extensions", version.ref = "sqldelight" }
 sqldelight-test = { group = "app.cash.sqldelight", name = "sqlite-driver", version.ref = "sqldelight" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 junit-ext = { group = "androidx.test.ext", name = "junit", version.ref = "junitExt" }
@@ -141,8 +139,6 @@ turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "workRuntimeKtx" }
 
 kotlinx-collections-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinxImmutableCollection" }
-
-window-size = { group = "androidx.compose.material3", name = "material3-window-size-class", version.ref = "windowsSizeClass" }
 
 compottie = { module = "io.github.alexzhirkevich:compottie", version.ref = "compottie" }
 
@@ -160,6 +156,11 @@ benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro
 test-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 
+# Plugins on the build-logic classpath
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
@@ -173,6 +174,17 @@ compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 androidx-baselineprofile = { id = "androidx.baselineprofile", version.ref = "baselineProfile" }
 android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
 android-built-in1-kotlin = { id = "com.android.built-in-kotlin", version.ref = "androidGradlePlugin" }
+android-kotlin-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "androidGradlePlugin" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+room = { id = "androidx.room", version.ref = "room" }
+
+# Convention plugins (build-logic)
+composenews-android-application = { id = "composenews.android.application" }
+composenews-android-library = { id = "composenews.android.library" }
+composenews-android-library-compose = { id = "composenews.android.library.compose" }
+composenews-kmp-library = { id = "composenews.kmp.library" }
+composenews-kmp-room = { id = "composenews.kmp.room" }
 
 [bundles]
 compose = [

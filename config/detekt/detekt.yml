@@ -1,12 +1,56 @@
 # Note that this is a slimmed version of a detekt config file that only includes behavior we
 # want to override for our application. This is done by using `buildUponDefaultConfig` in the gradle
 # configuration.
+#
+# `&testExcludes` is detekt's default test-folder list plus the AGP KMP library plugin's test source
+# sets (androidHostTest, androidDeviceTest). Every rule detekt excludes from tests by default uses it.
+
+comments:
+  KDocReferencesNonPublicProperty:
+    excludes: &testExcludes ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/androidUnitTest/**', '**/androidInstrumentedTest/**', '**/androidHostTest/**', '**/androidDeviceTest/**', '**/jsTest/**', '**/iosTest/**']
+  UndocumentedPublicClass:
+    excludes: *testExcludes
+  UndocumentedPublicFunction:
+    excludes: *testExcludes
+  UndocumentedPublicProperty:
+    excludes: *testExcludes
+
+complexity:
+  StringLiteralDuplication:
+    excludes: *testExcludes
+  TooManyFunctions:
+    excludes: *testExcludes
+
+exceptions:
+  InstanceOfCheckForException:
+    excludes: *testExcludes
+  ThrowingExceptionsWithoutMessageOrCause:
+    excludes: *testExcludes
+  TooGenericExceptionCaught:
+    excludes: *testExcludes
 
 naming:
   active: true
   FunctionNaming:
     active: true
-    excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/androidUnitTest/**', '**/androidInstrumentedTest/**', '**/jsTest/**', '**/iosTest/**']
+    excludes: *testExcludes
     functionPattern: '[a-z][a-zA-Z0-9]*'
     excludeClassPattern: '$^'
     ignoreAnnotated: ['Composable']
+
+performance:
+  ForEachOnRange:
+    excludes: *testExcludes
+  SpreadOperator:
+    excludes: *testExcludes
+
+potential-bugs:
+  LateinitUsage:
+    excludes: *testExcludes
+  UnsafeCallOnNullableType:
+    excludes: *testExcludes
+
+style:
+  MagicNumber:
+    # A YAML alias can't be extended, so this one repeats the list to add `**/*.kts` (detekt's default).
+    excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/androidUnitTest/**', '**/androidInstrumentedTest/**', '**/androidHostTest/**', '**/androidDeviceTest/**', '**/jsTest/**', '**/iosTest/**', '**/*.kts']
