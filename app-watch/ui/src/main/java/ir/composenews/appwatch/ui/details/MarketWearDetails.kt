@@ -42,7 +42,7 @@ import com.google.android.horologist.compose.layout.rememberResponsiveColumnStat
 import ir.composenews.base.LoadableData
 import ir.composenews.base.errorViewMapper
 import ir.composenews.base.isLoading
-import ir.composenews.base.use
+import ir.composenews.core.ui.use
 import ir.composenews.designsystem.component.QuadLineChart
 import ir.composenews.designsystem.component.shimmerEffect
 import ir.composenews.designsystem.theme.ComposeNewsTheme

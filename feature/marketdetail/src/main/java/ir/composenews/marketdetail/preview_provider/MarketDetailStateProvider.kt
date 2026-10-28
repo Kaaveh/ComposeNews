@@ -6,7 +6,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import ir.composenews.base.LoadableData
 import ir.composenews.domain.model.MarketChart
 import ir.composenews.domain.model.MarketDetail
-import ir.composenews.domain.model_provider.marketList
+import ir.composenews.core.ui.marketList
 import ir.composenews.marketdetail.MarketDetailContract
 import ir.composenews.network.Errors
 import ir.composenews.uimarket.mapper.toMarketModel

@@ -1,14 +1,15 @@
 plugins {
-    alias(libs.plugins.composenews.android.library)
-    alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.composenews.kmp.library)
 }
 
-android {
-    namespace = "ir.composenews.ktor"
-}
+kotlin {
+    android {
+        namespace = "ir.composenews.ktor"
+    }
 
-dependencies {
-    libs.apply {
-        implementation(bundles.ktor)
+    sourceSets {
+        commonMain.dependencies {
+            api(libs.ktor.client.core)
+        }
     }
 }

@@ -21,10 +21,11 @@ ComposeNews is a production-ready Android crypto application demonstrating moder
 | `data:market-remote` | Remote data source (Ktor) |
 | `data:market-local` | Local data source (SQLDelight) |
 | `data:sqldelight` | SQLDelight database setup |
-| `core:base` | Base ViewModels and shared utilities |
+| `core:base` | Base ViewModels, `LoadableData`, dispatchers (KMP) |
 | `core:sync` | WorkManager-based data sync |
 | `core:network:ktor` | Ktor HTTP client configuration |
-| `core:uimarket` | Shared Compose UI components |
+| `core:uimarket` | `MarketModel` UI model and its mappers (KMP) |
+| `core:ui` | Android Compose helpers: `use()`, `LoadableComponent`, `MarketModelSaver`, preview data |
 | `core:extensions` | Kotlin extension functions |
 | `core:testing` | Shared test fixtures and Kotest (KMP) |
 | `library:designsystem` | Compose design system / theming |

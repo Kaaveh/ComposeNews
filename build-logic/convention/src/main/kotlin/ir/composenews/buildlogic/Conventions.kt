@@ -5,9 +5,11 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalog
 import org.gradle.api.artifacts.VersionCatalogsExtension
+import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.kotlin
+import org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinCommonCompilerOptions
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompilerOptions
@@ -70,10 +72,13 @@ internal fun Project.configureAndroid(android: CommonExtension) {
     }
 }
 
-/** The Compose compiler, `buildFeatures.compose` and the Compose BOM. */
+/** The Compose compiler with the shared stability config, `buildFeatures.compose` and the Compose BOM. */
 internal fun Project.configureCompose(android: CommonExtension) {
     applyPlugin("compose")
     android.buildFeatures.compose = true
+    extensions.configure<ComposeCompilerGradlePluginExtension> {
+        stabilityConfigurationFiles.add(rootProject.layout.projectDirectory.file("compose-stability.conf"))
+    }
 
     val bom = libs.library("compose-bom")
     dependencies {

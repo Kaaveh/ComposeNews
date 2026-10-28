@@ -35,11 +35,11 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import org.koin.compose.viewmodel.koinViewModel
 import coil.compose.rememberAsyncImagePainter
-import ir.composenews.base.LoadableComponent
+import ir.composenews.core.ui.LoadableComponent
 import ir.composenews.designsystem.component.LocalAnimatedVisibilityScope
 import ir.composenews.designsystem.component.LocalSharedTransitionScope
 import ir.composenews.base.LoadableData
-import ir.composenews.base.use
+import ir.composenews.core.ui.use
 import ir.composenews.designsystem.component.FavoriteIcon
 import ir.composenews.designsystem.component.shimmerEffect
 import ir.composenews.designsystem.preview.ThemePreviews

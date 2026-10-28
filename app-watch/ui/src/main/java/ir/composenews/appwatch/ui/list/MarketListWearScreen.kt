@@ -15,7 +15,7 @@ import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
-import ir.composenews.base.use
+import ir.composenews.core.ui.use
 import ir.composenews.designsystem.component.pull_refresh_indicator.pullRefresh
 import ir.composenews.designsystem.component.pull_refresh_indicator.rememberPullRefreshState
 import ir.composenews.designsystem.widget.ErrorView

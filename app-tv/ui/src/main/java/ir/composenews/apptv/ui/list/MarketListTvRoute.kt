@@ -22,9 +22,9 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
-import ir.composenews.base.LoadableComponent
+import ir.composenews.core.ui.LoadableComponent
 import ir.composenews.base.errorViewMapper
-import ir.composenews.base.use
+import ir.composenews.core.ui.use
 import ir.composenews.designsystem.component.EmptyStateAnimation
 import ir.composenews.designsystem.widget.ErrorView
 import ir.composenews.marketlist.MarketListContract

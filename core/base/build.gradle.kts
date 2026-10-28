@@ -1,18 +1,19 @@
 plugins {
-    alias(libs.plugins.composenews.android.library.compose)
+    alias(libs.plugins.composenews.kmp.library)
 }
 
-android {
-    namespace = "ir.composenews.base"
-}
-
-dependencies {
-    projects.apply {
-        api(core.network.ktor)
-        implementation(library.designsystem)
+kotlin {
+    android {
+        namespace = "ir.composenews.base"
     }
-    libs.apply {
-        implementation(koin.core)
-        implementation(lifecycle.viewmodel)
+
+    sourceSets {
+        commonMain.dependencies {
+            api(projects.core.network.ktor)
+            libs.apply {
+                api(lifecycle.viewmodel)
+                implementation(koin.core)
+            }
+        }
     }
 }

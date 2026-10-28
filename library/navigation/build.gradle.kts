@@ -11,6 +11,7 @@ dependencies {
     projects.apply {
         implementation(feature.marketlist)
         implementation(feature.marketdetail)
+        implementation(core.ui)
         implementation(core.uimarket)
         implementation(domain.market)
     }
