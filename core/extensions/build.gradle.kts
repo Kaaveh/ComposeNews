@@ -7,7 +7,3 @@ kotlin {
         namespace = "ir.composenews.extensions"
     }
 }
-
-dependencies {
-    "androidHostTestImplementation"(testFixtures(projects.core.test))
-}

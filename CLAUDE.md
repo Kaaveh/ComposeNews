@@ -26,7 +26,7 @@ ComposeNews is a production-ready Android crypto application demonstrating moder
 | `core:network:ktor` | Ktor HTTP client configuration |
 | `core:uimarket` | Shared Compose UI components |
 | `core:extensions` | Kotlin extension functions |
-| `core:test` | Shared testing utilities |
+| `core:testing` | Shared test fixtures and Kotest (KMP) |
 | `library:designsystem` | Compose design system / theming |
 | `library:navigation` | Navigation utilities |
 | `konsist` | Architecture consistency (Konsist) tests |

@@ -16,8 +16,8 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTouchInput
 import ir.composenews.base.LoadableData
-import ir.composenews.core_test.fixture.MarketModelFixtures.buildMarketModel
 import ir.composenews.network.Errors
+import ir.composenews.testing.fixture.buildMarketModel
 import ir.composenews.uimarket.model.MarketModel
 import kotlinx.collections.immutable.persistentListOf
 import org.junit.Assert.assertEquals

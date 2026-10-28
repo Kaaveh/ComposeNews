@@ -21,8 +21,9 @@ dependencies {
 
     // Feature dependencies
     androidTestImplementation(libs.runner)
-    testImplementation(testFixtures(projects.core.test))
-    androidTestImplementation(testFixtures(projects.core.test))
+    testImplementation(projects.core.testing)
+    testImplementation(libs.mockk)
+    androidTestImplementation(projects.core.testing)
     api(projects.library.designsystem)
     api(projects.core.base)
 

@@ -17,10 +17,10 @@ dependencies {
         api(domain.market)
         implementation(data.marketRemote)
         implementation(data.marketLocal)
-        testImplementation(testFixtures(core.test))
+        testImplementation(core.testing)
     }
     libs.apply {
-        testImplementation(bundles.kotest)
+        testImplementation(mockk)
         testImplementation(sqldelight.test)
     }
 }

@@ -16,10 +16,10 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import ir.composenews.base.LoadableData
-import ir.composenews.core_test.fixture.MarketModelFixtures.buildMarketModel
 import ir.composenews.domain.model.MarketChart
 import ir.composenews.domain.model.MarketDetail
 import ir.composenews.marketdetail.components.MARKET_DETAIL_CHART_TEST_TAG
+import ir.composenews.testing.fixture.buildMarketModel
 import ir.composenews.uimarket.model.MarketModel
 import kotlinx.collections.immutable.persistentListOf
 import org.junit.Rule
@@ -66,7 +66,7 @@ class MarketDetailScreenTest {
         composeTestRule.setContent {
             MarketDetailScreen(
                 marketDetailState = MarketDetailContract.State(
-                    market = LoadableData.Loaded(buildMarketModel(true)),
+                    market = LoadableData.Loaded(buildMarketModel(isFavorite = true)),
                 ),
                 onFavoriteClick = {},
             )
@@ -78,7 +78,7 @@ class MarketDetailScreenTest {
 
     @Test
     fun givenLoadedMarketState_whenFavoriteClicked_thenFavoriteCallbackIsInvoked() {
-        val bitcoin = buildMarketModel(false)
+        val bitcoin = buildMarketModel(isFavorite = false)
         var clickedMarket: MarketModel? = null
         composeTestRule.setContent {
             MarketDetailScreen(
