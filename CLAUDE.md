@@ -19,8 +19,7 @@ ComposeNews is a production-ready Android crypto application demonstrating moder
 | `domain:market` | Business logic and use cases |
 | `data:market-repository` | Repository implementations (Koin DI) |
 | `data:market-remote` | Remote data source (Ktor) |
-| `data:market-local` | Local data source (SQLDelight) |
-| `data:sqldelight` | SQLDelight database setup |
+| `data:market-local` | Local data source (Room KMP) |
 | `core:base` | Base ViewModels, `LoadableData`, dispatchers (KMP) |
 | `core:sync` | WorkManager-based data sync |
 | `core:network:ktor` | Ktor HTTP client configuration |
@@ -37,7 +36,7 @@ ComposeNews is a production-ready Android crypto application demonstrating moder
 Dependencies are managed via the **version catalog** at `gradle/libs.versions.toml`.
 
 Module scripts apply a convention plugin from `build-logic/` (SDK levels, Java 17, test options, packaging, detekt, kotlinter), so they only hold their namespace and dependencies:
-`composenews.android.application`, `composenews.android.library`, `composenews.android.library.compose`, `composenews.kmp.library` (KMP, Android target; iOS behind `composenews.ios`), `composenews.kmp.room` (KSP + Room, unused until the Room migration in #360). `baselineprofile` (`com.android.test`) is the one module without one.
+`composenews.android.application`, `composenews.android.library`, `composenews.android.library.compose`, `composenews.kmp.library` (KMP, Android target; iOS behind `composenews.ios`), `composenews.kmp.room` (KSP + Room). `baselineprofile` (`com.android.test`) is the one module without one.
 
 ```bash
 # Build
@@ -62,7 +61,7 @@ Module scripts apply a convention plugin from `build-logic/` (SDK levels, Java 1
 - **Repository pattern**: data layer abstracts remote + local sources
 - **Reactive**: Kotlin Coroutine Flows throughout (no LiveData)
 - **Pagination**: Paging 3 library in list features
-- **Database**: SQLDelight today; `data:market-local` moves to Room KMP in #360
+- **Database**: Room KMP in `data:market-local`, on the system SQLite (`AndroidSQLiteDriver`) on Android (iOS will use `BundledSQLiteDriver`, #368); Android copies the legacy SQLDelight `MarketDatabase` file into `composenews.db` on first open (#360)
 - **HTTP**: Ktor client (KMP-ready, replacing Retrofit)
 
 ## Testing
@@ -70,7 +69,7 @@ Module scripts apply a convention plugin from `build-logic/` (SDK levels, Java 1
 - **Framework**: Kotest 6.x (replacing JUnit)
 - **Mocking**: MockK
 - **Flow testing**: Turbine
-- **Android integration**: Robolectric + `includeAndroidResources = true`
+- **Android integration**: Robolectric + `includeAndroidResources = true`. Robolectric tests stay on JUnit 4 (run by the vintage engine), since Kotest has no Robolectric runner here
 
 ```bash
 ./gradlew test                  # all unit tests
@@ -105,7 +104,7 @@ Git hooks enforce formatting and analysis before commits/pushes:
 The following have already been migrated to KMP-compatible libraries:
 - Serialization (kotlinx.serialization)
 - HTTP (Ktor)
-- Database (SQLDelight)
+- Database (Room)
 - DI (Koin)
 - Testing (Kotest)
 

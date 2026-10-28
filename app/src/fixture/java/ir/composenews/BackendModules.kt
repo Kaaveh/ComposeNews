@@ -10,7 +10,7 @@ internal val fixtureRemoteDataSourceModule =
 
 /**
  * This replaces only MarketsApi. The existing MarketRepositoryImpl, MarketsPagingSource,
- * SQLDelight storage, domain use cases, and UI remain active.
+ * Room storage, domain use cases, and UI remain active.
  */
 internal val backendModules =
     listOf(
