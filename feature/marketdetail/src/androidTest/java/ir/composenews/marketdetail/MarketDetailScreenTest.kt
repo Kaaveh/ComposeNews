@@ -6,8 +6,8 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import ir.composenews.core_test.dispatcher.TestDispatcherProvider
-import ir.composenews.core_test.repository.FakeMarketRepository
+import ir.composenews.testing.dispatcher.TestDispatcherProvider
+import ir.composenews.testing.repository.FakeMarketRepository
 import ir.composenews.domain.model.Market
 import ir.composenews.domain.model.MarketChart
 import ir.composenews.domain.model.MarketDetail

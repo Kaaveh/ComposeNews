@@ -10,8 +10,8 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import ir.composenews.base.LoadableData
-import ir.composenews.core_test.MainCoroutineListener
-import ir.composenews.core_test.dispatcher.TestDispatcherProvider
+import ir.composenews.testing.MainCoroutineListener
+import ir.composenews.testing.dispatcher.TestDispatcherProvider
 import ir.composenews.domain.model.Market
 import ir.composenews.domain.model.MarketChart
 import ir.composenews.domain.model.PricePoint
@@ -39,7 +39,7 @@ class MarketDetailViewModelTest : StringSpec({
     val dispatcherProvider = TestDispatcherProvider()
     lateinit var viewModel: MarketDetailViewModel
 
-    extensions(MainCoroutineListener())
+    extensions(MainCoroutineListener(dispatcherProvider.testScheduler))
 
     beforeEach {
         coEvery { getMarketByIdUseCase(any()) } returns flowOf(null)

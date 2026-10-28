@@ -24,7 +24,7 @@ import androidx.paging.LoadState
 import androidx.paging.LoadStates
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
-import ir.composenews.core_test.fixture.MarketModelFixtures.buildMarketModel
+import ir.composenews.testing.fixture.buildMarketModel
 import ir.composenews.uimarket.model.MarketModel
 import kotlinx.coroutines.flow.flowOf
 import org.junit.Rule

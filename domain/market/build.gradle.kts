@@ -13,7 +13,7 @@ dependencies {
 
     projects.apply {
         api(core.network.ktor)
-        testImplementation(testFixtures(core.test))
+        testImplementation(core.testing)
     }
     libs.apply {
         implementation(lifecycle.viewmodel)
@@ -21,5 +21,6 @@ dependencies {
         api(kotlinx.serialization.json)
         api(paging.common)
         testImplementation(coroutines.test)
+        testImplementation(mockk)
     }
 }

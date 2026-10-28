@@ -65,6 +65,7 @@ internal fun Project.configureAndroid(android: CommonExtension) {
 
     dependencies {
         "testImplementation"(kotlin("test"))
+        "testImplementation"(libs.library("kotest-runnerJUnit5"))
         "androidTestImplementation"(kotlin("test"))
     }
 }

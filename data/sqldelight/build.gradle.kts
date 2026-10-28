@@ -22,7 +22,4 @@ dependencies {
         api(sqldelight.test)
         api(runner)
     }
-    projects.apply {
-        testImplementation(testFixtures(core.test))
-    }
 }

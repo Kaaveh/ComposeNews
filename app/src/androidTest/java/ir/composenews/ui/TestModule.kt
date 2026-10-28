@@ -1,8 +1,6 @@
 package ir.composenews.ui
 
 import ir.composenews.base.dispatcher.DispatcherProvider
-import ir.composenews.core_test.dispatcher.TestDispatcherProvider
-import ir.composenews.core_test.repository.FakeMarketRepository
 import ir.composenews.domain.repository.MarketRepository
 import ir.composenews.domain.use_case.GetFavoriteMarketListUseCase
 import ir.composenews.domain.use_case.GetMarketByIdUseCase
@@ -12,6 +10,8 @@ import ir.composenews.domain.use_case.GetPagedMarketListUseCase
 import ir.composenews.domain.use_case.ToggleFavoriteMarketListUseCase
 import ir.composenews.marketdetail.MarketDetailViewModel
 import ir.composenews.marketlist.MarketListViewModel
+import ir.composenews.testing.dispatcher.TestDispatcherProvider
+import ir.composenews.testing.repository.FakeMarketRepository
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module

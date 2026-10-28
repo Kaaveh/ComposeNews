@@ -14,6 +14,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
  * Shared (KMP) library with an Android target. Each module sets `kotlin { android { namespace = ... } }`.
  *
  * iOS targets are off until #368; turn them on with `composenews.ios=true` in `gradle.properties`.
+ * Kotest on iOS also needs the `io.kotest` Gradle plugin and KSP, which #368 adds.
  */
 class KmpLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
@@ -38,7 +39,15 @@ class KmpLibraryConventionPlugin : Plugin<Project> {
             }
 
             compilerOptions.configureKotlin()
-            sourceSets.commonTest.dependencies { implementation(kotlin("test")) }
+            sourceSets.commonTest.dependencies {
+                implementation(kotlin("test"))
+                implementation(libs.library("kotest-frameworkEngine"))
+                implementation(libs.library("kotest-assertionsCore"))
+            }
+            // The JUnit Platform runner is JVM-only, so it goes on the Android host tests.
+            sourceSets.matching { it.name == "androidHostTest" }.configureEach {
+                dependencies { implementation(libs.library("kotest-runnerJUnit5")) }
+            }
         }
 
         // The plain `detekt` task only looks in src/main and src/test, which a KMP module doesn't have.
