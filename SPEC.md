@@ -41,7 +41,7 @@ with limited disk and RAM.
 | AGP | `androidGradlePlugin` | 9.0.1 | **9.3.3** | XO |
 | AGP built-in Kotlin | `androidBuiltInKotlin` | 9.0.1 | **remove key, use `androidGradlePlugin`** | it's the same AGP artifact |
 | Kotlin | `kotlin` | 2.3.10 | **2.4.21** | XO |
-| KSP | `ksp` | 2.3.6 | **2.3.12** | XO |
+| KSP | `ksp` | 2.3.6 | **remove key and plugin** | no module declares a `ksp(...)` processor |
 
 ### Shared libraries
 
@@ -56,15 +56,14 @@ with limited disk and RAM.
 | Compose BOM | `composeBOM` | 2026.02.00 | **2026.08.00** | Footballi |
 | Navigation 3 | `nav3Core` | 1.0.1 | **1.1.1** | Footballi |
 | OkHttp logging-interceptor | `loggingInterceptor` | 5.3.2 | **5.5.0** | Footballi |
-| TV Material | `composeTvMaterial` (was `composeTv`) | 1.0.0 | **1.1.0** | Footballi (see Open Question 2) |
-| TV Foundation | `composeTvFoundation` (was `composeTv`) | 1.0.0 | **1.0.0** | 1.1.0 doesn't exist |
+| TV Material | `composeTv` | 1.0.0 | **1.1.0** | Footballi (see Open Question 2) |
+| TV Foundation | `compose-tv-foundation` library | 1.0.0 | **remove** | no source imports `androidx.tv.foundation` |
+| Lifecycle (incl. viewmodel-navigation3) | `lifecycle`, `lifecycleViewmodelNav3` | 2.10.0 / 2.11.0-alpha03 | **2.11.0, one `lifecycle` key** | the alpha forced lifecycle 2.11.0-alpha03 transitively anyway |
 | Robolectric | `robolectric` | 4.14.1 | **4.16.1** | Footballi |
 
 ### Unchanged on purpose (ComposeNews is already higher than Footballi; XO doesn't use them)
 
-`ktx` 1.17.0, `lifecycle` 2.10.0, `workRuntimeKtx` 2.11.1, `espressoCore` 3.7.0, `junitExt` 1.3.0.
-XO's lifecycle 2.11.0 is the JetBrains fork (`org.jetbrains.androidx.lifecycle`), a different
-artifact, so matching it saves nothing.
+`ktx` 1.17.0, `workRuntimeKtx` 2.11.1, `espressoCore` 3.7.0, `junitExt` 1.3.0.
 
 ### Cache state checked on 2026-10-28
 
@@ -184,11 +183,11 @@ No new modules, no new dependencies, no build-logic changes.
 ## Code Style
 
 Version catalog edits keep the existing key names and layout. Only the values change, except that
-`androidBuiltInKotlin` is removed and its plugin points to the AGP version:
+`androidBuiltInKotlin` is removed and its plugin points to the AGP version, `lifecycleViewmodelNav3`
+folds into `lifecycle`, and the unused `ksp` and `compose-tv-foundation` entries are removed:
 
 ```toml
 kotlin = "2.4.21"
-ksp = "2.3.12"
 androidGradlePlugin = "9.3.3"
 
 # [plugins]
@@ -197,6 +196,7 @@ android-built-in1-kotlin = { id = "com.android.built-in-kotlin", version.ref = "
 
 ```properties
 distributionUrl=https\://services.gradle.org/distributions/gradle-9.5.1-bin.zip
+distributionSha256Sum=bafc141b619ad6350fd975fc903156dd5c151998cc8b058e8c1044ab5f7b031f
 ```
 
 Any source fix that breaking changes force follows the existing MVI + Koin conventions in
@@ -252,7 +252,6 @@ The test count must not drop. A test that fails after the bump is fixed, not del
 | Kotlinter 5.4.2 / SQLDelight 2.2.1 may not support Kotlin 2.4.x | Same: verify, then ask before bumping. |
 | Koin 4.0 → 4.2 API changes (ViewModel DSL, compose / WorkManager integration) | Fix call sites, then `test` + `assemble`. |
 | AGP 9.3 may warn about or drop the `gradle.properties` opt-outs | Read the AGP 9.3 release notes, ask before changing a flag. |
-| `composeTv` drives both tv-material and tv-foundation; tv-foundation 1.1.0 may not exist | Open Question 2. |
 | Compose BOM 2026.08.00 changes UI behaviour | Compose UI tests in `test`, plus a manual check of the list and detail screens. |
 
 ## Success Criteria
@@ -272,8 +271,8 @@ The test count must not drop. A test that fails after the bump is fixed, not del
 
 1. **Koin target:** XO uses the Koin BOM. Keep per-module `version.ref = "koin"` at 4.2.2 (smallest
    diff), or switch ComposeNews to the BOM like XO? Default: keep version refs.
-2. ~~**TV Foundation**~~ Resolved: `tv-foundation` tops out at 1.0.0, so `composeTv` is split into
-   `composeTvMaterial = "1.1.0"` and `composeTvFoundation = "1.0.0"`.
+2. ~~**TV Foundation**~~ Resolved: `tv-foundation` tops out at 1.0.0 and nothing imports it, so the
+   dependency is removed and `composeTv = "1.1.0"` drives tv-material only.
 3. **Build cache:** `caches/build-cache-1` is 3.1 GB. It's not version-specific so it isn't in the
    Delete list, but it is safe to delete (it only costs one slower build per project). Add it?
 4. **Next migrations:** ComposeBreak, R and sdp-compose (Gradle 9.2.1) and AwesomeLineup

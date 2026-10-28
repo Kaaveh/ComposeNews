@@ -79,7 +79,6 @@ dependencies {
     }
     libs.apply {
         implementation(compose.tv.material)
-        implementation(compose.tv.foundation)
         implementation(paging.compose)
         implementation(lifecycle.runtime.compose)
     }

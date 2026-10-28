@@ -9,7 +9,6 @@ projectCompileSdkVersion = "37"
 
 kotlin = "2.4.21"
 kotlinter = "5.4.2"
-ksp = "2.3.12"
 kotlinxImmutableCollection = "0.4.0"
 androidGradlePlugin = "9.3.3"
 
@@ -20,8 +19,7 @@ composeActivity = "1.13.0"
 composeCoil = "2.7.0"
 material3Adaptive = "1.2.0"
 composeWear = "1.5.6"
-composeTvMaterial = "1.1.0"
-composeTvFoundation = "1.0.0"
+composeTv = "1.1.0"
 turbine = "1.2.1"
 wearToolingPreview = "1.0.0"
 horologistComposeLayout = "0.7.15"
@@ -31,11 +29,10 @@ kermit = "2.0.5"
 koin = "4.2.2"
 compottie = "2.1.0"
 
-lifecycle = "2.10.0"
+lifecycle = "2.11.0"
 
 navigationCompose = "2.9.7"
 nav3Core = "1.1.1"
-lifecycleViewmodelNav3 = "2.11.0-alpha03"
 
 loggingInterceptor = "5.5.0"
 chucker = "4.3.0"
@@ -90,8 +87,7 @@ compose-material3-adaptive-navigation-suite = { group = "androidx.compose.materi
 compose-material-wear = { group = "androidx.wear.compose", name = "compose-material", version.ref = "composeWear" }
 compose-foundation-wear = { group = "androidx.wear.compose", name = "compose-foundation", version.ref = "composeWear" }
 compose-ui-preview-wear = { group = "androidx.wear", name = "wear-tooling-preview", version.ref = "wearToolingPreview" }
-compose-tv-material = { group = "androidx.tv", name = "tv-material", version.ref = "composeTvMaterial" }
-compose-tv-foundation = { group = "androidx.tv", name = "tv-foundation", version.ref = "composeTvFoundation" }
+compose-tv-material = { group = "androidx.tv", name = "tv-material", version.ref = "composeTv" }
 compose-horologist-layout = { module = "com.google.android.horologist:horologist-compose-layout", version.ref = "horologistComposeLayout" }
 
 kermit = { group = "co.touchlab", name = "kermit", version.ref = "kermit" }
@@ -110,7 +106,7 @@ lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-ru
 navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "nav3Core" }
 navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "nav3Core" }
-lifecycle-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "lifecycleViewmodelNav3" }
+lifecycle-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "lifecycle" }
 navigation-compose-wear = { group = "androidx.wear.compose", name = "compose-navigation", version.ref = "composeWear" }
 
 # Ktor
@@ -169,7 +165,6 @@ android-application = { id = "com.android.application", version.ref = "androidGr
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 kotliner = { id = "org.jmailen.kotlinter", version.ref = "kotlinter" }
