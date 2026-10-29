@@ -15,8 +15,8 @@ dependencies {
     api(projects.core.base)
 
     projects.apply {
-        implementation(feature.marketlist)
-        implementation(feature.marketdetail)
+        implementation(feature.marketlist.ui)
+        implementation(feature.marketdetail.ui)
         implementation(core.ui)
         implementation(core.uimarket)
         implementation(core.extensions)

@@ -25,8 +25,8 @@ dependencies {
         implementation(data.marketLocal)
         implementation(data.marketRemote)
         implementation(data.marketRepository)
-        implementation(feature.marketlist)
-        implementation(feature.marketdetail)
+        implementation(feature.marketlist.presentation)
+        implementation(feature.marketdetail.presentation)
     }
     libs.apply {
         implementation(ktor.client.okhttp)
