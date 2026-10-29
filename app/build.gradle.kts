@@ -82,6 +82,9 @@ dependencies {
         implementation(compose.material3.adaptive.navigation)
         implementation(compose.ui.test.manifest)
         implementation(compose.ui.test.junit4)
+        implementation(ktor.client.okhttp)
+        debugImplementation(chucker)
+        releaseImplementation(chucker.no.op)
         androidTestImplementation(mockk.android)
         androidTestImplementation(rules)
     }

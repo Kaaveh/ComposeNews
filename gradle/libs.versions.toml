@@ -199,10 +199,3 @@ kotest = [
     "kotest-property",
     "kotest-runnerJUnit5"
 ]
-ktor = [
-    "ktor-client-core",
-    "ktor-client-okhttp",
-    "ktor-contentNegotiation",
-    "ktor-json",
-    "ktor-logging"
-]
