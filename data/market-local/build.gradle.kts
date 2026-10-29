@@ -1,21 +1,25 @@
 plugins {
-    alias(libs.plugins.composenews.android.library)
+    alias(libs.plugins.composenews.kmp.room)
 }
 
-android {
-    namespace = "ir.composenews.localdatasource"
-}
-
-dependencies {
-    // Koin
-    implementation(libs.koin.android)
-
-    api(projects.data.sqldelight)
-    libs.apply {
-        testImplementation(runner)
-        testImplementation(sqldelight.test)
+kotlin {
+    android {
+        namespace = "ir.composenews.localdatasource"
     }
-    projects.apply {
-        testImplementation(core.testing)
+
+    sourceSets {
+        commonMain.dependencies {
+            implementation(projects.core.base)
+        }
+        androidMain.dependencies {
+            implementation(libs.koin.android)
+        }
+        androidHostTest.dependencies {
+            libs.apply {
+                implementation(junit.ext)
+                implementation(robolectric)
+                runtimeOnly(junit.vintage.engine)
+            }
+        }
     }
 }

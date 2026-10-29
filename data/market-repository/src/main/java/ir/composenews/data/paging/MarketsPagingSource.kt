@@ -42,7 +42,7 @@ class MarketsPagingSource(
                     sparkline = false,
                 ).suspendOnSuccess {
                     val markets = data.map { it.toMarket() }
-                    data.forEach { dao.insertMarket(it.toMarketEntity()) }
+                    dao.insertMarkets(data.map { it.toMarketEntity() })
                     val nextKey = if (markets.isEmpty()) null else page + 1
                     logger.d { "Page $page loaded: ${markets.size} items, nextKey=$nextKey" }
                     result =

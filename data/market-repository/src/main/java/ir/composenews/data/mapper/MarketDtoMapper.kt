@@ -2,7 +2,7 @@
 
 package ir.composenews.data.mapper
 
-import ir.composenews.db.MarketEntity
+import ir.composenews.localdatasource.database.MarketEntity
 import ir.composenews.domain.model.Market
 import ir.composenews.localdatasource.database.FALSE
 import ir.composenews.remotedatasource.dto.MarketResponse

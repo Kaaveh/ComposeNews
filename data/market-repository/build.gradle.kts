@@ -21,6 +21,5 @@ dependencies {
     }
     libs.apply {
         testImplementation(mockk)
-        testImplementation(sqldelight.test)
     }
 }

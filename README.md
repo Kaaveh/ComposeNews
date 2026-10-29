@@ -30,7 +30,7 @@ For the details of handling the  preview of composable functions in this code-ba
 - CLEAN architecture
 - MVI architectural pattern
 - Coroutine Flow
-- SQLDelight database
+- Room database (KMP)
 - Dagger Hilt
 - Navigation
 - Ktor client

@@ -16,7 +16,7 @@ import ir.composenews.data.mapper.toMarket
 import ir.composenews.data.mapper.toMarketChart
 import ir.composenews.data.mapper.toMarketDetail
 import ir.composenews.data.mapper.toMarketEntity
-import ir.composenews.db.MarketEntity
+import ir.composenews.localdatasource.database.MarketEntity
 import ir.composenews.domain.model.Market
 import ir.composenews.localdatasource.database.FALSE
 import ir.composenews.localdatasource.database.MarketDao
@@ -70,13 +70,13 @@ class MarketRepositoryImplTest : StringSpec({
         coEvery { api.getMarkets(any(), any(), any(), any(), any()) } returns ApiResponse.Success(
             listOf(marketResponses),
         )
-        coEvery { marketDao.insertMarket(marketEntities) } just Runs
+        coEvery { marketDao.insertMarkets(listOf(marketEntities)) } just Runs
 
         repository.syncMarketList()
 
         coVerify(ordering = Ordering.SEQUENCE) {
             api.getMarkets(any(), any(), any(), any(), any())
-            marketDao.insertMarket(marketEntities)
+            marketDao.insertMarkets(listOf(marketEntities))
         }
     }
 
@@ -87,7 +87,7 @@ class MarketRepositoryImplTest : StringSpec({
 
         repository.syncMarketList()
 
-        coVerify(exactly = 0) { marketDao.insertMarket(any()) }
+        coVerify(exactly = 0) { marketDao.insertMarkets(any()) }
     }
 
     "Given an existing market, When ToggleFavoriteMarket is called, Then updates market favorite status" {
@@ -157,20 +157,20 @@ class MarketRepositoryImplTest : StringSpec({
 
         repository.syncMarketList()
 
-        coVerify(exactly = 0) { marketDao.insertMarket(any()) }
+        coVerify(exactly = 0) { marketDao.insertMarkets(any()) }
     }
 
-    "Given API provides multiple markets, When SyncMarketList is called, Then each market is inserted" {
+    "Given API provides multiple markets, When SyncMarketList is called, Then all markets are inserted at once" {
         val responses = listOf(
             MarketResponse("1", "Bitcoin", "BTC", 50000.0, 5.0, "url"),
             MarketResponse("2", "Ethereum", "ETH", 3000.0, 2.0, "url"),
         )
         coEvery { api.getMarkets(any(), any(), any(), any(), any()) } returns ApiResponse.Success(responses)
-        coEvery { marketDao.insertMarket(any()) } just Runs
+        coEvery { marketDao.insertMarkets(any()) } just Runs
 
         repository.syncMarketList()
 
-        coVerify(exactly = responses.size) { marketDao.insertMarket(any()) }
+        coVerify(exactly = 1) { marketDao.insertMarkets(responses.map { it.toMarketEntity() }) }
     }
 
     "Given database is empty, When GetMarketList is called, Then returns empty list" {

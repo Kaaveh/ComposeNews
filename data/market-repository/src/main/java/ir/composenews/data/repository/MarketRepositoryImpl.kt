@@ -72,12 +72,7 @@ class MarketRepositoryImpl(
             1,
             false,
         ).suspendOnSuccess {
-            val marketEntityList = data.map { marketResponse ->
-                marketResponse.toMarketEntity()
-            }
-            marketEntityList.forEach { marketEntity ->
-                dao.insertMarket(marketEntity = marketEntity)
-            }
+            dao.insertMarkets(data.map { it.toMarketEntity() })
         }.onError {
             logger.d { message }
         }.onException {
