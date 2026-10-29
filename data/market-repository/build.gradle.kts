@@ -1,25 +1,26 @@
 plugins {
-    alias(libs.plugins.composenews.android.library)
+    alias(libs.plugins.composenews.kmp.library)
 }
 
-android {
-    namespace = "ir.composenews.data"
-}
-
-dependencies {
-    // Logging
-    implementation(libs.kermit)
-
-    // Koin
-    implementation(libs.koin.core)
-
-    projects.apply {
-        api(domain.market)
-        implementation(data.marketRemote)
-        implementation(data.marketLocal)
-        testImplementation(core.testing)
+kotlin {
+    android {
+        namespace = "ir.composenews.data"
     }
-    libs.apply {
-        testImplementation(mockk)
+
+    sourceSets {
+        commonMain.dependencies {
+            projects.apply {
+                api(domain.market)
+                implementation(data.marketRemote)
+                implementation(data.marketLocal)
+            }
+            libs.apply {
+                implementation(kermit)
+                implementation(koin.core)
+            }
+        }
+        androidHostTest.dependencies {
+            implementation(libs.mockk)
+        }
     }
 }
