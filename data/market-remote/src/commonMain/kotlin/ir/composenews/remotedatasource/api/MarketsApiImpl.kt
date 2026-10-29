@@ -4,6 +4,7 @@ package ir.composenews.remotedatasource.api
 
 import io.ktor.client.HttpClient
 import io.ktor.http.appendPathSegments
+import ir.composenews.base.dispatcher.DispatcherProvider
 import ir.composenews.network.ApiResponse
 import ir.composenews.network.get
 import ir.composenews.remotedatasource.dto.MarketChartResponse
@@ -18,11 +19,11 @@ import ir.composenews.remotedatasource.util.HttpRoutes.PAGE
 import ir.composenews.remotedatasource.util.HttpRoutes.PER_PAGE
 import ir.composenews.remotedatasource.util.HttpRoutes.SPARKLINE
 import ir.composenews.remotedatasource.util.HttpRoutes.VS_CURRENCY
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class MarketsApiImpl(
     private val httpClient: HttpClient,
+    private val dispatchers: DispatcherProvider,
 ) : MarketsApi {
     override suspend fun getMarkets(
         currency: String,
@@ -30,7 +31,7 @@ class MarketsApiImpl(
         perPage: Int,
         page: Int,
         sparkline: Boolean,
-    ): ApiResponse<List<MarketResponse>> = withContext(Dispatchers.IO) {
+    ): ApiResponse<List<MarketResponse>> = withContext(dispatchers.io) {
         val response = httpClient.get<List<MarketResponse>> {
             url {
                 appendPathSegments(COINS, MARKETS)
@@ -48,7 +49,7 @@ class MarketsApiImpl(
         id: String,
         currency: String,
         days: Int,
-    ): ApiResponse<MarketChartResponse> = withContext(Dispatchers.IO) {
+    ): ApiResponse<MarketChartResponse> = withContext(dispatchers.io) {
         val response = httpClient.get<MarketChartResponse> {
             url {
                 appendPathSegments(COINS, id, MARKET_CHART)
@@ -60,7 +61,7 @@ class MarketsApiImpl(
     }
 
     override suspend fun getMarketDetail(id: String): ApiResponse<MarketDetailResponse> =
-        withContext(Dispatchers.IO) {
+        withContext(dispatchers.io) {
             val response = httpClient.get<MarketDetailResponse> {
                 url {
                     appendPathSegments(COINS, id)

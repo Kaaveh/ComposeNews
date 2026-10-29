@@ -31,6 +31,7 @@ dependencies {
         implementation(feature.marketdetail)
     }
     libs.apply {
+        implementation(ktor.client.okhttp)
         implementation(androidx.ktx)
         implementation(lifecycle.runtime)
         implementation(lifecycle.runtime.compose)
