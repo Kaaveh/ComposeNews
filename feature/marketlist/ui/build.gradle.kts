@@ -31,7 +31,6 @@ dependencies {
         implementation(core.extensions)
     }
     libs.apply {
-        implementation(paging.compose)
         testImplementation(robolectric)
         testImplementation(compose.ui.test.junit4)
     }

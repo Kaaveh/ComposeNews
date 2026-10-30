@@ -17,6 +17,9 @@ fun MarketModel.toMarket() = Market(
     priceChangePercentage24h = priceChangePercentage24h,
     imageUrl = imageUrl,
     isFavorite = isFavorite,
+    marketCapRank = marketCapRank,
+    totalVolume = totalVolume,
+    sparkline7d = sparkline7d,
 )
 
 fun Market.toMarketModel() = MarketModel(
@@ -27,4 +30,7 @@ fun Market.toMarketModel() = MarketModel(
     priceChangePercentage24h = priceChangePercentage24h,
     imageUrl = imageUrl,
     isFavorite = isFavorite,
+    marketCapRank = marketCapRank,
+    totalVolume = totalVolume,
+    sparkline7d = sparkline7d,
 )

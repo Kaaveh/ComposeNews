@@ -1,6 +1,5 @@
 package ir.composenews.domain.repository
 
-import androidx.paging.PagingData
 import ir.composenews.domain.model.Market
 import ir.composenews.domain.model.MarketChart
 import ir.composenews.domain.model.MarketDetail
@@ -10,8 +9,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface MarketRepository {
     fun getMarketList(): Flow<List<Market>>
-
-    fun getPagedMarketList(): Flow<PagingData<Market>>
 
     fun getFavoriteMarketList(): Flow<List<Market>>
 

@@ -1,42 +1,30 @@
 @file:Suppress(
     "MaxLineLength",
-    "ComplexCondition",
     "ktlint",
     "UnusedPrivateMember",
     "LongMethod",
+    "LongParameterList",
 )
 
 package ir.composenews.marketlist
 
 import androidx.activity.compose.ReportDrawnWhen
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.unit.dp
 import org.koin.compose.viewmodel.koinViewModel
-import androidx.paging.LoadState
-import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.itemKey
-import androidx.paging.compose.LazyPagingItems
+import ir.composenews.base.LoadableData
 import ir.composenews.core.ui.LoadableComponent
 import ir.composenews.base.errorViewMapper
-import ir.composenews.base.isLoading
 import ir.composenews.core.ui.use
 import ir.composenews.designsystem.component.EmptyStateAnimation
 import ir.composenews.designsystem.component.pull_refresh_indicator.PullRefreshIndicator
@@ -48,80 +36,125 @@ import ir.composenews.designsystem.widget.ErrorView
 import ir.composenews.marketlist.component.MarketListItem
 import ir.composenews.marketlist.preview_provider.MarketListStateProvider
 import ir.composenews.uimarket.model.MarketModel
+import kotlinx.collections.immutable.PersistentList
 
 @Composable
 fun MarketListRoute(
     showFavoriteList: Boolean = false,
-    viewModel: MarketListViewModel = koinViewModel(key = if (showFavoriteList) "favorites" else "markets"),
     onNavigateToDetailScreen: (market: MarketModel) -> Unit,
 ) {
-    val (state, event) = use(viewModel = viewModel)
-    LaunchedEffect(key1 = Unit) {
-        event.invoke(MarketListContract.Event.OnSetShowFavoriteList(showFavoriteList = showFavoriteList))
-    }
     if (showFavoriteList) {
-        FavoriteMarketListScreen(
+        FavoriteMarketListRoute(onNavigateToDetailScreen = onNavigateToDetailScreen)
+    } else {
+        val (state, event) = use(viewModel = koinViewModel<MarketListViewModel>())
+        LaunchedEffect(key1 = Unit) {
+            event.invoke(MarketListContract.Event.OnGetMarketList)
+        }
+        MarketListScreen(
             state = state,
             onNavigateToDetailScreen = onNavigateToDetailScreen,
             onFavoriteClick = { market ->
                 event.invoke(MarketListContract.Event.OnFavoriteClick(market = market))
             },
             onRefresh = {
-                event.invoke(MarketListContract.Event.OnGetMarketList)
-            },
-        )
-    } else {
-        val lazyPagingItems = viewModel.pagedMarketList.collectAsLazyPagingItems()
-        PagedMarketListScreen(
-            lazyPagingItems = lazyPagingItems,
-            onNavigateToDetailScreen = onNavigateToDetailScreen,
-            onFavoriteClick = { market ->
-                event.invoke(MarketListContract.Event.OnFavoriteClick(market = market))
+                event.invoke(MarketListContract.Event.OnRefresh)
             },
         )
     }
 }
 
 @Composable
-fun PagedMarketListScreen(
-    lazyPagingItems: LazyPagingItems<MarketModel>,
+private fun FavoriteMarketListRoute(
+    onNavigateToDetailScreen: (market: MarketModel) -> Unit,
+) {
+    val (state, event) = use(viewModel = koinViewModel<FavoriteListViewModel>())
+    LaunchedEffect(key1 = Unit) {
+        event.invoke(FavoriteListContract.Event.OnGetFavoriteList)
+    }
+    FavoriteMarketListScreen(
+        state = state,
+        onNavigateToDetailScreen = onNavigateToDetailScreen,
+        onFavoriteClick = { market ->
+            event.invoke(FavoriteListContract.Event.OnFavoriteClick(market = market))
+        },
+    )
+}
+
+@Composable
+fun MarketListScreen(
+    state: MarketListContract.State,
     onNavigateToDetailScreen: (market: MarketModel) -> Unit,
     onFavoriteClick: (market: MarketModel) -> Unit,
+    onRefresh: () -> Unit,
 ) {
     // Report the app as fully drawn once market content is ready so
     // startup benchmarks can measure TTFD (Time To Full Display).
     ReportDrawnWhen {
-        lazyPagingItems.loadState.refresh !is LoadState.Loading
+        state.marketList is LoadableData.Loaded || state.marketList is LoadableData.Error
     }
+    MarketListContent(
+        marketList = state.marketList,
+        isRefreshing = state.isRefreshing,
+        showFavoriteList = false,
+        onNavigateToDetailScreen = onNavigateToDetailScreen,
+        onFavoriteClick = onFavoriteClick,
+        onRefresh = onRefresh,
+    )
+}
 
-    val isRefreshing = lazyPagingItems.loadState.refresh is LoadState.Loading
+@Composable
+fun FavoriteMarketListScreen(
+    state: FavoriteListContract.State,
+    onNavigateToDetailScreen: (market: MarketModel) -> Unit,
+    onFavoriteClick: (market: MarketModel) -> Unit,
+) {
+    MarketListContent(
+        marketList = state.favoriteList,
+        isRefreshing = false,
+        showFavoriteList = true,
+        onNavigateToDetailScreen = onNavigateToDetailScreen,
+        onFavoriteClick = onFavoriteClick,
+        onRefresh = null,
+    )
+}
+
+/** [onRefresh] null turns pull to refresh off. */
+@Composable
+private fun MarketListContent(
+    marketList: LoadableData<PersistentList<MarketModel>>,
+    isRefreshing: Boolean,
+    showFavoriteList: Boolean,
+    onNavigateToDetailScreen: (market: MarketModel) -> Unit,
+    onFavoriteClick: (market: MarketModel) -> Unit,
+    onRefresh: (() -> Unit)?,
+) {
     val refreshState = rememberPullRefreshState(
         refreshing = isRefreshing,
-        onRefresh = { lazyPagingItems.refresh() },
+        onRefresh = { onRefresh?.invoke() },
     )
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .pullRefresh(refreshState),
+            .then(if (onRefresh != null) Modifier.pullRefresh(refreshState) else Modifier),
     ) {
-        PullRefreshIndicator(
-            isRefreshing,
-            refreshState,
-            Modifier.align(Alignment.TopCenter),
-        )
-        when (val refreshLoadState = lazyPagingItems.loadState.refresh) {
-            is LoadState.Error -> {
-                ErrorView(errorMessage = refreshLoadState.error.message ?: "Unknown error")
-            }
-
-            else -> {
-                LazyColumn(modifier = Modifier.fillMaxSize()) {
-                    items(
-                        count = lazyPagingItems.itemCount,
-                        key = lazyPagingItems.itemKey { it.name },
-                    ) { index ->
-                        val market = lazyPagingItems[index]
-                        if (market != null) {
+        if (onRefresh != null) {
+            PullRefreshIndicator(
+                isRefreshing,
+                refreshState,
+                Modifier.align(Alignment.TopCenter),
+            )
+        }
+        LoadableComponent(
+            loadableData = marketList,
+            loaded = { data ->
+                if (data.isEmpty() && showFavoriteList) {
+                    EmptyStateAnimation()
+                } else {
+                    LazyColumn(modifier = Modifier.fillMaxWidth()) {
+                        items(
+                            items = data,
+                            key = { it.id },
+                        ) { market ->
                             Column(
                                 modifier = Modifier.animateItem(
                                     placementSpec = tween(durationMillis = 250),
@@ -132,99 +165,10 @@ fun PagedMarketListScreen(
                                 MarketListItem(
                                     modifier = Modifier,
                                     market = market,
-                                    showFavoriteList = false,
+                                    showFavoriteList = showFavoriteList,
                                     onItemClick = { onNavigateToDetailScreen(market) },
                                     onFavoriteClick = { onFavoriteClick(market) },
                                 )
-                            }
-                        }
-                    }
-                    if (lazyPagingItems.loadState.append is LoadState.Loading) {
-                        item {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(16.dp)
-                                    .testTag("Paging Progress Bar"),
-                                contentAlignment = Alignment.Center,
-                            ) {
-                                CircularProgressIndicator()
-                            }
-                        }
-                    }
-                    if (lazyPagingItems.loadState.append is LoadState.Error) {
-                        item {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(16.dp),
-                                contentAlignment = Alignment.Center,
-                            ) {
-                                ErrorView(
-                                    errorMessage = (lazyPagingItems.loadState.append as LoadState.Error)
-                                        .error.message ?: "Unknown error",
-                                )
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun FavoriteMarketListScreen(
-    state: MarketListContract.State,
-    onNavigateToDetailScreen: (market: MarketModel) -> Unit,
-    onFavoriteClick: (market: MarketModel) -> Unit,
-    onRefresh: () -> Unit,
-) {
-    val refreshState = rememberPullRefreshState(
-        refreshing = state.favoriteMarketList.isLoading,
-        onRefresh = onRefresh,
-    )
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .pullRefresh(refreshState),
-    ) {
-        PullRefreshIndicator(
-            state.favoriteMarketList.isLoading,
-            refreshState,
-            Modifier.align(Alignment.TopCenter),
-        )
-        LoadableComponent(
-            loadableData = state.favoriteMarketList,
-            loaded = { data ->
-                AnimatedVisibility(
-                    visible = !state.favoriteMarketList.isLoading,
-                    enter = fadeIn(),
-                    exit = fadeOut(),
-                ) {
-                    if (data.isEmpty() && state.showFavoriteList) {
-                        EmptyStateAnimation()
-                    } else {
-                        LazyColumn(modifier = Modifier.fillMaxWidth()) {
-                            items(
-                                items = data,
-                                key = { it.name },
-                            ) { market ->
-                                Column(
-                                    modifier = Modifier.animateItem(
-                                        placementSpec = tween(durationMillis = 250),
-                                        fadeInSpec = null,
-                                        fadeOutSpec = null,
-                                    ),
-                                ) {
-                                    MarketListItem(
-                                        modifier = Modifier,
-                                        market = market,
-                                        showFavoriteList = true,
-                                        onItemClick = { onNavigateToDetailScreen(market) },
-                                        onFavoriteClick = { onFavoriteClick(market) },
-                                    )
-                                }
                             }
                         }
                     }
@@ -245,7 +189,7 @@ private fun MarketListScreenPrev(
 ) {
     ComposeNewsTheme {
         Surface {
-            FavoriteMarketListScreen(
+            MarketListScreen(
                 state = marketListState,
                 onNavigateToDetailScreen = {},
                 onFavoriteClick = {},

@@ -37,28 +37,25 @@ class MarketListScreenTest {
     fun givenLoadedStateWithMarkets_whenRendered_thenMarketNameIsVisible() {
         composeTestRule.setContent {
             FavoriteMarketListScreen(
-                state = MarketListContract.State(
-                    favoriteMarketList = LoadableData.Loaded(persistentListOf(buildMarketModel())),
+                state = FavoriteListContract.State(
+                    favoriteList = LoadableData.Loaded(persistentListOf(buildMarketModel())),
                 ),
                 onNavigateToDetailScreen = {},
                 onFavoriteClick = {},
-                onRefresh = {},
             )
         }
         composeTestRule.onNodeWithText("Bitcoin").assertIsDisplayed()
     }
 
     @Test
-    fun givenEmptyFavoritesState_whenShowFavoriteListIsTrue_thenEmptyMessageIsVisible() {
+    fun givenEmptyFavoritesState_whenRendered_thenEmptyMessageIsVisible() {
         composeTestRule.setContent {
             FavoriteMarketListScreen(
-                state = MarketListContract.State(
-                    favoriteMarketList = LoadableData.Loaded(persistentListOf()),
-                    showFavoriteList = true,
+                state = FavoriteListContract.State(
+                    favoriteList = LoadableData.Loaded(persistentListOf()),
                 ),
                 onNavigateToDetailScreen = {},
                 onFavoriteClick = {},
-                onRefresh = {},
             )
         }
         composeTestRule.onNodeWithText("Your favorite list is empty").assertIsDisplayed()
@@ -68,14 +65,13 @@ class MarketListScreenTest {
     fun givenErrorState_whenRendered_thenErrorMessageIsVisible() {
         composeTestRule.setContent {
             FavoriteMarketListScreen(
-                state = MarketListContract.State(
-                    favoriteMarketList = LoadableData.Error(
+                state = FavoriteListContract.State(
+                    favoriteList = LoadableData.Error(
                         Errors.ApiError(message = "Network Error", code = 500),
                     ),
                 ),
                 onNavigateToDetailScreen = {},
                 onFavoriteClick = {},
-                onRefresh = {},
             )
         }
         composeTestRule.onNodeWithText("Network Error").assertIsDisplayed()
@@ -87,12 +83,11 @@ class MarketListScreenTest {
         var navigatedMarket: MarketModel? = null
         composeTestRule.setContent {
             FavoriteMarketListScreen(
-                state = MarketListContract.State(
-                    favoriteMarketList = LoadableData.Loaded(persistentListOf(market)),
+                state = FavoriteListContract.State(
+                    favoriteList = LoadableData.Loaded(persistentListOf(market)),
                 ),
                 onNavigateToDetailScreen = { navigatedMarket = it },
                 onFavoriteClick = {},
-                onRefresh = {},
             )
         }
         composeTestRule.onNodeWithText("Bitcoin").performClick()
@@ -105,12 +100,11 @@ class MarketListScreenTest {
         var clickedMarket: MarketModel? = null
         composeTestRule.setContent {
             FavoriteMarketListScreen(
-                state = MarketListContract.State(
-                    favoriteMarketList = LoadableData.Loaded(persistentListOf(market)),
+                state = FavoriteListContract.State(
+                    favoriteList = LoadableData.Loaded(persistentListOf(market)),
                 ),
                 onNavigateToDetailScreen = { },
                 onFavoriteClick = { clickedMarket = it },
-                onRefresh = {},
             )
         }
         composeTestRule.onNodeWithContentDescription("Not favorited").performClick()
@@ -121,25 +115,24 @@ class MarketListScreenTest {
     fun givenLoadingState_whenFavoritesAreLoading_NoItemInScreen() {
         composeTestRule.setContent {
             FavoriteMarketListScreen(
-                state = MarketListContract.State(
-                    favoriteMarketList = LoadableData.Loading,
+                state = FavoriteListContract.State(
+                    favoriteList = LoadableData.Loading,
                 ),
                 onNavigateToDetailScreen = {},
                 onFavoriteClick = {},
-                onRefresh = {},
             )
         }
         composeTestRule.onNodeWithText("Bitcoin").assertDoesNotExist()
     }
 
     @Test
-    fun givenLoadedState_whenSwipeRefreshTriggered_thenOnRefreshCallbackInvoked() {
+    fun givenLoadedMarkets_whenSwipeRefreshTriggered_thenOnRefreshCallbackInvoked() {
         val market = buildMarketModel()
         var refreshCount = 0
         composeTestRule.setContent {
-            FavoriteMarketListScreen(
+            MarketListScreen(
                 state = MarketListContract.State(
-                    favoriteMarketList = LoadableData.Loaded(persistentListOf(market)),
+                    marketList = LoadableData.Loaded(persistentListOf(market)),
                 ),
                 onNavigateToDetailScreen = {},
                 onFavoriteClick = {},
@@ -158,17 +151,32 @@ class MarketListScreenTest {
     }
 
     @Test
+    fun givenRateLimitedMarkets_whenRendered_thenTooManyRequestsIsVisible() {
+        composeTestRule.setContent {
+            MarketListScreen(
+                state = MarketListContract.State(
+                    marketList = LoadableData.Error(Errors.RateLimited(retryAfterSeconds = 42)),
+                    retryInSeconds = 42,
+                ),
+                onNavigateToDetailScreen = {},
+                onFavoriteClick = {},
+                onRefresh = {},
+            )
+        }
+        composeTestRule.onNodeWithText("Too many requests.").assertIsDisplayed()
+    }
+
+    @Test
     fun givenLoadedMultipleItems_whenRendered_thenItemsAreDisplayed() {
         val bitcoin = buildMarketModel()
         val ethereum = buildMarketModel("eth", "Ethereum", "ETH")
         composeTestRule.setContent {
             FavoriteMarketListScreen(
-                state = MarketListContract.State(
-                    favoriteMarketList = LoadableData.Loaded(persistentListOf(bitcoin, ethereum)),
+                state = FavoriteListContract.State(
+                    favoriteList = LoadableData.Loaded(persistentListOf(bitcoin, ethereum)),
                 ),
                 onNavigateToDetailScreen = {},
                 onFavoriteClick = {},
-                onRefresh = {},
             )
         }
         composeTestRule.onNodeWithText("Bitcoin").assertIsDisplayed()
@@ -181,15 +189,13 @@ class MarketListScreenTest {
         var removedMarket: MarketModel? = null
         composeTestRule.setContent {
             FavoriteMarketListScreen(
-                state = MarketListContract.State(
-                    favoriteMarketList = LoadableData.Loaded(persistentListOf(bitcoin)),
-                    showFavoriteList = true,
+                state = FavoriteListContract.State(
+                    favoriteList = LoadableData.Loaded(persistentListOf(bitcoin)),
                 ),
                 onNavigateToDetailScreen = {},
                 onFavoriteClick = {
                     removedMarket = it
                 },
-                onRefresh = {},
             )
         }
 

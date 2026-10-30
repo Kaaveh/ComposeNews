@@ -6,40 +6,50 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 import ir.composenews.base.LoadableData
-import ir.composenews.base.isLoading
+import ir.composenews.marketlist.MarketListContract.Filter
+import ir.composenews.marketlist.MarketListContract.Header
+import ir.composenews.marketlist.MarketListContract.Sort
+import ir.composenews.uimarket.model.MarketModel
 import kotlinx.collections.immutable.persistentListOf
 
 class MarketListStateTest : StringSpec({
 
-    "Given default state, Then favoriteMarketList is Initial and showFavoriteList is false" {
+    "Given default state, Then the list is Initial, unfiltered and sorted by market cap" {
         val state = MarketListContract.State()
 
-        state.favoriteMarketList.shouldBeInstanceOf<LoadableData.Initial>()
-        state.showFavoriteList shouldBe false
+        state.marketList.shouldBeInstanceOf<LoadableData.Initial>()
+        state.filter shouldBe Filter.All
+        state.sort shouldBe Sort.MarketCap
+        state.topMover shouldBe null
     }
 
-    "Given state with showFavoriteList false, When copied with true, Then new state reflects the change" {
-        val original = MarketListContract.State()
-
-        val updated = original.copy(showFavoriteList = true)
-
-        updated.showFavoriteList shouldBe true
-        original.showFavoriteList shouldBe false
+    "Given each filter and sort, Then the header names the list" {
+        MarketListContract.State().header shouldBe Header.ByMarketCap
+        MarketListContract.State(sort = Sort.Volume).header shouldBe Header.ByVolume
+        MarketListContract.State(filter = Filter.Gainers, sort = Sort.Volume).header shouldBe Header.Gainers
+        MarketListContract.State(filter = Filter.Losers).header shouldBe Header.Losers
     }
 
-    "Given a Loaded favoriteMarketList, When isLoading is checked, Then it returns false" {
-        val state = MarketListContract.State(
-            favoriteMarketList = LoadableData.Loaded(persistentListOf()),
-        )
+    "Given favorites, Then count is their number" {
+        val favorite = MarketModel("btc", "Bitcoin", "BTC", 1.0, 1.0, "", isFavorite = true)
 
-        state.favoriteMarketList.isLoading shouldBe false
+        FavoriteListContract.State().count shouldBe 0
+        FavoriteListContract.State(favoriteList = LoadableData.Loaded(persistentListOf(favorite))).count shouldBe 1
     }
 
-    "Given a Loading favoriteMarketList, When isLoading is checked, Then it returns true" {
-        val state = MarketListContract.State(
-            favoriteMarketList = LoadableData.Loading,
-        )
+    "Given markets without rank or volume, When sorting, Then they go last" {
+        val ranked = MarketModel("btc", "Bitcoin", "BTC", 1.0, 1.0, "", marketCapRank = 1, totalVolume = 5.0)
+        val unranked = MarketModel("new", "New", "NEW", 1.0, 1.0, "")
 
-        state.favoriteMarketList.isLoading shouldBe true
+        listOf(unranked, ranked).filteredAndSorted(Filter.All, Sort.MarketCap) shouldBe listOf(ranked, unranked)
+        listOf(unranked, ranked).filteredAndSorted(Filter.All, Sort.Volume) shouldBe listOf(ranked, unranked)
+    }
+
+    "Given a market with no 24h change, When filtering, Then it is neither a gainer nor a loser" {
+        val flat = MarketModel("usdt", "Tether", "USDT", 1.0, 0.0, "")
+
+        listOf(flat).filteredAndSorted(Filter.Gainers, Sort.MarketCap) shouldBe emptyList()
+        listOf(flat).filteredAndSorted(Filter.Losers, Sort.MarketCap) shouldBe emptyList()
+        listOf(flat).topMover() shouldBe null
     }
 })

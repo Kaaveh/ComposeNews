@@ -7,9 +7,6 @@
 
 package ir.composenews.data.repository
 
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
 import ir.composenews.data.mapper.toMarket
 import ir.composenews.data.mapper.toMarketChart
 import ir.composenews.data.mapper.toMarketDetail
@@ -30,13 +27,11 @@ import ir.composenews.network.suspendOnException
 import ir.composenews.network.suspendOnSuccess
 import ir.composenews.network.toErrors
 import co.touchlab.kermit.Logger
-import ir.composenews.data.paging.MarketsPagingSource
 import ir.composenews.remotedatasource.api.MarketsApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-
-private const val PAGE_SIZE = 20
 
 /** CoinGecko's largest `per_page`: the whole list in one call. */
 private const val TOP_MARKETS = 250
@@ -48,16 +43,8 @@ class MarketRepositoryImpl(
 ) : MarketRepository {
 
     override fun getMarketList(): Flow<List<Market>> =
-        dao.getMarketList().map { list -> list.map { it.toMarket() } }
-
-    override fun getPagedMarketList(): Flow<PagingData<Market>> = Pager(
-        config = PagingConfig(
-            pageSize = PAGE_SIZE,
-            initialLoadSize = PAGE_SIZE,
-            enablePlaceholders = false,
-        ),
-        pagingSourceFactory = { MarketsPagingSource(api, dao) },
-    ).flow
+        // Room re-emits on every write to the table (a favorite toggle too); skip re-parsing unchanged rows.
+        dao.getMarketList().distinctUntilChanged().map { list -> list.map { it.toMarket() } }
 
     override fun getFavoriteMarketList(): Flow<List<Market>> =
         dao.getFavoriteMarketList().map { list -> list.map { it.toMarket() } }

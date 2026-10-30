@@ -8,13 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import org.koin.androidx.compose.koinViewModel
-import androidx.paging.LoadState
-import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
+import androidx.wear.compose.foundation.lazy.items
+import ir.composenews.base.LoadableData
+import ir.composenews.base.errorViewMapper
+import ir.composenews.core.ui.LoadableComponent
 import ir.composenews.core.ui.use
 import ir.composenews.designsystem.component.pull_refresh_indicator.pullRefresh
 import ir.composenews.designsystem.component.pull_refresh_indicator.rememberPullRefreshState
@@ -23,23 +24,20 @@ import ir.composenews.extensions.roundToTwoDecimalPlaces
 import ir.composenews.marketlist.MarketListContract
 import ir.composenews.marketlist.MarketListViewModel
 import ir.composenews.uimarket.model.MarketModel
+import kotlinx.collections.immutable.PersistentList
 
 @Composable
 fun MarketListWearRoute(
-    showFavoriteList: Boolean = false,
     onNavigateToDetailScreen: (market: MarketModel) -> Unit,
 ) {
-    val viewModel: MarketListViewModel = koinViewModel()
-    val (state, event) = use(viewModel = viewModel)
+    val (state, event) = use(viewModel = koinViewModel<MarketListViewModel>())
     LaunchedEffect(key1 = Unit) {
-        event.invoke(MarketListContract.Event.OnSetShowFavoriteList(showFavoriteList = showFavoriteList))
-        if (!showFavoriteList) {
-            event.invoke(MarketListContract.Event.OnGetMarketList)
-        }
+        event.invoke(MarketListContract.Event.OnGetMarketList)
     }
-    val lazyPagingItems = viewModel.pagedMarketList.collectAsLazyPagingItems()
     MarketListWearScreen(
-        lazyPagingItems = lazyPagingItems,
+        marketList = state.marketList,
+        isRefreshing = state.isRefreshing,
+        onRefresh = { event.invoke(MarketListContract.Event.OnRefresh) },
         onNavigateToDetailScreen = onNavigateToDetailScreen,
     )
 }
@@ -47,14 +45,15 @@ fun MarketListWearRoute(
 @OptIn(ExperimentalHorologistApi::class)
 @Composable
 private fun MarketListWearScreen(
-    lazyPagingItems: LazyPagingItems<MarketModel>,
+    marketList: LoadableData<PersistentList<MarketModel>>,
+    isRefreshing: Boolean,
+    onRefresh: () -> Unit,
     onNavigateToDetailScreen: (market: MarketModel) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val isRefreshing = lazyPagingItems.loadState.refresh is LoadState.Loading
     val refreshState = rememberPullRefreshState(
         refreshing = isRefreshing,
-        onRefresh = { lazyPagingItems.refresh() },
+        onRefresh = onRefresh,
     )
     val listState = rememberResponsiveColumnState(
         contentPadding = ScalingLazyColumnDefaults.padding(
@@ -67,36 +66,31 @@ private fun MarketListWearScreen(
             .fillMaxWidth()
             .pullRefresh(refreshState),
     ) {
-        when (val refreshLoadState = lazyPagingItems.loadState.refresh) {
-            is LoadState.Loading -> {
-                ShimmerMarketListItem()
-            }
-            is LoadState.Error -> {
-                ErrorView(errorMessage = refreshLoadState.error.message ?: "Unknown error")
-            }
-            else -> {
+        LoadableComponent(
+            loadableData = marketList,
+            loading = { ShimmerMarketListItem() },
+            error = { error -> ErrorView(errorMessage = errorViewMapper(error)) },
+            loaded = { markets ->
                 ScalingLazyColumn(
                     columnState = listState,
                 ) {
                     items(
-                        count = lazyPagingItems.itemCount,
-                    ) { index ->
-                        val market = lazyPagingItems[index]
-                        if (market != null) {
-                            MarketItem(
-                                modifier = modifier,
-                                name = market.name,
-                                symbol = market.symbol,
-                                urlToImage = market.imageUrl,
-                                price = market.currentPrice.toString(),
-                                priceChangePercentage24h =
-                                market.priceChangePercentage24h.roundToTwoDecimalPlaces(),
-                                onItemClick = { onNavigateToDetailScreen(market) },
-                            )
-                        }
+                        items = markets,
+                        key = { it.id },
+                    ) { market ->
+                        MarketItem(
+                            modifier = modifier,
+                            name = market.name,
+                            symbol = market.symbol,
+                            urlToImage = market.imageUrl,
+                            price = market.currentPrice.toString(),
+                            priceChangePercentage24h =
+                            market.priceChangePercentage24h.roundToTwoDecimalPlaces(),
+                            onItemClick = { onNavigateToDetailScreen(market) },
+                        )
                     }
                 }
-            }
-        }
+            },
+        )
     }
 }

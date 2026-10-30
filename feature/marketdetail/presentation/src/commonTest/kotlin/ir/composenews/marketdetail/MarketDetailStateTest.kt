@@ -1,4 +1,4 @@
-@file:Suppress("ktlint")
+@file:Suppress("MaxLineLength", "ktlint")
 
 package ir.composenews.marketdetail
 
@@ -63,5 +63,21 @@ class MarketDetailStateTest : StringSpec({
         state.market.isLoading shouldBe false
         state.marketChart.isLoading shouldBe false
         state.marketDetail.isLoading shouldBe false
+    }
+
+    "Given a chart, Then rangeChange is the percent change from its first to its last price" {
+        fun stateWith(vararg prices: Double) = MarketDetailContract.State(
+            marketChart = LoadableData.Loaded(MarketChart(persistentListOf(*prices.mapIndexed { i, p -> i.toLong() to p }.toTypedArray()))),
+        )
+
+        MarketDetailContract.State().chartRange shouldBe MarketDetailContract.ChartRange.Day
+        MarketDetailContract.State().rangeChange shouldBe null
+        stateWith(100.0).rangeChange shouldBe null
+        stateWith(0.0, 5.0).rangeChange shouldBe null
+        stateWith(200.0, 50.0, 150.0).rangeChange shouldBe -25.0
+    }
+
+    "Given each chart range, Then it asks for 1, 7, 30 and 365 days" {
+        MarketDetailContract.ChartRange.entries.map { it.days } shouldBe listOf(1, 7, 30, 365)
     }
 })

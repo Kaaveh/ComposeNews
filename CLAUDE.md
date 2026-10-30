@@ -15,8 +15,8 @@ ComposeNews is a production-ready Android crypto application demonstrating moder
 | `app` | Main Android application entry point |
 | `app-watch` | Wear OS companion app |
 | `app-tv` | Android TV app |
-| `feature:marketlist:presentation` | Market list ViewModel, contract, Koin module (KMP, no Compose) |
-| `feature:marketlist:ui` | Paginated market list screen (Compose) |
+| `feature:marketlist:presentation` | Markets and Favorites ViewModels, contracts, Koin module (KMP, no Compose) |
+| `feature:marketlist:ui` | Markets and Favorites list screens (Compose) |
 | `feature:marketdetail:presentation` | Market detail ViewModel, contract, Koin module (KMP, no Compose) |
 | `feature:marketdetail:ui` | Market detail screen (Compose, Coil) |
 | `domain:market` | Business logic and use cases |
@@ -66,7 +66,7 @@ Module scripts apply a convention plugin from `build-logic/` (SDK levels, Java 1
 - **MVI pattern**: UI emits Intents → ViewModel reduces to State via Flows
 - **Repository pattern**: data layer abstracts remote + local sources
 - **Reactive**: Kotlin Coroutine Flows throughout (no LiveData)
-- **Pagination**: Paging 3 library in list features
+- **Market list**: the top 250 markets, synced in one call and read from Room as a `Flow<List<Market>>`; filter and sort run in the shared ViewModel (no Paging)
 - **Database**: Room KMP in `data:market-local`, on the system SQLite (`AndroidSQLiteDriver`) on Android (iOS will use `BundledSQLiteDriver`, #368); Android copies the legacy SQLDelight `MarketDatabase` file into `composenews.db` on first open (#360)
 - **HTTP**: Ktor client (KMP-ready, replacing Retrofit)
 

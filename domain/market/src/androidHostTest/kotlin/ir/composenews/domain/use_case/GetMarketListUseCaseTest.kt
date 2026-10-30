@@ -9,15 +9,11 @@ package ir.composenews.domain.use_case
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
-import io.mockk.Ordering
-import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
 import ir.composenews.domain.model.Market
 import ir.composenews.domain.repository.MarketRepository
-import ir.composenews.network.Resource
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 
@@ -31,15 +27,7 @@ class GetMarketListUseCaseTest : StringSpec({
         useCase = GetMarketListUseCase(repository = repository)
     }
 
-    "Given repository syncs market data, When invoked, Then syncMarketList is called" {
-        coEvery { repository.syncMarketList() } returns Resource.Success(Unit)
-
-        useCase.invoke()
-
-        coVerify { repository.syncMarketList() }
-    }
-
-    "Given repository returns market list, When invoked, Then flow emits those markets" {
+    "Given repository returns market list, When invoked, Then flow emits those markets without syncing" {
         val market = Market(
             id = "btc",
             name = "Bitcoin",
@@ -49,23 +37,9 @@ class GetMarketListUseCaseTest : StringSpec({
             imageUrl = "",
             isFavorite = false,
         )
-        coEvery { repository.syncMarketList() } returns Resource.Success(Unit)
         every { repository.getMarketList() } returns flowOf(listOf(market))
 
-        val result = useCase.invoke().first()
-
-        result shouldBe listOf(market)
-    }
-
-    "Given invoked, When repository methods are called, Then syncMarketList is called before getMarketList" {
-        coEvery { repository.syncMarketList() } returns Resource.Success(Unit)
-        every { repository.getMarketList() } returns flowOf(emptyList())
-
-        useCase.invoke()
-
-        coVerify(ordering = Ordering.SEQUENCE) {
-            repository.syncMarketList()
-            repository.getMarketList()
-        }
+        useCase.invoke().first() shouldBe listOf(market)
+        coVerify(exactly = 0) { repository.syncMarketList() }
     }
 })
