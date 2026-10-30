@@ -14,6 +14,7 @@ ComposeNews is a production-ready Android crypto application demonstrating moder
 |--------|---------|
 | `app` | Main Android application entry point |
 | `app-watch` | Wear OS companion app |
+| `app-tv` | Android TV app |
 | `feature:marketlist:presentation` | Market list ViewModel, contract, Koin module (KMP, no Compose) |
 | `feature:marketlist:ui` | Paginated market list screen (Compose) |
 | `feature:marketdetail:presentation` | Market detail ViewModel, contract, Koin module (KMP, no Compose) |
@@ -32,6 +33,8 @@ ComposeNews is a production-ready Android crypto application demonstrating moder
 | `library:designsystem` | Compose design system / theming |
 | `library:navigation` | Navigation utilities |
 | `konsist` | Architecture consistency (Konsist) tests |
+
+KMP modules keep shared code in `commonMain` and Android-only code (`Context`, WorkManager, Room's Android driver) in `androidMain`; tests live in `commonTest`, or `androidHostTest` when they need the JVM. Konsist fails the build if any `commonMain` imports `androidx.compose.*` or `android.*`. `app`, `app-watch`, `app-tv`, the `feature:*:ui` modules, `core:ui` and `library:*` stay Android-only.
 
 ## Build System
 
@@ -77,7 +80,10 @@ Module scripts apply a convention plugin from `build-logic/` (SDK levels, Java 1
 ```bash
 ./gradlew test                  # all unit tests
 ./gradlew :module:test          # single module
+./gradlew :konsist:test         # architecture rules
 ```
+
+KMP modules have no `test` task of their own; the KMP convention plugin registers one that runs the Android host tests (`testAndroidHostTest`), so the commands above cover them.
 
 ## Code Quality
 
@@ -107,7 +113,7 @@ Git hooks enforce formatting and analysis before commits/pushes:
 The following have already been migrated to KMP-compatible libraries:
 - Serialization (kotlinx.serialization)
 - HTTP (Ktor)
-- Database (Room)
+- Database (Room KMP, replacing SQLDelight: Room is multiplatform and stable now, so the earlier Room → SQLDelight move was reversed)
 - DI (Koin)
 - Testing (Kotest)
 
