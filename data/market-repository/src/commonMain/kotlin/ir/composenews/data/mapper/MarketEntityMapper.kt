@@ -15,6 +15,9 @@ fun MarketEntity.toMarket(): Market = Market(
     priceChangePercentage24h = priceChangePercentage24h,
     imageUrl = imageUrl,
     isFavorite = isFavorite == TRUE,
+    marketCapRank = marketCapRank,
+    totalVolume = totalVolume,
+    sparkline7d = sparkline7d.toSparkline(),
 )
 
 fun Market.toMarketEntity(): MarketEntity = MarketEntity(
@@ -25,4 +28,12 @@ fun Market.toMarketEntity(): MarketEntity = MarketEntity(
     priceChangePercentage24h = priceChangePercentage24h,
     imageUrl = imageUrl,
     isFavorite = if (isFavorite) TRUE else FALSE,
+    marketCapRank = marketCapRank,
+    totalVolume = totalVolume,
+    sparkline7d = sparkline7d.takeIf { it.isNotEmpty() }?.toSparklineColumn(),
 )
+
+internal fun List<Double>.toSparklineColumn(): String = joinToString(",")
+
+internal fun String?.toSparkline(): List<Double> =
+    if (isNullOrEmpty()) emptyList() else split(',').map { it.toDouble() }

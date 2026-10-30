@@ -24,21 +24,21 @@ class GetMarketChartUseCaseTest : StringSpec({
         useCase = GetMarketChartUseCase(repository = repository)
     }
 
-    "Given repository, When invoked with a market id, Then fetchChart is called with that id" {
+    "Given repository, When invoked with a market id, Then fetchChart is called with that id and range" {
         val id = "bitcoin"
-        every { repository.fetchChart(id = id) } returns flowOf()
+        every { repository.fetchChart(id = id, days = 7) } returns flowOf()
 
-        useCase.invoke(id)
+        useCase.invoke(id, days = 7)
 
-        verify(exactly = 1) { repository.fetchChart(id = id) }
+        verify(exactly = 1) { repository.fetchChart(id = id, days = 7) }
     }
 
     "Given repository returns chart data, When invoked, Then flow emits that chart" {
         val id = "bitcoin"
         val chart = MarketChart(prices = persistentListOf(Pair(1000L, 50000.0)))
-        every { repository.fetchChart(id = id) } returns flowOf(Resource.Success(chart))
+        every { repository.fetchChart(id = id, days = 7) } returns flowOf(Resource.Success(chart))
 
-        val result = useCase.invoke(id).first()
+        val result = useCase.invoke(id, days = 7).first()
 
         result shouldBe Resource.Success(chart)
     }

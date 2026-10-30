@@ -15,6 +15,9 @@ fun MarketResponse.toMarketEntity(): MarketEntity = MarketEntity(
     priceChangePercentage24h = priceChangePercentage24h ?: 0.0,
     imageUrl = imageUrl,
     isFavorite = FALSE,
+    marketCapRank = marketCapRank,
+    totalVolume = totalVolume,
+    sparkline7d = sparklineIn7d?.price?.toSparklineColumn(),
 )
 
 fun MarketResponse.toMarket(): Market = Market(
@@ -24,4 +27,7 @@ fun MarketResponse.toMarket(): Market = Market(
     currentPrice = currentPrice ?: 0.0,
     priceChangePercentage24h = priceChangePercentage24h ?: 0.0,
     imageUrl = imageUrl,
+    marketCapRank = marketCapRank,
+    totalVolume = totalVolume,
+    sparkline7d = sparklineIn7d?.price.orEmpty(),
 )

@@ -21,16 +21,14 @@ import ir.composenews.domain.model.MarketChart
 import ir.composenews.domain.model.MarketDetail
 import ir.composenews.domain.repository.MarketRepository
 import ir.composenews.localdatasource.database.MarketDao
+import ir.composenews.network.ApiResponse
 import ir.composenews.network.Errors
 import ir.composenews.network.Resource
-import ir.composenews.network.mapMessageStatusCode
-import ir.composenews.network.onError
-import ir.composenews.network.onException
-import ir.composenews.network.statusCode
 import ir.composenews.network.suspendMap
 import ir.composenews.network.suspendOnError
 import ir.composenews.network.suspendOnException
 import ir.composenews.network.suspendOnSuccess
+import ir.composenews.network.toErrors
 import co.touchlab.kermit.Logger
 import ir.composenews.data.paging.MarketsPagingSource
 import ir.composenews.remotedatasource.api.MarketsApi
@@ -39,6 +37,9 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
 private const val PAGE_SIZE = 20
+
+/** CoinGecko's largest `per_page`: the whole list in one call. */
+private const val TOP_MARKETS = 250
 private val logger = Logger.withTag("MarketRepository")
 
 class MarketRepositoryImpl(
@@ -64,21 +65,23 @@ class MarketRepositoryImpl(
     override fun getMarketById(id: String): Flow<Market?> =
         dao.getMarketById(id).map { entity -> entity?.toMarket() }
 
-    override suspend fun syncMarketList() {
-        api.getMarkets(
-            "usd",
-            "market_cap_desc",
-            20,
-            1,
-            false,
-        ).suspendOnSuccess {
-            dao.insertMarkets(data.map { it.toMarketEntity() })
-        }.onError {
-            logger.d { message }
-        }.onException {
-            logger.d { message.toString() }
+    override suspend fun syncMarketList(): Resource<Unit, Errors> =
+        when (val response = api.getMarkets("usd", "market_cap_desc", TOP_MARKETS, 1, true)) {
+            is ApiResponse.Success -> {
+                dao.replaceTopMarkets(response.data.map { it.toMarketEntity() })
+                Resource.Success(Unit)
+            }
+
+            is ApiResponse.Failure.Error -> {
+                logger.d { response.message }
+                Resource.Error(response.toErrors())
+            }
+
+            is ApiResponse.Failure.Exception -> {
+                logger.d { response.message.toString() }
+                Resource.Error(Errors.ExceptionError(response.message, response.throwable))
+            }
         }
-    }
 
     override suspend fun toggleFavoriteMarket(oldMarket: Market) {
         dao.updateFavoriteStatus(
@@ -87,23 +90,14 @@ class MarketRepositoryImpl(
         )
     }
 
-    override fun fetchChart(id: String): Flow<Resource<MarketChart, Errors>> = flow {
-        val chart = api.getMarketChart(id, "usd", 1)
+    override fun fetchChart(id: String, days: Int): Flow<Resource<MarketChart, Errors>> = flow {
+        val chart = api.getMarketChart(id, "usd", days)
         chart.suspendOnSuccess {
             suspendMap {
                 emit(Resource.Success(it.data.toMarketChart()))
             }
         }.suspendOnError {
-            suspendMap {
-                emit(
-                    Resource.Error(
-                        error = Errors.ApiError(
-                            it.statusCode.mapMessageStatusCode(),
-                            it.statusCode.code,
-                        ),
-                    ),
-                )
-            }
+            suspendMap { emit(Resource.Error(it.toErrors())) }
         }.suspendOnException {
             suspendMap { emit(Resource.Error(Errors.ExceptionError(it.message, throwable))) }
         }
@@ -116,13 +110,7 @@ class MarketRepositoryImpl(
                 emit(Resource.Success(data.toMarketDetail()))
             }
         }.suspendOnError {
-            suspendMap {
-                emit(
-                    Resource.Error(
-                        Errors.ApiError(it.statusCode.mapMessageStatusCode(), it.statusCode.code),
-                    ),
-                )
-            }
+            suspendMap { emit(Resource.Error(it.toErrors())) }
         }.suspendOnException {
             suspendMap { emit(Resource.Error(Errors.ExceptionError(it.message, it.throwable))) }
         }

@@ -12,6 +12,10 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
+import io.ktor.client.statement.HttpResponse
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpStatusCode
+import io.ktor.http.headersOf
 import ir.composenews.data.mapper.toMarket
 import ir.composenews.data.mapper.toMarketChart
 import ir.composenews.data.mapper.toMarketDetail
@@ -70,24 +74,42 @@ class MarketRepositoryImplTest : StringSpec({
         coEvery { api.getMarkets(any(), any(), any(), any(), any()) } returns ApiResponse.Success(
             listOf(marketResponses),
         )
-        coEvery { marketDao.insertMarkets(listOf(marketEntities)) } just Runs
+        coEvery { marketDao.replaceTopMarkets(listOf(marketEntities)) } just Runs
 
-        repository.syncMarketList()
+        val result = repository.syncMarketList()
 
+        result shouldBe Resource.Success(Unit)
         coVerify(ordering = Ordering.SEQUENCE) {
-            api.getMarkets(any(), any(), any(), any(), any())
-            marketDao.insertMarkets(listOf(marketEntities))
+            api.getMarkets("usd", "market_cap_desc", 250, 1, true)
+            marketDao.replaceTopMarkets(listOf(marketEntities))
         }
     }
 
     "Given API call fails, When SyncMarketList is called, Then does not update database" {
         coEvery {
             api.getMarkets(any(), any(), any(), any(), any())
-        } returns ApiResponse.Failure.Error(mockk())
+        } returns ApiResponse.Failure.Error(httpResponse(HttpStatusCode.InternalServerError))
 
-        repository.syncMarketList()
+        val result = repository.syncMarketList()
 
-        coVerify(exactly = 0) { marketDao.insertMarkets(any()) }
+        result shouldBe Resource.Error(Errors.ApiError("Internal Server Error", 500))
+        coVerify(exactly = 0) { marketDao.replaceTopMarkets(any()) }
+    }
+
+    "Given API answers 429 with Retry-After, When SyncMarketList is called, Then returns RateLimited with that delay" {
+        coEvery {
+            api.getMarkets(any(), any(), any(), any(), any())
+        } returns ApiResponse.Failure.Error(httpResponse(HttpStatusCode.TooManyRequests, retryAfter = "30"))
+
+        repository.syncMarketList() shouldBe Resource.Error(Errors.RateLimited(retryAfterSeconds = 30))
+    }
+
+    "Given API answers 429 without Retry-After, When FetchChart is called, Then returns RateLimited after a minute" {
+        coEvery {
+            api.getMarketChart(any(), any(), any())
+        } returns ApiResponse.Failure.Error(httpResponse(HttpStatusCode.TooManyRequests))
+
+        repository.fetchChart("1", 1).first() shouldBe Resource.Error(Errors.RateLimited(retryAfterSeconds = 60))
     }
 
     "Given an existing market, When ToggleFavoriteMarket is called, Then updates market favorite status" {
@@ -103,21 +125,21 @@ class MarketRepositoryImplTest : StringSpec({
 
     "Given API provides chart data, When FetchChart is called, Then returns mapped MarketChart" {
         val marketChartResponse = MarketChartResponse(listOf(listOf(1000.0, 50000.0)))
-        coEvery { api.getMarketChart("1", "usd", 1) } returns ApiResponse.Success(
+        coEvery { api.getMarketChart("1", "usd", 7) } returns ApiResponse.Success(
             marketChartResponse,
         )
 
-        val actualMarkets = repository.fetchChart("1").first()
+        val actualMarkets = repository.fetchChart("1", 7).first()
 
         actualMarkets shouldBe Resource.Success(marketChartResponse.toMarketChart())
     }
 
     "Given API call fails, When FetchChart is called, Then returns error resource" {
-        coEvery { api.getMarketChart("1", "usd", 1) } returns ApiResponse.Failure.Exception(
+        coEvery { api.getMarketChart("1", "usd", 7) } returns ApiResponse.Failure.Exception(
             IOException(),
         )
 
-        val actualMarkets = repository.fetchChart("1").first()
+        val actualMarkets = repository.fetchChart("1", 7).first()
 
         actualMarkets.shouldBeInstanceOf<Resource.Error<Errors>>()
     }
@@ -155,9 +177,9 @@ class MarketRepositoryImplTest : StringSpec({
             api.getMarkets(any(), any(), any(), any(), any())
         } returns ApiResponse.Failure.Exception(IOException())
 
-        repository.syncMarketList()
+        repository.syncMarketList().shouldBeInstanceOf<Resource.Error<Errors.ExceptionError>>()
 
-        coVerify(exactly = 0) { marketDao.insertMarkets(any()) }
+        coVerify(exactly = 0) { marketDao.replaceTopMarkets(any()) }
     }
 
     "Given API provides multiple markets, When SyncMarketList is called, Then all markets are inserted at once" {
@@ -166,11 +188,11 @@ class MarketRepositoryImplTest : StringSpec({
             MarketResponse("2", "Ethereum", "ETH", 3000.0, 2.0, "url"),
         )
         coEvery { api.getMarkets(any(), any(), any(), any(), any()) } returns ApiResponse.Success(responses)
-        coEvery { marketDao.insertMarkets(any()) } just Runs
+        coEvery { marketDao.replaceTopMarkets(any()) } just Runs
 
         repository.syncMarketList()
 
-        coVerify(exactly = 1) { marketDao.insertMarkets(responses.map { it.toMarketEntity() }) }
+        coVerify(exactly = 1) { marketDao.replaceTopMarkets(responses.map { it.toMarketEntity() }) }
     }
 
     "Given database is empty, When GetMarketList is called, Then returns empty list" {
@@ -181,3 +203,11 @@ class MarketRepositoryImplTest : StringSpec({
         result shouldBe emptyList()
     }
 })
+
+private fun httpResponse(
+    status: HttpStatusCode,
+    retryAfter: String? = null,
+): HttpResponse = mockk {
+    every { this@mockk.status } returns status
+    every { headers } returns if (retryAfter == null) headersOf() else headersOf(HttpHeaders.RetryAfter, retryAfter)
+}

@@ -33,7 +33,10 @@ class MarketDetailScreenTest {
     private fun createMockViewModel(): MarketDetailViewModel {
         val fakeGetMarketMarketChartUseCase =
             object : GetMarketChartUseCase(fakeMarketRepository) {
-                override fun invoke(id: String): Flow<Resource<MarketChart, Errors>> {
+                override fun invoke(
+                    id: String,
+                    days: Int,
+                ): Flow<Resource<MarketChart, Errors>> {
                     return flowOf(Resource.Success(MarketChart(persistentListOf(Pair(0, 50000.0)))))
                 }
             }

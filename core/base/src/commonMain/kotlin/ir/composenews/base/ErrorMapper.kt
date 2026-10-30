@@ -18,5 +18,9 @@ fun errorViewMapper(errors: Errors): String {
         is Errors.ExceptionError -> {
             errors.message ?: "Unknown Error"
         }
+
+        is Errors.RateLimited -> {
+            "Too many requests."
+        }
     }
 }

@@ -20,6 +20,9 @@ internal class FixtureMarketsApi : MarketsApi {
                 currentPrice = 1_000.0 + index,
                 priceChangePercentage24h = index / 10.0,
                 imageUrl = "",
+                marketCapRank = index,
+                totalVolume = 1_000_000.0 * index,
+                sparklineIn7d = MarketResponse.Sparkline(List(7) { day -> 1_000.0 + index + day }),
             )
         }
 

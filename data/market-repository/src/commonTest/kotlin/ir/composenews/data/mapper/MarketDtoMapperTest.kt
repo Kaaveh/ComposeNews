@@ -10,6 +10,35 @@ import ir.composenews.remotedatasource.dto.MarketResponse
 
 class MarketDtoMapperTest : StringSpec({
 
+    "Given market response with rank, volume and sparkline, When converting, Then entity and market keep them" {
+        val marketResponse = MarketResponse(
+            id = "bitcoin",
+            name = "Bitcoin",
+            symbol = "btc",
+            imageUrl = "",
+            marketCapRank = 1,
+            totalVolume = 3.5e10,
+            sparklineIn7d = MarketResponse.Sparkline(listOf(67000.5, 67412.8)),
+        )
+
+        val marketEntity = marketResponse.toMarketEntity()
+        val market = marketResponse.toMarket()
+
+        marketEntity.marketCapRank shouldBe 1
+        marketEntity.totalVolume shouldBe 3.5e10
+        marketEntity.sparkline7d shouldBe "67000.5,67412.8"
+        market.marketCapRank shouldBe 1
+        market.totalVolume shouldBe 3.5e10
+        market.sparkline7d shouldBe listOf(67000.5, 67412.8)
+    }
+
+    "Given market response without sparkline, When converting, Then sparkline is null on the entity and empty on the market" {
+        val marketResponse = MarketResponse(id = "bitcoin", name = "Bitcoin", symbol = "btc", imageUrl = "")
+
+        marketResponse.toMarketEntity().sparkline7d shouldBe null
+        marketResponse.toMarket().sparkline7d shouldBe emptyList()
+    }
+
     "Given valid market response, When converting to market entity, Then returns correct dto" {
         val marketResponse = MarketResponse(
             id = "bitcoin",
