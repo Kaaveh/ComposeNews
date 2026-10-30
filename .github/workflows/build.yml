@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - kmp
     tags:
       - v*
   pull_request:
