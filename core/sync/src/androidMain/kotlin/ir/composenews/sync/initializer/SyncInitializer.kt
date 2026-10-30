@@ -11,11 +11,10 @@ import androidx.startup.Initializer
 import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkManager
 import ir.composenews.sync.SYNC_WORK_NAME
-import ir.composenews.sync.Sync
 import ir.composenews.sync.worker.SyncWorker
 
-class SyncInitializer : Initializer<Sync> {
-    override fun create(context: Context): Sync {
+class SyncInitializer : Initializer<Unit> {
+    override fun create(context: Context) {
         WorkManager.getInstance(context).apply {
             // Run sync on app startup and ensure only one sync worker runs at any time
             enqueueUniqueWork(
@@ -24,8 +23,6 @@ class SyncInitializer : Initializer<Sync> {
                 SyncWorker.startUpSyncWork(),
             )
         }
-
-        return Sync
     }
 
     override fun dependencies(): List<Class<out Initializer<*>>> = emptyList()

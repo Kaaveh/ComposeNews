@@ -10,6 +10,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(projects.core.base)
+            implementation(libs.koin.core)
         }
         androidMain.dependencies {
             implementation(libs.koin.android)
