@@ -31,7 +31,7 @@ For the details of handling the  preview of composable functions in this code-ba
 - MVI architectural pattern
 - Coroutine Flow
 - Room database (KMP)
-- Dagger Hilt
+- Koin
 - Navigation
 - Ktor client
 - Work manager
@@ -48,7 +48,7 @@ For the details of handling the  preview of composable functions in this code-ba
 
 ### We are porting the project to KMP. Here are the steps:
 - [x] GSON &rarr; Kotlinx Serialization
-- [x] ROOM &rarr; SQLDelight
+- [x] SQLDelight &rarr; Room KMP (Room is multiplatform and stable now)
 - [x] Retrofit &rarr; Ktor
 - [x] JUnit &rarr; Kotest
 - [x] Dagger-Hilt &rarr; Koin

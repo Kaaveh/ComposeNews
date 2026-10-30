@@ -21,8 +21,7 @@ runs:
       shell: bash
 
     - name: Setup Gradle
+      # Writes the cache only on the default branch (kmp); every other run reads it.
       uses: gradle/gradle-build-action@v3
-      with:
-        # Only write to the cache for builds on the 'development' branch
-        cache-read-only: ${{ github.ref != 'refs/heads/development' }}
+#      with:
 #        cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
