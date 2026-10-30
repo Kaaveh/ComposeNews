@@ -68,7 +68,8 @@ class MarketRepositoryImpl(
     override suspend fun syncMarketList(): Resource<Unit, Errors> =
         when (val response = api.getMarkets("usd", "market_cap_desc", TOP_MARKETS, 1, true)) {
             is ApiResponse.Success -> {
-                dao.replaceTopMarkets(response.data.map { it.toMarketEntity() })
+                // An empty answer would clear every rank and blank the list, so keep what we have.
+                if (response.data.isNotEmpty()) dao.replaceTopMarkets(response.data.map { it.toMarketEntity() })
                 Resource.Success(Unit)
             }
 

@@ -27,6 +27,16 @@ class MarketEntityMapperTest : StringSpec({
         market.toMarketEntity().toMarket() shouldBe market
     }
 
+    "Given market without a sparkline, When converting to local market, Then sparkline is stored as null" {
+        Market("bitcoin", "Bitcoin", "btc", 1.0, 1.0, "", false).toMarketEntity().sparkline7d shouldBe null
+    }
+
+    "Given local market with a malformed sparkline, When converting to market model, Then bad values are skipped" {
+        val entity = MarketEntity("bitcoin", "Bitcoin", "btc", 1.0, 1.0, "", FALSE, sparkline7d = "1.5,,abc,2.5,")
+
+        entity.toMarket().sparkline7d shouldBe listOf(1.5, 2.5)
+    }
+
     "Given local market from before version 2, When converting to market model, Then rank is null and sparkline empty" {
         val market = MarketEntity("bitcoin", "Bitcoin", "btc", 1.0, 1.0, "", FALSE).toMarket()
 

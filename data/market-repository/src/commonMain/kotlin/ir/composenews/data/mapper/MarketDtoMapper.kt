@@ -17,7 +17,7 @@ fun MarketResponse.toMarketEntity(): MarketEntity = MarketEntity(
     isFavorite = FALSE,
     marketCapRank = marketCapRank,
     totalVolume = totalVolume,
-    sparkline7d = sparklineIn7d?.price?.toSparklineColumn(),
+    sparkline7d = sparklineIn7d?.price?.filterNotNull()?.toSparklineColumn(),
 )
 
 fun MarketResponse.toMarket(): Market = Market(
@@ -29,5 +29,5 @@ fun MarketResponse.toMarket(): Market = Market(
     imageUrl = imageUrl,
     marketCapRank = marketCapRank,
     totalVolume = totalVolume,
-    sparkline7d = sparklineIn7d?.price.orEmpty(),
+    sparkline7d = sparklineIn7d?.price?.filterNotNull().orEmpty(),
 )

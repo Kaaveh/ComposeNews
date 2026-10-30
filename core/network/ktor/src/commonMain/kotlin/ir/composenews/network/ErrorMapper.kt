@@ -14,7 +14,7 @@ fun ApiResponse.Failure.Error.toErrors(): Errors {
         val retryAfter = payloadResponse.headers[HttpHeaders.RetryAfter]?.toIntOrNull()
         Errors.RateLimited(retryAfter ?: DEFAULT_RETRY_AFTER_SECONDS)
     } else {
-        Errors.ApiError(status.mapMessageStatusCode(), status.code)
+        Errors.ApiError(status.mapMessageStatusCode(), payloadResponse.status.value)
     }
 }
 

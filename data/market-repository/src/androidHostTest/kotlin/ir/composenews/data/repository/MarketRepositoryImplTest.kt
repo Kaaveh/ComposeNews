@@ -96,6 +96,21 @@ class MarketRepositoryImplTest : StringSpec({
         coVerify(exactly = 0) { marketDao.replaceTopMarkets(any()) }
     }
 
+    "Given API answers with an empty list, When SyncMarketList is called, Then keeps the stored markets" {
+        coEvery { api.getMarkets(any(), any(), any(), any(), any()) } returns ApiResponse.Success(emptyList())
+
+        repository.syncMarketList() shouldBe Resource.Success(Unit)
+        coVerify(exactly = 0) { marketDao.replaceTopMarkets(any()) }
+    }
+
+    "Given API answers a status the app doesn't name, When SyncMarketList is called, Then keeps the real code" {
+        coEvery {
+            api.getMarkets(any(), any(), any(), any(), any())
+        } returns ApiResponse.Failure.Error(httpResponse(HttpStatusCode.NotFound))
+
+        repository.syncMarketList() shouldBe Resource.Error(Errors.ApiError("Unknown", 404))
+    }
+
     "Given API answers 429 with Retry-After, When SyncMarketList is called, Then returns RateLimited with that delay" {
         coEvery {
             api.getMarkets(any(), any(), any(), any(), any())

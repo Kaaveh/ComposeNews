@@ -30,10 +30,12 @@ fun Market.toMarketEntity(): MarketEntity = MarketEntity(
     isFavorite = if (isFavorite) TRUE else FALSE,
     marketCapRank = marketCapRank,
     totalVolume = totalVolume,
-    sparkline7d = sparkline7d.takeIf { it.isNotEmpty() }?.toSparklineColumn(),
+    sparkline7d = sparkline7d.toSparklineColumn(),
 )
 
-internal fun List<Double>.toSparklineColumn(): String = joinToString(",")
+/** No points are stored as NULL, never as an empty string. */
+internal fun List<Double>.toSparklineColumn(): String? = if (isEmpty()) null else joinToString(",")
 
+/** Skips values that don't parse, so one bad row can't break the whole list. */
 internal fun String?.toSparkline(): List<Double> =
-    if (isNullOrEmpty()) emptyList() else split(',').map { it.toDouble() }
+    if (isNullOrEmpty()) emptyList() else split(',').mapNotNull { it.toDoubleOrNull() }

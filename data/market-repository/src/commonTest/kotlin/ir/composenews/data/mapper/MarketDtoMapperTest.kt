@@ -32,6 +32,31 @@ class MarketDtoMapperTest : StringSpec({
         market.sparkline7d shouldBe listOf(67000.5, 67412.8)
     }
 
+    "Given market response with gaps in its sparkline, When converting, Then the gaps are dropped" {
+        val marketResponse = MarketResponse(
+            id = "bitcoin",
+            name = "Bitcoin",
+            symbol = "btc",
+            imageUrl = "",
+            sparklineIn7d = MarketResponse.Sparkline(listOf(1.0, null, 2.0)),
+        )
+
+        marketResponse.toMarketEntity().sparkline7d shouldBe "1.0,2.0"
+        marketResponse.toMarket().sparkline7d shouldBe listOf(1.0, 2.0)
+    }
+
+    "Given market response with an empty sparkline, When converting, Then the entity stores null" {
+        val marketResponse = MarketResponse(
+            id = "bitcoin",
+            name = "Bitcoin",
+            symbol = "btc",
+            imageUrl = "",
+            sparklineIn7d = MarketResponse.Sparkline(emptyList()),
+        )
+
+        marketResponse.toMarketEntity().sparkline7d shouldBe null
+    }
+
     "Given market response without sparkline, When converting, Then sparkline is null on the entity and empty on the market" {
         val marketResponse = MarketResponse(id = "bitcoin", name = "Bitcoin", symbol = "btc", imageUrl = "")
 

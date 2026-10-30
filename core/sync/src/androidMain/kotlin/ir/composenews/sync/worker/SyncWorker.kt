@@ -16,6 +16,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.OutOfQuotaPolicy
 import androidx.work.WorkerParameters
 import ir.composenews.domain.use_case.SyncMarketListUseCase
+import ir.composenews.network.Resource
 import ir.composenews.sync.SyncConstraints
 import ir.composenews.sync.syncForegroundInfo
 import org.koin.core.component.KoinComponent
@@ -30,8 +31,10 @@ class SyncWorker(
 
     override suspend fun doWork(): Result {
         return try {
-            syncMarketListUseCase()
-            Result.success()
+            when (syncMarketListUseCase()) {
+                is Resource.Success -> Result.success()
+                is Resource.Error -> Result.retry()
+            }
         } catch (e: Exception) {
             Result.retry()
         }

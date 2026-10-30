@@ -17,6 +17,7 @@ data class MarketResponse(
 ) {
     @Serializable
     data class Sparkline(
-        val price: List<Double>,
+        /** CoinGecko leaves gaps as `null`; the mappers drop them. */
+        val price: List<Double?>,
     )
 }
