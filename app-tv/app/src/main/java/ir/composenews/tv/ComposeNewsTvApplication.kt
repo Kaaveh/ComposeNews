@@ -4,6 +4,7 @@ import android.app.Application
 import ir.composenews.base.di.dispatcherModule
 import ir.composenews.data.di.dataModule
 import ir.composenews.domain.di.domainModule
+import ir.composenews.localdatasource.di.localDatasourceAndroidModule
 import ir.composenews.localdatasource.di.localDatasourceModule
 import ir.composenews.marketdetail.di.marketDetailModule
 import ir.composenews.marketlist.di.marketListModule
@@ -20,6 +21,7 @@ class ComposeNewsTvApplication : Application() {
             modules(
                 dispatcherModule,
                 localDatasourceModule,
+                localDatasourceAndroidModule,
                 remoteDatasourceModule,
                 dataModule,
                 domainModule,

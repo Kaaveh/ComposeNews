@@ -5,10 +5,11 @@ import androidx.work.Configuration
 import ir.composenews.base.di.dispatcherModule
 import ir.composenews.data.di.dataModule
 import ir.composenews.domain.di.domainModule
+import ir.composenews.localdatasource.di.localDatasourceAndroidModule
 import ir.composenews.localdatasource.di.localDatasourceModule
 import ir.composenews.marketdetail.di.marketDetailModule
 import ir.composenews.marketlist.di.marketListModule
-import ir.composenews.sync.Sync
+import ir.composenews.sync.SyncScheduler
 import ir.composenews.sync.di.syncModule
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.koin.androidContext
@@ -34,6 +35,7 @@ class ComposeNewsApplication :
                 listOf(
                     dispatcherModule,
                     localDatasourceModule,
+                    localDatasourceAndroidModule,
                     dataModule,
                     domainModule,
                     syncModule,
@@ -42,6 +44,6 @@ class ComposeNewsApplication :
                 ) + backendModules,
             )
         }
-        Sync.init(this)
+        getKoin().get<SyncScheduler>().schedule()
     }
 }

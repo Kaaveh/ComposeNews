@@ -23,7 +23,7 @@ ComposeNews is a production-ready Android crypto application demonstrating moder
 | `data:market-remote` | Remote data source (Ktor) |
 | `data:market-local` | Local data source (Room KMP) |
 | `core:base` | Base ViewModels, `LoadableData`, dispatchers (KMP) |
-| `core:sync` | WorkManager-based data sync |
+| `core:sync` | Data sync: common `SyncScheduler`, WorkManager on Android (KMP) |
 | `core:network:ktor` | Ktor HTTP client configuration |
 | `core:uimarket` | `MarketModel` UI model and its mappers (KMP) |
 | `core:ui` | Android Compose helpers: `use()`, `LoadableComponent`, `MarketModelSaver`, preview data |
@@ -52,7 +52,8 @@ Module scripts apply a convention plugin from `build-logic/` (SDK levels, Java 1
 ## Dependency Injection
 
 **Koin 4.x** (migrated from Dagger-Hilt). Key points:
-- Initialized in `ComposeNewsApplication.kt` via `startKoin { }`
+- Initialized in `ComposeNewsApplication.kt` via `startKoin { }`, which then calls `SyncScheduler.schedule()`
+- Shared modules expose a common Koin module, plus an Android one where they need `Context` (`localDatasourceAndroidModule`, `syncModule`). Each app adds the Android modules and its own `HttpClientEngine`
 - WorkManager integration uses `koin-workmanager` — the `WorkerFactory` is registered in the manifest with `tools:node="remove"` to opt out of the default factory
 - Compose integration via `koin-androidx-compose`
 - Prefer `single` for stateless services/repos; prefer `factory` for ViewModels and scoped objects

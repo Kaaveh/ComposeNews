@@ -1,19 +1,21 @@
 plugins {
-    alias(libs.plugins.composenews.android.library)
+    alias(libs.plugins.composenews.kmp.library)
 }
 
-android {
-    namespace = "ir.composenews.sync"
-}
+kotlin {
+    android {
+        namespace = "ir.composenews.sync"
+    }
 
-dependencies {
-    // Koin
-    implementation(libs.koin.android)
-    implementation(libs.koin.workmanager)
-
-    api(projects.domain.market)
-    libs.apply {
-        implementation(startup.runtime)
-        implementation(work.runtime.ktx)
+    sourceSets {
+        androidMain.dependencies {
+            implementation(projects.domain.market)
+            libs.apply {
+                implementation(koin.android)
+                implementation(koin.workmanager)
+                implementation(startup.runtime)
+                implementation(work.runtime.ktx)
+            }
+        }
     }
 }
