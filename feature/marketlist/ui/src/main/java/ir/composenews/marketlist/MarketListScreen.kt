@@ -9,10 +9,7 @@
 package ir.composenews.marketlist
 
 import androidx.activity.compose.ReportDrawnWhen
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,7 +25,6 @@ import org.koin.compose.viewmodel.koinViewModel
 import ir.composenews.base.LoadableData
 import ir.composenews.core.ui.LoadableComponent
 import ir.composenews.base.errorViewMapper
-import ir.composenews.base.isLoading
 import ir.composenews.core.ui.use
 import ir.composenews.designsystem.component.EmptyStateAnimation
 import ir.composenews.designsystem.component.pull_refresh_indicator.PullRefreshIndicator
@@ -61,7 +57,7 @@ fun MarketListRoute(
                 event.invoke(MarketListContract.Event.OnFavoriteClick(market = market))
             },
             onRefresh = {
-                event.invoke(MarketListContract.Event.OnGetMarketList)
+                event.invoke(MarketListContract.Event.OnRefresh)
             },
         )
     }
@@ -114,7 +110,7 @@ fun FavoriteMarketListScreen(
 ) {
     MarketListContent(
         marketList = state.favoriteList,
-        isRefreshing = state.favoriteList.isLoading,
+        isRefreshing = false,
         showFavoriteList = true,
         onNavigateToDetailScreen = onNavigateToDetailScreen,
         onFavoriteClick = onFavoriteClick,
@@ -151,34 +147,28 @@ private fun MarketListContent(
         LoadableComponent(
             loadableData = marketList,
             loaded = { data ->
-                AnimatedVisibility(
-                    visible = !marketList.isLoading,
-                    enter = fadeIn(),
-                    exit = fadeOut(),
-                ) {
-                    if (data.isEmpty() && showFavoriteList) {
-                        EmptyStateAnimation()
-                    } else {
-                        LazyColumn(modifier = Modifier.fillMaxWidth()) {
-                            items(
-                                items = data,
-                                key = { it.id },
-                            ) { market ->
-                                Column(
-                                    modifier = Modifier.animateItem(
-                                        placementSpec = tween(durationMillis = 250),
-                                        fadeInSpec = null,
-                                        fadeOutSpec = null,
-                                    ),
-                                ) {
-                                    MarketListItem(
-                                        modifier = Modifier,
-                                        market = market,
-                                        showFavoriteList = showFavoriteList,
-                                        onItemClick = { onNavigateToDetailScreen(market) },
-                                        onFavoriteClick = { onFavoriteClick(market) },
-                                    )
-                                }
+                if (data.isEmpty() && showFavoriteList) {
+                    EmptyStateAnimation()
+                } else {
+                    LazyColumn(modifier = Modifier.fillMaxWidth()) {
+                        items(
+                            items = data,
+                            key = { it.id },
+                        ) { market ->
+                            Column(
+                                modifier = Modifier.animateItem(
+                                    placementSpec = tween(durationMillis = 250),
+                                    fadeInSpec = null,
+                                    fadeOutSpec = null,
+                                ),
+                            ) {
+                                MarketListItem(
+                                    modifier = Modifier,
+                                    market = market,
+                                    showFavoriteList = showFavoriteList,
+                                    onItemClick = { onNavigateToDetailScreen(market) },
+                                    onFavoriteClick = { onFavoriteClick(market) },
+                                )
                             }
                         }
                     }

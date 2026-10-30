@@ -281,6 +281,40 @@ class MarketDetailViewModelTest : StringSpec({
         viewModel.state.value.marketChart shouldBe LoadableData.Loaded(weekChart)
         viewModel.state.value.rangeChange shouldBe -10.0
     }
+
+    "Given a range picked for one market, When another market is set, Then the range goes back to 1D" {
+        val model = provideMarketList(1).first().toMarketModel()
+        viewModel.event(MarketDetailContract.Event.SetMarket(model.copy(id = "a")))
+        viewModel.event(MarketDetailContract.Event.OnChartRangeSelect(MarketDetailContract.ChartRange.Year))
+
+        viewModel.event(MarketDetailContract.Event.SetMarket(model.copy(id = "a")))
+        viewModel.state.value.chartRange shouldBe MarketDetailContract.ChartRange.Year
+
+        viewModel.event(MarketDetailContract.Event.SetMarket(model.copy(id = "b")))
+        viewModel.state.value.chartRange shouldBe MarketDetailContract.ChartRange.Day
+    }
+
+    "Given a chart requested before the market is set, When a range is selected, Then that chart reloads for the new range" {
+        coEvery { getMarketChartUseCase(id = "early", days = 30) } returns flowOf(Resource.Success(provideMarketChart()))
+        viewModel.event(MarketDetailContract.Event.GetMarketChart(marketId = "early"))
+
+        viewModel.event(MarketDetailContract.Event.OnChartRangeSelect(MarketDetailContract.ChartRange.Month))
+
+        coVerify(exactly = 1) { getMarketChartUseCase(id = "early", days = 30) }
+    }
+
+    "Given a slow detail for the previous market, When it answers after the next one was requested, Then it is ignored" {
+        val slowDetail = MutableSharedFlow<Resource<MarketDetail, Errors>>()
+        val nextDetail = provideMarketDetail()
+        coEvery { getMarketDetailUseCase(id = "btc") } returns slowDetail
+        coEvery { getMarketDetailUseCase(id = "eth") } returns flowOf(Resource.Success(nextDetail))
+        viewModel.event(MarketDetailContract.Event.GetMarketDetail(marketId = "btc"))
+
+        viewModel.event(MarketDetailContract.Event.GetMarketDetail(marketId = "eth"))
+        slowDetail.emit(Resource.Success(provideMarketDetail()))
+
+        viewModel.state.value.marketDetail shouldBe LoadableData.Loaded(nextDetail)
+    }
 })
 
 private fun provideMarketList(size: Int, isFavorite: Boolean = false): List<Market> =

@@ -21,8 +21,6 @@ import ir.composenews.designsystem.component.pull_refresh_indicator.pullRefresh
 import ir.composenews.designsystem.component.pull_refresh_indicator.rememberPullRefreshState
 import ir.composenews.designsystem.widget.ErrorView
 import ir.composenews.extensions.roundToTwoDecimalPlaces
-import ir.composenews.marketlist.FavoriteListContract
-import ir.composenews.marketlist.FavoriteListViewModel
 import ir.composenews.marketlist.MarketListContract
 import ir.composenews.marketlist.MarketListViewModel
 import ir.composenews.uimarket.model.MarketModel
@@ -30,32 +28,18 @@ import kotlinx.collections.immutable.PersistentList
 
 @Composable
 fun MarketListWearRoute(
-    showFavoriteList: Boolean = false,
     onNavigateToDetailScreen: (market: MarketModel) -> Unit,
 ) {
-    if (showFavoriteList) {
-        val (state, event) = use(viewModel = koinViewModel<FavoriteListViewModel>())
-        LaunchedEffect(key1 = Unit) {
-            event.invoke(FavoriteListContract.Event.OnGetFavoriteList)
-        }
-        MarketListWearScreen(
-            marketList = state.favoriteList,
-            isRefreshing = false,
-            onRefresh = {},
-            onNavigateToDetailScreen = onNavigateToDetailScreen,
-        )
-    } else {
-        val (state, event) = use(viewModel = koinViewModel<MarketListViewModel>())
-        LaunchedEffect(key1 = Unit) {
-            event.invoke(MarketListContract.Event.OnGetMarketList)
-        }
-        MarketListWearScreen(
-            marketList = state.marketList,
-            isRefreshing = state.isRefreshing,
-            onRefresh = { event.invoke(MarketListContract.Event.OnGetMarketList) },
-            onNavigateToDetailScreen = onNavigateToDetailScreen,
-        )
+    val (state, event) = use(viewModel = koinViewModel<MarketListViewModel>())
+    LaunchedEffect(key1 = Unit) {
+        event.invoke(MarketListContract.Event.OnGetMarketList)
     }
+    MarketListWearScreen(
+        marketList = state.marketList,
+        isRefreshing = state.isRefreshing,
+        onRefresh = { event.invoke(MarketListContract.Event.OnRefresh) },
+        onNavigateToDetailScreen = onNavigateToDetailScreen,
+    )
 }
 
 @OptIn(ExperimentalHorologistApi::class)

@@ -121,7 +121,7 @@ class MarketListViewModelTest : StringSpec({
         dispatcherProvider.testScheduler.runCurrent()
         viewModel.state.value.retryInSeconds shouldBe 2
 
-        viewModel.event(Event.OnGetMarketList)
+        viewModel.event(Event.OnRefresh)
         coVerify(exactly = 1) { syncMarketListUseCase() }
 
         dispatcherProvider.testScheduler.advanceTimeBy(2_000)
@@ -129,8 +129,37 @@ class MarketListViewModelTest : StringSpec({
         viewModel.state.value.retryInSeconds shouldBe 0
 
         coEvery { syncMarketListUseCase() } returns Resource.Success(Unit)
-        viewModel.event(Event.OnGetMarketList)
+        viewModel.event(Event.OnRefresh)
         coVerify(exactly = 2) { syncMarketListUseCase() }
+    }
+
+    "Given the screen comes back, When OnGetMarketList fires again, Then it doesn't sync again but OnRefresh does" {
+        viewModel.event(Event.OnGetMarketList)
+        viewModel.event(Event.OnGetMarketList)
+        coVerify(exactly = 1) { syncMarketListUseCase() }
+
+        viewModel.event(Event.OnRefresh)
+        coVerify(exactly = 2) { syncMarketListUseCase() }
+    }
+
+    "Given Room hasn't re-emitted after the sync wrote, When the sync succeeds, Then the list shows the written markets, not an empty one" {
+        every { getMarketListUseCase() } returnsMany listOf(MutableStateFlow(emptyList()), flowOf(markets))
+
+        viewModel.event(Event.OnGetMarketList)
+
+        viewModel.state.value.marketList.data?.size shouldBe 3
+    }
+
+    "Given stored markets, When a refresh fails, Then syncError is set until the next sync starts" {
+        viewModel.event(Event.OnGetMarketList)
+        coEvery { syncMarketListUseCase() } returns Resource.Error(Errors.ExceptionError("offline"))
+
+        viewModel.event(Event.OnRefresh)
+        viewModel.state.value.syncError shouldBe Errors.ExceptionError("offline")
+
+        coEvery { syncMarketListUseCase() } returns Resource.Success(Unit)
+        viewModel.event(Event.OnRefresh)
+        viewModel.state.value.syncError shouldBe null
     }
 
     "Given loaded markets, When Gainers is selected, Then only gainers show, highest change first" {

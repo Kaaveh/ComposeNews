@@ -6,9 +6,11 @@ import ir.composenews.domain.use_case.GetFavoriteMarketListUseCase
 import ir.composenews.domain.use_case.GetMarketByIdUseCase
 import ir.composenews.domain.use_case.GetMarketChartUseCase
 import ir.composenews.domain.use_case.GetMarketDetailUseCase
-import ir.composenews.domain.use_case.GetPagedMarketListUseCase
+import ir.composenews.domain.use_case.GetMarketListUseCase
+import ir.composenews.domain.use_case.SyncMarketListUseCase
 import ir.composenews.domain.use_case.ToggleFavoriteMarketListUseCase
 import ir.composenews.marketdetail.MarketDetailViewModel
+import ir.composenews.marketlist.FavoriteListViewModel
 import ir.composenews.marketlist.MarketListViewModel
 import ir.composenews.testing.dispatcher.TestDispatcherProvider
 import ir.composenews.testing.repository.FakeMarketRepository
@@ -19,7 +21,8 @@ import org.koin.dsl.module
 val testModule =
     module {
         single<MarketRepository> { FakeMarketRepository() }
-        factory { GetPagedMarketListUseCase(get()) }
+        factory { GetMarketListUseCase(get()) }
+        factory { SyncMarketListUseCase(get()) }
         factory { GetFavoriteMarketListUseCase(get()) }
         factory { ToggleFavoriteMarketListUseCase(get()) }
         factory { GetMarketByIdUseCase(get()) }
@@ -29,5 +32,6 @@ val testModule =
             TestDispatcherProvider(TestCoroutineScheduler())
         }
         viewModel { MarketListViewModel(get(), get(), get(), get()) }
+        viewModel { FavoriteListViewModel(get(), get(), get()) }
         viewModel { MarketDetailViewModel(get(), get(), get(), get(), get()) }
     }

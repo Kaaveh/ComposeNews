@@ -4,6 +4,7 @@ package ir.composenews.marketlist
 
 import ir.composenews.base.LoadableData
 import ir.composenews.base.UnidirectionalViewModel
+import ir.composenews.network.Errors
 import ir.composenews.uimarket.model.MarketModel
 import kotlinx.collections.immutable.PersistentList
 
@@ -20,6 +21,8 @@ interface MarketListContract :
         val isRefreshing: Boolean = false,
         /** Seconds until a rate-limited sync may run again; 0 when it may run now. */
         val retryInSeconds: Int = 0,
+        /** The last sync's failure while stored markets stay on screen; cleared when the next sync starts. */
+        val syncError: Errors? = null,
     ) {
         val header: Header
             get() = when (filter) {
@@ -37,8 +40,10 @@ interface MarketListContract :
     enum class Header { ByMarketCap, ByVolume, Gainers, Losers }
 
     sealed class Event {
-        /** Starts showing the stored markets and syncs them; also pull to refresh and "Try again". */
+        /** Starts showing the stored markets and syncs them once; later calls do nothing. */
         data object OnGetMarketList : Event()
+        /** Pull to refresh and "Try again": syncs again, unless a 429 countdown is running. */
+        data object OnRefresh : Event()
         data class OnFilterSelect(val filter: Filter) : Event()
         data class OnSortSelect(val sort: Sort) : Event()
         data class OnFavoriteClick(val market: MarketModel) : Event()

@@ -20,6 +20,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -48,6 +49,7 @@ class MarketListViewModel(
 
     override fun event(event: MarketListContract.Event) = when (event) {
         is MarketListContract.Event.OnGetMarketList -> getMarketList()
+        is MarketListContract.Event.OnRefresh -> sync()
         is MarketListContract.Event.OnFilterSelect -> {
             mutableState.update { it.copy(filter = event.filter) }
             publish()
@@ -59,24 +61,27 @@ class MarketListViewModel(
         is MarketListContract.Event.OnFavoriteClick -> onFavoriteClick(marketModel = event.market)
     }
 
+    // The ViewModel outlives the screen, so coming back to it must not sync again.
     private fun getMarketList() {
-        if (observeJob == null) {
-            observeJob = getMarketListUseCase()
-                .map { list -> list.map { it.toMarketModel() } }
-                .flowOn(dispatcherProvider.bg)
-                .onEach { list ->
-                    markets = list
-                    publish()
-                }.launchIn(viewModelScope)
-        }
+        if (observeJob != null) return
+        observeJob = storedMarkets()
+            .onEach { list ->
+                markets = list
+                publish()
+            }.launchIn(viewModelScope)
         sync()
     }
+
+    private fun storedMarkets() = getMarketListUseCase()
+        .map { list -> list.map { it.toMarketModel() } }
+        .flowOn(dispatcherProvider.bg)
 
     private fun sync() {
         if (syncJob?.isActive == true || state.value.retryInSeconds > 0) return
         mutableState.update {
             it.copy(
                 isRefreshing = true,
+                syncError = null,
                 marketList = if (it.marketList is LoadableData.Loaded) it.marketList else LoadableData.Loading,
             )
         }
@@ -85,14 +90,18 @@ class MarketListViewModel(
             mutableState.update { it.copy(isRefreshing = false) }
             when (result) {
                 is Resource.Success -> {
+                    // Room tells the observer about the write a moment later; read it now so a first
+                    // install doesn't flash an empty list.
+                    markets = storedMarkets().first()
                     hasSynced = true
                     publish()
                 }
 
                 is Resource.Error -> {
                     // Stored markets stay on screen; the error only replaces an empty list.
-                    if (markets.isEmpty()) {
-                        mutableState.update { it.copy(marketList = LoadableData.Error(result.error)) }
+                    mutableState.update {
+                        if (markets.isEmpty()) it.copy(marketList = LoadableData.Error(result.error))
+                        else it.copy(syncError = result.error)
                     }
                     (result.error as? Errors.RateLimited)?.let { startCountdown(it.retryAfterSeconds) }
                 }

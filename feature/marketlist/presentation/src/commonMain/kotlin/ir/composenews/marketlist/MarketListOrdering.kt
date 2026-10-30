@@ -27,7 +27,7 @@ internal fun List<MarketModel>.filteredAndSorted(
     }
 
 internal fun List<MarketModel>.topMover(): MarketModel? =
-    filter { it.priceChangePercentage24h > 0 }.maxByOrNull { it.priceChangePercentage24h }
+    maxByOrNull { it.priceChangePercentage24h }?.takeIf { it.priceChangePercentage24h > 0 }
 
 internal fun List<MarketModel>.sortedFor(sort: FavoriteSort): List<MarketModel> =
     when (sort) {

@@ -35,6 +35,9 @@ class MarketDetailViewModel(
 
     private var favoriteObserverJob: Job? = null
     private var chartJob: Job? = null
+    private var detailJob: Job? = null
+    /** The market the chart was last requested for; a range change reloads it. */
+    private var chartMarketId: String? = null
 
     private val mutableState = MutableStateFlow(MarketDetailContract.State())
     override val state: StateFlow<MarketDetailContract.State> = mutableState.asStateFlow()
@@ -52,7 +55,8 @@ class MarketDetailViewModel(
             it.copy(marketDetail = LoadableData.Loading)
         }
 
-        getMarketDetailUseCase(id = id).onEach { result ->
+        detailJob?.cancel()
+        detailJob = getMarketDetailUseCase(id = id).onEach { result ->
             when (result) {
                 is Resource.Success -> {
                     result.data.let { detail ->
@@ -81,7 +85,12 @@ class MarketDetailViewModel(
 
     private fun setMarket(market: MarketModel) {
         mutableState.update {
-            it.copy(market = LoadableData.Loaded(market))
+            // The ViewModel outlives the screen; a range picked for one market doesn't carry over to the next.
+            val isNewMarket = it.market.data?.id != market.id
+            it.copy(
+                market = LoadableData.Loaded(market),
+                chartRange = if (isNewMarket) MarketDetailContract.ChartRange.Day else it.chartRange,
+            )
         }
         observeFavoriteState(market.id)
     }
@@ -110,7 +119,7 @@ class MarketDetailViewModel(
     private fun onChartRangeSelect(range: MarketDetailContract.ChartRange) {
         if (range == mutableState.value.chartRange) return
         mutableState.update { it.copy(chartRange = range) }
-        mutableState.value.market.data?.id?.let { getMarketChart(id = it) }
+        (chartMarketId ?: mutableState.value.market.data?.id)?.let { getMarketChart(id = it) }
     }
 
     private fun getMarketChart(id: String) {
@@ -119,6 +128,7 @@ class MarketDetailViewModel(
         }
 
         // A slower answer for the previous range must not replace the new one.
+        chartMarketId = id
         chartJob?.cancel()
         chartJob = getMarketChartUseCase(id = id, days = mutableState.value.chartRange.days).onEach { result ->
             when (result) {

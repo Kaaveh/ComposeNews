@@ -24,7 +24,6 @@ fun ComposeNewsWearNavHost(
         modifier = modifier,
     ) {
         wearMarketList(
-            showFavorite = false,
             onMarketSelected = onMarketSelected,
         )
         wearMarketDetail(uiState)
