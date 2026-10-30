@@ -17,11 +17,14 @@ interface MarketRepository {
 
     fun getMarketById(id: String): Flow<Market?>
 
-    suspend fun syncMarketList()
+    suspend fun syncMarketList(): Resource<Unit, Errors>
 
     suspend fun toggleFavoriteMarket(oldMarket: Market)
 
-    fun fetchChart(id: String): Flow<Resource<MarketChart, Errors>>
+    fun fetchChart(
+        id: String,
+        days: Int,
+    ): Flow<Resource<MarketChart, Errors>>
 
     fun fetchDetail(id: String): Flow<Resource<MarketDetail, Errors>>
 }

@@ -3,12 +3,11 @@
 package ir.composenews.domain.use_case
 
 import io.kotest.core.spec.style.StringSpec
-import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.just
 import io.mockk.mockk
 import ir.composenews.domain.repository.MarketRepository
+import ir.composenews.network.Resource
 
 class SyncMarketListUseCaseTest : StringSpec({
 
@@ -21,7 +20,7 @@ class SyncMarketListUseCaseTest : StringSpec({
     }
 
     "Given repository, When invoked, Then syncMarketList is called exactly once" {
-        coEvery { repository.syncMarketList() } just Runs
+        coEvery { repository.syncMarketList() } returns Resource.Success(Unit)
 
         useCase.invoke()
 

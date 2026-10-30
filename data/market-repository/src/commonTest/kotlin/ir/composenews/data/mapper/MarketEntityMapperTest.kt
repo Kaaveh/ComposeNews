@@ -10,6 +10,40 @@ import ir.composenews.localdatasource.database.FALSE
 import ir.composenews.localdatasource.database.TRUE
 
 class MarketEntityMapperTest : StringSpec({
+    "Given market with a sparkline, When converting to local market and back, Then it is the same market" {
+        val market = Market(
+            id = "bitcoin",
+            name = "Bitcoin",
+            symbol = "btc",
+            currentPrice = 67412.8,
+            priceChangePercentage24h = 2.14,
+            imageUrl = "",
+            isFavorite = true,
+            marketCapRank = 1,
+            totalVolume = 3.5e10,
+            sparkline7d = listOf(65880.12, 1.0E-5, 68105.4),
+        )
+
+        market.toMarketEntity().toMarket() shouldBe market
+    }
+
+    "Given market without a sparkline, When converting to local market, Then sparkline is stored as null" {
+        Market("bitcoin", "Bitcoin", "btc", 1.0, 1.0, "", false).toMarketEntity().sparkline7d shouldBe null
+    }
+
+    "Given local market with a malformed sparkline, When converting to market model, Then bad values are skipped" {
+        val entity = MarketEntity("bitcoin", "Bitcoin", "btc", 1.0, 1.0, "", FALSE, sparkline7d = "1.5,,abc,2.5,")
+
+        entity.toMarket().sparkline7d shouldBe listOf(1.5, 2.5)
+    }
+
+    "Given local market from before version 2, When converting to market model, Then rank is null and sparkline empty" {
+        val market = MarketEntity("bitcoin", "Bitcoin", "btc", 1.0, 1.0, "", FALSE).toMarket()
+
+        market.marketCapRank shouldBe null
+        market.sparkline7d shouldBe emptyList()
+    }
+
     "Given valid local market, When converting to market model, Then returns correct model" {
         val marketEntity = MarketEntity(
             id = "bitcoin",

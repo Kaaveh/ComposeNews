@@ -11,6 +11,6 @@ import kotlinx.coroutines.flow.Flow
 open class GetMarketChartUseCase(
     private val repository: MarketRepository,
 ) {
-    open operator fun invoke(id: String): Flow<Resource<MarketChart, Errors>> =
-        repository.fetchChart(id = id)
+    open operator fun invoke(id: String, days: Int): Flow<Resource<MarketChart, Errors>> =
+        repository.fetchChart(id = id, days = days)
 }

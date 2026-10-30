@@ -39,7 +39,8 @@ class MarketsPagingSource(
                     order = "market_cap_desc",
                     perPage = PAGE_SIZE,
                     page = page,
-                    sparkline = false,
+                    // Its rows go into the same table as the sync's, so it mustn't clear their sparkline.
+                    sparkline = true,
                 ).suspendOnSuccess {
                     val markets = data.map { it.toMarket() }
                     dao.insertMarkets(data.map { it.toMarketEntity() })

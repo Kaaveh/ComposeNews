@@ -8,4 +8,7 @@ sealed class Errors {
     data class ApiError(val message: String?, val code: Int) : Errors()
 
     data class ExceptionError(val message: String?, val throwable: Throwable? = null) : Errors()
+
+    /** HTTP 429: CoinGecko's free tier limits calls per minute. Retry after [retryAfterSeconds]. */
+    data class RateLimited(val retryAfterSeconds: Int) : Errors()
 }

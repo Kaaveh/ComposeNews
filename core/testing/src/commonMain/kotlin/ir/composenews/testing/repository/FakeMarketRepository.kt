@@ -32,12 +32,14 @@ class FakeMarketRepository : MarketRepository {
 
     override fun getMarketById(id: String): Flow<Market?> = flowOf(markets.firstOrNull { it.id == id })
 
-    override suspend fun syncMarketList() = Unit
+    override suspend fun syncMarketList(): Resource<Unit, Errors> = Resource.Success(Unit)
 
     override suspend fun toggleFavoriteMarket(oldMarket: Market) = Unit
 
-    override fun fetchChart(id: String): Flow<Resource<MarketChart, Errors>> =
-        flowOf(Resource.Success(MarketChart(persistentListOf(START to END))))
+    override fun fetchChart(
+        id: String,
+        days: Int,
+    ): Flow<Resource<MarketChart, Errors>> = flowOf(Resource.Success(MarketChart(persistentListOf(START to END))))
 
     override fun fetchDetail(id: String): Flow<Resource<MarketDetail, Errors>> =
         flowOf(

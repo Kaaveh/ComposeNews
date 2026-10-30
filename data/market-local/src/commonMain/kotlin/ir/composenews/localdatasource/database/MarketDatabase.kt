@@ -1,5 +1,6 @@
 package ir.composenews.localdatasource.database
 
+import androidx.room.AutoMigration
 import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
@@ -7,7 +8,11 @@ import androidx.room.RoomDatabaseConstructor
 import androidx.sqlite.SQLiteDriver
 import ir.composenews.base.dispatcher.DispatcherProvider
 
-@Database(entities = [MarketEntity::class], version = 1)
+@Database(
+    entities = [MarketEntity::class],
+    version = 2,
+    autoMigrations = [AutoMigration(from = 1, to = 2)],
+)
 @ConstructedBy(MarketDatabaseConstructor::class)
 abstract class MarketDatabase : RoomDatabase() {
     abstract fun marketDao(): MarketDao

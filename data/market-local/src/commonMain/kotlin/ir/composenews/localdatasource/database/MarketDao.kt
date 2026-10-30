@@ -11,7 +11,8 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MarketDao {
-    @Query("SELECT * FROM marketEntity ORDER BY name ASC")
+    /** The latest top markets, by market cap. */
+    @Query("SELECT * FROM marketEntity WHERE marketCapRank IS NOT NULL ORDER BY marketCapRank ASC")
     fun getMarketList(): Flow<List<MarketEntity>>
 
     @Query("SELECT * FROM marketEntity WHERE isFavorite = $TRUE ORDER BY name ASC")
@@ -25,7 +26,8 @@ interface MarketDao {
 
     @Query(
         "UPDATE marketEntity SET name = :name, symbol = :symbol, currentPrice = :currentPrice, " +
-            "priceChangePercentage24h = :priceChangePercentage24h, imageUrl = :imageUrl WHERE id = :id",
+            "priceChangePercentage24h = :priceChangePercentage24h, imageUrl = :imageUrl, " +
+            "marketCapRank = :marketCapRank, totalVolume = :totalVolume, sparkline7d = :sparkline7d WHERE id = :id",
     )
     suspend fun updateMarketData(
         id: String,
@@ -34,6 +36,9 @@ interface MarketDao {
         currentPrice: Double,
         priceChangePercentage24h: Double,
         imageUrl: String,
+        marketCapRank: Int?,
+        totalVolume: Double?,
+        sparkline7d: String?,
     )
 
     @Query("UPDATE marketEntity SET isFavorite = :isFavorite WHERE id = :id")
@@ -47,7 +52,30 @@ interface MarketDao {
     suspend fun insertMarkets(marketEntities: List<MarketEntity>) {
         marketEntities.forEach {
             insertOrIgnoreMarket(it)
-            updateMarketData(it.id, it.name, it.symbol, it.currentPrice, it.priceChangePercentage24h, it.imageUrl)
+            updateMarketData(
+                it.id,
+                it.name,
+                it.symbol,
+                it.currentPrice,
+                it.priceChangePercentage24h,
+                it.imageUrl,
+                it.marketCapRank,
+                it.totalVolume,
+                it.sparkline7d,
+            )
         }
+    }
+
+    @Query("UPDATE marketEntity SET marketCapRank = NULL")
+    suspend fun clearMarketCapRanks()
+
+    /**
+     * Stores the latest top markets. Markets that dropped out lose their rank, so [getMarketList] no longer
+     * lists them, but keep their row and favorite flag.
+     */
+    @Transaction
+    suspend fun replaceTopMarkets(marketEntities: List<MarketEntity>) {
+        clearMarketCapRanks()
+        insertMarkets(marketEntities)
     }
 }

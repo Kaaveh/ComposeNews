@@ -110,7 +110,8 @@ class MarketDetailViewModel(
             it.copy(marketChart = LoadableData.Loading)
         }
 
-        getMarketChartUseCase(id = id).onEach { result ->
+        // One day until #389 (A2) adds the chart ranges.
+        getMarketChartUseCase(id = id, days = 1).onEach { result ->
             when (result) {
                 is Resource.Success -> {
                     result.data.let { chart ->

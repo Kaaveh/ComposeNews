@@ -90,7 +90,7 @@ class MarketDetailViewModelTest : StringSpec({
 
     "Given market chart use case, When get market chart is triggered, Then loading and loaded states are set" {
         val marketChart = provideMarketChart()
-        coEvery { getMarketChartUseCase(id = any()) } returns flowOf(Resource.Success(marketChart))
+        coEvery { getMarketChartUseCase(id = any(), days = any()) } returns flowOf(Resource.Success(marketChart))
 
         viewModel.state.test {
             val initState = awaitItem().marketChart
@@ -119,7 +119,7 @@ class MarketDetailViewModelTest : StringSpec({
 
     "Given market chart use case fails, When get market chart is triggered, Then error state is set" {
         val exception = RuntimeException("Network Error")
-        coEvery { getMarketChartUseCase(id = any()) } returns flow { throw exception }
+        coEvery { getMarketChartUseCase(id = any(), days = any()) } returns flow { throw exception }
 
         viewModel.event(MarketDetailContract.Event.GetMarketChart(marketId = "testId"))
 
@@ -215,7 +215,7 @@ class MarketDetailViewModelTest : StringSpec({
             Pair(3000L, 105.0),
         )
         val marketChart = MarketChart(prices = prices)
-        coEvery { getMarketChartUseCase(id = any()) } returns flowOf(Resource.Success(marketChart))
+        coEvery { getMarketChartUseCase(id = any(), days = any()) } returns flowOf(Resource.Success(marketChart))
 
         viewModel.event(MarketDetailContract.Event.GetMarketChart(marketId = "btc"))
 
@@ -225,7 +225,7 @@ class MarketDetailViewModelTest : StringSpec({
     }
 
     "Given chart and detail fetch together, When both complete, Then both states are Loaded" {
-        coEvery { getMarketChartUseCase(id = any()) } returns flowOf(Resource.Success(provideMarketChart()))
+        coEvery { getMarketChartUseCase(id = any(), days = any()) } returns flowOf(Resource.Success(provideMarketChart()))
         coEvery { getMarketDetailUseCase(id = any()) } returns flowOf(Resource.Success(provideMarketDetail()))
 
         viewModel.event(MarketDetailContract.Event.GetMarketChart(marketId = "btc"))
