@@ -26,6 +26,7 @@ import ir.composenews.uimarket.mapper.toMarket
 import ir.composenews.uimarket.mapper.toMarketModel
 import ir.composenews.uimarket.model.MarketModel
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScheduler
@@ -244,6 +245,41 @@ class MarketDetailViewModelTest : StringSpec({
         val state = viewModel.state.value.marketDetail
         state.shouldBeInstanceOf<LoadableData.Error>()
         (state.error as Errors.ApiError).code shouldBe 404
+    }
+
+    "Given a shown market, When a chart range is selected, Then the chart reloads for that many days" {
+        val weekChart = MarketChart(persistentListOf(PricePoint(1L, 100.0), PricePoint(2L, 110.0)))
+        coEvery { getMarketChartUseCase(id = "btc", days = 7) } returns flowOf(Resource.Success(weekChart))
+        viewModel.event(MarketDetailContract.Event.SetMarket(provideMarketList(1).first().toMarketModel().copy(id = "btc")))
+
+        viewModel.event(MarketDetailContract.Event.OnChartRangeSelect(MarketDetailContract.ChartRange.Week))
+
+        viewModel.state.value.chartRange shouldBe MarketDetailContract.ChartRange.Week
+        viewModel.state.value.marketChart shouldBe LoadableData.Loaded(weekChart)
+        viewModel.state.value.rangeChange shouldBe 10.0
+    }
+
+    "Given the selected range, When it is selected again, Then the chart is not reloaded" {
+        viewModel.event(MarketDetailContract.Event.SetMarket(provideMarketList(1).first().toMarketModel().copy(id = "same")))
+
+        viewModel.event(MarketDetailContract.Event.OnChartRangeSelect(MarketDetailContract.ChartRange.Day))
+
+        coVerify(exactly = 0) { getMarketChartUseCase(id = "same", days = any()) }
+    }
+
+    "Given a slow chart for the old range, When it answers after a new range was picked, Then it is ignored" {
+        val dayChart = MutableSharedFlow<Resource<MarketChart, Errors>>()
+        val weekChart = MarketChart(persistentListOf(PricePoint(1L, 100.0), PricePoint(2L, 90.0)))
+        coEvery { getMarketChartUseCase(id = "slow", days = 1) } returns dayChart
+        coEvery { getMarketChartUseCase(id = "slow", days = 7) } returns flowOf(Resource.Success(weekChart))
+        viewModel.event(MarketDetailContract.Event.SetMarket(provideMarketList(1).first().toMarketModel().copy(id = "slow")))
+        viewModel.event(MarketDetailContract.Event.GetMarketChart(marketId = "slow"))
+
+        viewModel.event(MarketDetailContract.Event.OnChartRangeSelect(MarketDetailContract.ChartRange.Week))
+        dayChart.emit(Resource.Success(provideMarketChart()))
+
+        viewModel.state.value.marketChart shouldBe LoadableData.Loaded(weekChart)
+        viewModel.state.value.rangeChange shouldBe -10.0
     }
 })
 

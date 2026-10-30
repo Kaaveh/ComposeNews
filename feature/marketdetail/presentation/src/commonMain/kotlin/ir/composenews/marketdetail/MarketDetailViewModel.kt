@@ -34,6 +34,7 @@ class MarketDetailViewModel(
 ) : BaseViewModel(dispatcherProvider), MarketDetailContract {
 
     private var favoriteObserverJob: Job? = null
+    private var chartJob: Job? = null
 
     private val mutableState = MutableStateFlow(MarketDetailContract.State())
     override val state: StateFlow<MarketDetailContract.State> = mutableState.asStateFlow()
@@ -43,6 +44,7 @@ class MarketDetailViewModel(
         is MarketDetailContract.Event.OnFavoriteClick -> onFavoriteClick(market = event.market)
         is MarketDetailContract.Event.GetMarketChart -> getMarketChart(id = event.marketId)
         is MarketDetailContract.Event.GetMarketDetail -> getMarketDetail(id = event.marketId)
+        is MarketDetailContract.Event.OnChartRangeSelect -> onChartRangeSelect(range = event.range)
     }
 
     private fun getMarketDetail(id: String) {
@@ -105,13 +107,20 @@ class MarketDetailViewModel(
             }.launchIn(viewModelScope)
     }
 
+    private fun onChartRangeSelect(range: MarketDetailContract.ChartRange) {
+        if (range == mutableState.value.chartRange) return
+        mutableState.update { it.copy(chartRange = range) }
+        mutableState.value.market.data?.id?.let { getMarketChart(id = it) }
+    }
+
     private fun getMarketChart(id: String) {
         mutableState.update {
             it.copy(marketChart = LoadableData.Loading)
         }
 
-        // One day until #389 (A2) adds the chart ranges.
-        getMarketChartUseCase(id = id, days = 1).onEach { result ->
+        // A slower answer for the previous range must not replace the new one.
+        chartJob?.cancel()
+        chartJob = getMarketChartUseCase(id = id, days = mutableState.value.chartRange.days).onEach { result ->
             when (result) {
                 is Resource.Success -> {
                     result.data.let { chart ->

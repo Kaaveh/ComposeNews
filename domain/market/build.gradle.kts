@@ -15,7 +15,6 @@ kotlin {
                 implementation(koin.core)
                 api(kotlinx.collections.immutable)
                 api(kotlinx.serialization.json)
-                api(paging.common)
             }
         }
         androidHostTest.dependencies {

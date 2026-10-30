@@ -1,6 +1,5 @@
 package ir.composenews.testing.repository
 
-import androidx.paging.PagingData
 import ir.composenews.domain.model.Market
 import ir.composenews.domain.model.MarketChart
 import ir.composenews.domain.model.MarketDetail
@@ -25,8 +24,6 @@ class FakeMarketRepository : MarketRepository {
         )
 
     override fun getMarketList(): Flow<List<Market>> = flowOf(markets)
-
-    override fun getPagedMarketList(): Flow<PagingData<Market>> = flowOf(PagingData.from(markets))
 
     override fun getFavoriteMarketList(): Flow<List<Market>> = flowOf(emptyList())
 

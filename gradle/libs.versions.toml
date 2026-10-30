@@ -54,7 +54,6 @@ ktor = "3.6.0"
 konsist = "0.17.3"
 
 kotest = "6.2.5"
-paging = "3.3.6"
 robolectric = "4.16.1"
 junitVintage = "5.11.4"
 
@@ -138,8 +137,6 @@ kotlinx-collections-immutable = { group = "org.jetbrains.kotlinx", name = "kotli
 
 compottie = { module = "io.github.alexzhirkevich:compottie", version.ref = "compottie" }
 
-paging-common = { group = "androidx.paging", name = "paging-common", version.ref = "paging" }
-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
 
 kotest-assertionsCore = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotest-frameworkEngine = { module = "io.kotest:kotest-framework-engine", version.ref = "kotest" }

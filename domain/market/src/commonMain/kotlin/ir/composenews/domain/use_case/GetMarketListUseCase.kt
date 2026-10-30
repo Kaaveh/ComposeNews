@@ -9,8 +9,6 @@ import kotlinx.coroutines.flow.Flow
 class GetMarketListUseCase(
     private val repository: MarketRepository,
 ) {
-    suspend operator fun invoke(): Flow<List<Market>> {
-        repository.syncMarketList()
-        return repository.getMarketList()
-    }
+    /** The stored top markets; [SyncMarketListUseCase] refreshes them. */
+    operator fun invoke(): Flow<List<Market>> = repository.getMarketList()
 }

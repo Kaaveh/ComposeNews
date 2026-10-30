@@ -78,4 +78,28 @@ class MarketModelMapperTest : StringSpec({
 
         model.priceChangePercentage24h shouldBe 0.0
     }
+
+    "Given a Market with rank, volume and sparkline, When mapped to MarketModel and back, Then they are kept" {
+        val market = Market(
+            id = "btc",
+            name = "Bitcoin",
+            symbol = "BTC",
+            currentPrice = 50000.0,
+            priceChangePercentage24h = 2.5,
+            imageUrl = "",
+            marketCapRank = 1,
+            totalVolume = 3.5e10,
+            sparkline7d = listOf(1.0, 2.0),
+        )
+
+        market.toMarketModel().toMarket() shouldBe market
+    }
+
+    "Given a sparkline, When reading the 7-day trend, Then it compares the first and last price" {
+        val model = MarketModel("btc", "Bitcoin", "BTC", 1.0, 0.0, "")
+
+        model.isTrendingUp7d shouldBe null
+        model.copy(sparkline7d = listOf(2.0, 3.0, 2.5)).isTrendingUp7d shouldBe true
+        model.copy(sparkline7d = listOf(2.0, 3.0, 1.5)).isTrendingUp7d shouldBe false
+    }
 })

@@ -24,7 +24,6 @@ dependencies {
     }
     libs.apply {
         implementation(compose.tv.material)
-        implementation(paging.compose)
         implementation(lifecycle.runtime.compose)
     }
 }

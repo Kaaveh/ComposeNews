@@ -26,7 +26,7 @@ fun TestableMarketListScreen(
     onFavoriteClick: (market: MarketModel) -> Unit,
     onRefresh: () -> Unit,
 ) {
-    FavoriteMarketListScreen(
+    MarketListScreen(
         state = marketListState,
         onNavigateToDetailScreen = onNavigateToDetailScreen,
         onFavoriteClick = onFavoriteClick,
@@ -44,7 +44,7 @@ class MarketListScreenTest {
             TestableMarketListScreen(
                 marketListState =
                 MarketListContract.State(
-                    favoriteMarketList = LoadableData.Loaded(
+                    marketList = LoadableData.Loaded(
                         persistentListOf(
                             MarketModel(
                                 id = "1",
@@ -57,7 +57,6 @@ class MarketListScreenTest {
                             )
                         )
                     ),
-                    showFavoriteList = false,
                 ),
                 onNavigateToDetailScreen = {},
                 onFavoriteClick = {},
