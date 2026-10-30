@@ -14,9 +14,9 @@ ComposeNews is a production-ready Android crypto application demonstrating moder
 |--------|---------|
 | `app` | Main Android application entry point |
 | `app-watch` | Wear OS companion app |
-| `feature:marketlist:presentation` | Market list ViewModel, contract, Koin module (no Compose) |
+| `feature:marketlist:presentation` | Market list ViewModel, contract, Koin module (KMP, no Compose) |
 | `feature:marketlist:ui` | Paginated market list screen (Compose) |
-| `feature:marketdetail:presentation` | Market detail ViewModel, contract, Koin module (no Compose) |
+| `feature:marketdetail:presentation` | Market detail ViewModel, contract, Koin module (KMP, no Compose) |
 | `feature:marketdetail:ui` | Market detail screen (Compose, Coil) |
 | `domain:market` | Business logic and use cases |
 | `data:market-repository` | Repository implementations (Koin DI) |

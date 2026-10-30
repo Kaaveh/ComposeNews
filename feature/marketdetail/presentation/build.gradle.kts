@@ -1,23 +1,30 @@
 plugins {
-    alias(libs.plugins.composenews.android.library)
+    alias(libs.plugins.composenews.kmp.library)
 }
 
-android {
-    namespace = "ir.composenews.marketdetail"
-}
-
-dependencies {
-    // Koin
-    implementation(libs.koin.core)
-    implementation(libs.koin.core.viewmodel)
-
-    api(projects.core.base)
-
-    projects.apply {
-        implementation(domain.market)
-        implementation(core.uimarket)
+kotlin {
+    android {
+        namespace = "ir.composenews.marketdetail"
     }
-    testImplementation(projects.core.testing)
-    testImplementation(libs.mockk)
-    testImplementation(libs.turbine)
+
+    sourceSets {
+        commonMain.dependencies {
+            api(projects.core.base)
+            projects.apply {
+                implementation(domain.market)
+                implementation(core.uimarket)
+            }
+            libs.apply {
+                implementation(koin.core)
+                implementation(koin.core.viewmodel)
+            }
+        }
+        androidHostTest.dependencies {
+            implementation(projects.core.testing)
+            libs.apply {
+                implementation(mockk)
+                implementation(turbine)
+            }
+        }
+    }
 }
