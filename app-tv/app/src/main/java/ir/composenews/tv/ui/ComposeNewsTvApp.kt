@@ -22,9 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -53,7 +51,6 @@ private enum class TvTab(
 @Composable
 fun ComposeNewsTvApp() {
     var tab by rememberSaveable { mutableStateOf(TvTab.Markets) }
-    val selectedTab = remember { FocusRequester() }
     Surface(
         modifier = Modifier.fillMaxSize(),
         colors = SurfaceDefaults.colors(containerColor = MaterialTheme.colorScheme.background),
@@ -61,16 +58,11 @@ fun ComposeNewsTvApp() {
         Box {
             TvMarketsRoute(
                 favorites = tab == TvTab.Favorites,
-                onSelectTab = {
-                    // A pane's button switched tabs and is about to go away. Compose would refocus while the switch
-                    // applies, on the old tab, which would switch back; parking focus on it first avoids that.
-                    selectedTab.requestFocus()
-                    tab = if (it) TvTab.Favorites else TvTab.Markets
-                },
+                onSelectTab = { tab = if (it) TvTab.Favorites else TvTab.Markets },
             )
             // Over the screen, which reserves room for it, so the tabs stay put whatever the screen shows.
             Box(modifier = Modifier.padding(start = 48.dp, top = 24.dp)) {
-                TvTabs(selected = tab, selectedTab = selectedTab, onSelect = { tab = it })
+                TvTabs(selected = tab, onSelect = { tab = it })
             }
         }
     }
@@ -84,7 +76,6 @@ fun ComposeNewsTvApp() {
 @Composable
 private fun TvTabs(
     selected: TvTab,
-    selectedTab: FocusRequester,
     onSelect: (TvTab) -> Unit,
 ) {
     var rowHasFocus by remember { mutableStateOf(false) }
@@ -116,10 +107,7 @@ private fun TvTabs(
                 selected = isSelected,
                 onFocus = { onSelect(entry) },
                 onClick = { onSelect(entry) },
-                modifier =
-                    Modifier
-                        .focusProperties { canFocus = isSelected || rowHasFocus }
-                        .then(if (isSelected) Modifier.focusRequester(selectedTab) else Modifier),
+                modifier = Modifier.focusProperties { canFocus = isSelected || rowHasFocus },
                 colors =
                     TabDefaults.pillIndicatorTabColors(
                         contentColor = MaterialTheme.colorScheme.onSurfaceVariant,

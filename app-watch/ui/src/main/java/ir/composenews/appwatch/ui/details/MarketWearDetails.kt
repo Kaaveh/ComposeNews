@@ -23,9 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -50,6 +48,7 @@ import ir.composenews.core.ui.use
 import ir.composenews.designsystem.R
 import ir.composenews.designsystem.component.MarketLogo
 import ir.composenews.designsystem.component.Sparkline
+import ir.composenews.designsystem.component.favoriteSemantics
 import ir.composenews.designsystem.component.formatCompactUsd
 import ir.composenews.designsystem.component.formatPrice
 import ir.composenews.designsystem.component.formatUsdPrice
@@ -227,11 +226,7 @@ private fun SavedEdgeButton(
                     iconColor = colors.onPrimaryContainer,
                 )
             },
-        modifier =
-            modifier.semantics {
-                stateDescription = if (isFavorite) "In favorites" else "Not in favorites"
-                onClick(label = if (isFavorite) "Remove from favorites" else "Add to favorites", action = null)
-            },
+        modifier = modifier.favoriteSemantics(isFavorite),
     ) {
         Icon(
             painter = painterResource(if (isFavorite) R.drawable.ic_favorite_filled else R.drawable.ic_favorite),
