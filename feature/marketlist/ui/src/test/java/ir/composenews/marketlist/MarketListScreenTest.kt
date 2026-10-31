@@ -58,7 +58,7 @@ class MarketListScreenTest {
                 onFavoriteClick = {},
             )
         }
-        composeTestRule.onNodeWithText("Your favorite list is empty").assertIsDisplayed()
+        composeTestRule.onNodeWithText("No favorites yet").assertIsDisplayed()
     }
 
     @Test

@@ -4,7 +4,7 @@
 
 ComposeNews is a production-ready Android crypto application demonstrating modern Android development best practices. It follows **MVI + Clean Architecture** with a multi-module structure organized by feature and layer. The project is actively migrating toward **Kotlin Multiplatform (KMP)**.
 
-- **Min SDK**: 23 (Android 6.0) | **Target SDK**: 36 (Android 15)
+- **Min SDK**: 24 (Android 7.0; Material3 1.5 needs it) | **Target SDK**: 36 (Android 15)
 - **Language**: Kotlin 2.x | **UI**: Jetpack Compose
 - **Java toolchain**: 17+
 

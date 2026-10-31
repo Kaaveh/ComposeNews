@@ -15,10 +15,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import org.koin.compose.viewmodel.koinViewModel
@@ -26,10 +27,7 @@ import ir.composenews.base.LoadableData
 import ir.composenews.core.ui.LoadableComponent
 import ir.composenews.base.errorViewMapper
 import ir.composenews.core.ui.use
-import ir.composenews.designsystem.component.EmptyStateAnimation
-import ir.composenews.designsystem.component.pull_refresh_indicator.PullRefreshIndicator
-import ir.composenews.designsystem.component.pull_refresh_indicator.pullRefresh
-import ir.composenews.designsystem.component.pull_refresh_indicator.rememberPullRefreshState
+import ir.composenews.designsystem.component.EmptyFavoritesPane
 import ir.composenews.designsystem.preview.ThemePreviews
 import ir.composenews.designsystem.theme.ComposeNewsTheme
 import ir.composenews.designsystem.widget.ErrorView
@@ -119,6 +117,7 @@ fun FavoriteMarketListScreen(
 }
 
 /** [onRefresh] null turns pull to refresh off. */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun MarketListContent(
     marketList: LoadableData<PersistentList<MarketModel>>,
@@ -128,27 +127,12 @@ private fun MarketListContent(
     onFavoriteClick: (market: MarketModel) -> Unit,
     onRefresh: (() -> Unit)?,
 ) {
-    val refreshState = rememberPullRefreshState(
-        refreshing = isRefreshing,
-        onRefresh = { onRefresh?.invoke() },
-    )
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .then(if (onRefresh != null) Modifier.pullRefresh(refreshState) else Modifier),
-    ) {
-        if (onRefresh != null) {
-            PullRefreshIndicator(
-                isRefreshing,
-                refreshState,
-                Modifier.align(Alignment.TopCenter),
-            )
-        }
+    val content: @Composable () -> Unit = {
         LoadableComponent(
             loadableData = marketList,
             loaded = { data ->
                 if (data.isEmpty() && showFavoriteList) {
-                    EmptyStateAnimation()
+                    EmptyFavoritesPane()
                 } else {
                     LazyColumn(modifier = Modifier.fillMaxWidth()) {
                         items(
@@ -178,6 +162,13 @@ private fun MarketListContent(
                 ErrorView(errorMessage = errorViewMapper(error))
             },
         )
+    }
+    if (onRefresh != null) {
+        PullToRefreshBox(isRefreshing = isRefreshing, onRefresh = onRefresh, modifier = Modifier.fillMaxWidth()) {
+            content()
+        }
+    } else {
+        Box(modifier = Modifier.fillMaxWidth()) { content() }
     }
 }
 

@@ -2,8 +2,9 @@
 
 package ir.composenews.appwatch.ui.list
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -17,8 +18,6 @@ import ir.composenews.base.LoadableData
 import ir.composenews.base.errorViewMapper
 import ir.composenews.core.ui.LoadableComponent
 import ir.composenews.core.ui.use
-import ir.composenews.designsystem.component.pull_refresh_indicator.pullRefresh
-import ir.composenews.designsystem.component.pull_refresh_indicator.rememberPullRefreshState
 import ir.composenews.designsystem.widget.ErrorView
 import ir.composenews.extensions.roundToTwoDecimalPlaces
 import ir.composenews.marketlist.MarketListContract
@@ -42,7 +41,7 @@ fun MarketListWearRoute(
     )
 }
 
-@OptIn(ExperimentalHorologistApi::class)
+@OptIn(ExperimentalHorologistApi::class, ExperimentalMaterial3Api::class)
 @Composable
 private fun MarketListWearScreen(
     marketList: LoadableData<PersistentList<MarketModel>>,
@@ -51,20 +50,16 @@ private fun MarketListWearScreen(
     onNavigateToDetailScreen: (market: MarketModel) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val refreshState = rememberPullRefreshState(
-        refreshing = isRefreshing,
-        onRefresh = onRefresh,
-    )
     val listState = rememberResponsiveColumnState(
         contentPadding = ScalingLazyColumnDefaults.padding(
             first = ScalingLazyColumnDefaults.ItemType.Card,
             last = ScalingLazyColumnDefaults.ItemType.Card,
         ),
     )
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .pullRefresh(refreshState),
+    PullToRefreshBox(
+        isRefreshing = isRefreshing,
+        onRefresh = onRefresh,
+        modifier = modifier.fillMaxWidth(),
     ) {
         LoadableComponent(
             loadableData = marketList,

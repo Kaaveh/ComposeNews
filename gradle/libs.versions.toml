@@ -2,7 +2,7 @@
 projectApplicationId = "ir.composenews"
 projectVersionName = "1.0.0"
 projectVersionCode = "1"
-projectMinSdkVersion = "23"
+projectMinSdkVersion = "24"
 projectMinSdkVersionWear = "30"
 projectTargetSdkVersion = "36"
 projectCompileSdkVersion = "37"
@@ -17,6 +17,8 @@ ktx = "1.17.0"
 composeBOM = "2026.08.00"
 composeActivity = "1.13.0"
 composeCoil = "2.7.0"
+# Expressive components (ButtonGroup, LoadingIndicator) aren't in the BOM's 1.4.0; back to the BOM once 1.5.0 is stable
+material3 = "1.5.0-beta02"
 material3Adaptive = "1.2.0"
 composeWear = "1.5.6"
 composeTv = "1.1.0"
@@ -27,7 +29,6 @@ horologistComposeLayout = "0.7.15"
 detekt = "1.23.8"
 kermit = "2.0.5"
 koin = "4.2.2"
-compottie = "2.1.0"
 
 lifecycle = "2.11.0"
 
@@ -73,9 +74,8 @@ compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 compose-icons-core = { group = "androidx.compose.material", name = "material-icons-core" }
-compose-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "composeActivity" }
 compose-coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "composeCoil" }
 compose-material3-adaptive-navigation = { group = "androidx.compose.material3.adaptive", name = "adaptive-navigation", version.ref = "material3Adaptive" }
@@ -135,7 +135,6 @@ work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version
 
 kotlinx-collections-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinxImmutableCollection" }
 
-compottie = { module = "io.github.alexzhirkevich:compottie", version.ref = "compottie" }
 
 
 kotest-assertionsCore = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
@@ -189,7 +188,6 @@ compose = [
     "compose-ui-test-junit4",
     "compose-material3",
     "compose-icons-core",
-    "compose-icons-extended",
 ]
 kotest = [
     "kotest-assertionsCore",

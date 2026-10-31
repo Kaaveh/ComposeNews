@@ -46,7 +46,7 @@ import ir.composenews.designsystem.preview.ThemePreviews
 import ir.composenews.designsystem.theme.ComposeNewsTheme
 import ir.composenews.marketdetail.MarketDetailContract.State
 import ir.composenews.marketdetail.components.MarketData
-import ir.composenews.marketdetail.components.QuadLineChart
+import ir.composenews.marketdetail.components.MarketChart
 import ir.composenews.marketdetail.preview_provider.MarketDetailStateProvider
 import ir.composenews.uimarket.model.MarketModel
 
@@ -89,7 +89,7 @@ internal fun MarketDetailScreen(
             TopAppBar(
                 market = marketDetailState.market,
             )
-            QuadLineChart(
+            MarketChart(
                 loadableData = marketDetailState.marketChart,
             )
             MarketData(
