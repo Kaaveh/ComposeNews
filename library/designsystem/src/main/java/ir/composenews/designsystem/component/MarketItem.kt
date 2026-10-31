@@ -30,9 +30,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDownward
-import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -53,14 +50,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import ir.composenews.designsystem.R
 import ir.composenews.designsystem.preview.ThemePreviews
 import ir.composenews.designsystem.theme.ComposeNewsTheme
-import ir.composenews.designsystem.theme.darkDownTrendRed
-import ir.composenews.designsystem.theme.darkUptrendGreen
-import ir.composenews.designsystem.theme.lightDownTrendRed
-import ir.composenews.designsystem.theme.lightUptrendGreen
+import ir.composenews.designsystem.theme.extendedColors
 import kotlinx.coroutines.delay
 import java.util.Locale
 
@@ -222,14 +218,10 @@ private fun MarketItemCard(
                 Text(text = "$price $", style = MaterialTheme.typography.titleMedium)
                 Spacer(modifier = Modifier.height(6.dp))
                 Row {
-                    val color = when {
-                        priceChangePercentage24h.contains("-") -> {
-                            if (isSystemInDarkTheme()) darkDownTrendRed else lightDownTrendRed
-                        }
-
-                        else -> {
-                            if (isSystemInDarkTheme()) darkUptrendGreen else lightUptrendGreen
-                        }
+                    val color = if (priceChangePercentage24h.contains("-")) {
+                        MaterialTheme.extendedColors.trendDown
+                    } else {
+                        MaterialTheme.extendedColors.trendUp
                     }
 
                     ArrowIconUpOrDown(priceChangePercentage24h, tint = color)
@@ -254,11 +246,9 @@ private fun MarketItemCard(
 private fun ArrowIconUpOrDown(priceChangePercentage24h: String, tint: Color) {
     Icon(
         modifier = Modifier.size(size = 20.dp),
-        imageVector = if (priceChangePercentage24h.contains("-")) {
-            Icons.Default.ArrowDownward
-        } else {
-            Icons.Default.ArrowUpward
-        },
+        painter = painterResource(
+            if (priceChangePercentage24h.contains("-")) R.drawable.ic_arrow_downward else R.drawable.ic_arrow_upward,
+        ),
         contentDescription = "",
         tint = tint,
     )

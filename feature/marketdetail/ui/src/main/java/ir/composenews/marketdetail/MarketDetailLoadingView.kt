@@ -22,7 +22,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ir.composenews.designsystem.component.QuadLineChart
 import ir.composenews.designsystem.component.shimmerEffect
 import ir.composenews.designsystem.theme.ComposeNewsTheme
 
@@ -70,7 +69,14 @@ fun MarketDetailLoadingView() {
                 }
             }
 
-            QuadLineChart(data = listOf())
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(20.dp)
+                    .height(188.dp)
+                    .clip(RoundedCornerShape(16.dp))
+                    .shimmerEffect(),
+            )
             Row(
                 modifier = Modifier
                     .padding(16.dp)

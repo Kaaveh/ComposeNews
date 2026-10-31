@@ -14,14 +14,14 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import ir.composenews.core.ui.LoadableComponent
 import ir.composenews.base.LoadableData
+import ir.composenews.designsystem.component.PriceChart
 import ir.composenews.designsystem.component.shimmerEffect
 import ir.composenews.domain.model.MarketChart
-import ir.composenews.designsystem.component.QuadLineChart as DesignSystemQuadLineChart
 
 internal const val MARKET_DETAIL_CHART_TEST_TAG = "marketDetailChart"
 
 @Composable
-internal fun QuadLineChart(
+internal fun MarketChart(
     loadableData: LoadableData<MarketChart>,
 ) {
     LoadableComponent(
@@ -29,16 +29,18 @@ internal fun QuadLineChart(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(400.dp)
                     .padding(20.dp)
+                    .height(188.dp)
                     .clip(MaterialTheme.shapes.large)
                     .shimmerEffect(),
             )
         },
         loaded = { data ->
-            DesignSystemQuadLineChart(
-                modifier = Modifier.testTag(MARKET_DETAIL_CHART_TEST_TAG),
-                data = data.prices,
+            PriceChart(
+                prices = data.prices,
+                modifier = Modifier
+                    .padding(20.dp)
+                    .testTag(MARKET_DETAIL_CHART_TEST_TAG),
             )
         },
         error = { error -> },

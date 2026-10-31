@@ -11,7 +11,6 @@ package ir.composenews.appwatch.ui.list
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.basicMarquee
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,15 +22,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDownward
-import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.Card
 import androidx.wear.compose.material.Icon
@@ -43,12 +40,10 @@ import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.layout.ScalingLazyColumn
 import com.google.android.horologist.compose.layout.ScalingLazyColumnDefaults
 import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
+import ir.composenews.designsystem.R
 import ir.composenews.designsystem.component.shimmerEffect
 import ir.composenews.designsystem.theme.ComposeNewsTheme
-import ir.composenews.designsystem.theme.darkDownTrendRed
-import ir.composenews.designsystem.theme.darkUptrendGreen
-import ir.composenews.designsystem.theme.lightDownTrendRed
-import ir.composenews.designsystem.theme.lightUptrendGreen
+import ir.composenews.designsystem.theme.LocalExtendedColors
 import java.util.Locale
 
 @Composable
@@ -125,14 +120,10 @@ private fun MarketItemCard(
                     style = MaterialTheme.typography.caption3,
                 )
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    val color = when {
-                        priceChangePercentage24h.contains("-") -> {
-                            if (isSystemInDarkTheme()) darkDownTrendRed else lightDownTrendRed
-                        }
-
-                        else -> {
-                            if (isSystemInDarkTheme()) darkUptrendGreen else lightUptrendGreen
-                        }
+                    val color = if (priceChangePercentage24h.contains("-")) {
+                        LocalExtendedColors.current.trendDown
+                    } else {
+                        LocalExtendedColors.current.trendUp
                     }
 
                     ArrowIconUpOrDown(priceChangePercentage24h, tint = color)
@@ -152,11 +143,9 @@ private fun MarketItemCard(
 private fun ArrowIconUpOrDown(priceChangePercentage24h: String, tint: Color) {
     Icon(
         modifier = Modifier.size(size = 10.dp),
-        imageVector = if (priceChangePercentage24h.contains("-")) {
-            Icons.Default.ArrowDownward
-        } else {
-            Icons.Default.ArrowUpward
-        },
+        painter = painterResource(
+            if (priceChangePercentage24h.contains("-")) R.drawable.ic_arrow_downward else R.drawable.ic_arrow_upward,
+        ),
         contentDescription = "",
         tint = tint,
     )

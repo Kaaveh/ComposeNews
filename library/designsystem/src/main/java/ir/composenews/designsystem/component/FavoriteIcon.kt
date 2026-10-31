@@ -13,9 +13,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -23,11 +22,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import ir.composenews.designsystem.R
 import ir.composenews.designsystem.preview.ThemePreviews
 import ir.composenews.designsystem.theme.ComposeNewsTheme
+import ir.composenews.designsystem.theme.extendedColors
 
 @Composable
 fun FavoriteIcon(
@@ -36,11 +37,13 @@ fun FavoriteIcon(
 ) {
     val animationState by remember(isFavorite) { mutableStateOf(isFavorite) }
 
+    val favoriteOn = MaterialTheme.extendedColors.favoriteOn
+    val favoriteOff = MaterialTheme.extendedColors.favoriteOff
     val favoriteTransition =
         updateTransition(targetState = animationState, label = "favorite_animation_state")
 
     val colorTintFavorite by favoriteTransition.animateColor(label = "favorite_color") { state ->
-        if (state) Color.Red else Color.LightGray
+        if (state) favoriteOn else favoriteOff
     }
 
     val scale by favoriteTransition.animateFloat(
@@ -62,7 +65,7 @@ fun FavoriteIcon(
     }
 
     Icon(
-        imageVector = Icons.Filled.Favorite,
+        painter = painterResource(R.drawable.ic_favorite_filled),
         contentDescription = if (isFavorite) "Favorited" else "Not favorited",
         tint = colorTintFavorite,
         modifier = Modifier

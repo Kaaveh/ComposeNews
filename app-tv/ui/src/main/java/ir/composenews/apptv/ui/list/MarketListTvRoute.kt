@@ -21,7 +21,7 @@ import ir.composenews.base.LoadableData
 import ir.composenews.core.ui.LoadableComponent
 import ir.composenews.base.errorViewMapper
 import ir.composenews.core.ui.use
-import ir.composenews.designsystem.component.EmptyStateAnimation
+import ir.composenews.designsystem.component.EmptyFavoritesPane
 import ir.composenews.designsystem.widget.ErrorView
 import ir.composenews.marketlist.FavoriteListContract
 import ir.composenews.marketlist.FavoriteListViewModel
@@ -88,7 +88,7 @@ private fun MarketListTvScreen(
         },
         loaded = { data ->
             if (data.isEmpty() && showFavoriteList) {
-                EmptyStateAnimation()
+                EmptyFavoritesPane()
             } else {
                 LazyColumn(
                     modifier = Modifier.fillMaxWidth(),

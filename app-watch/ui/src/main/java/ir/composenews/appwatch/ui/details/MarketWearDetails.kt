@@ -43,7 +43,7 @@ import ir.composenews.base.LoadableData
 import ir.composenews.base.errorViewMapper
 import ir.composenews.base.isLoading
 import ir.composenews.core.ui.use
-import ir.composenews.designsystem.component.QuadLineChart
+import ir.composenews.designsystem.component.PriceChart
 import ir.composenews.designsystem.component.shimmerEffect
 import ir.composenews.designsystem.theme.ComposeNewsTheme
 import ir.composenews.designsystem.widget.ErrorView
@@ -131,7 +131,7 @@ private fun MarketDetailScreen(
                 }
                 item {
                     (marketDetailState.marketChart as LoadableData.Loaded).data.prices.let { prices ->
-                        QuadLineChart(data = prices)
+                        PriceChart(prices = prices, height = 120.dp, scrubbable = false)
                     }
                 }
                 item {
