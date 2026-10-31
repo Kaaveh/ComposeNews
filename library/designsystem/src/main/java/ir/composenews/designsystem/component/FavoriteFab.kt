@@ -10,7 +10,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -52,10 +55,7 @@ fun FavoriteFab(
         onClick = onClick,
         modifier = modifier
             .height(64.dp)
-            .semantics {
-                stateDescription = if (isFavorite) "In favorites" else "Not in favorites"
-                onClick(label = if (isFavorite) "Remove from favorites" else "Add to favorites", action = null)
-            },
+            .favoriteSemantics(isFavorite),
         shape = RoundedCornerShape(corner),
         containerColor = containerColor,
         contentColor = contentColor,
@@ -73,6 +73,56 @@ fun FavoriteFab(
     }
 }
 
+/**
+ * The favorite toggle in a detail pane's header, where a FAB would cover the pane: the FAB's colors on a 56 dp button.
+ * Without [showLabel] (a narrow pane) only the heart shows, and it carries the `Remove {name} from favorites` description.
+ */
+@Composable
+fun FavoriteToggleButton(
+    isFavorite: Boolean,
+    marketName: String,
+    onClick: () -> Unit,
+    showLabel: Boolean,
+    modifier: Modifier = Modifier,
+) {
+    Button(
+        onClick = onClick,
+        modifier = modifier
+            .height(56.dp)
+            .then(if (showLabel) Modifier else Modifier.width(56.dp))
+            .favoriteSemantics(isFavorite),
+        shape = RoundedCornerShape(16.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = if (isFavorite) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.primaryContainer,
+            contentColor = if (isFavorite) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onPrimaryContainer,
+        ),
+        contentPadding = if (showLabel) PaddingValues(start = 18.dp, end = 22.dp) else PaddingValues(0.dp),
+    ) {
+        Icon(
+            painter = painterResource(if (isFavorite) R.drawable.ic_favorite_filled else R.drawable.ic_favorite),
+            contentDescription = when {
+                showLabel -> null
+                isFavorite -> "Remove $marketName from favorites"
+                else -> "Add $marketName to favorites"
+            },
+            modifier = Modifier.size(24.dp),
+        )
+        if (showLabel) {
+            Spacer(Modifier.width(8.dp))
+            Text(
+                text = if (isFavorite) "Saved" else "Favorite",
+                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
+            )
+        }
+    }
+}
+
+/** Screen readers hear whether the market is saved and what a tap will do, as with the list's heart. */
+private fun Modifier.favoriteSemantics(isFavorite: Boolean): Modifier = semantics {
+    stateDescription = if (isFavorite) "In favorites" else "Not in favorites"
+    onClick(label = if (isFavorite) "Remove from favorites" else "Add to favorites", action = null)
+}
+
 @ThemePreviews
 @Composable
 private fun FavoriteFabPreview() {
@@ -82,6 +132,10 @@ private fun FavoriteFabPreview() {
                 FavoriteFab(isFavorite = false, onClick = {})
                 Spacer(Modifier.height(16.dp))
                 FavoriteFab(isFavorite = true, onClick = {})
+                Spacer(Modifier.height(16.dp))
+                FavoriteToggleButton(isFavorite = true, marketName = "Bitcoin", onClick = {}, showLabel = true)
+                Spacer(Modifier.height(16.dp))
+                FavoriteToggleButton(isFavorite = false, marketName = "Bitcoin", onClick = {}, showLabel = false)
             }
         }
     }

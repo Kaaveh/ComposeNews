@@ -20,6 +20,7 @@ dependencies {
         api(navigation3.ui)
         implementation(lifecycle.viewmodel.navigation3)
         implementation(kotlinx.serialization.json)
+        implementation(koin.compose.viewmodel)
         implementation(compose.material3.adaptive.navigation)
         implementation(compose.material3.adaptive.navigation.suite)
     }

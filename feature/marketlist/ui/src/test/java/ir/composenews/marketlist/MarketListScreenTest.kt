@@ -11,6 +11,7 @@ package ir.composenews.marketlist
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotEnabled
+import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
@@ -178,6 +179,67 @@ class MarketListScreenTest {
         }
         composeTestRule.onNodeWithText("Top mover in top 250 · 24h").performClick()
         assertEquals(mover, opened)
+    }
+
+    @Test
+    fun givenListInPane_whenRendered_thenTopMoverAndHeartsGoAndTheOpenMarketIsSelected() {
+        composeTestRule.setContent {
+            MarketListScreen(
+                state = MarketListContract.State(
+                    marketList = LoadableData.Loaded(persistentListOf(buildMarketModel())),
+                    topMover = buildMarketModel("sol", "Solana", "SOL"),
+                ),
+                onNavigateToDetailScreen = {},
+                onFavoriteClick = {},
+                onRefresh = {},
+                selectedMarketId = "btc",
+                inPane = true,
+            )
+        }
+        composeTestRule.onNodeWithText("Top mover in top 250 · 24h").assertDoesNotExist()
+        composeTestRule.onNodeWithContentDescription("Add Bitcoin to favorites").assertDoesNotExist()
+        composeTestRule.onNodeWithText("Bitcoin").assertIsSelected()
+    }
+
+    @Test
+    fun givenFavorites_whenCardRendered_thenItSkipsTheOpenMarketAndCallsBack() {
+        val ethereum = buildMarketModel("eth", "Ethereum", "ETH", isFavorite = true)
+        var opened: MarketModel? = null
+        var sawAll = false
+        composeTestRule.setContent {
+            FavoritesCard(
+                favorites = listOf(buildMarketModel(isFavorite = true), ethereum),
+                selectedMarketId = "btc",
+                onMarketClick = { opened = it },
+                onSeeAll = { sawAll = true },
+            )
+        }
+        composeTestRule.onNodeWithText("BTC").assertDoesNotExist()
+        composeTestRule.onNodeWithText("ETH").performClick()
+        composeTestRule.onNodeWithText("See all").performClick()
+        assertEquals(ethereum, opened)
+        assertTrue(sawAll)
+    }
+
+    @Test
+    fun givenNoFavorites_whenCardRendered_thenItSaysSo() {
+        composeTestRule.setContent {
+            FavoritesCard(favorites = emptyList(), selectedMarketId = null, onMarketClick = {}, onSeeAll = {})
+        }
+        composeTestRule.onNodeWithText("No favorites yet").assertIsDisplayed()
+    }
+
+    @Test
+    fun givenOnlyTheOpenMarketIsAFavorite_whenCardRendered_thenItSaysThereAreNoOthers() {
+        composeTestRule.setContent {
+            FavoritesCard(
+                favorites = listOf(buildMarketModel(isFavorite = true)),
+                selectedMarketId = "btc",
+                onMarketClick = {},
+                onSeeAll = {},
+            )
+        }
+        composeTestRule.onNodeWithText("No other favorites").assertIsDisplayed()
     }
 
     @Test

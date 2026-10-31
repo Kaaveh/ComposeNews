@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -66,11 +67,14 @@ fun StatTile(
             style = MaterialTheme.typography.bodySmall.copy(fontSize = 13.sp, lineHeight = 18.sp, fontWeight = FontWeight.Medium),
             color = labelColor,
         )
+        val valueStyle = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight(650)).tabularNums()
         Text(
             text = value,
-            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight(650)).tabularNums(),
+            style = valueStyle,
             color = contentColor,
             maxLines = 1,
+            // Four tiles in a row on a tablet, or a narrow phone, shrink a long price instead of cutting it.
+            autoSize = TextAutoSize.StepBased(minFontSize = 14.sp, maxFontSize = valueStyle.fontSize),
         )
     }
 }

@@ -1,4 +1,4 @@
-@file:Suppress("MagicNumber", "LongMethod", "UnusedPrivateMember", "ktlint")
+@file:Suppress("MagicNumber", "LongMethod", "UnusedPrivateMember", "TooManyFunctions", "ktlint")
 
 package ir.composenews.designsystem.component
 
@@ -18,24 +18,34 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipRect
+import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.PointerInputScope
+import androidx.compose.ui.input.pointer.PointerType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.TextLayoutResult
+import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.Dp
@@ -54,8 +64,8 @@ private const val GRID_LINES = 3
 
 /**
  * The detail price line, with dashed gridlines, price labels on the right and a scrub marker.
- * The marker starts on the latest price; a tap or a horizontal drag moves it, unless [scrubbable] is false
- * (Wear, where a horizontal swipe is the back gesture).
+ * The marker starts on the latest price; a tap, a horizontal drag or a mouse hover moves it and shows a tooltip
+ * with that point's price and time, unless [scrubbable] is false (Wear, where a horizontal swipe is the back gesture).
  */
 @Composable
 fun PriceChart(
@@ -88,6 +98,9 @@ fun PriceChart(
         }
     }
     var scrubIndex by remember(prices) { mutableIntStateOf(prices.lastIndex) }
+    var scrubbed by remember(prices) { mutableStateOf(false) }
+    val tooltipColor = MaterialTheme.colorScheme.inverseSurface
+    val tooltip = rememberTooltip(prices, scrubIndex, scrubbed, textMeasurer)
     val reveal = remember(prices) { Animatable(0f) }
     LaunchedEffect(prices) { reveal.animateTo(1f, tween(1000)) }
 
@@ -96,6 +109,7 @@ fun PriceChart(
     // size is read per event, so a resized chart maps touches to the right point
     fun PointerInputScope.scrubTo(x: Float) {
         scrubIndex = scrubIndexAt(x, (size.width - gutter).toFloat(), prices.size)
+        scrubbed = true
     }
     val scrub = if (scrubbable) {
         Modifier
@@ -105,6 +119,7 @@ fun PriceChart(
                     scrubTo(change.position.x)
                 }
             }
+            .onMouseHover(prices, gutter, onMove = { scrubTo(it) }, onExit = { scrubbed = false })
     } else {
         Modifier
     }
@@ -112,7 +127,10 @@ fun PriceChart(
         modifier = modifier
             .fillMaxWidth()
             .height(height)
-            .semantics { contentDescription = "Price chart, ${formatPrice(min)} to ${formatPrice(max)}" }
+            .semantics {
+                contentDescription = "Price chart, ${formatPrice(min)} to ${formatPrice(max)}"
+                tooltip?.let { stateDescription = it.label }
+            }
             .then(scrub),
     ) {
         val plotWidth = size.width - gutter
@@ -168,6 +186,8 @@ fun PriceChart(
             )
             drawCircle(color = markerFill, radius = markerRadius, center = marker)
             drawCircle(color = lineColor, radius = markerRadius, center = marker, style = Stroke(width = 3.dp.toPx()))
+
+            tooltip?.let { drawTooltip(it, marker, markerRadius, plotWidth, tooltipColor) }
         }
     }
 }
@@ -188,6 +208,86 @@ internal fun axisDecimals(step: Double): Int = (1 - floor(log10(step))).toInt().
 /** The index of the point nearest to [x] on a plot [plotWidth] wide holding [count] points. */
 internal fun scrubIndexAt(x: Float, plotWidth: Float, count: Int): Int =
     if (count < 2 || plotWidth <= 0f) 0 else (x / plotWidth * (count - 1)).roundToInt().coerceIn(0, count - 1)
+
+/**
+ * Calls [onMove] with x as a mouse hovers and [onExit] as it leaves; touch moves are left to the drag,
+ * so a vertical scroll doesn't scrub.
+ */
+private fun Modifier.onMouseHover(
+    key1: Any?,
+    key2: Any?,
+    onMove: PointerInputScope.(x: Float) -> Unit,
+    onExit: () -> Unit,
+): Modifier =
+    pointerInput(key1, key2) {
+        awaitPointerEventScope {
+            while (true) {
+                val event = awaitPointerEvent()
+                val change = event.changes.first()
+                if (change.type != PointerType.Mouse) continue
+                when (event.type) {
+                    PointerEventType.Move -> this@pointerInput.onMove(change.position.x)
+                    PointerEventType.Exit -> onExit()
+                }
+            }
+        }
+    }
+
+/** The scrubbed point's price and time, measured, and [label] for screen readers. */
+private class Tooltip(val label: String, val price: TextLayoutResult, val time: TextLayoutResult)
+
+/** The tooltip for [prices] at [index], formatted and measured once per point, or null until [scrubbed]. */
+@Composable
+private fun rememberTooltip(
+    prices: List<Pair<Long, Double>>,
+    index: Int,
+    scrubbed: Boolean,
+    textMeasurer: TextMeasurer,
+): Tooltip? {
+    val priceStyle = MaterialTheme.typography.labelLarge.tabularNums()
+        .copy(color = MaterialTheme.colorScheme.inverseOnSurface, fontWeight = FontWeight.SemiBold)
+    val timeStyle = MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.colorScheme.inverseOnSurface)
+    return remember(prices, index, scrubbed, priceStyle, timeStyle) {
+        if (!scrubbed) return@remember null
+        val (millis, value) = prices[index]
+        val price = formatUsdPrice(value)
+        val time = formatChartTime(millis)
+        Tooltip("$price at $time", textMeasurer.measure(price, priceStyle), textMeasurer.measure(time, timeStyle))
+    }
+}
+
+/** The scrubbed point's price over its time, in a box above the [marker], or below it near the top. */
+private fun DrawScope.drawTooltip(
+    tooltip: Tooltip,
+    marker: Offset,
+    markerRadius: Float,
+    plotWidth: Float,
+    color: Color,
+) {
+    val (price, time) = tooltip.price to tooltip.time
+    val padH = 12.dp.toPx()
+    val padV = 8.dp.toPx()
+    val box = Size(
+        width = maxOf(price.size.width, time.size.width) + padH * 2,
+        height = (price.size.height + time.size.height) + padV * 2,
+    )
+    val left = tooltipLeft(marker.x, box.width, plotWidth)
+    val top = tooltipTop(marker.y, markerRadius + 4.dp.toPx(), box.height, size.height)
+    drawRoundRect(color = color, topLeft = Offset(left, top), size = box, cornerRadius = CornerRadius(12.dp.toPx()))
+    drawText(price, topLeft = Offset(left + padH, top + padV))
+    drawText(time, topLeft = Offset(left + padH, top + padV + price.size.height))
+}
+
+/**
+ * The tooltip's top edge: the top of the chart, unless the marker at [markerY] would sit under it, then just
+ * below the marker ([clearance] away), kept inside a chart [chartHeight] tall.
+ */
+internal fun tooltipTop(markerY: Float, clearance: Float, height: Float, chartHeight: Float): Float =
+    if (markerY - clearance >= height) 0f else (markerY + clearance).coerceAtMost(chartHeight - height)
+
+/** The tooltip's left edge: centered on the marker at [x], kept inside a plot [plotWidth] wide. */
+internal fun tooltipLeft(x: Float, width: Float, plotWidth: Float): Float =
+    (x - width / 2).coerceAtMost(plotWidth - width).coerceAtLeast(0f)
 
 @ThemePreviews
 @Composable

@@ -1,4 +1,4 @@
-@file:Suppress("MagicNumber", "ktlint")
+@file:Suppress("MagicNumber", "MaxLineLength", "ktlint")
 
 package ir.composenews.marketdetail.components
 
@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -32,18 +33,20 @@ internal const val MARKET_DETAIL_CHART_TEST_TAG = "marketDetailChart"
 
 private val ChartHeight = 188.dp
 
-/** The chart card: the price line for [range], and the 1D / 1W / 1M / 1Y group under it. */
+/** The chart card: the price line for [range], and the 1D / 1W / 1M / 1Y group under it. In a pane it's white on the pane's card. */
 @Composable
 internal fun MarketChart(
     loadableData: LoadableData<MarketChart>,
     range: ChartRange,
     onRangeSelect: (ChartRange) -> Unit,
+    containerColor: Color = MaterialTheme.colorScheme.surfaceContainerLow,
+    rangeColor: Color = MaterialTheme.colorScheme.surfaceContainerLowest,
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(28.dp))
-            .background(MaterialTheme.colorScheme.surfaceContainerLow)
+            .background(containerColor)
             .padding(start = 12.dp, top = 16.dp, end = 12.dp, bottom = 12.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
@@ -78,7 +81,7 @@ internal fun MarketChart(
             onSelect = onRangeSelect,
             label = { it.shortLabel },
             height = 40.dp,
-            uncheckedContainerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
+            uncheckedContainerColor = rangeColor,
         )
     }
 }

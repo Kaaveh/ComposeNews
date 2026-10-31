@@ -1,6 +1,7 @@
 package ir.composenews.designsystem.component
 
 import io.kotest.core.spec.style.StringSpec
+import java.util.TimeZone
 import kotlin.test.assertEquals
 
 class FormatTest :
@@ -25,5 +26,15 @@ class FormatTest :
             assertEquals("$1.00T", formatCompactUsd(999_960_000_000))
             assertEquals("$100M", formatCompactUsd(99_960_000))
             assertEquals("$10.0B", formatCompactUsd(9_996_000_000))
+        }
+
+        "Given a chart point, When formatting its time, Then recent days read as words and older ones as dates" {
+            val utc = TimeZone.getTimeZone("UTC")
+            val now = 1_761_920_400_000 // Oct 31, 2025 14:20 UTC
+            assertEquals("Today, 14:20", formatChartTime(now, now, utc))
+            assertEquals("Today, 00:00", formatChartTime(1_761_868_800_000, now, utc))
+            assertEquals("Yesterday, 23:05", formatChartTime(1_761_865_500_000, now, utc))
+            assertEquals("Oct 24, 14:00", formatChartTime(1_761_314_400_000, now, utc))
+            assertEquals("Mar 3, 2024", formatChartTime(1_709_424_000_000, now, utc))
         }
     })

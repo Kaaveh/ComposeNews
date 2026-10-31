@@ -28,4 +28,16 @@ class PriceChartTest :
             assertEquals(2, axisDecimals(0.775))
             assertEquals(5, axisDecimals(0.00025))
         }
+
+        "Given a marker near an edge, When placing the tooltip, Then it stays inside the plot" {
+            assertEquals(40f, tooltipLeft(x = 100f, width = 120f, plotWidth = 300f))
+            assertEquals(0f, tooltipLeft(x = 10f, width = 120f, plotWidth = 300f))
+            assertEquals(180f, tooltipLeft(x = 295f, width = 120f, plotWidth = 300f))
+        }
+
+        "Given a marker under the tooltip, When placing it, Then it drops below the marker" {
+            assertEquals(0f, tooltipTop(markerY = 120f, clearance = 10f, height = 50f, chartHeight = 188f))
+            assertEquals(30f, tooltipTop(markerY = 20f, clearance = 10f, height = 50f, chartHeight = 188f))
+            assertEquals(138f, tooltipTop(markerY = 50f, clearance = 100f, height = 50f, chartHeight = 188f))
+        }
     })

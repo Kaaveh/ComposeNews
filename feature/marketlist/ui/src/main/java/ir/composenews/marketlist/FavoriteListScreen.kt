@@ -65,10 +65,12 @@ import ir.composenews.uimarket.model.MarketModel
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
 
+/** [selectedMarketId]: the market the detail beside the list shows. */
 @Composable
 fun FavoriteListRoute(
     onNavigateToDetailScreen: (market: MarketModel) -> Unit,
     onBrowseMarkets: () -> Unit,
+    selectedMarketId: String? = null,
 ) {
     val (state, event) = use(viewModel = koinViewModel<FavoriteListViewModel>())
     LaunchedEffect(key1 = Unit) {
@@ -82,6 +84,7 @@ fun FavoriteListRoute(
         },
         onSortSelect = { event.invoke(FavoriteListContract.Event.OnSortSelect(it)) },
         onBrowseMarkets = onBrowseMarkets,
+        selectedMarketId = selectedMarketId,
     )
 }
 
@@ -92,6 +95,7 @@ fun FavoriteMarketListScreen(
     onFavoriteClick: (market: MarketModel) -> Unit,
     onSortSelect: (Sort) -> Unit = {},
     onBrowseMarkets: () -> Unit = {},
+    selectedMarketId: String? = null,
 ) {
     when (val favorites = state.favoriteList) {
         is LoadableData.Loaded -> if (favorites.data.isEmpty()) {
@@ -113,6 +117,7 @@ fun FavoriteMarketListScreen(
                 onNavigateToDetailScreen = onNavigateToDetailScreen,
                 onRemove = onFavoriteClick,
                 onSortSelect = onSortSelect,
+                selectedMarketId = selectedMarketId,
             )
         }
 
@@ -129,6 +134,7 @@ private fun FavoriteListContent(
     onNavigateToDetailScreen: (market: MarketModel) -> Unit,
     onRemove: (market: MarketModel) -> Unit,
     onSortSelect: (Sort) -> Unit,
+    selectedMarketId: String?,
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -162,6 +168,7 @@ private fun FavoriteListContent(
                 shape = groupedRowShape(index, favorites.size),
                 onClick = { onNavigateToDetailScreen(market) },
                 onRemove = { onRemove(market) },
+                selected = market.id == selectedMarketId,
                 modifier = Modifier.animateItem(),
             )
         }
@@ -197,6 +204,7 @@ private fun SwipeToRemoveRow(
     shape: Shape,
     onClick: () -> Unit,
     onRemove: () -> Unit,
+    selected: Boolean,
     modifier: Modifier = Modifier,
 ) {
     val threshold = with(LocalDensity.current) { SWIPE_THRESHOLD.toPx() }
@@ -224,6 +232,7 @@ private fun SwipeToRemoveRow(
             onItemClick = onClick,
             onFavoriteClick = null,
             onRemove = onRemove,
+            selected = selected,
         )
     }
 }
