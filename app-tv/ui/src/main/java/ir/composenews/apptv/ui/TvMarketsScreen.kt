@@ -18,8 +18,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -33,15 +35,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontWeight
@@ -60,9 +61,12 @@ import ir.composenews.designsystem.R
 import ir.composenews.designsystem.component.EmptyFavoritesPane
 import ir.composenews.designsystem.component.MarketLogo
 import ir.composenews.designsystem.component.Sparkline
+import ir.composenews.designsystem.component.StatePane
 import ir.composenews.designsystem.component.TrendChange
+import ir.composenews.designsystem.component.favoriteSemantics
 import ir.composenews.designsystem.component.formatCompactUsd
 import ir.composenews.designsystem.component.formatPrice
+import ir.composenews.designsystem.component.formatRetry
 import ir.composenews.designsystem.component.formatUsdPrice
 import ir.composenews.designsystem.theme.LightExtendedColors
 import ir.composenews.designsystem.theme.extendedColors
@@ -123,41 +127,31 @@ fun TvMarketsRoute(
     }
     var featuredMarket by rememberSaveable { mutableStateOf<String?>(null) }
     var featuredFavorite by rememberSaveable { mutableStateOf<String?>(null) }
-    // Set at launch and by buttons that remove themselves; whatever the screen shows next takes focus.
-    var focusContent by rememberSaveable { mutableStateOf(true) }
-    // One call for both tabs, so a switch keeps the featured market, and the chart it loaded, composed.
+    // Not saved: a recreated screen takes focus again, as at launch.
+    val focus = remember { ContentFocus() }
+    val marketsRow = rememberLazyListState()
+    val favoritesRow = rememberLazyListState()
     TvMarketsScreen(
         markets = if (favorites) favoritesState.favoriteList else marketsState.marketList,
         favorites = favorites,
         featuredId = if (favorites) featuredFavorite else featuredMarket,
         onFeature = { if (favorites) featuredFavorite = it else featuredMarket = it },
-        focusContent = focusContent,
-        onContentFocused = { focusContent = false },
-        refocusContent = { focusContent = true },
-        onBrowseMarkets = {
-            focusContent = true
-            onSelectTab(false)
+        focus = focus,
+        rowState = if (favorites) favoritesRow else marketsRow,
+        retryInSeconds = marketsState.retryInSeconds,
+        onRefresh = {
+            focus.park()
+            marketsEvent(MarketListContract.Event.OnRefresh)
         },
-        error = { error ->
-            if (!favorites) {
-                TvErrorPane(
-                    error = error,
-                    retryInSeconds = marketsState.retryInSeconds,
-                    onRefresh = {
-                        focusContent = true
-                        marketsEvent(MarketListContract.Event.OnRefresh)
-                    },
-                    onOpenFavorites = {
-                        focusContent = true
-                        onSelectTab(true)
-                    },
-                    takeFocus = focusContent,
-                    onFocusTaken = { focusContent = false },
-                )
-            }
+        onSelectTab = {
+            focus.park()
+            onSelectTab(it)
         },
     )
 }
+
+/** What the content area shows; focus moves into it each time this changes. */
+private enum class Pane { Market, Error, EmptyFavorites, EmptyMarkets, Loading }
 
 @Composable
 private fun TvMarketsScreen(
@@ -165,25 +159,39 @@ private fun TvMarketsScreen(
     favorites: Boolean,
     featuredId: String?,
     onFeature: (id: String) -> Unit,
-    focusContent: Boolean,
-    onContentFocused: () -> Unit,
-    refocusContent: () -> Unit,
-    onBrowseMarkets: () -> Unit,
-    error: @Composable (Errors) -> Unit,
+    focus: ContentFocus,
+    rowState: LazyListState,
+    retryInSeconds: Int,
+    onRefresh: () -> Unit,
+    onSelectTab: (favorites: Boolean) -> Unit,
 ) {
     val list = markets.data
     // A removed favorite or a market that left the top 250 falls back to the first one.
     val featured = list?.firstOrNull { it.id == featuredId } ?: list?.firstOrNull()
+    val pane =
+        when {
+            list != null && featured != null -> Pane.Market
+            markets is LoadableData.Error -> Pane.Error
+            list != null -> if (favorites) Pane.EmptyFavorites else Pane.EmptyMarkets
+            else -> Pane.Loading
+        }
+    val window = LocalWindowInfo.current
+    LaunchedEffect(pane, favorites) { focus.takeFocus(window) }
 
     Box(modifier = Modifier.fillMaxSize()) {
+        Spacer(modifier = Modifier.padding(start = SCREEN_EDGE, top = 24.dp + TAB_ROW_SPACE).size(1.dp).then(focus.parkingSpot))
         if (list != null && featured != null) {
-            // Removing the last favorite takes Saved, which has focus, away with the hero.
-            FeaturedMarket(market = featured, onFavoriteClick = { if (favorites && list.size == 1) refocusContent() }) {
+            FeaturedMarket(
+                market = featured,
+                favorites = favorites,
+                // Removing the last favorite takes Saved, which has focus, away with the hero.
+                onFavoriteClick = { if (favorites && list.size == 1) focus.park() },
+            ) {
                 MarketCardRow(
                     markets = list,
                     title = if (favorites) "Favorites" else "All markets",
-                    focusFirstCard = focusContent,
-                    onFirstCardFocused = onContentFocused,
+                    state = rowState,
+                    modifier = Modifier.focusRequester(focus.entry),
                     onClick = { onFeature(it.id) },
                 )
             }
@@ -191,30 +199,75 @@ private fun TvMarketsScreen(
             Column(modifier = Modifier.fillMaxSize().padding(start = SCREEN_EDGE, top = 24.dp, end = SCREEN_EDGE)) {
                 Spacer(modifier = Modifier.height(TAB_ROW_SPACE))
                 Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
-                    when {
-                        markets is LoadableData.Error -> {
-                            error(markets.error)
-                        }
-
-                        favorites && list != null -> {
-                            val browse = remember { FocusRequester() }
-                            RequestFocusWhen(takeFocus = focusContent, requester = browse, onFocusTaken = onContentFocused)
-                            EmptyFavoritesPane(illustrationSize = TV_ILLUSTRATION) {
-                                TvPaneButton(
-                                    text = "Browse markets",
-                                    icon = painterResource(R.drawable.ic_finance_mode),
-                                    onClick = onBrowseMarkets,
-                                    modifier = Modifier.focusRequester(browse),
-                                )
-                            }
-                        }
-
-                        else -> {
-                            LoadingView(modifier = Modifier.fillMaxSize())
-                        }
-                    }
+                    TvStatePane(
+                        pane = pane,
+                        error = (markets as? LoadableData.Error)?.error,
+                        entry = Modifier.focusRequester(focus.entry),
+                        retryInSeconds = retryInSeconds,
+                        onRefresh = onRefresh,
+                        onSelectTab = onSelectTab,
+                    )
                 }
             }
+        }
+    }
+}
+
+/** Everything but a market: [entry] goes on the pane's main button. */
+@Composable
+private fun TvStatePane(
+    pane: Pane,
+    error: Errors?,
+    entry: Modifier,
+    retryInSeconds: Int,
+    onRefresh: () -> Unit,
+    onSelectTab: (favorites: Boolean) -> Unit,
+) {
+    when (pane) {
+        Pane.Error -> {
+            if (error != null) {
+                TvErrorPane(
+                    error = error,
+                    retryInSeconds = retryInSeconds,
+                    onRefresh = onRefresh,
+                    onOpenFavorites = { onSelectTab(true) },
+                    retryModifier = entry,
+                )
+            }
+        }
+
+        Pane.EmptyFavorites -> {
+            EmptyFavoritesPane(illustrationSize = TV_ILLUSTRATION) {
+                TvPaneButton(
+                    text = "Browse markets",
+                    icon = painterResource(R.drawable.ic_finance_mode),
+                    onClick = { onSelectTab(false) },
+                    modifier = entry,
+                )
+            }
+        }
+
+        Pane.EmptyMarkets -> {
+            StatePane(
+                icon = painterResource(R.drawable.ic_finance_mode),
+                iconTint = PhoneMaterialTheme.colorScheme.primary,
+                containerColor = PhoneMaterialTheme.colorScheme.primaryContainer,
+                title = "No markets yet",
+                body = "The sync came back empty. Try again in a moment.",
+                illustrationSize = TV_ILLUSTRATION,
+            ) {
+                TvPaneButton(
+                    text = formatRetry(retryInSeconds),
+                    icon = painterResource(R.drawable.ic_refresh),
+                    onClick = onRefresh,
+                    enabled = retryInSeconds == 0,
+                    modifier = entry,
+                )
+            }
+        }
+
+        Pane.Market, Pane.Loading -> {
+            LoadingView(modifier = Modifier.fillMaxSize())
         }
     }
 }
@@ -223,15 +276,20 @@ private fun TvMarketsScreen(
 @Composable
 private fun FeaturedMarket(
     market: MarketModel,
+    favorites: Boolean,
     onFavoriteClick: () -> Unit,
     cards: @Composable () -> Unit,
 ) {
-    val (state, event) = use(viewModel = koinViewModel<MarketDetailViewModel>())
-    LaunchedEffect(market.id) {
+    // One per tab, so a tab switch finds its market, chart and detail where it left them.
+    val viewModel = koinViewModel<MarketDetailViewModel>(key = if (favorites) "favorites" else "markets")
+    val (state, event) = use(viewModel = viewModel)
+    LaunchedEffect(viewModel, market.id) {
         event(MarketDetailContract.Event.SetMarket(market = market))
         delay(FETCH_DELAY_MS)
-        event(MarketDetailContract.Event.GetMarketChart(marketId = market.id))
-        event(MarketDetailContract.Event.GetMarketDetail(marketId = market.id))
+        // Only what isn't loaded or loading: a tab switch keeps both, and a range picked meanwhile loads the chart.
+        val shown = viewModel.state.value
+        if (shown.marketChart.needsFetch) event(MarketDetailContract.Event.GetMarketChart(marketId = market.id))
+        if (shown.marketDetail.needsFetch) event(MarketDetailContract.Event.GetMarketDetail(marketId = market.id))
     }
     // The ViewModel still holds the previous market for the frame before SetMarket.
     val isCurrent = state.market.data?.id == market.id
@@ -319,6 +377,9 @@ private fun FeaturedMarket(
     }
 }
 
+private val LoadableData<*>.needsFetch: Boolean
+    get() = this is LoadableData.Initial || this is LoadableData.Error
+
 /** Fades the content in from transparent at its start edge, so the chart sits behind the text without a seam. */
 private fun Modifier.fadeInFromStart(): Modifier =
     graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen).drawWithContent {
@@ -362,11 +423,7 @@ private fun SavedButton(
                 focusedContentColor = content,
             ),
         border = ButtonDefaults.border(focusedBorder = FocusRing),
-        modifier =
-            Modifier.semantics {
-                stateDescription = if (isFavorite) "In favorites" else "Not in favorites"
-                onClick(label = if (isFavorite) "Remove from favorites" else "Add to favorites", action = null)
-            },
+        modifier = Modifier.favoriteSemantics(isFavorite),
     ) {
         Icon(
             painter = painterResource(if (isFavorite) R.drawable.ic_favorite_filled else R.drawable.ic_favorite),
@@ -421,26 +478,22 @@ private fun RangeGroup(
 private fun MarketCardRow(
     markets: List<MarketModel>,
     title: String,
-    focusFirstCard: Boolean,
-    onFirstCardFocused: () -> Unit,
+    state: LazyListState,
     onClick: (MarketModel) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(text = title, style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(start = SCREEN_EDGE))
         LazyRow(
+            state = state,
             // Room for the focused card to scale up and show its ring.
             contentPadding = PaddingValues(start = SCREEN_EDGE, top = 10.dp, end = SCREEN_EDGE, bottom = 6.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
+            // Focus requested on the row goes to its first card on screen.
+            modifier = modifier,
         ) {
-            itemsIndexed(items = markets, key = { _, market -> market.id }) { index, market ->
-                if (index == 0) {
-                    // Inside the item, so the requester is attached by the time it asks for focus.
-                    val firstCard = remember { FocusRequester() }
-                    RequestFocusWhen(takeFocus = focusFirstCard, requester = firstCard, onFocusTaken = onFirstCardFocused)
-                    MarketCard(market = market, onClick = { onClick(market) }, modifier = Modifier.focusRequester(firstCard))
-                } else {
-                    MarketCard(market = market, onClick = { onClick(market) })
-                }
+            items(items = markets, key = { it.id }) { market ->
+                MarketCard(market = market, onClick = { onClick(market) })
             }
         }
     }

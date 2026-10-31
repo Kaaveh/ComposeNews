@@ -118,7 +118,7 @@ fun FavoriteToggleButton(
 }
 
 /** Screen readers hear whether the market is saved and what a tap will do, as with the list's heart. */
-private fun Modifier.favoriteSemantics(isFavorite: Boolean): Modifier = semantics {
+fun Modifier.favoriteSemantics(isFavorite: Boolean): Modifier = semantics {
     stateDescription = if (isFavorite) "In favorites" else "Not in favorites"
     onClick(label = if (isFavorite) "Remove from favorites" else "Add to favorites", action = null)
 }

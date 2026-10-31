@@ -320,6 +320,20 @@ class MarketDetailViewModelTest : StringSpec({
         coVerify(exactly = 1) { getMarketChartUseCase(id = "early", days = 30) }
     }
 
+    "Given a week chart requested for the next market before it is set, When it is set, Then the range stays a week" {
+        val model = provideMarketList(1).first().toMarketModel()
+        coEvery { getMarketChartUseCase(id = any(), days = any()) } returns flowOf(Resource.Success(provideMarketChart()))
+        viewModel.event(MarketDetailContract.Event.SetMarket(model.copy(id = "a")))
+        viewModel.event(MarketDetailContract.Event.OnChartRangeSelect(MarketDetailContract.ChartRange.Week))
+        viewModel.event(MarketDetailContract.Event.GetMarketChart(marketId = "b"))
+
+        viewModel.event(MarketDetailContract.Event.SetMarket(model.copy(id = "b")))
+
+        coVerify(exactly = 1) { getMarketChartUseCase(id = "b", days = 7) }
+        viewModel.state.value.chartRange shouldBe MarketDetailContract.ChartRange.Week
+        viewModel.state.value.marketChart.shouldBeInstanceOf<LoadableData.Loaded<MarketChart>>()
+    }
+
     "Given a slow detail for the previous market, When it answers after the next one was requested, Then it is ignored" {
         val slowDetail = MutableSharedFlow<Resource<MarketDetail, Errors>>()
         val nextDetail = provideMarketDetail()

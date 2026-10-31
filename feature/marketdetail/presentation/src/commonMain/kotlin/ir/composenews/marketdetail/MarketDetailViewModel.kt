@@ -101,7 +101,8 @@ class MarketDetailViewModel(
         mutableState.update {
             it.copy(
                 market = LoadableData.Loaded(market),
-                chartRange = if (isNewMarket) MarketDetailContract.ChartRange.Day else it.chartRange,
+                // A chart requested before this call keeps the range it was requested with.
+                chartRange = if (clearChart) MarketDetailContract.ChartRange.Day else it.chartRange,
                 marketChart = if (clearChart) LoadableData.Initial else it.marketChart,
                 marketDetail = if (clearDetail) LoadableData.Initial else it.marketDetail,
             )
