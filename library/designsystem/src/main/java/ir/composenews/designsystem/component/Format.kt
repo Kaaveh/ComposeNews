@@ -4,7 +4,10 @@ package ir.composenews.designsystem.component
 
 import java.math.BigDecimal
 import java.math.MathContext
+import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Locale
+import java.util.TimeZone
 import kotlin.math.abs
 
 private const val SMALL_PRICE_DECIMALS = "%.6f"
@@ -44,4 +47,30 @@ fun formatCompactUsd(value: Long): String {
             else -> 2
         }
     return "$" + String.format(Locale.US, "%.${decimals}f", scaled) + suffix
+}
+
+/**
+ * When a chart point was priced: `Today, 14:20` or `Yesterday, 23:05`, `Oct 24, 14:00` earlier this year,
+ * `Mar 3, 2025` before that. Calendar rather than java.time, which minSdk 24 lacks without desugaring.
+ */
+fun formatChartTime(
+    millis: Long,
+    now: Long = System.currentTimeMillis(),
+    timeZone: TimeZone = TimeZone.getDefault(),
+): String {
+    fun calendarAt(time: Long) = Calendar.getInstance(timeZone, Locale.US).apply { timeInMillis = time }
+
+    fun format(pattern: String) = SimpleDateFormat(pattern, Locale.US).apply { this.timeZone = timeZone }.format(millis)
+    val point = calendarAt(millis)
+    val today = calendarAt(now)
+    val yesterday = calendarAt(now).apply { add(Calendar.DAY_OF_YEAR, -1) }
+
+    fun Calendar.sameDay(other: Calendar) =
+        get(Calendar.YEAR) == other.get(Calendar.YEAR) && get(Calendar.DAY_OF_YEAR) == other.get(Calendar.DAY_OF_YEAR)
+    return when {
+        point.sameDay(today) -> "Today, " + format("HH:mm")
+        point.sameDay(yesterday) -> "Yesterday, " + format("HH:mm")
+        point.get(Calendar.YEAR) == today.get(Calendar.YEAR) -> format("MMM d, HH:mm")
+        else -> format("MMM d, yyyy")
+    }
 }

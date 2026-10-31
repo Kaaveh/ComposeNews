@@ -53,6 +53,7 @@ dependencies {
     // Koin
     implementation(libs.koin.android)
     implementation(libs.koin.workmanager)
+    implementation(libs.koin.compose.viewmodel)
 
     implementation(libs.profileinstaller)
 

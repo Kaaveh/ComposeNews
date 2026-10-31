@@ -18,6 +18,7 @@ fun MarketListItem(
     onFavoriteClick: (() -> Unit)?,
     modifier: Modifier = Modifier,
     onRemove: (() -> Unit)? = null,
+    selected: Boolean = false,
 ) {
     with(market) {
         MarketRow(
@@ -35,6 +36,7 @@ fun MarketListItem(
             modifier = modifier,
             shape = shape,
             onRemove = onRemove,
+            selected = selected,
         )
     }
 }

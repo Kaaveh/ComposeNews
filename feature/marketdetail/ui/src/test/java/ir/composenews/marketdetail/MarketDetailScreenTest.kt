@@ -9,6 +9,7 @@
 package ir.composenews.marketdetail
 
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasStateDescription
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
@@ -44,6 +45,7 @@ class MarketDetailScreenTest {
                     market = LoadableData.Loaded(buildMarketModel()),
                 ),
                 onFavoriteClick = {},
+                onBack = {},
             )
         }
         composeTestRule.onNodeWithText("Bitcoin").assertIsDisplayed()
@@ -57,6 +59,7 @@ class MarketDetailScreenTest {
                     market = LoadableData.Loaded(buildMarketModel()),
                 ),
                 onFavoriteClick = {},
+                onBack = {},
             )
         }
         composeTestRule.onNodeWithText("50,000.00 $").assertIsDisplayed()
@@ -70,6 +73,7 @@ class MarketDetailScreenTest {
                     market = LoadableData.Loaded(buildMarketModel(isFavorite = true)),
                 ),
                 onFavoriteClick = {},
+                onBack = {},
             )
         }
         composeTestRule.onNodeWithText("Saved").assertExists()
@@ -85,6 +89,7 @@ class MarketDetailScreenTest {
                     market = LoadableData.Loaded(bitcoin),
                 ),
                 onFavoriteClick = { clickedMarket = it },
+                onBack = {},
             )
         }
 
@@ -113,7 +118,8 @@ class MarketDetailScreenTest {
     }
 
     @Test
-    fun givenNoBack_whenRendered_thenBackButtonIsHidden() {
+    fun givenNoBackOutsideAPane_whenRendered_thenItIsFullScreenWithTheFab() {
+        // The TV detail: full-screen without a back button.
         composeTestRule.setContent {
             MarketDetailScreen(
                 marketDetailState = MarketDetailContract.State(market = LoadableData.Loaded(buildMarketModel())),
@@ -121,7 +127,77 @@ class MarketDetailScreenTest {
             )
         }
         composeTestRule.onNodeWithContentDescription("Back to markets").assertDoesNotExist()
+        composeTestRule.onNodeWithText("Favorite").assertIsDisplayed()
+    }
+
+    @Test
+    fun givenInPane_whenRendered_thenItIsACardWithTheToggleInTheHeader() {
+        composeTestRule.setContent {
+            MarketDetailScreen(
+                marketDetailState = MarketDetailContract.State(market = LoadableData.Loaded(buildMarketModel())),
+                onFavoriteClick = {},
+                inPane = true,
+            )
+        }
+        composeTestRule.onNodeWithContentDescription("Back to markets").assertDoesNotExist()
         composeTestRule.onNodeWithContentDescription("Share").assertIsDisplayed()
+        // A narrow pane: the heart alone, no FAB label.
+        composeTestRule.onNodeWithContentDescription("Add Bitcoin to favorites").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Favorite").assertDoesNotExist()
+    }
+
+    @Test
+    @Config(qualifiers = "w1280dp-h800dp")
+    fun givenWidePane_whenRendered_thenToggleIsLabeledAndTilesShowInOneRow() {
+        composeTestRule.setContent {
+            MarketDetailScreen(
+                marketDetailState = MarketDetailContract.State(
+                    market = LoadableData.Loaded(buildMarketModel(isFavorite = true)),
+                    marketDetail = LoadableData.Loaded(bitcoinDetail()),
+                ),
+                onFavoriteClick = {},
+                inPane = true,
+            )
+        }
+        composeTestRule.onNodeWithText("Saved").assertIsDisplayed()
+        composeTestRule.onNode(hasStateDescription("In favorites")).assertIsDisplayed()
+        val cap = composeTestRule
+            .onNodeWithText("$255B")
+            .performScrollTo()
+            .fetchSemanticsNode()
+            .boundsInRoot
+        val low = composeTestRule
+            .onNodeWithText("50,000.00")
+            .performScrollTo()
+            .fetchSemanticsNode()
+            .boundsInRoot
+        assertEquals(cap.top, low.top)
+    }
+
+    @Test
+    fun givenExtraPaneShowsMarketData_whenRendered_thenDetailLeavesItOut() {
+        composeTestRule.setContent {
+            MarketDetailScreen(
+                marketDetailState = MarketDetailContract.State(
+                    market = LoadableData.Loaded(buildMarketModel()),
+                    marketDetail = LoadableData.Loaded(bitcoinDetail()),
+                ),
+                onFavoriteClick = {},
+                inPane = true,
+                showMarketData = false,
+            )
+        }
+        composeTestRule.onNodeWithText("Market Data").assertDoesNotExist()
+    }
+
+    @Test
+    fun givenMarketDetail_whenMarketDataCardRendered_thenItListsTheValues() {
+        composeTestRule.setContent {
+            MarketDataCard(state = MarketDetailContract.State(marketDetail = LoadableData.Loaded(bitcoinDetail())))
+        }
+        listOf("Market Data", "Market Cap", "$255B", "Rank", "#1", "High 24h", "100,000.00", "Low 24h", "50,000.00").forEach {
+            composeTestRule.onNodeWithText(it).assertIsDisplayed()
+        }
     }
 
     @Test
@@ -133,6 +209,7 @@ class MarketDetailScreenTest {
                     marketChart = LoadableData.Loaded(MarketChart(persistentListOf(1L to 200.0, 2L to 150.0))),
                 ),
                 onFavoriteClick = {},
+                onBack = {},
             )
         }
         composeTestRule.onNodeWithContentDescription("Down 25.00 %").assertIsDisplayed()
@@ -172,6 +249,7 @@ class MarketDetailScreenTest {
                     marketDetail = LoadableData.Loaded(bitcoinDetail),
                 ),
                 onFavoriteClick = {},
+                onBack = {},
             )
         }
 
@@ -186,6 +264,7 @@ class MarketDetailScreenTest {
                     market = LoadableData.Loading,
                 ),
                 onFavoriteClick = {},
+                onBack = {},
             )
         }
 
@@ -219,6 +298,7 @@ class MarketDetailScreenTest {
                     marketDetail = LoadableData.Loaded(bitcoinDetail),
                 ),
                 onFavoriteClick = {},
+                onBack = {},
             )
         }
 
@@ -247,12 +327,26 @@ class MarketDetailScreenTest {
                     marketDetail = LoadableData.Loaded(bitcoinDetail),
                 ),
                 onFavoriteClick = {},
+                onBack = {},
             )
         }
 
         composeTestRule.onNodeWithText("No chart data").assertExists()
         composeTestRule.onNodeWithText("No chart data").assertIsDisplayed()
     }
+
+    private fun bitcoinDetail() =
+        MarketDetail(
+            id = "btc",
+            marketCapRank = 1,
+            marketData = MarketDetail.MarketData(
+                high24hUSD = 100_000.0,
+                low24hUSD = 50_000.0,
+                marketCapUSD = 255_000_000_000,
+                marketCapRank = 1,
+            ),
+            name = "Bitcoin",
+        )
 
     private fun assertStatRowsAreVisible(vararg texts: String) {
         texts.forEach { text ->

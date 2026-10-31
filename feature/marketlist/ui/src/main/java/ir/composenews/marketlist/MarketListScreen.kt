@@ -75,10 +75,13 @@ import java.util.Locale
 
 private const val SKELETON_ROWS = 6
 
+/** [inPane]: the list sits beside the detail, which then shows [selectedMarketId]. */
 @Composable
 fun MarketListRoute(
     onNavigateToDetailScreen: (market: MarketModel) -> Unit,
     onOpenFavorites: () -> Unit,
+    selectedMarketId: String? = null,
+    inPane: Boolean = false,
 ) {
     val (state, event) = use(viewModel = koinViewModel<MarketListViewModel>())
     LaunchedEffect(key1 = Unit) {
@@ -97,6 +100,8 @@ fun MarketListRoute(
         onSortSelect = { event.invoke(MarketListContract.Event.OnSortSelect(it)) },
         onOpenFavorites = onOpenFavorites,
         onSyncErrorShown = { event.invoke(MarketListContract.Event.OnSyncErrorShown) },
+        selectedMarketId = selectedMarketId,
+        inPane = inPane,
     )
 }
 
@@ -110,6 +115,8 @@ fun MarketListScreen(
     onSortSelect: (Sort) -> Unit = {},
     onOpenFavorites: () -> Unit = {},
     onSyncErrorShown: () -> Unit = {},
+    selectedMarketId: String? = null,
+    inPane: Boolean = false,
 ) {
     // Report the app as fully drawn once market content is ready so
     // startup benchmarks can measure TTFD (Time To Full Display).
@@ -137,6 +144,8 @@ fun MarketListScreen(
                     onFavoriteClick = onFavoriteClick,
                     onFilterSelect = onFilterSelect,
                     onSortSelect = onSortSelect,
+                    selectedMarketId = selectedMarketId,
+                    inPane = inPane,
                 )
             }
 
@@ -165,6 +174,8 @@ private fun MarketListContent(
     onFavoriteClick: (market: MarketModel) -> Unit,
     onFilterSelect: (Filter) -> Unit,
     onSortSelect: (Sort) -> Unit,
+    selectedMarketId: String?,
+    inPane: Boolean,
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -182,7 +193,8 @@ private fun MarketListContent(
                 )
             }
         }
-        state.topMover?.let { mover ->
+        // Beside the detail the list is narrow; the top mover is one tap away in it anyway.
+        state.topMover?.takeIf { !inPane }?.let { mover ->
             item(key = "topMover") {
                 TopMoverCard(
                     id = mover.id,
@@ -237,7 +249,9 @@ private fun MarketListContent(
                 market = market,
                 shape = groupedRowShape(index, markets.size),
                 onItemClick = { onNavigateToDetailScreen(market) },
-                onFavoriteClick = { onFavoriteClick(market) },
+                // In a pane the detail header has the favorite toggle.
+                onFavoriteClick = if (inPane) null else ({ onFavoriteClick(market) }),
+                selected = market.id == selectedMarketId,
                 modifier = Modifier.animateItem(
                     placementSpec = tween(durationMillis = 250),
                     fadeInSpec = null,

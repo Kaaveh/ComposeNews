@@ -1,4 +1,4 @@
-@file:Suppress("MagicNumber", "MaxLineLength", "LongParameterList", "LongMethod", "UnusedPrivateMember", "ktlint")
+@file:Suppress("MagicNumber", "MaxLineLength", "LongParameterList", "LongMethod", "CyclomaticComplexMethod", "UnusedPrivateMember", "ktlint")
 
 package ir.composenews.designsystem.component
 
@@ -17,10 +17,12 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconToggleButton
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,6 +33,7 @@ import androidx.compose.ui.semantics.CustomAccessibilityAction
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.customActions
+import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -51,6 +54,7 @@ import java.util.Locale
  * [shape] lets a grouped list give the first, middle and last rows their own corners.
  * A null [onFavoriteClick] hides the toggle (Favorites, where a swipe removes the row); [onRemove] then gives
  * screen readers a `Remove from favorites` action instead of the swipe.
+ * [selected] marks the market open in the detail pane beside the list.
  */
 @Composable
 fun MarketRow(
@@ -68,93 +72,99 @@ fun MarketRow(
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(24.dp),
     onRemove: (() -> Unit)? = null,
+    selected: Boolean = false,
 ) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .heightIn(min = if (onFavoriteClick == null) 76.dp else 72.dp)
-            .clip(shape)
-            .background(MaterialTheme.colorScheme.surfaceContainerLow)
-            .clickable(onClick = onClick)
-            .then(
-                if (onRemove != null) {
-                    Modifier.semantics {
-                        customActions = listOf(
-                            CustomAccessibilityAction("Remove $name from favorites") {
-                                onRemove()
-                                true
-                            },
-                        )
-                    }
-                } else {
-                    Modifier
-                },
-            )
-            .padding(start = 12.dp, end = if (onFavoriteClick == null) 16.dp else 4.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        MarketLogo(id = id, imageUrl = imageUrl, size = 44.dp)
-        Spacer(Modifier.width(12.dp))
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = symbol.uppercase(Locale.getDefault()),
-                style = MaterialTheme.typography.titleMedium,
-                maxLines = 1,
-            )
-            Text(
-                text = name,
-                style = MaterialTheme.typography.bodySmall.copy(fontSize = 13.sp, lineHeight = 18.sp),
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-        }
-        if (isTrendingUp7d != null) {
-            Column(
-                modifier = Modifier
-                    .padding(horizontal = 8.dp)
-                    .clearAndSetSemantics {
-                        contentDescription = if (isTrendingUp7d) "7-day trend up" else "7-day trend down"
+    val contentColor = if (selected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface
+    CompositionLocalProvider(LocalContentColor provides contentColor) {
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .heightIn(min = if (onFavoriteClick == null) 76.dp else 72.dp)
+                .clip(shape)
+                .background(if (selected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceContainerLow)
+                // Only the open row: a Selected value on every row reads them all as "not selected".
+                .then(if (selected) Modifier.semantics { this.selected = true } else Modifier)
+                .clickable(onClick = onClick)
+                .then(
+                    if (onRemove != null) {
+                        Modifier.semantics {
+                            customActions = listOf(
+                                CustomAccessibilityAction("Remove $name from favorites") {
+                                    onRemove()
+                                    true
+                                },
+                            )
+                        }
+                    } else {
+                        Modifier
                     },
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(1.dp),
-            ) {
-                val extendedColors = MaterialTheme.extendedColors
-                Sparkline(
-                    points = sparkline,
-                    color = if (isTrendingUp7d) extendedColors.trendUp else extendedColors.trendDown,
-                    modifier = Modifier.size(52.dp, 22.dp),
+                )
+                .padding(start = 12.dp, end = if (onFavoriteClick == null) 16.dp else 4.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            MarketLogo(id = id, imageUrl = imageUrl, size = 44.dp)
+            Spacer(Modifier.width(12.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = symbol.uppercase(Locale.getDefault()),
+                    style = MaterialTheme.typography.titleMedium,
+                    maxLines = 1,
                 )
                 Text(
-                    text = "7d",
-                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp, lineHeight = 12.sp),
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    text = name,
+                    style = MaterialTheme.typography.bodySmall.copy(fontSize = 13.sp, lineHeight = 18.sp),
+                    color = if (selected) contentColor else MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                 )
             }
-        }
-        Column(horizontalAlignment = Alignment.End) {
-            Text(
-                text = price,
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    fontSize = 15.sp,
-                    lineHeight = 22.sp,
-                    fontWeight = FontWeight(600),
-                ).tabularNums(),
-                maxLines = 1,
-            )
-            TrendChange(change = change)
-        }
-        if (onFavoriteClick != null) {
-            IconToggleButton(
-                checked = isFavorite,
-                onCheckedChange = { onFavoriteClick() },
-            ) {
-                Icon(
-                    painter = painterResource(if (isFavorite) R.drawable.ic_favorite_filled else R.drawable.ic_favorite),
-                    contentDescription = if (isFavorite) "Remove $name from favorites" else "Add $name to favorites",
-                    tint = if (isFavorite) MaterialTheme.extendedColors.favoriteOn else MaterialTheme.extendedColors.favoriteOff,
-                    modifier = Modifier.size(22.dp),
+            if (isTrendingUp7d != null) {
+                Column(
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                        .clearAndSetSemantics {
+                            contentDescription = if (isTrendingUp7d) "7-day trend up" else "7-day trend down"
+                        },
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(1.dp),
+                ) {
+                    val extendedColors = MaterialTheme.extendedColors
+                    Sparkline(
+                        points = sparkline,
+                        color = if (isTrendingUp7d) extendedColors.trendUp else extendedColors.trendDown,
+                        modifier = Modifier.size(52.dp, 22.dp),
+                    )
+                    Text(
+                        text = "7d",
+                        style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp, lineHeight = 12.sp),
+                        color = if (selected) contentColor else MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+            }
+            Column(horizontalAlignment = Alignment.End) {
+                Text(
+                    text = price,
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        fontSize = 15.sp,
+                        lineHeight = 22.sp,
+                        fontWeight = FontWeight(600),
+                    ).tabularNums(),
+                    maxLines = 1,
                 )
+                TrendChange(change = change)
+            }
+            if (onFavoriteClick != null) {
+                IconToggleButton(
+                    checked = isFavorite,
+                    onCheckedChange = { onFavoriteClick() },
+                ) {
+                    Icon(
+                        painter = painterResource(if (isFavorite) R.drawable.ic_favorite_filled else R.drawable.ic_favorite),
+                        contentDescription = if (isFavorite) "Remove $name from favorites" else "Add $name to favorites",
+                        tint = if (isFavorite) MaterialTheme.extendedColors.favoriteOn else MaterialTheme.extendedColors.favoriteOff,
+                        modifier = Modifier.size(22.dp),
+                    )
+                }
             }
         }
     }
