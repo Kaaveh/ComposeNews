@@ -59,6 +59,7 @@ class MarketListViewModel(
             publish()
         }
         is MarketListContract.Event.OnFavoriteClick -> onFavoriteClick(marketModel = event.market)
+        is MarketListContract.Event.OnSyncErrorShown -> mutableState.update { it.copy(syncError = null) }
     }
 
     // The ViewModel outlives the screen, so coming back to it must not sync again.

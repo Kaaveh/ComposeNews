@@ -47,8 +47,8 @@ fun <T> SortMenuButton(
     selected: T,
     onSelect: (T) -> Unit,
     label: (T) -> String,
-    icon: @Composable (T) -> Painter,
     modifier: Modifier = Modifier,
+    icon: (@Composable (T) -> Painter)? = null,
     contentDescription: String = "Sort markets",
 ) {
     var expanded by rememberSaveable { mutableStateOf(false) }
@@ -90,7 +90,9 @@ fun <T> SortMenuButton(
                         onSelect(option)
                         expanded = false
                     },
-                    leadingIcon = { Icon(painter = icon(option), contentDescription = null, modifier = Modifier.size(20.dp)) },
+                    leadingIcon = icon?.let {
+                        { Icon(painter = it(option), contentDescription = null, modifier = Modifier.size(20.dp)) }
+                    },
                     trailingIcon = if (isSelected) {
                         { Icon(painter = painterResource(R.drawable.ic_check), contentDescription = null) }
                     } else {

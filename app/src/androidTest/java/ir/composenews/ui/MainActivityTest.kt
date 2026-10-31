@@ -23,14 +23,14 @@ class MainActivityTest {
         composeTestRule.waitForIdle()
 
         composeTestRule
-            .onNodeWithText("Favorite")
+            .onNodeWithText("Favorites")
             .assertExists()
             .performClick()
 
         composeTestRule.waitForIdle()
 
         composeTestRule
-            .onNodeWithText("Your favorite list is empty")
+            .onNodeWithText("No favorites yet")
             .assertExists()
     }
 }

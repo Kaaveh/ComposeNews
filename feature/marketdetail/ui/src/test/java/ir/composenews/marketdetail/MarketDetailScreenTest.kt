@@ -28,6 +28,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [35])
@@ -58,11 +59,11 @@ class MarketDetailScreenTest {
                 onFavoriteClick = {},
             )
         }
-        composeTestRule.onNodeWithText("50000.0 $").assertIsDisplayed()
+        composeTestRule.onNodeWithText("50,000.00 $").assertIsDisplayed()
     }
 
     @Test
-    fun givenLoadedMarketStateWithFavorite_whenRendered_thenFavoriteIconIsRed() {
+    fun givenLoadedMarketStateWithFavorite_whenRendered_thenFabSaysSaved() {
         composeTestRule.setContent {
             MarketDetailScreen(
                 marketDetailState = MarketDetailContract.State(
@@ -71,9 +72,7 @@ class MarketDetailScreenTest {
                 onFavoriteClick = {},
             )
         }
-        composeTestRule
-            .onNodeWithContentDescription("Favorited")
-            .assertExists()
+        composeTestRule.onNodeWithText("Saved").assertExists()
     }
 
     @Test
@@ -89,8 +88,62 @@ class MarketDetailScreenTest {
             )
         }
 
-        composeTestRule.onNodeWithContentDescription("Not favorited").performClick()
+        composeTestRule.onNodeWithText("Favorite").performClick()
         assertEquals(bitcoin, clickedMarket)
+    }
+
+    @Test
+    fun givenLoadedMarket_whenRangeAndBackClicked_thenCallbacksAreInvoked() {
+        var range: MarketDetailContract.ChartRange? = null
+        var wentBack = false
+        composeTestRule.setContent {
+            MarketDetailScreen(
+                marketDetailState = MarketDetailContract.State(market = LoadableData.Loaded(buildMarketModel())),
+                onFavoriteClick = {},
+                onBack = { wentBack = true },
+                onChartRangeSelect = { range = it },
+            )
+        }
+        composeTestRule.onNodeWithText("Today").assertIsDisplayed()
+        // Back first: scrolling to the range group moves the top bar off screen.
+        composeTestRule.onNodeWithContentDescription("Back to markets").performClick()
+        composeTestRule.onNodeWithText("1W").performScrollTo().performClick()
+        assertEquals(MarketDetailContract.ChartRange.Week, range)
+        assertTrue(wentBack)
+    }
+
+    @Test
+    fun givenNoBack_whenRendered_thenBackButtonIsHidden() {
+        composeTestRule.setContent {
+            MarketDetailScreen(
+                marketDetailState = MarketDetailContract.State(market = LoadableData.Loaded(buildMarketModel())),
+                onFavoriteClick = {},
+            )
+        }
+        composeTestRule.onNodeWithContentDescription("Back to markets").assertDoesNotExist()
+        composeTestRule.onNodeWithContentDescription("Share").assertIsDisplayed()
+    }
+
+    @Test
+    fun givenFallingChart_whenRendered_thenChipShowsTheDrop() {
+        composeTestRule.setContent {
+            MarketDetailScreen(
+                marketDetailState = MarketDetailContract.State(
+                    market = LoadableData.Loaded(buildMarketModel()),
+                    marketChart = LoadableData.Loaded(MarketChart(persistentListOf(1L to 200.0, 2L to 150.0))),
+                ),
+                onFavoriteClick = {},
+            )
+        }
+        composeTestRule.onNodeWithContentDescription("Down 25.00 %").assertIsDisplayed()
+    }
+
+    @Test
+    fun givenMarket_whenBuildingShareText_thenItHasPriceChangeAndLink() {
+        assertEquals(
+            "Bitcoin (BTC): 50,000.00 $, ▲ 2.50 % (24h)\nhttps://www.coingecko.com/en/coins/btc",
+            shareText(buildMarketModel()),
+        )
     }
 
     @Test
@@ -122,7 +175,7 @@ class MarketDetailScreenTest {
             )
         }
 
-        assertStatRowsAreVisible("Market Cap", "$255B", "High 24h", "100000.0", "Low 24h", "50000.0", "Rank", "#1")
+        assertStatRowsAreVisible("Market Cap", "$255B", "High 24h", "100,000.00", "Low 24h", "50,000.00", "Rank", "#1")
     }
 
     @Test

@@ -3,7 +3,6 @@
 package ir.composenews.marketdetail
 
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import ir.composenews.testing.dispatcher.TestDispatcherProvider
@@ -94,7 +93,7 @@ class MarketDetailScreenTest {
         }
         composeTestRule.waitForIdle()
         composeTestRule.onNodeWithText("Bitcoin").assertExists()
-        composeTestRule.onNodeWithText("50000.0 $").assertExists()
+        composeTestRule.onNodeWithText("50,000.00 $").assertExists()
         composeTestRule.onNodeWithText("Rank").assertExists()
     }
 
@@ -114,7 +113,7 @@ class MarketDetailScreenTest {
         composeTestRule.setContent {
             MarketDetailRoute(market = marketModel, viewModel = mockViewModel)
         }
-        composeTestRule.onNodeWithContentDescription("Not favorited").performClick()
+        composeTestRule.onNodeWithText("Favorite").performClick()
     }
 
 //    @Test
@@ -162,7 +161,7 @@ class MarketDetailScreenTest {
             MarketDetailRoute(market = marketModel, viewModel = mockViewModel)
         }
 
-        composeTestRule.onNodeWithContentDescription("Not favorited").performClick()
-        composeTestRule.onNodeWithContentDescription("Not favorited").assertExists()
+        composeTestRule.onNodeWithText("Favorite").performClick()
+        composeTestRule.onNodeWithText("Favorite").assertExists()
     }
 }

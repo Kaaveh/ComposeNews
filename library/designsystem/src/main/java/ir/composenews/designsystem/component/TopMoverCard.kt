@@ -69,7 +69,7 @@ fun TopMoverCard(
                 Text(text = "Top mover in top 250 · 24h", style = MaterialTheme.typography.labelLarge)
             }
             Row(verticalAlignment = Alignment.CenterVertically) {
-                MarketLogo(id = id, imageUrl = imageUrl, size = 56.dp)
+                MarketLogo(id = id, imageUrl = imageUrl, size = 56.dp, shared = false)
                 Spacer(Modifier.width(12.dp))
                 Column(modifier = Modifier.weight(1f)) {
                     Text(

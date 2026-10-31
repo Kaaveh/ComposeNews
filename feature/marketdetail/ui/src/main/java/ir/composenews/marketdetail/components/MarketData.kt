@@ -3,186 +3,120 @@
 package ir.composenews.marketdetail.components
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
-import ir.composenews.core.ui.LoadableComponent
 import ir.composenews.base.LoadableData
-import ir.composenews.designsystem.component.shimmerEffect
+import ir.composenews.base.errorViewMapper
+import ir.composenews.designsystem.R
+import ir.composenews.designsystem.component.StatTile
+import ir.composenews.designsystem.component.formatCompactUsd
+import ir.composenews.designsystem.component.formatPrice
+import ir.composenews.designsystem.component.SkeletonBlock
+import ir.composenews.designsystem.theme.extendedColors
 import ir.composenews.domain.model.MarketDetail
-import ir.composenews.marketdetail.formatNumber
 
+/** Tiles in reading order; the corner each one turns towards the middle of the grid is 8 dp. */
+private val TileShapes = listOf(
+    RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp, bottomEnd = 8.dp, bottomStart = 28.dp),
+    RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp, bottomEnd = 28.dp, bottomStart = 8.dp),
+    RoundedCornerShape(topStart = 28.dp, topEnd = 8.dp, bottomEnd = 28.dp, bottomStart = 28.dp),
+    RoundedCornerShape(topStart = 8.dp, topEnd = 28.dp, bottomEnd = 28.dp, bottomStart = 28.dp),
+)
+
+private const val NO_VALUE = "—"
+
+/** `Market Data`: Market Cap, Rank, High 24h and Low 24h in a 2×2 grid. */
 @Composable
 internal fun MarketData(
     loadableData: LoadableData<MarketDetail>,
 ) {
-    LoadableComponent(
-        loading = {
-            Row(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth(0.3f)
-                        .clip(RoundedCornerShape(4.dp))
-                        .height(24.dp)
-                        .shimmerEffect(),
-                )
-            }
-            HorizontalDivider(color = Color.Gray)
-            Row(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .padding(top = 8.dp),
-            ) {
-                repeat(4) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.weight(1f),
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth(0.6f)
-                                .clip(RoundedCornerShape(4.dp))
-                                .height(20.dp)
-                                .shimmerEffect(),
-                        )
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth(0.3f)
-                                .clip(RoundedCornerShape(4.dp))
-                                .height(16.dp)
-                                .shimmerEffect(),
-                        )
-                    }
-                }
-            }
-        },
-        loaded = { data ->
-            MarketDataHeader()
-            MarketDetail(data.marketData)
-            Spacer(modifier = Modifier.height(80.dp))
-        },
-        error = { error -> },
-        loadableData = loadableData,
-    )
-}
-
-@Composable
-private fun MarketDataHeader() {
-    Row(
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-    ) {
+    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Text(
             text = "Market Data",
             style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier
+                .padding(horizontal = 4.dp)
+                .semantics { heading() },
         )
-    }
-    HorizontalDivider(color = Color.Gray)
-}
+        when (loadableData) {
+            is LoadableData.Error -> Text(
+                text = errorViewMapper(loadableData.error),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(horizontal = 4.dp),
+            )
 
-@Composable
-private fun MarketDetail(
-    marketData: MarketDetail.MarketData?,
-) {
-    Row(
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-    ) {
-        MarketCap(marketCapUSD = marketData?.marketCapUSD ?: 0)
-        High24(high24hUSD = marketData?.high24hUSD ?: 0.0)
-        Low24(low24hUSD = marketData?.low24hUSD ?: 0.0)
-        Rank(marketCapRank = marketData?.marketCapRank ?: 0)
-    }
-}
+            is LoadableData.Loaded -> MarketDataTiles(detail = loadableData.data)
 
-@Composable
-private fun Rank(marketCapRank: Int) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Text(
-            modifier = Modifier.padding(bottom = 8.dp),
-            text = "Rank",
-            style = MaterialTheme.typography.titleMedium,
-        )
-        Text(
-            text = "#$marketCapRank",
-            style = MaterialTheme.typography.bodyLarge,
-        )
+            LoadableData.Loading, LoadableData.Initial -> TileGrid { index, modifier ->
+                SkeletonBlock(shape = TileShapes[index], modifier = modifier.height(108.dp))
+            }
+        }
     }
 }
 
 @Composable
-private fun Low24(low24hUSD: Double) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Text(
-            modifier = Modifier.padding(bottom = 8.dp),
-            text = "Low 24h",
-            style = MaterialTheme.typography.titleMedium,
-        )
-        Text(
-            text = low24hUSD.toString(),
-            style = MaterialTheme.typography.bodyLarge,
-        )
-    }
+private fun MarketDataTiles(detail: MarketDetail) {
+        val data = detail.marketData
+        TileGrid { index, modifier ->
+            when (index) {
+                0 -> StatTile(
+                    label = "Market Cap",
+                    value = data?.let { formatCompactUsd(it.marketCapUSD) } ?: NO_VALUE,
+                    icon = painterResource(R.drawable.ic_pie_chart_filled),
+                    highlighted = true,
+                    shape = TileShapes[index],
+                    modifier = modifier,
+                )
+
+                1 -> StatTile(
+                    label = "Rank",
+                    value = "#${data?.marketCapRank ?: detail.marketCapRank}",
+                    icon = painterResource(R.drawable.ic_military_tech),
+                    iconTint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    shape = TileShapes[index],
+                    modifier = modifier,
+                )
+
+                2 -> StatTile(
+                    label = "High 24h",
+                    value = data?.let { formatPrice(it.high24hUSD) } ?: NO_VALUE,
+                    icon = painterResource(R.drawable.ic_north_east),
+                    iconTint = MaterialTheme.extendedColors.trendUp,
+                    shape = TileShapes[index],
+                    modifier = modifier,
+                )
+
+                else -> StatTile(
+                    label = "Low 24h",
+                    value = data?.let { formatPrice(it.low24hUSD) } ?: NO_VALUE,
+                    icon = painterResource(R.drawable.ic_south_east),
+                    iconTint = MaterialTheme.extendedColors.trendDown,
+                    shape = TileShapes[index],
+                    modifier = modifier,
+                )
+            }
+        }
 }
 
 @Composable
-private fun High24(high24hUSD: Double) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Text(
-            modifier = Modifier.padding(bottom = 8.dp),
-            text = "High 24h",
-            style = MaterialTheme.typography.titleMedium,
-        )
-        Text(
-            text = high24hUSD.toString(),
-            style = MaterialTheme.typography.bodyLarge,
-        )
-    }
-}
-
-@Composable
-private fun MarketCap(marketCapUSD: Long) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Text(
-            modifier = Modifier.padding(bottom = 8.dp),
-            text = "Market Cap",
-            style = MaterialTheme.typography.titleMedium,
-        )
-        Text(
-            text = formatNumber(marketCapUSD),
-            style = MaterialTheme.typography.bodyLarge,
-        )
+private fun TileGrid(tile: @Composable (index: Int, modifier: Modifier) -> Unit) {
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        repeat(2) { row ->
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                repeat(2) { column -> tile(row * 2 + column, Modifier.weight(1f)) }
+            }
+        }
     }
 }

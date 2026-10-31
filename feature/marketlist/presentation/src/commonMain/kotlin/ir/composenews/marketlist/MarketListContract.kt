@@ -21,7 +21,10 @@ interface MarketListContract :
         val isRefreshing: Boolean = false,
         /** Seconds until a rate-limited sync may run again; 0 when it may run now. */
         val retryInSeconds: Int = 0,
-        /** The last sync's failure while stored markets stay on screen; cleared when the next sync starts. */
+        /**
+         * The last sync's failure while stored markets stay on screen.
+         * Cleared once the UI has shown it, or when the next sync starts.
+         */
         val syncError: Errors? = null,
     ) {
         val header: Header
@@ -47,5 +50,7 @@ interface MarketListContract :
         data class OnFilterSelect(val filter: Filter) : Event()
         data class OnSortSelect(val sort: Sort) : Event()
         data class OnFavoriteClick(val market: MarketModel) : Event()
+        /** The UI showed [State.syncError], so coming back to the screen doesn't show it again. */
+        data object OnSyncErrorShown : Event()
     }
 }
