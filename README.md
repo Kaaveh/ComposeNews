@@ -142,6 +142,7 @@ compare changes under the same test conditions.
 - [Git Hooks](documentation/GitHooks.md) - Learn about Git Hooks used in this project for code formatting and analysis.
 - [GitHub Actions](documentation/GitHubActions.md) - Explore the GitHub Actions workflows used to validate the code.
 - [Static Analysis](documentation/StaticAnalysis.md) - Discover how static analysis tools like Detekt and Ktlint are used in this project for code quality assurance.
+- [Swift Interop](documentation/SwiftInterop.md) - Why the iOS app uses SKIE to talk to the shared ViewModels, and what to do if it lags Kotlin.
 
 ## Compose compiler metrics
 
