@@ -85,20 +85,3 @@ internal fun MarketChart(
         )
     }
 }
-
-val ChartRange.shortLabel: String
-    get() = when (this) {
-        ChartRange.Day -> "1D"
-        ChartRange.Week -> "1W"
-        ChartRange.Month -> "1M"
-        ChartRange.Year -> "1Y"
-    }
-
-/** Next to the change chip: the period the change covers. */
-val ChartRange.label: String
-    get() = when (this) {
-        ChartRange.Day -> "Today"
-        ChartRange.Week -> "Past week"
-        ChartRange.Month -> "Past month"
-        ChartRange.Year -> "Past year"
-    }

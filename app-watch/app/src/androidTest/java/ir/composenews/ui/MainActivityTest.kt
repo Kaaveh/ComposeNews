@@ -1,5 +1,7 @@
 package ir.composenews.ui
 
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithText
@@ -18,6 +20,7 @@ class MainActivityTest {
         }
 
         composeTestRule.onNodeWithText("BTC").performClick()
-        composeTestRule.onNodeWithText("Market Data").assertExists()
+        // The detail's edge button: always on screen, unlike Market Data below the chart on a small watch.
+        composeTestRule.onNode(hasText("Favorite") or hasText("Saved")).assertIsDisplayed()
     }
 }

@@ -1,4 +1,4 @@
-@file:Suppress("ktlint:standard:function-naming")
+@file:Suppress("LongParameterList", "ktlint:standard:function-naming")
 
 package ir.composenews.apptv.ui
 
@@ -10,7 +10,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -21,12 +26,9 @@ import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
 import ir.composenews.base.errorViewMapper
 import ir.composenews.designsystem.R
-import ir.composenews.designsystem.component.StatePane
+import ir.composenews.designsystem.component.SyncErrorPane
+import ir.composenews.designsystem.component.formatRetry
 import ir.composenews.network.Errors
-import java.util.Locale
-import androidx.compose.material3.MaterialTheme as PhoneMaterialTheme
-
-private const val SECONDS_PER_MINUTE = 60
 
 /** Nothing stored and the sync failed: a plain error, or a 429 whose `Try again` waits out the countdown. */
 @Composable
@@ -35,39 +37,26 @@ internal fun TvErrorPane(
     retryInSeconds: Int,
     onRefresh: () -> Unit,
     onOpenFavorites: () -> Unit,
+    takeFocus: Boolean,
+    onFocusTaken: () -> Unit,
 ) {
-    val rateLimited = error is Errors.RateLimited
     val waiting = retryInSeconds > 0
-    val colors = PhoneMaterialTheme.colorScheme
-    StatePane(
-        icon = painterResource(if (rateLimited) R.drawable.ic_hourglass_top else R.drawable.ic_cloud_off),
-        iconTint = if (rateLimited) colors.tertiary else colors.error,
-        containerColor = if (rateLimited) colors.tertiaryContainer else colors.errorContainer,
+    // A disabled TV button keeps focus, so `Try again` takes it even while it counts down.
+    val tryAgain = remember { FocusRequester() }
+    RequestFocusWhen(takeFocus = takeFocus, requester = tryAgain, onFocusTaken = onFocusTaken)
+    SyncErrorPane(
         title = errorViewMapper(error),
-        body =
-            when {
-                !rateLimited -> "Prices couldn’t load. Check your connection and try again."
-                waiting -> "You can try again when the timer ends."
-                else -> "You can try again now."
-            },
+        rateLimited = error is Errors.RateLimited,
+        waiting = waiting,
         illustrationSize = TV_ILLUSTRATION,
     ) {
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             TvPaneButton(
-                text =
-                    if (waiting) {
-                        String.format(
-                            Locale.US,
-                            "Try again in %d:%02d",
-                            retryInSeconds / SECONDS_PER_MINUTE,
-                            retryInSeconds % SECONDS_PER_MINUTE,
-                        )
-                    } else {
-                        "Try again"
-                    },
+                text = formatRetry(retryInSeconds),
                 icon = painterResource(if (waiting) R.drawable.ic_timer else R.drawable.ic_refresh),
                 onClick = onRefresh,
                 enabled = !waiting,
+                modifier = Modifier.focusRequester(tryAgain),
             )
             TvPaneButton(
                 text = "Open saved favorites",
@@ -84,6 +73,7 @@ internal fun TvPaneButton(
     text: String,
     icon: Painter,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
     enabled: Boolean = true,
 ) {
     Button(
@@ -97,10 +87,30 @@ internal fun TvPaneButton(
                 focusedContentColor = MaterialTheme.colorScheme.onPrimary,
             ),
         border = ButtonDefaults.border(focusedBorder = FocusRing.copy(shape = CircleShape)),
-        modifier = Modifier.padding(top = 8.dp),
+        modifier = modifier.padding(top = 8.dp),
     ) {
         Icon(painter = icon, contentDescription = null, modifier = Modifier.size(ButtonDefaults.IconSize))
         Spacer(modifier = Modifier.width(ButtonDefaults.IconSpacing))
         Text(text = text)
+    }
+}
+
+/**
+ * Focuses [requester] while [takeFocus] is set: at launch, and after a button removed itself (a retry, a tab switch
+ * from a pane, the last favorite removed). Compose would otherwise hand focus to the tabs.
+ */
+@Composable
+internal fun RequestFocusWhen(
+    takeFocus: Boolean,
+    requester: FocusRequester,
+    onFocusTaken: () -> Unit,
+) {
+    LaunchedEffect(requester, takeFocus) {
+        if (takeFocus) {
+            // One frame, so the requester is attached and laid out.
+            withFrameNanos {}
+            requester.requestFocus()
+            onFocusTaken()
+        }
     }
 }

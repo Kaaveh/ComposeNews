@@ -54,7 +54,6 @@ import ir.composenews.marketdetail.MarketDetailContract.State
 import ir.composenews.marketdetail.components.MarketChart
 import ir.composenews.marketdetail.components.MarketData
 import ir.composenews.marketdetail.components.MarketDataLayout
-import ir.composenews.marketdetail.components.label
 import ir.composenews.marketdetail.preview_provider.MarketDetailStateProvider
 import ir.composenews.uimarket.model.MarketModel
 import java.util.Locale

@@ -40,7 +40,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.semantics
@@ -56,13 +55,11 @@ import androidx.tv.material3.Icon
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
 import ir.composenews.base.LoadableData
-import ir.composenews.base.errorViewMapper
 import ir.composenews.core.ui.use
 import ir.composenews.designsystem.R
 import ir.composenews.designsystem.component.EmptyFavoritesPane
 import ir.composenews.designsystem.component.MarketLogo
 import ir.composenews.designsystem.component.Sparkline
-import ir.composenews.designsystem.component.StatePane
 import ir.composenews.designsystem.component.TrendChange
 import ir.composenews.designsystem.component.formatCompactUsd
 import ir.composenews.designsystem.component.formatPrice
@@ -74,8 +71,6 @@ import ir.composenews.designsystem.widget.LoadingView
 import ir.composenews.marketdetail.MarketDetailContract
 import ir.composenews.marketdetail.MarketDetailContract.ChartRange
 import ir.composenews.marketdetail.MarketDetailViewModel
-import ir.composenews.marketdetail.components.label
-import ir.composenews.marketdetail.components.shortLabel
 import ir.composenews.marketlist.FavoriteListContract
 import ir.composenews.marketlist.FavoriteListViewModel
 import ir.composenews.marketlist.MarketListContract
@@ -83,6 +78,7 @@ import ir.composenews.marketlist.MarketListViewModel
 import ir.composenews.network.Errors
 import ir.composenews.uimarket.model.MarketModel
 import kotlinx.collections.immutable.PersistentList
+import kotlinx.coroutines.delay
 import org.koin.compose.viewmodel.koinViewModel
 import java.util.Locale
 import androidx.compose.material3.MaterialTheme as PhoneMaterialTheme
@@ -107,6 +103,9 @@ private const val CHART_FADE_END = 0.35f
 private const val CHART_WIDTH_FRACTION = 0.64f
 private const val CHART_FILL_ALPHA = 0.3f
 
+/** Tabs switch on focus: waiting this long before fetching skips the markets only passed on the way. */
+private const val FETCH_DELAY_MS = 400L
+
 /**
  * One TV tab, Markets or [favorites]: the featured market on top, its chart behind it, and every market as a card
  * below. Clicking a card features it; the first market is featured until then.
@@ -116,62 +115,76 @@ fun TvMarketsRoute(
     favorites: Boolean,
     onSelectTab: (favorites: Boolean) -> Unit,
 ) {
-    // Outside the tab branches, so coming back to a tab doesn't pull focus off the tabs.
-    var focusFirstCard by rememberSaveable { mutableStateOf(true) }
-    val content: @Composable (LoadableData<PersistentList<MarketModel>>, @Composable () -> Unit) -> Unit =
-        { markets, error ->
-            TvMarketsScreen(
-                markets = markets,
-                favorites = favorites,
-                focusFirstCard = focusFirstCard,
-                onFirstCardFocused = { focusFirstCard = false },
-                onBrowseMarkets = { onSelectTab(false) },
-                error = error,
-            )
-        }
-    if (favorites) {
-        val (state, event) = use(viewModel = koinViewModel<FavoriteListViewModel>())
-        LaunchedEffect(Unit) { event(FavoriteListContract.Event.OnGetFavoriteList) }
-        content(state.favoriteList) {}
-    } else {
-        val (state, event) = use(viewModel = koinViewModel<MarketListViewModel>())
-        LaunchedEffect(Unit) { event(MarketListContract.Event.OnGetMarketList) }
-        content(state.marketList) {
-            (state.marketList as? LoadableData.Error)?.let {
+    val (marketsState, marketsEvent) = use(viewModel = koinViewModel<MarketListViewModel>())
+    val (favoritesState, favoritesEvent) = use(viewModel = koinViewModel<FavoriteListViewModel>())
+    LaunchedEffect(Unit) {
+        marketsEvent(MarketListContract.Event.OnGetMarketList)
+        favoritesEvent(FavoriteListContract.Event.OnGetFavoriteList)
+    }
+    var featuredMarket by rememberSaveable { mutableStateOf<String?>(null) }
+    var featuredFavorite by rememberSaveable { mutableStateOf<String?>(null) }
+    // Set at launch and by buttons that remove themselves; whatever the screen shows next takes focus.
+    var focusContent by rememberSaveable { mutableStateOf(true) }
+    // One call for both tabs, so a switch keeps the featured market, and the chart it loaded, composed.
+    TvMarketsScreen(
+        markets = if (favorites) favoritesState.favoriteList else marketsState.marketList,
+        favorites = favorites,
+        featuredId = if (favorites) featuredFavorite else featuredMarket,
+        onFeature = { if (favorites) featuredFavorite = it else featuredMarket = it },
+        focusContent = focusContent,
+        onContentFocused = { focusContent = false },
+        refocusContent = { focusContent = true },
+        onBrowseMarkets = {
+            focusContent = true
+            onSelectTab(false)
+        },
+        error = { error ->
+            if (!favorites) {
                 TvErrorPane(
-                    error = it.error,
-                    retryInSeconds = state.retryInSeconds,
-                    onRefresh = { event(MarketListContract.Event.OnRefresh) },
-                    onOpenFavorites = { onSelectTab(true) },
+                    error = error,
+                    retryInSeconds = marketsState.retryInSeconds,
+                    onRefresh = {
+                        focusContent = true
+                        marketsEvent(MarketListContract.Event.OnRefresh)
+                    },
+                    onOpenFavorites = {
+                        focusContent = true
+                        onSelectTab(true)
+                    },
+                    takeFocus = focusContent,
+                    onFocusTaken = { focusContent = false },
                 )
             }
-        }
-    }
+        },
+    )
 }
 
 @Composable
 private fun TvMarketsScreen(
     markets: LoadableData<PersistentList<MarketModel>>,
     favorites: Boolean,
-    focusFirstCard: Boolean,
-    onFirstCardFocused: () -> Unit,
+    featuredId: String?,
+    onFeature: (id: String) -> Unit,
+    focusContent: Boolean,
+    onContentFocused: () -> Unit,
+    refocusContent: () -> Unit,
     onBrowseMarkets: () -> Unit,
-    error: @Composable () -> Unit,
+    error: @Composable (Errors) -> Unit,
 ) {
     val list = markets.data
-    var featuredId by rememberSaveable(favorites) { mutableStateOf<String?>(null) }
     // A removed favorite or a market that left the top 250 falls back to the first one.
     val featured = list?.firstOrNull { it.id == featuredId } ?: list?.firstOrNull()
 
     Box(modifier = Modifier.fillMaxSize()) {
         if (list != null && featured != null) {
-            FeaturedMarket(market = featured) {
+            // Removing the last favorite takes Saved, which has focus, away with the hero.
+            FeaturedMarket(market = featured, onFavoriteClick = { if (favorites && list.size == 1) refocusContent() }) {
                 MarketCardRow(
                     markets = list,
                     title = if (favorites) "Favorites" else "All markets",
-                    focusFirstCard = focusFirstCard,
-                    onFirstCardFocused = onFirstCardFocused,
-                    onClick = { featuredId = it.id },
+                    focusFirstCard = focusContent,
+                    onFirstCardFocused = onContentFocused,
+                    onClick = { onFeature(it.id) },
                 )
             }
         } else {
@@ -180,15 +193,18 @@ private fun TvMarketsScreen(
                 Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
                     when {
                         markets is LoadableData.Error -> {
-                            error()
+                            error(markets.error)
                         }
 
                         favorites && list != null -> {
+                            val browse = remember { FocusRequester() }
+                            RequestFocusWhen(takeFocus = focusContent, requester = browse, onFocusTaken = onContentFocused)
                             EmptyFavoritesPane(illustrationSize = TV_ILLUSTRATION) {
                                 TvPaneButton(
                                     text = "Browse markets",
                                     icon = painterResource(R.drawable.ic_finance_mode),
                                     onClick = onBrowseMarkets,
+                                    modifier = Modifier.focusRequester(browse),
                                 )
                             }
                         }
@@ -207,23 +223,26 @@ private fun TvMarketsScreen(
 @Composable
 private fun FeaturedMarket(
     market: MarketModel,
+    onFavoriteClick: () -> Unit,
     cards: @Composable () -> Unit,
 ) {
     val (state, event) = use(viewModel = koinViewModel<MarketDetailViewModel>())
     LaunchedEffect(market.id) {
         event(MarketDetailContract.Event.SetMarket(market = market))
+        delay(FETCH_DELAY_MS)
         event(MarketDetailContract.Event.GetMarketChart(marketId = market.id))
         event(MarketDetailContract.Event.GetMarketDetail(marketId = market.id))
     }
-    val marketData =
-        state.marketDetail.data
-            ?.takeIf { it.id == market.id }
-            ?.marketData
+    // The ViewModel still holds the previous market for the frame before SetMarket.
+    val isCurrent = state.market.data?.id == market.id
+    val range = if (isCurrent) state.chartRange else ChartRange.Day
+    val chart = state.marketChart.data?.takeIf { isCurrent }
+    val detail = state.marketDetail.data?.takeIf { it.id == market.id }
     // Until the 1D chart answers, its change is the 24h change the list already has.
-    val change = state.rangeChange ?: market.priceChangePercentage24h.takeIf { state.chartRange == ChartRange.Day }
+    val change = state.rangeChange?.takeIf { isCurrent } ?: market.priceChangePercentage24h.takeIf { range == ChartRange.Day }
 
     Box(modifier = Modifier.fillMaxSize()) {
-        state.marketChart.data?.prices?.let { prices ->
+        chart?.prices?.let { prices ->
             Sparkline(
                 points = prices.map { it.second },
                 color = PhoneMaterialTheme.extendedColors.chartLine,
@@ -249,7 +268,7 @@ private fun FeaturedMarket(
                     MarketLogo(id = market.id, imageUrl = market.imageUrl, size = 48.dp, shared = false)
                     Column {
                         Text(text = market.name, style = MaterialTheme.typography.headlineMedium)
-                        val rank = market.marketCapRank ?: state.marketDetail.data?.marketCapRank
+                        val rank = market.marketCapRank ?: detail?.marketCapRank
                         Text(
                             text = market.symbol.uppercase(Locale.US) + (rank?.let { " · Rank #$it" } ?: ""),
                             style = MaterialTheme.typography.bodyLarge,
@@ -263,7 +282,7 @@ private fun FeaturedMarket(
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             TrendChange(change = change)
                             Text(
-                                text = " " + state.chartRange.label.lowercase(Locale.US),
+                                text = " " + range.label.lowercase(Locale.US),
                                 style = MaterialTheme.typography.bodyMedium,
                                 color =
                                     if (change >= 0) {
@@ -274,8 +293,8 @@ private fun FeaturedMarket(
                             )
                         }
                     }
-                    Stat(label = "Market Cap", value = marketData?.marketCapUSD?.let(::formatCompactUsd))
-                    Stat(label = "High 24h", value = marketData?.high24hUSD?.let(::formatPrice))
+                    Stat(label = "Market Cap", value = detail?.marketData?.marketCapUSD?.let(::formatCompactUsd))
+                    Stat(label = "High 24h", value = detail?.marketData?.high24hUSD?.let(::formatPrice))
                 }
                 Row(
                     modifier = Modifier.padding(top = 8.dp),
@@ -283,10 +302,13 @@ private fun FeaturedMarket(
                 ) {
                     SavedButton(
                         isFavorite = market.isFavorite,
-                        onClick = { event(MarketDetailContract.Event.OnFavoriteClick(market = market)) },
+                        onClick = {
+                            onFavoriteClick()
+                            event(MarketDetailContract.Event.OnFavoriteClick(market = market))
+                        },
                     )
                     RangeGroup(
-                        selected = state.chartRange,
+                        selected = range,
                         onSelect = { event(MarketDetailContract.Event.OnChartRangeSelect(it)) },
                     )
                 }
@@ -403,13 +425,6 @@ private fun MarketCardRow(
     onFirstCardFocused: () -> Unit,
     onClick: (MarketModel) -> Unit,
 ) {
-    val firstCard = remember { FocusRequester() }
-    LaunchedEffect(Unit) {
-        if (focusFirstCard) {
-            firstCard.requestFocus()
-            onFirstCardFocused()
-        }
-    }
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(text = title, style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(start = SCREEN_EDGE))
         LazyRow(
@@ -418,11 +433,14 @@ private fun MarketCardRow(
             horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             itemsIndexed(items = markets, key = { _, market -> market.id }) { index, market ->
-                MarketCard(
-                    market = market,
-                    onClick = { onClick(market) },
-                    modifier = if (index == 0) Modifier.focusRequester(firstCard) else Modifier,
-                )
+                if (index == 0) {
+                    // Inside the item, so the requester is attached by the time it asks for focus.
+                    val firstCard = remember { FocusRequester() }
+                    RequestFocusWhen(takeFocus = focusFirstCard, requester = firstCard, onFocusTaken = onFirstCardFocused)
+                    MarketCard(market = market, onClick = { onClick(market) }, modifier = Modifier.focusRequester(firstCard))
+                } else {
+                    MarketCard(market = market, onClick = { onClick(market) })
+                }
             }
         }
     }

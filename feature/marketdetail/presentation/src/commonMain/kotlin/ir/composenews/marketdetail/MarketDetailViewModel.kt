@@ -38,6 +38,7 @@ class MarketDetailViewModel(
     private var detailJob: Job? = null
     /** The market the chart was last requested for; a range change reloads it. */
     private var chartMarketId: String? = null
+    private var detailMarketId: String? = null
 
     private val mutableState = MutableStateFlow(MarketDetailContract.State())
     override val state: StateFlow<MarketDetailContract.State> = mutableState.asStateFlow()
@@ -55,6 +56,7 @@ class MarketDetailViewModel(
             it.copy(marketDetail = LoadableData.Loading)
         }
 
+        detailMarketId = id
         detailJob?.cancel()
         detailJob = getMarketDetailUseCase(id = id).onEach { result ->
             when (result) {
@@ -84,12 +86,24 @@ class MarketDetailViewModel(
     }
 
     private fun setMarket(market: MarketModel) {
+        // The ViewModel outlives the screen: a range, chart or detail from one market doesn't carry over to the next.
+        val isNewMarket = mutableState.value.market.data?.id != market.id
+        val clearChart = isNewMarket && chartMarketId != market.id
+        val clearDetail = isNewMarket && detailMarketId != market.id
+        if (clearChart) {
+            chartJob?.cancel()
+            chartMarketId = null
+        }
+        if (clearDetail) {
+            detailJob?.cancel()
+            detailMarketId = null
+        }
         mutableState.update {
-            // The ViewModel outlives the screen; a range picked for one market doesn't carry over to the next.
-            val isNewMarket = it.market.data?.id != market.id
             it.copy(
                 market = LoadableData.Loaded(market),
                 chartRange = if (isNewMarket) MarketDetailContract.ChartRange.Day else it.chartRange,
+                marketChart = if (clearChart) LoadableData.Initial else it.marketChart,
+                marketDetail = if (clearDetail) LoadableData.Initial else it.marketDetail,
             )
         }
         observeFavoriteState(market.id)

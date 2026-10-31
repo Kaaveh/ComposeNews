@@ -23,6 +23,7 @@ import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.AppScaffold
+import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.Card
 import androidx.wear.compose.material3.CardDefaults
 import androidx.wear.compose.material3.CircularProgressIndicator
@@ -37,6 +38,7 @@ import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.tooling.preview.devices.WearDevices
 import ir.composenews.appwatch.ui.ComposeNewsWearTheme
 import ir.composenews.appwatch.ui.WearErrorContent
+import ir.composenews.appwatch.ui.WearRefreshContent
 import ir.composenews.appwatch.ui.WearTrendChange
 import ir.composenews.appwatch.ui.wearScrollIndicator
 import ir.composenews.base.LoadableData
@@ -60,6 +62,8 @@ fun MarketListWearRoute(onNavigateToDetailScreen: (market: MarketModel) -> Unit)
     }
     MarketListWearScreen(
         marketList = state.marketList,
+        syncError = state.syncError?.let { errorViewMapper(it) },
+        isRefreshing = state.isRefreshing,
         retryInSeconds = state.retryInSeconds,
         onRetry = { event(MarketListContract.Event.OnRefresh) },
         onNavigateToDetailScreen = onNavigateToDetailScreen,
@@ -69,6 +73,8 @@ fun MarketListWearRoute(onNavigateToDetailScreen: (market: MarketModel) -> Unit)
 @Composable
 private fun MarketListWearScreen(
     marketList: LoadableData<PersistentList<MarketModel>>,
+    syncError: String?,
+    isRefreshing: Boolean,
     retryInSeconds: Int,
     onRetry: () -> Unit,
     onNavigateToDetailScreen: (market: MarketModel) -> Unit,
@@ -106,6 +112,18 @@ private fun MarketListWearScreen(
                                     .fillMaxWidth()
                                     .transformedHeight(this, transformationSpec)
                                     .minimumVerticalContentPadding(CardDefaults.minimumVerticalListContentPadding),
+                        )
+                    }
+                    item {
+                        WearRefreshContent(
+                            syncError = syncError,
+                            isRefreshing = isRefreshing,
+                            retryInSeconds = retryInSeconds,
+                            onRefresh = onRetry,
+                            modifier =
+                                Modifier
+                                    .transformedHeight(this, transformationSpec)
+                                    .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
                         )
                     }
                 }
@@ -188,6 +206,8 @@ private fun MarketListWearScreenPreview() {
                             MarketModel("solana", "Solana", "sol", 152.08, -1.37, ""),
                         ),
                     ),
+                syncError = null,
+                isRefreshing = false,
                 retryInSeconds = 0,
                 onRetry = {},
                 onNavigateToDetailScreen = {},

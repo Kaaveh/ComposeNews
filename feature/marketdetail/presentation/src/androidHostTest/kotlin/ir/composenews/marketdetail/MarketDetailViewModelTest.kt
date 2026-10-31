@@ -294,6 +294,23 @@ class MarketDetailViewModelTest : StringSpec({
         viewModel.state.value.chartRange shouldBe MarketDetailContract.ChartRange.Day
     }
 
+    "Given one market's chart and detail, When another market is set, Then they are cleared until it loads its own" {
+        val model = provideMarketList(1).first().toMarketModel()
+        coEvery { getMarketChartUseCase(id = "a", days = 1) } returns flowOf(Resource.Success(provideMarketChart()))
+        coEvery { getMarketDetailUseCase(id = "a") } returns flowOf(Resource.Success(provideMarketDetail()))
+        viewModel.event(MarketDetailContract.Event.SetMarket(model.copy(id = "a")))
+        viewModel.event(MarketDetailContract.Event.GetMarketChart(marketId = "a"))
+        viewModel.event(MarketDetailContract.Event.GetMarketDetail(marketId = "a"))
+
+        viewModel.event(MarketDetailContract.Event.SetMarket(model.copy(id = "a")))
+        viewModel.state.value.marketChart.shouldBeInstanceOf<LoadableData.Loaded<MarketChart>>()
+
+        viewModel.event(MarketDetailContract.Event.SetMarket(model.copy(id = "b")))
+        viewModel.state.value.marketChart shouldBe LoadableData.Initial
+        viewModel.state.value.marketDetail shouldBe LoadableData.Initial
+        viewModel.state.value.rangeChange shouldBe null
+    }
+
     "Given a chart requested before the market is set, When a range is selected, Then that chart reloads for the new range" {
         coEvery { getMarketChartUseCase(id = "early", days = 30) } returns flowOf(Resource.Success(provideMarketChart()))
         viewModel.event(MarketDetailContract.Event.GetMarketChart(marketId = "early"))

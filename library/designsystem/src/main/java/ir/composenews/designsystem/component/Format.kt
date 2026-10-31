@@ -29,6 +29,14 @@ fun formatUsdPrice(value: Double): String = "${formatPrice(value)} $"
 /** The size of a percent change, without its sign: `2.14 %`. The sign is the arrow next to it. */
 fun formatPercent(change: Double): String = String.format(Locale.US, "%.2f %%", abs(change))
 
+/** The retry button after a failed sync: `Try again`, or `Try again in 0:42` while a 429 runs out. */
+fun formatRetry(retryInSeconds: Int): String =
+    if (retryInSeconds > 0) {
+        String.format(Locale.US, "Try again in %d:%02d", retryInSeconds / 60, retryInSeconds % 60)
+    } else {
+        "Try again"
+    }
+
 /** A dollar amount in three significant figures with a T, B or M suffix: `$1.33T`, `$255B`, `$12.4M`. */
 fun formatCompactUsd(value: Long): String {
     // Round first, so 999.96B becomes `$1.00T` rather than `$1000B`.

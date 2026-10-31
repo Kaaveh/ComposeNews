@@ -112,6 +112,36 @@ fun StatePaneButton(
     }
 }
 
+/**
+ * Nothing stored and the sync failed: a plain error, or a 429 ([rateLimited]) that is [waiting] out its countdown.
+ * The [actions] are the platform's buttons; label the retry one with [formatRetry].
+ */
+@Composable
+fun SyncErrorPane(
+    title: String,
+    rateLimited: Boolean,
+    waiting: Boolean,
+    modifier: Modifier = Modifier,
+    illustrationSize: Dp = 220.dp,
+    actions: @Composable ColumnScope.() -> Unit = {},
+) {
+    val colors = MaterialTheme.colorScheme
+    StatePane(
+        icon = painterResource(if (rateLimited) R.drawable.ic_hourglass_top else R.drawable.ic_cloud_off),
+        iconTint = if (rateLimited) colors.tertiary else colors.error,
+        containerColor = if (rateLimited) colors.tertiaryContainer else colors.errorContainer,
+        title = title,
+        body = when {
+            !rateLimited -> "Prices couldn’t load. Check your connection and try again."
+            waiting -> "You can try again when the timer ends."
+            else -> "You can try again now."
+        },
+        modifier = modifier,
+        illustrationSize = illustrationSize,
+        actions = actions,
+    )
+}
+
 /** The Favorites screen with nothing saved. */
 @Composable
 fun EmptyFavoritesPane(

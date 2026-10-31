@@ -3,6 +3,7 @@
 package ir.composenews.tv.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -15,11 +16,16 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Icon
@@ -47,6 +53,7 @@ private enum class TvTab(
 @Composable
 fun ComposeNewsTvApp() {
     var tab by rememberSaveable { mutableStateOf(TvTab.Markets) }
+    val selectedTab = remember { FocusRequester() }
     Surface(
         modifier = Modifier.fillMaxSize(),
         colors = SurfaceDefaults.colors(containerColor = MaterialTheme.colorScheme.background),
@@ -54,22 +61,33 @@ fun ComposeNewsTvApp() {
         Box {
             TvMarketsRoute(
                 favorites = tab == TvTab.Favorites,
-                onSelectTab = { tab = if (it) TvTab.Favorites else TvTab.Markets },
+                onSelectTab = {
+                    // A pane's button switched tabs and is about to go away. Compose would refocus while the switch
+                    // applies, on the old tab, which would switch back; parking focus on it first avoids that.
+                    selectedTab.requestFocus()
+                    tab = if (it) TvTab.Favorites else TvTab.Markets
+                },
             )
-            // Over the screen rather than inside it: a tab switch replaces the screen, and the focused tab with it.
+            // Over the screen, which reserves room for it, so the tabs stay put whatever the screen shows.
             Box(modifier = Modifier.padding(start = 48.dp, top = 24.dp)) {
-                TvTabs(selected = tab, onSelect = { tab = it })
+                TvTabs(selected = tab, selectedTab = selectedTab, onSelect = { tab = it })
             }
         }
     }
 }
 
-/** The top tabs. As on any TV tab row, focusing a tab opens it. */
+/**
+ * The top tabs. As on any TV tab row, focusing a tab opens it, so focus can only enter the row on the open tab:
+ * the nearest tab to an Up press, or the first one Compose falls back to when a focused button goes away, could
+ * be the other tab, which would switch to it.
+ */
 @Composable
 private fun TvTabs(
     selected: TvTab,
+    selectedTab: FocusRequester,
     onSelect: (TvTab) -> Unit,
 ) {
+    var rowHasFocus by remember { mutableStateOf(false) }
     TabRow(
         selectedTabIndex = selected.ordinal,
         separator = { Spacer(modifier = Modifier.width(4.dp)) },
@@ -86,6 +104,8 @@ private fun TvTabs(
         },
         modifier =
             Modifier
+                .onFocusChanged { rowHasFocus = it.hasFocus }
+                .focusGroup()
                 .clip(CircleShape)
                 .background(PhoneMaterialTheme.colorScheme.surfaceContainerLow)
                 .padding(4.dp),
@@ -96,6 +116,10 @@ private fun TvTabs(
                 selected = isSelected,
                 onFocus = { onSelect(entry) },
                 onClick = { onSelect(entry) },
+                modifier =
+                    Modifier
+                        .focusProperties { canFocus = isSelected || rowHasFocus }
+                        .then(if (isSelected) Modifier.focusRequester(selectedTab) else Modifier),
                 colors =
                     TabDefaults.pillIndicatorTabColors(
                         contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
