@@ -20,11 +20,10 @@ composeCoil = "2.7.0"
 # Expressive components (ButtonGroup, LoadingIndicator) aren't in the BOM's 1.4.0; back to the BOM once 1.5.0 is stable
 material3 = "1.5.0-beta02"
 material3Adaptive = "1.2.0"
-composeWear = "1.5.6"
+composeWear = "1.7.1"
 composeTv = "1.1.0"
 turbine = "1.2.1"
 wearToolingPreview = "1.0.0"
-horologistComposeLayout = "0.7.15"
 
 detekt = "1.23.8"
 kermit = "2.0.5"
@@ -80,11 +79,10 @@ compose-activity = { group = "androidx.activity", name = "activity-compose", ver
 compose-coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "composeCoil" }
 compose-material3-adaptive-navigation = { group = "androidx.compose.material3.adaptive", name = "adaptive-navigation", version.ref = "material3Adaptive" }
 compose-material3-adaptive-navigation-suite = { group = "androidx.compose.material3", name = "material3-adaptive-navigation-suite" }
-compose-material-wear = { group = "androidx.wear.compose", name = "compose-material", version.ref = "composeWear" }
+compose-material3-wear = { group = "androidx.wear.compose", name = "compose-material3", version.ref = "composeWear" }
 compose-foundation-wear = { group = "androidx.wear.compose", name = "compose-foundation", version.ref = "composeWear" }
 compose-ui-preview-wear = { group = "androidx.wear", name = "wear-tooling-preview", version.ref = "wearToolingPreview" }
 compose-tv-material = { group = "androidx.tv", name = "tv-material", version.ref = "composeTv" }
-compose-horologist-layout = { module = "com.google.android.horologist:horologist-compose-layout", version.ref = "horologistComposeLayout" }
 
 kermit = { group = "co.touchlab", name = "kermit", version.ref = "kermit" }
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }

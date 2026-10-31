@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ir.composenews.designsystem.R
 import ir.composenews.designsystem.preview.ThemePreviews
@@ -44,6 +45,7 @@ fun StatePane(
     body: String,
     modifier: Modifier = Modifier,
     illustrationShape: Shape = CircleShape,
+    illustrationSize: Dp = 220.dp,
     actions: @Composable ColumnScope.() -> Unit = {},
 ) {
     Column(
@@ -55,11 +57,16 @@ fun StatePane(
     ) {
         Box(
             modifier = Modifier
-                .size(220.dp)
+                .size(illustrationSize)
                 .background(containerColor, illustrationShape),
             contentAlignment = Alignment.Center,
         ) {
-            Icon(painter = icon, contentDescription = null, tint = iconTint, modifier = Modifier.size(88.dp))
+            Icon(
+                painter = icon,
+                contentDescription = null,
+                tint = iconTint,
+                modifier = Modifier.size(illustrationSize * 0.4f),
+            )
         }
         Text(
             text = title,
@@ -107,7 +114,11 @@ fun StatePaneButton(
 
 /** The Favorites screen with nothing saved. */
 @Composable
-fun EmptyFavoritesPane(modifier: Modifier = Modifier, actions: @Composable ColumnScope.() -> Unit = {}) {
+fun EmptyFavoritesPane(
+    modifier: Modifier = Modifier,
+    illustrationSize: Dp = 220.dp,
+    actions: @Composable ColumnScope.() -> Unit = {},
+) {
     StatePane(
         icon = painterResource(R.drawable.ic_favorite_filled),
         iconTint = MaterialTheme.colorScheme.primary,
@@ -115,6 +126,7 @@ fun EmptyFavoritesPane(modifier: Modifier = Modifier, actions: @Composable Colum
         title = "No favorites yet",
         body = "Tap the heart on any market to keep it here, ready at a glance.",
         modifier = modifier,
+        illustrationSize = illustrationSize,
         actions = actions,
     )
 }

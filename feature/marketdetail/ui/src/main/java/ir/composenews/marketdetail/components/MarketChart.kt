@@ -86,7 +86,7 @@ internal fun MarketChart(
     }
 }
 
-internal val ChartRange.shortLabel: String
+val ChartRange.shortLabel: String
     get() = when (this) {
         ChartRange.Day -> "1D"
         ChartRange.Week -> "1W"
@@ -95,7 +95,7 @@ internal val ChartRange.shortLabel: String
     }
 
 /** Next to the change chip: the period the change covers. */
-internal val ChartRange.label: String
+val ChartRange.label: String
     get() = when (this) {
         ChartRange.Day -> "Today"
         ChartRange.Week -> "Past week"

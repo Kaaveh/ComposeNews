@@ -8,19 +8,17 @@ android {
 
 dependencies {
     // Koin
-    implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
 
     api(projects.library.designsystem)
     api(projects.core.base)
 
     projects.apply {
-        implementation(feature.marketlist.ui)
+        implementation(feature.marketlist.presentation)
+        implementation(feature.marketdetail.presentation)
         implementation(feature.marketdetail.ui)
         implementation(core.ui)
         implementation(core.uimarket)
-        implementation(core.extensions)
-        implementation(data.marketRepository)
     }
     libs.apply {
         implementation(compose.tv.material)
