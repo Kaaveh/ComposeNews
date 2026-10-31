@@ -162,6 +162,16 @@ class MarketListViewModelTest : StringSpec({
         viewModel.state.value.syncError shouldBe null
     }
 
+    "Given a shown sync error, When the UI reports it, Then syncError is cleared" {
+        viewModel.event(Event.OnGetMarketList)
+        coEvery { syncMarketListUseCase() } returns Resource.Error(Errors.ExceptionError("offline"))
+        viewModel.event(Event.OnRefresh)
+
+        viewModel.event(Event.OnSyncErrorShown)
+
+        viewModel.state.value.syncError shouldBe null
+    }
+
     "Given loaded markets, When Gainers is selected, Then only gainers show, highest change first" {
         viewModel.event(Event.OnGetMarketList)
 

@@ -189,12 +189,6 @@ internal fun axisDecimals(step: Double): Int = (1 - floor(log10(step))).toInt().
 internal fun scrubIndexAt(x: Float, plotWidth: Float, count: Int): Int =
     if (count < 2 || plotWidth <= 0f) 0 else (x / plotWidth * (count - 1)).roundToInt().coerceIn(0, count - 1)
 
-private fun formatPrice(value: Double): String = when {
-    value >= 1_000 -> String.format(Locale.US, "%,.0f", value)
-    value >= 1 -> String.format(Locale.US, "%.2f", value)
-    else -> String.format(Locale.US, "%.6f", value).trimEnd('0').trimEnd('.')
-}
-
 @ThemePreviews
 @Composable
 private fun PriceChartPreview() {

@@ -27,8 +27,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.CustomAccessibilityAction
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -43,11 +45,12 @@ import ir.composenews.designsystem.theme.ComposeNewsTheme
 import ir.composenews.designsystem.theme.extendedColors
 import ir.composenews.designsystem.theme.tabularNums
 import java.util.Locale
-import kotlin.math.abs
 
 /**
  * One market in a list: logo, symbol and name, 7-day sparkline, price, 24h change and the favorite toggle.
  * [shape] lets a grouped list give the first, middle and last rows their own corners.
+ * A null [onFavoriteClick] hides the toggle (Favorites, where a swipe removes the row); [onRemove] then gives
+ * screen readers a `Remove from favorites` action instead of the swipe.
  */
 @Composable
 fun MarketRow(
@@ -61,18 +64,33 @@ fun MarketRow(
     isTrendingUp7d: Boolean?,
     isFavorite: Boolean,
     onClick: () -> Unit,
-    onFavoriteClick: () -> Unit,
+    onFavoriteClick: (() -> Unit)?,
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(24.dp),
+    onRemove: (() -> Unit)? = null,
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .heightIn(min = 72.dp)
+            .heightIn(min = if (onFavoriteClick == null) 76.dp else 72.dp)
             .clip(shape)
             .background(MaterialTheme.colorScheme.surfaceContainerLow)
             .clickable(onClick = onClick)
-            .padding(start = 12.dp, end = 4.dp),
+            .then(
+                if (onRemove != null) {
+                    Modifier.semantics {
+                        customActions = listOf(
+                            CustomAccessibilityAction("Remove $name from favorites") {
+                                onRemove()
+                                true
+                            },
+                        )
+                    }
+                } else {
+                    Modifier
+                },
+            )
+            .padding(start = 12.dp, end = if (onFavoriteClick == null) 16.dp else 4.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         MarketLogo(id = id, imageUrl = imageUrl, size = 44.dp)
@@ -126,23 +144,28 @@ fun MarketRow(
             )
             TrendChange(change = change)
         }
-        IconToggleButton(
-            checked = isFavorite,
-            onCheckedChange = { onFavoriteClick() },
-        ) {
-            Icon(
-                painter = painterResource(if (isFavorite) R.drawable.ic_favorite_filled else R.drawable.ic_favorite),
-                contentDescription = if (isFavorite) "Remove $name from favorites" else "Add $name to favorites",
-                tint = if (isFavorite) MaterialTheme.extendedColors.favoriteOn else MaterialTheme.extendedColors.favoriteOff,
-                modifier = Modifier.size(22.dp),
-            )
+        if (onFavoriteClick != null) {
+            IconToggleButton(
+                checked = isFavorite,
+                onCheckedChange = { onFavoriteClick() },
+            ) {
+                Icon(
+                    painter = painterResource(if (isFavorite) R.drawable.ic_favorite_filled else R.drawable.ic_favorite),
+                    contentDescription = if (isFavorite) "Remove $name from favorites" else "Add $name to favorites",
+                    tint = if (isFavorite) MaterialTheme.extendedColors.favoriteOn else MaterialTheme.extendedColors.favoriteOff,
+                    modifier = Modifier.size(22.dp),
+                )
+            }
         }
     }
 }
 
-/** The coin logo, shared with the detail screen's when a shared-transition scope is provided. */
+/**
+ * The coin logo, shared with the detail screen's when a shared-transition scope is provided.
+ * Pass [shared] false for a second copy on screen (the top mover), since a shared key must be unique.
+ */
 @Composable
-internal fun MarketLogo(id: String, imageUrl: String, size: Dp) {
+fun MarketLogo(id: String, imageUrl: String, size: Dp, shared: Boolean = true) {
     val sharedTransitionScope = LocalSharedTransitionScope.current
     val animatedVisibilityScope = LocalAnimatedVisibilityScope.current
     AsyncImage(
@@ -150,7 +173,7 @@ internal fun MarketLogo(id: String, imageUrl: String, size: Dp) {
         contentDescription = null,
         modifier = Modifier
             .then(
-                if (sharedTransitionScope != null && animatedVisibilityScope != null) {
+                if (shared && sharedTransitionScope != null && animatedVisibilityScope != null) {
                     with(sharedTransitionScope) {
                         Modifier.sharedElement(
                             sharedContentState = rememberSharedContentState(key = "market_icon_$id"),
@@ -168,7 +191,7 @@ internal fun MarketLogo(id: String, imageUrl: String, size: Dp) {
 
 /** An arrow and the percent change in the trend color, so the trend never relies on color alone. */
 @Composable
-internal fun TrendChange(
+fun TrendChange(
     change: Double,
     modifier: Modifier = Modifier,
     color: Color = if (change >= 0) {
@@ -183,7 +206,7 @@ internal fun TrendChange(
     ),
     iconSize: Dp = 16.dp,
 ) {
-    val percent = String.format(Locale.US, "%.2f %%", abs(change))
+    val percent = formatPercent(change)
     Row(
         modifier = modifier.semantics(mergeDescendants = true) {
             contentDescription = if (change >= 0) "Up $percent" else "Down $percent"

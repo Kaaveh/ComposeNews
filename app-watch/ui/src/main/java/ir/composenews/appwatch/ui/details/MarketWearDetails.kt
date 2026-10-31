@@ -44,13 +44,13 @@ import ir.composenews.base.errorViewMapper
 import ir.composenews.base.isLoading
 import ir.composenews.core.ui.use
 import ir.composenews.designsystem.component.PriceChart
+import ir.composenews.designsystem.component.formatCompactUsd
 import ir.composenews.designsystem.component.shimmerEffect
 import ir.composenews.designsystem.theme.ComposeNewsTheme
 import ir.composenews.designsystem.widget.ErrorView
 import ir.composenews.marketdetail.MarketDetailContract
 import ir.composenews.marketdetail.MarketDetailContract.State
 import ir.composenews.marketdetail.MarketDetailViewModel
-import ir.composenews.marketdetail.formatNumber
 import ir.composenews.marketdetail.preview_provider.MarketDetailStateProvider
 import ir.composenews.uimarket.model.MarketModel
 import org.koin.androidx.compose.koinViewModel
@@ -162,7 +162,7 @@ fun MarketDetail(marketData: State) {
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.Start,
     ) {
-        MarketDetailDataBlock("Market Cap", formatNumber(marketDetail?.marketCapUSD))
+        MarketDetailDataBlock("Market Cap", marketDetail?.marketCapUSD?.let(::formatCompactUsd).orEmpty())
         MarketDetailDataBlock("High 24h", marketDetail?.high24hUSD.toString())
         MarketDetailDataBlock("Low 24h", marketDetail?.low24hUSD.toString())
         MarketDetailDataBlock("Rank", "#${marketDetail?.marketCapRank}")

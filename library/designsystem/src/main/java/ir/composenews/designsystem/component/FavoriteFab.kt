@@ -20,13 +20,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.onClick
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import ir.composenews.designsystem.R
 import ir.composenews.designsystem.preview.ThemePreviews
 import ir.composenews.designsystem.theme.ComposeNewsTheme
 
-/** `Favorite` on the primary container; once saved, `Saved` on primary with rounder corners. */
+/**
+ * `Favorite` on the primary container; once saved, `Saved` on primary with rounder corners.
+ * Screen readers hear whether the market is saved and what a tap will do, as with the list's heart.
+ */
 @Composable
 fun FavoriteFab(
     isFavorite: Boolean,
@@ -44,7 +50,12 @@ fun FavoriteFab(
     val corner by animateDpAsState(targetValue = if (isFavorite) 20.dp else 16.dp, label = "favorite_fab_corner")
     ExtendedFloatingActionButton(
         onClick = onClick,
-        modifier = modifier.height(64.dp),
+        modifier = modifier
+            .height(64.dp)
+            .semantics {
+                stateDescription = if (isFavorite) "In favorites" else "Not in favorites"
+                onClick(label = if (isFavorite) "Remove from favorites" else "Add to favorites", action = null)
+            },
         shape = RoundedCornerShape(corner),
         containerColor = containerColor,
         contentColor = contentColor,

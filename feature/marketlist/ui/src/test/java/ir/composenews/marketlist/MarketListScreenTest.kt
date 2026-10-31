@@ -10,6 +10,7 @@ package ir.composenews.marketlist
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
@@ -21,6 +22,7 @@ import ir.composenews.testing.fixture.buildMarketModel
 import ir.composenews.uimarket.model.MarketModel
 import kotlinx.collections.immutable.persistentListOf
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -95,20 +97,105 @@ class MarketListScreenTest {
     }
 
     @Test
-    fun givenLoadedState_whenFavoriteIconClicked_thenFavoriteCallbackInvoked() {
+    fun givenLoadedMarkets_whenFavoriteIconClicked_thenFavoriteCallbackInvoked() {
         val market = buildMarketModel()
         var clickedMarket: MarketModel? = null
         composeTestRule.setContent {
-            FavoriteMarketListScreen(
-                state = FavoriteListContract.State(
-                    favoriteList = LoadableData.Loaded(persistentListOf(market)),
+            MarketListScreen(
+                state = MarketListContract.State(
+                    marketList = LoadableData.Loaded(persistentListOf(market)),
                 ),
                 onNavigateToDetailScreen = { },
                 onFavoriteClick = { clickedMarket = it },
+                onRefresh = {},
             )
         }
-        composeTestRule.onNodeWithContentDescription("Not favorited").performClick()
+        composeTestRule.onNodeWithContentDescription("Add Bitcoin to favorites").performClick()
         assertEquals(market, clickedMarket)
+    }
+
+    @Test
+    fun givenLoadedFavorites_whenRendered_thenCountAndNoHeartAreShown() {
+        composeTestRule.setContent {
+            FavoriteMarketListScreen(
+                state = FavoriteListContract.State(
+                    favoriteList = LoadableData.Loaded(persistentListOf(buildMarketModel(isFavorite = true))),
+                ),
+                onNavigateToDetailScreen = {},
+                onFavoriteClick = {},
+            )
+        }
+        composeTestRule.onNodeWithText("1 saved · swipe left to remove").assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("Remove Bitcoin from favorites").assertDoesNotExist()
+    }
+
+    @Test
+    fun givenEmptyFavorites_whenBrowseMarketsClicked_thenCallbackInvoked() {
+        var browsed = false
+        composeTestRule.setContent {
+            FavoriteMarketListScreen(
+                state = FavoriteListContract.State(favoriteList = LoadableData.Loaded(persistentListOf())),
+                onNavigateToDetailScreen = {},
+                onFavoriteClick = {},
+                onBrowseMarkets = { browsed = true },
+            )
+        }
+        composeTestRule.onNodeWithText("Browse markets").performClick()
+        assertTrue(browsed)
+    }
+
+    @Test
+    fun givenLoadedMarkets_whenGainersClicked_thenFilterCallbackInvoked() {
+        var filter: MarketListContract.Filter? = null
+        composeTestRule.setContent {
+            MarketListScreen(
+                state = MarketListContract.State(marketList = LoadableData.Loaded(persistentListOf(buildMarketModel()))),
+                onNavigateToDetailScreen = {},
+                onFavoriteClick = {},
+                onRefresh = {},
+                onFilterSelect = { filter = it },
+            )
+        }
+        composeTestRule.onNodeWithText("Top 250 · By market cap").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Gainers").performClick()
+        assertEquals(MarketListContract.Filter.Gainers, filter)
+    }
+
+    @Test
+    fun givenTopMover_whenClicked_thenItsDetailOpens() {
+        val mover = buildMarketModel("sol", "Solana", "SOL")
+        var opened: MarketModel? = null
+        composeTestRule.setContent {
+            MarketListScreen(
+                state = MarketListContract.State(
+                    marketList = LoadableData.Loaded(persistentListOf(buildMarketModel())),
+                    topMover = mover,
+                ),
+                onNavigateToDetailScreen = { opened = it },
+                onFavoriteClick = {},
+                onRefresh = {},
+            )
+        }
+        composeTestRule.onNodeWithText("Top mover in top 250 · 24h").performClick()
+        assertEquals(mover, opened)
+    }
+
+    @Test
+    fun givenErrorWithoutMarkets_whenTryAgainClicked_thenRefreshInvoked() {
+        var refreshed = false
+        composeTestRule.setContent {
+            MarketListScreen(
+                state = MarketListContract.State(
+                    marketList = LoadableData.Error(Errors.ApiError(message = "An unknown error happened!", code = 500)),
+                ),
+                onNavigateToDetailScreen = {},
+                onFavoriteClick = {},
+                onRefresh = { refreshed = true },
+            )
+        }
+        composeTestRule.onNodeWithText("An unknown error happened!").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Try again").performClick()
+        assertTrue(refreshed)
     }
 
     @Test
@@ -164,6 +251,7 @@ class MarketListScreenTest {
             )
         }
         composeTestRule.onNodeWithText("Too many requests.").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Try again in 0:42").assertIsNotEnabled()
     }
 
     @Test

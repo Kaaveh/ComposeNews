@@ -7,10 +7,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -68,6 +74,34 @@ fun StatePane(
             textAlign = TextAlign.Center,
         )
         actions()
+    }
+}
+
+/**
+ * A [StatePane] action: a 56 dp filled button with an icon.
+ * The canvas draws `Try again` with 16 dp corners and `Browse markets` as a pill.
+ */
+@Composable
+fun StatePaneButton(
+    text: String,
+    icon: Painter,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    shape: Shape = RoundedCornerShape(16.dp),
+) {
+    Button(
+        onClick = onClick,
+        enabled = enabled,
+        shape = shape,
+        contentPadding = PaddingValues(horizontal = 28.dp),
+        modifier = modifier
+            .padding(top = 8.dp)
+            .height(56.dp),
+    ) {
+        Icon(painter = icon, contentDescription = null, modifier = Modifier.size(22.dp))
+        Spacer(Modifier.width(8.dp))
+        Text(text = text)
     }
 }
 
