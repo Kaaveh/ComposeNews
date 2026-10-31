@@ -29,8 +29,13 @@ interface MarketDetailContract :
             }
     }
 
-    /** The UI labels these `Today`, `Past week`, `Past month` and `Past year`. */
-    enum class ChartRange(val days: Int) { Day(1), Week(7), Month(30), Year(365) }
+    /** [shortLabel] is the range button, [label] the period next to the change: `1D` and `Today`. */
+    enum class ChartRange(val days: Int, val shortLabel: String, val label: String) {
+        Day(1, "1D", "Today"),
+        Week(7, "1W", "Past week"),
+        Month(30, "1M", "Past month"),
+        Year(365, "1Y", "Past year"),
+    }
 
     sealed class Event {
         data class SetMarket(val market: MarketModel) : Event()

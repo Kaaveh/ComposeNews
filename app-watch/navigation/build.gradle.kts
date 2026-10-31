@@ -4,6 +4,10 @@ plugins {
 
 android {
     namespace = "ir.composenews.app_watch.navigation"
+
+    defaultConfig {
+        minSdk = libs.versions.projectMinSdkVersionWear.get().toInt()
+    }
 }
 
 dependencies {

@@ -28,6 +28,12 @@ class FormatTest :
             assertEquals("$10.0B", formatCompactUsd(9_996_000_000))
         }
 
+        "Given a 429 countdown, When labeling the retry button, Then it shows minutes and seconds until it ends" {
+            assertEquals("Try again", formatRetry(0))
+            assertEquals("Try again in 0:42", formatRetry(42))
+            assertEquals("Try again in 1:05", formatRetry(65))
+        }
+
         "Given a chart point, When formatting its time, Then recent days read as words and older ones as dates" {
             val utc = TimeZone.getTimeZone("UTC")
             val now = 1_761_920_400_000 // Oct 31, 2025 14:20 UTC

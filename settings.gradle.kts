@@ -58,7 +58,6 @@ include(":app-watch:navigation")
 include(":app-watch:ui")
 include(":app-tv")
 include(":app-tv:app")
-include(":app-tv:navigation")
 include(":app-tv:ui")
 include(":baselineprofile")
 

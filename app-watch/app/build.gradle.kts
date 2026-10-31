@@ -18,6 +18,7 @@ dependencies {
 
     projects.apply {
         implementation(appWatch.navigation)
+        implementation(appWatch.ui)
         implementation(library.designsystem)
         implementation(core.base)
         implementation(core.uimarket)
@@ -36,7 +37,8 @@ dependencies {
         implementation(compose.activity)
         implementation(compose.ui.preview.wear)
         implementation(compose.foundation.wear)
-        implementation(compose.horologist.layout)
+        implementation(compose.material3.wear)
+        implementation(navigation.compose.wear)
         androidTestImplementation(platform(compose.bom))
         androidTestImplementation(compose.ui.test.junit4)
         debugImplementation(compose.ui.tooling)

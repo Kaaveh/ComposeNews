@@ -54,8 +54,9 @@ import ir.composenews.core.ui.use
 import ir.composenews.designsystem.R
 import ir.composenews.designsystem.component.ConnectedButtonGroup
 import ir.composenews.designsystem.component.SortMenuButton
-import ir.composenews.designsystem.component.StatePane
+import ir.composenews.designsystem.component.SyncErrorPane
 import ir.composenews.designsystem.component.StatePaneButton
+import ir.composenews.designsystem.component.formatRetry
 import ir.composenews.designsystem.component.TopMoverCard
 import ir.composenews.designsystem.component.formatUsdPrice
 import ir.composenews.designsystem.component.SkeletonBlock
@@ -71,7 +72,6 @@ import ir.composenews.marketlist.preview_provider.MarketListStateProvider
 import ir.composenews.network.Errors
 import ir.composenews.uimarket.model.MarketModel
 import kotlinx.collections.immutable.PersistentList
-import java.util.Locale
 
 private const val SKELETON_ROWS = 6
 
@@ -279,26 +279,15 @@ private fun MarketErrorPane(
     onOpenFavorites: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val rateLimited = error is Errors.RateLimited
     val waiting = retryInSeconds > 0
-    StatePane(
-        icon = painterResource(if (rateLimited) R.drawable.ic_hourglass_top else R.drawable.ic_cloud_off),
-        iconTint = if (rateLimited) MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.error,
-        containerColor = if (rateLimited) MaterialTheme.colorScheme.tertiaryContainer else MaterialTheme.colorScheme.errorContainer,
+    SyncErrorPane(
         title = errorViewMapper(error),
-        body = when {
-            !rateLimited -> "Prices couldn’t load. Check your connection and try again."
-            waiting -> "You can try again when the timer ends."
-            else -> "You can try again now."
-        },
+        rateLimited = error is Errors.RateLimited,
+        waiting = waiting,
         modifier = modifier,
     ) {
         StatePaneButton(
-            text = if (waiting) {
-                String.format(Locale.US, "Try again in %d:%02d", retryInSeconds / 60, retryInSeconds % 60)
-            } else {
-                "Try again"
-            },
+            text = formatRetry(retryInSeconds),
             icon = painterResource(if (waiting) R.drawable.ic_timer else R.drawable.ic_refresh),
             onClick = onRefresh,
             enabled = !waiting,
