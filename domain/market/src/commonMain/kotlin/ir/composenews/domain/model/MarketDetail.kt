@@ -13,7 +13,7 @@ data class MarketDetail(
     data class MarketData(
         val high24hUSD: Double,
         val low24hUSD: Double,
-        val marketCapUSD: Long,
+        val marketCapUSD: Long?,
         val marketCapRank: Int,
     )
 }

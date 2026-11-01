@@ -15,6 +15,6 @@ fun MarketDetailResponse.toMarketDetail(): MarketDetail = MarketDetail(
 fun MarketData.toMarketData(): MarketDetail.MarketData = MarketDetail.MarketData(
     high24hUSD = high24h?.usd ?: 0.0,
     low24hUSD = low24h?.usd ?: 0.0,
-    marketCapUSD = marketCap?.usd ?: 0,
+    marketCapUSD = marketCap?.usd,
     marketCapRank = marketCapRank ?: 0,
 )

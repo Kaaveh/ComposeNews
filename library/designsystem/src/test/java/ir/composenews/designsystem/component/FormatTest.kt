@@ -26,6 +26,11 @@ class FormatTest :
             assertEquals("$1.00T", formatCompactUsd(999_960_000_000))
             assertEquals("$100M", formatCompactUsd(99_960_000))
             assertEquals("$10.0B", formatCompactUsd(9_996_000_000))
+            assertEquals("$850M", formatCompactUsd(850_000_000))
+            assertEquals("$1.90B", formatCompactUsd(1_900_000_000))
+            assertEquals("$0", formatCompactUsd(0))
+            assertEquals("$999,499", formatCompactUsd(999_499))
+            assertEquals("$1.00M", formatCompactUsd(999_500))
         }
 
         "Given a 429 countdown, When labeling the retry button, Then it shows minutes and seconds until it ends" {

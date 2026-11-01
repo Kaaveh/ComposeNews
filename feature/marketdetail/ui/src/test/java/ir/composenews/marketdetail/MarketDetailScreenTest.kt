@@ -8,9 +8,11 @@
 
 package ir.composenews.marketdetail
 
+import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasStateDescription
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
@@ -254,6 +256,35 @@ class MarketDetailScreenTest {
         }
 
         assertStatRowsAreVisible("Market Cap", "$255B", "High 24h", "100,000.00", "Low 24h", "50,000.00", "Rank", "#1")
+    }
+
+    @Test
+    fun givenNoMarketCap_whenRendered_thenMarketCapShowsADash() {
+        val bitcoin = buildMarketModel()
+        val bitcoinDetail = MarketDetail(
+            id = bitcoin.id,
+            marketCapRank = 1,
+            marketData = MarketDetail.MarketData(
+                high24hUSD = 100_000.0,
+                low24hUSD = 50_000.0,
+                marketCapUSD = null,
+                marketCapRank = 1,
+            ),
+            name = bitcoin.name,
+        )
+        composeTestRule.setContent {
+            MarketDetailScreen(
+                marketDetailState = MarketDetailContract.State(
+                    market = LoadableData.Loaded(bitcoin),
+                    marketDetail = LoadableData.Loaded(bitcoinDetail),
+                ),
+                onFavoriteClick = {},
+                onBack = {},
+            )
+        }
+
+        assertStatRowsAreVisible("Market Cap", "—")
+        composeTestRule.onAllNodesWithText("$0").assertCountEquals(0)
     }
 
     @Test

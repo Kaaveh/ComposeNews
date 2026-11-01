@@ -73,7 +73,8 @@ class BaselineProfileGenerator {
             includeInStartupProfile = true,
             // Exclude fixture-only classes to not be included in the baseline profile.
             filterPredicate = { profileRule ->
-                !profileRule.contains("FixtureMarketsApi") &&
+                !profileRule.contains("FixtureMarketsEngine") &&
+                    !profileRule.contains("io/ktor/client/engine/mock") &&
                     !profileRule.contains("BackendModulesKt")
             },
         ) {
@@ -99,11 +100,18 @@ class BaselineProfileGenerator {
     }
 
     private fun MacrobenchmarkScope.favoriteScreenJourney() {
-        device.findObject(By.text("Favorite"))?.click()
-        device.wait(
-            Until.hasObject(By.text("Your favorite list is empty")),
-            FAVORITE_TIMEOUT_MILLIS,
-        )
+        // The tab is the clickable parent of the label, unlike the Favorites headings larger layouts show.
+        checkNotNull(device.findObject(By.clickable(true).hasChild(By.text("Favorites")))) {
+            "Favorites tab was not found"
+        }.click()
+        check(
+            device.wait(
+                Until.hasObject(By.text("No favorites yet")),
+                FAVORITE_TIMEOUT_MILLIS,
+            ),
+        ) {
+            "Favorites screen was not displayed"
+        }
     }
 
     private fun MacrobenchmarkScope.scrollScreenJourney() {
