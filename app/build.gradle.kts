@@ -84,6 +84,8 @@ dependencies {
         implementation(compose.ui.test.manifest)
         implementation(compose.ui.test.junit4)
         implementation(ktor.client.okhttp)
+        "fixtureImplementation"(ktor.client.mock)
+        "fixtureImplementation"(kotlinx.serialization.json)
         debugImplementation(chucker)
         releaseImplementation(chucker.no.op)
         androidTestImplementation(rules)
