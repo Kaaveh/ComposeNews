@@ -10,6 +10,7 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
+/** A [MarketRepository] whose answers tests swap per method, recording the calls they assert on. */
 class FakeMarketRepository : MarketRepository {
     private val markets =
         listOf(
@@ -23,37 +24,68 @@ class FakeMarketRepository : MarketRepository {
             ),
         )
 
-    override fun getMarketList(): Flow<List<Market>> = flowOf(markets)
+    var marketList: () -> Flow<List<Market>> = { flowOf(markets) }
+    var favoriteList: () -> Flow<List<Market>> = { flowOf(emptyList()) }
+    var marketById: (id: String) -> Flow<Market?> = { id -> flowOf(markets.firstOrNull { it.id == id }) }
+    var sync: suspend () -> Resource<Unit, Errors> = { Resource.Success(Unit) }
+    var chart: (id: String, days: Int) -> Flow<Resource<MarketChart, Errors>> = { _, _ ->
+        flowOf(Resource.Success(MarketChart(persistentListOf(START to END))))
+    }
+    var detail: (id: String) -> Flow<Resource<MarketDetail, Errors>> = { id ->
+        flowOf(Resource.Success(bitcoinDetail(id)))
+    }
 
-    override fun getFavoriteMarketList(): Flow<List<Market>> = flowOf(emptyList())
+    var favoriteListCalls = 0
+        private set
+    var syncCalls = 0
+        private set
+    val toggled = mutableListOf<Market>()
+    val chartCalls = mutableListOf<Pair<String, Int>>()
+    val detailCalls = mutableListOf<String>()
 
-    override fun getMarketById(id: String): Flow<Market?> = flowOf(markets.firstOrNull { it.id == id })
+    override fun getMarketList(): Flow<List<Market>> = marketList()
 
-    override suspend fun syncMarketList(): Resource<Unit, Errors> = Resource.Success(Unit)
+    override fun getFavoriteMarketList(): Flow<List<Market>> {
+        favoriteListCalls++
+        return favoriteList()
+    }
 
-    override suspend fun toggleFavoriteMarket(oldMarket: Market) = Unit
+    override fun getMarketById(id: String): Flow<Market?> = marketById(id)
+
+    override suspend fun syncMarketList(): Resource<Unit, Errors> {
+        syncCalls++
+        return sync()
+    }
+
+    override suspend fun toggleFavoriteMarket(oldMarket: Market) {
+        toggled += oldMarket
+    }
 
     override fun fetchChart(
         id: String,
         days: Int,
-    ): Flow<Resource<MarketChart, Errors>> = flowOf(Resource.Success(MarketChart(persistentListOf(START to END))))
+    ): Flow<Resource<MarketChart, Errors>> {
+        chartCalls += id to days
+        return chart(id, days)
+    }
 
-    override fun fetchDetail(id: String): Flow<Resource<MarketDetail, Errors>> =
-        flowOf(
-            Resource.Success(
-                MarketDetail(
-                    id = id,
+    override fun fetchDetail(id: String): Flow<Resource<MarketDetail, Errors>> {
+        detailCalls += id
+        return detail(id)
+    }
+
+    private fun bitcoinDetail(id: String) =
+        MarketDetail(
+            id = id,
+            marketCapRank = 1,
+            marketData =
+                MarketDetail.MarketData(
+                    high24hUSD = 101000.0,
+                    low24hUSD = 99000.0,
+                    marketCapUSD = 1_000_000_000L,
                     marketCapRank = 1,
-                    marketData =
-                        MarketDetail.MarketData(
-                            high24hUSD = 101000.0,
-                            low24hUSD = 99000.0,
-                            marketCapUSD = 1_000_000_000L,
-                            marketCapRank = 1,
-                        ),
-                    name = "Bitcoin",
                 ),
-            ),
+            name = "Bitcoin",
         )
 
     companion object {

@@ -86,7 +86,6 @@ dependencies {
         implementation(ktor.client.okhttp)
         debugImplementation(chucker)
         releaseImplementation(chucker.no.op)
-        androidTestImplementation(mockk.android)
         androidTestImplementation(rules)
     }
 }

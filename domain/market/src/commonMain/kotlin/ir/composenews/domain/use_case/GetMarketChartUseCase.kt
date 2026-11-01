@@ -8,9 +8,9 @@ import ir.composenews.network.Errors
 import ir.composenews.network.Resource
 import kotlinx.coroutines.flow.Flow
 
-open class GetMarketChartUseCase(
+class GetMarketChartUseCase(
     private val repository: MarketRepository,
 ) {
-    open operator fun invoke(id: String, days: Int): Flow<Resource<MarketChart, Errors>> =
+    operator fun invoke(id: String, days: Int): Flow<Resource<MarketChart, Errors>> =
         repository.fetchChart(id = id, days = days)
 }

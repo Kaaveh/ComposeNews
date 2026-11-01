@@ -75,7 +75,7 @@ Module scripts apply a convention plugin from `build-logic/` (SDK levels, Java 1
 ## Testing
 
 - **Framework**: Kotest 6.x (replacing JUnit)
-- **Mocking**: MockK
+- **Mocking**: hand-written fakes (`FakeMarketRepository` in `core:testing`, others next to their test), since MockK doesn't run on Kotlin/Native (it was removed in #373)
 - **Flow testing**: Turbine
 - **Android integration**: Robolectric + `includeAndroidResources = true`. Robolectric tests stay on JUnit 4 (run by the vintage engine), since Kotest has no Robolectric runner here
 
@@ -83,9 +83,10 @@ Module scripts apply a convention plugin from `build-logic/` (SDK levels, Java 1
 ./gradlew test                  # all unit tests
 ./gradlew :module:test          # single module
 ./gradlew :konsist:test         # architecture rules
+./gradlew iosSimulatorArm64Test # every commonTest on the iOS simulator (needs a simulator runtime; -PiosSimulatorDevice=<udid> picks one)
 ```
 
-KMP modules have no `test` task of their own; the KMP convention plugin registers one that runs the Android host tests (`testAndroidHostTest`), so the commands above cover them.
+KMP modules have no `test` task of their own; the KMP convention plugin registers one that runs the Android host tests (`testAndroidHostTest`), so the commands above cover them. In modules with a `src/commonTest` it also applies KSP and the `io.kotest` plugin, which registers the specs for the iOS test binaries. A DAO test that has to run on both platforms keeps its body in `commonTest` (`MarketDaoChecks`), called from the Robolectric `MarketDaoTest` on Android and from `MarketDaoSpec` in `iosTest`. Swift Testing tests for `iosApp` live in `iosApp/iosAppTests` (a hosted unit-test bundle that links no second copy of `Shared`).
 
 ## Code Quality
 
@@ -105,7 +106,7 @@ Git hooks enforce formatting and analysis before commits/pushes:
 
 | Workflow | Trigger | Steps |
 |----------|---------|-------|
-| `build.yml` | Push to master, PRs, version tags | test → lint → detekt → assemble APK |
+| `build.yml` | Push to master, PRs, version tags | test → lint → detekt → assemble APK; `ios` job on macOS: `iosSimulatorArm64Test` → `xcodebuild test` |
 | `claude.yml` | `@claude` mention in issues/PRs | Claude Code action |
 | `claude-code-review.yml` | PR opened/updated | Automated code review |
 | `danger_checks.yml` | PRs targeting `kmp` or `android_version` | Danger Kotlin PR checks |

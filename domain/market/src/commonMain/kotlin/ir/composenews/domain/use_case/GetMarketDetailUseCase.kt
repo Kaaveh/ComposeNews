@@ -8,8 +8,8 @@ import ir.composenews.network.Errors
 import ir.composenews.network.Resource
 import kotlinx.coroutines.flow.Flow
 
-open class GetMarketDetailUseCase(
+class GetMarketDetailUseCase(
     private val repository: MarketRepository,
 ) {
-    open operator fun invoke(id: String): Flow<Resource<MarketDetail, Errors>> = repository.fetchDetail(id = id)
+    operator fun invoke(id: String): Flow<Resource<MarketDetail, Errors>> = repository.fetchDetail(id = id)
 }

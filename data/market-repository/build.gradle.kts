@@ -19,8 +19,8 @@ kotlin {
                 implementation(koin.core)
             }
         }
-        androidHostTest.dependencies {
-            implementation(libs.mockk)
+        commonTest.dependencies {
+            implementation(libs.ktor.client.mock)
         }
     }
 }
