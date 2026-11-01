@@ -1,0 +1,223 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%@ · Rank #%d" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · Rank #%2$d"
+          }
+        }
+      }
+    },
+    "%d saved · swipe left to remove" : {
+
+    },
+    "1D" : {
+
+    },
+    "1M" : {
+
+    },
+    "1W" : {
+
+    },
+    "1Y" : {
+
+    },
+    "24h change" : {
+
+    },
+    "7-day trend down" : {
+
+    },
+    "7-day trend up" : {
+
+    },
+    "7d" : {
+
+    },
+    "Add %@ to favorites" : {
+
+    },
+    "All" : {
+
+    },
+    "Browse markets" : {
+
+    },
+    "Check your connection and try again." : {
+
+    },
+    "Couldn't load favorites" : {
+
+    },
+    "Couldn't load markets" : {
+
+    },
+    "Down %@" : {
+
+    },
+    "Favorites" : {
+
+    },
+    "Favorites stay in sync in the background, even offline." : {
+
+    },
+    "Filter" : {
+
+    },
+    "Gainers" : {
+
+    },
+    "High 24h" : {
+
+    },
+    "Loading chart" : {
+
+    },
+    "Loading market data" : {
+
+    },
+    "Loading markets" : {
+
+    },
+    "Losers" : {
+
+    },
+    "Low 24h" : {
+
+    },
+    "Market Cap" : {
+
+    },
+    "Market Data" : {
+
+    },
+    "Market cap" : {
+
+    },
+    "Markets" : {
+
+    },
+    "Name" : {
+
+    },
+    "No chart data" : {
+
+    },
+    "No favorites yet" : {
+
+    },
+    "No markets" : {
+
+    },
+    "No markets match this filter" : {
+
+    },
+    "Open saved favorites" : {
+
+    },
+    "Opens %@ details" : {
+
+    },
+    "Past month" : {
+
+    },
+    "Past week" : {
+
+    },
+    "Past year" : {
+
+    },
+    "Price" : {
+
+    },
+    "Prices couldn't load. Check your connection and try again." : {
+
+    },
+    "Range" : {
+
+    },
+    "Rank" : {
+
+    },
+    "Remove" : {
+
+    },
+    "Remove %@ from favorites" : {
+
+    },
+    "Select a market" : {
+
+    },
+    "Sort" : {
+
+    },
+    "Sort by" : {
+
+    },
+    "Sort favorites by name, price or 24h change" : {
+
+    },
+    "Tap the heart on any market to keep it here, ready at a glance." : {
+
+    },
+    "The server answered %d." : {
+
+    },
+    "Time" : {
+
+    },
+    "Today" : {
+
+    },
+    "Today, %@" : {
+
+    },
+    "Too many requests" : {
+
+    },
+    "Too many requests. Try again in %d seconds." : {
+
+    },
+    "Top 250 gainers · 24h" : {
+
+    },
+    "Top 250 losers · 24h" : {
+
+    },
+    "Top 250 · By market cap" : {
+
+    },
+    "Top 250 · By volume" : {
+
+    },
+    "Top mover in top 250 · 24h" : {
+
+    },
+    "Try again" : {
+
+    },
+    "Try again in %@" : {
+
+    },
+    "Up %@" : {
+
+    },
+    "Volume" : {
+
+    },
+    "Yesterday, %@" : {
+
+    },
+    "You can try again now." : {
+
+    },
+    "You can try again when the timer ends." : {
+
+    }
+  },
+  "version" : "1.0"
+}

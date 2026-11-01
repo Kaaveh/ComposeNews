@@ -8,11 +8,13 @@ import Shared
 final class ScreenModel<State, Event> {
     private(set) var state: State
 
+    @ObservationIgnored private let flow: SkieSwiftStateFlow<State>
     @ObservationIgnored private let onEvent: (Event) -> Void
     @ObservationIgnored private let owner: ViewModelOwner
     @ObservationIgnored private var observation: Task<Void, Never>?
 
     init(_ viewModel: ViewModel, state flow: SkieSwiftStateFlow<State>, onEvent: @escaping (Event) -> Void) {
+        self.flow = flow
         self.onEvent = onEvent
         owner = ViewModelOwner(viewModel: viewModel)
         state = flow.value
@@ -28,6 +30,9 @@ final class ScreenModel<State, Event> {
         observation?.cancel()
         owner.clear()
     }
+
+    /// The ViewModel's state right now, unobserved; `state` catches up on the next main-actor hop.
+    var currentState: State { flow.value }
 
     func send(_ event: Event) {
         onEvent(event)
