@@ -34,7 +34,7 @@ ComposeNews is a production-ready Android crypto application demonstrating moder
 | `library:navigation` | Navigation utilities |
 | `konsist` | Architecture consistency (Konsist) tests |
 | `shared` | iOS umbrella framework `Shared` (iOS targets only, SKIE): `initKoin()`, ViewModel factories, `ViewModelOwner` |
-| `iosApp/` | SwiftUI app: `ScreenModel`, the `@Observable` owner of a screen's ViewModel (no Xcode project yet, #371) |
+| `iosApp/` | SwiftUI app (iOS 26+, `iosApp.xcodeproj`; a build phase runs `:shared:embedAndSignAppleFrameworkForXcode`): Markets/Favorites `TabView`, list/detail `NavigationSplitView`, and `ScreenModel`, the `@Observable` owner of a screen's ViewModel |
 
 KMP modules keep shared code in `commonMain` and Android-only code (`Context`, WorkManager, Room's Android driver) in `androidMain`; tests live in `commonTest`, or `androidHostTest` when they need the JVM. Konsist fails the build if any `commonMain` imports `androidx.compose.*` or `android.*`. `app`, `app-watch`, `app-tv`, the `feature:*:ui` modules, `core:ui` and `library:*` stay Android-only.
 

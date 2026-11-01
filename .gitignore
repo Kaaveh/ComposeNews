@@ -21,3 +21,4 @@ release\
 /buildSrc/build/
 /sync/build/*
 .kotlin
+xcuserdata/
