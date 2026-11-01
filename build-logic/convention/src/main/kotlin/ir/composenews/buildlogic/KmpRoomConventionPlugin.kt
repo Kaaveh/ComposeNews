@@ -3,9 +3,7 @@ package ir.composenews.buildlogic
 import androidx.room.gradle.RoomExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.tasks.SourceTask
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
 
@@ -28,12 +26,5 @@ class KmpRoomConventionPlugin : Plugin<Project> {
                 }
             }
         }
-
-        // KSP adds its output to the iOS source sets, so Kotlinter would lint Room's generated code.
-        val buildDir = layout.buildDirectory.get().asFile
-        tasks
-            .withType<SourceTask>()
-            .matching { it.name.startsWith("lintKotlin") || it.name.startsWith("formatKotlin") }
-            .configureEach { exclude { it.file.startsWith(buildDir) } }
     }
 }

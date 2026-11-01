@@ -46,3 +46,39 @@ jobs:
         with:
           name: app-live-release
           path: app/build/outputs/apk/live/release/app-live-release.apk
+
+  ios:
+    name: iOS
+    runs-on: macos-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup
+        uses: ./.github/actions/workflow_setup
+
+      # iosApp needs the iOS 26 SDK; the image's default Xcode may be older than its newest one.
+      - name: Select the newest Xcode
+        run: |
+          xcode=$(ls -d /Applications/Xcode_*.app | grep -vi beta | sort -V | tail -1)
+          echo "Xcode: $xcode"
+          sudo xcode-select -s "$xcode"
+
+      # The newest iOS runtime's first iPhone (runtimes sorted by version, not as strings).
+      - name: Pick a simulator
+        run: |
+          udid=$(xcrun simctl list devices available -j | jq -r '[.devices | to_entries[] | select(.key | test("\\.iOS-")) | {v: (.key | capture("iOS-(?<v>[0-9-]+)$").v | split("-") | map(tonumber)), d: .value}] | sort_by(.v) | reverse | [.[].d[] | select(.name | startswith("iPhone"))][0].udid // empty')
+          [ -n "$udid" ] || { echo "No available iPhone simulator"; exit 1; }
+          echo "Simulator: $udid"
+          echo "SIMULATOR=$udid" >> "$GITHUB_ENV"
+
+      - name: Kotlin tests on iOS
+        run: ./gradlew :shared:linkDebugFrameworkIosSimulatorArm64 iosSimulatorArm64Test -PiosSimulatorDevice="$SIMULATOR"
+
+      - name: Build and test iosApp
+        run: >
+          xcodebuild test
+          -project iosApp/iosApp.xcodeproj
+          -scheme iosApp
+          -destination "id=$SIMULATOR"
+          CODE_SIGNING_ALLOWED=NO

@@ -46,7 +46,6 @@ ksp = "2.3.12"
 junit = "4.13.2"
 junitExt = "1.3.0"
 coroutinesTest = "1.11.0"
-mockk = "1.14.9"
 runner = "1.7.0"
 
 startupRuntime = "1.2.0"
@@ -113,6 +112,7 @@ ktor-client-darwin = { group = "io.ktor", name = "ktor-client-darwin", version.r
 ktor-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-contentNegotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
+ktor-client-mock = { group = "io.ktor", name = "ktor-client-mock", version.ref = "ktor" }
 konsist = { module = "com.lemonappdev:konsist", version.ref = "konsist" }
 
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
@@ -126,8 +126,6 @@ sqlite-bundled = { group = "androidx.sqlite", name = "sqlite-bundled", version.r
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 junit-ext = { group = "androidx.test.ext", name = "junit", version.ref = "junitExt" }
 coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutinesTest" }
-mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
-mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
 runner = { group = "androidx.test", name = "runner", version.ref = "runner" }
 rules = { group = "androidx.test", name = "rules", version.ref = "runner" }
 
@@ -175,6 +173,7 @@ kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref 
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 room = { id = "androidx.room", version.ref = "room" }
 skie = { id = "co.touchlab.skie", version.ref = "skie" }
+kotest = { id = "io.kotest", version.ref = "kotest" }
 
 # Convention plugins (build-logic)
 composenews-android-application = { id = "composenews.android.application" }

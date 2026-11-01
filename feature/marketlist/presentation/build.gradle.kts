@@ -19,12 +19,9 @@ kotlin {
                 implementation(koin.core.viewmodel)
             }
         }
-        androidHostTest.dependencies {
+        commonTest.dependencies {
             implementation(projects.core.testing)
-            libs.apply {
-                implementation(mockk)
-                implementation(turbine)
-            }
+            implementation(libs.turbine)
         }
     }
 }

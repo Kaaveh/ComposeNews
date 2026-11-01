@@ -7,18 +7,15 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import ir.composenews.testing.dispatcher.TestDispatcherProvider
 import ir.composenews.testing.repository.FakeMarketRepository
-import ir.composenews.domain.model.Market
 import ir.composenews.domain.model.MarketChart
 import ir.composenews.domain.model.MarketDetail
 import ir.composenews.domain.use_case.GetMarketByIdUseCase
 import ir.composenews.domain.use_case.GetMarketChartUseCase
 import ir.composenews.domain.use_case.GetMarketDetailUseCase
 import ir.composenews.domain.use_case.ToggleFavoriteMarketListUseCase
-import ir.composenews.network.Errors
 import ir.composenews.network.Resource
 import ir.composenews.uimarket.model.MarketModel
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import org.junit.Rule
 import org.junit.Test
@@ -27,50 +24,19 @@ class MarketDetailScreenTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    val fakeMarketRepository = FakeMarketRepository()
-
     private fun createMockViewModel(): MarketDetailViewModel {
-        val fakeGetMarketMarketChartUseCase =
-            object : GetMarketChartUseCase(fakeMarketRepository) {
-                override fun invoke(
-                    id: String,
-                    days: Int,
-                ): Flow<Resource<MarketChart, Errors>> {
-                    return flowOf(Resource.Success(MarketChart(persistentListOf(Pair(0, 50000.0)))))
-                }
+        val marketDetail = MarketDetail(id = "1", marketCapRank = 2, name = "name", marketData = null)
+        val repository =
+            FakeMarketRepository().apply {
+                chart = { _, _ -> flowOf(Resource.Success(MarketChart(persistentListOf(0L to 50000.0)))) }
+                detail = { flowOf(Resource.Success(marketDetail)) }
             }
-
-        val fakeGetMarketDetailUseCase =
-            object : GetMarketDetailUseCase(fakeMarketRepository) {
-                override fun invoke(id: String): Flow<Resource<MarketDetail, Errors>> {
-                    return flowOf(
-                        Resource.Success(
-                            MarketDetail(
-                                id = "1",
-                                marketCapRank = 2,
-                                name = "name",
-                                marketData = null,
-                            )
-                        )
-                    )
-                }
-            }
-
-        val fakeToggleFavoriteMarketListUseCase =
-            object : ToggleFavoriteMarketListUseCase(fakeMarketRepository) {
-                override suspend fun invoke(market: Market) = Unit
-            }
-
-        val fakeGetMarketByIdUseCase = GetMarketByIdUseCase(fakeMarketRepository)
-
-        val fakeDispatcherProvider = TestDispatcherProvider()
-
         return MarketDetailViewModel(
-            getMarketChartUseCase = fakeGetMarketMarketChartUseCase,
-            getMarketDetailUseCase = fakeGetMarketDetailUseCase,
-            toggleFavoriteMarketListUseCase = fakeToggleFavoriteMarketListUseCase,
-            getMarketByIdUseCase = fakeGetMarketByIdUseCase,
-            dispatcherProvider = fakeDispatcherProvider,
+            getMarketChartUseCase = GetMarketChartUseCase(repository),
+            getMarketDetailUseCase = GetMarketDetailUseCase(repository),
+            toggleFavoriteMarketListUseCase = ToggleFavoriteMarketListUseCase(repository),
+            getMarketByIdUseCase = GetMarketByIdUseCase(repository),
+            dispatcherProvider = TestDispatcherProvider(),
         )
     }
 

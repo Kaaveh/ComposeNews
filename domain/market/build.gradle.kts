@@ -17,11 +17,8 @@ kotlin {
                 api(kotlinx.serialization.json)
             }
         }
-        androidHostTest.dependencies {
-            libs.apply {
-                implementation(coroutines.test)
-                implementation(mockk)
-            }
+        commonTest.dependencies {
+            implementation(projects.core.testing)
         }
     }
 }
