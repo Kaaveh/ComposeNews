@@ -1,8 +1,9 @@
+import Charts
 import Shared
 import SwiftUI
 
 /// The Markets list: sort, top mover, filter and the synced top 250. `wide` means the detail sits beside the
-/// list, which then leaves out the top mover and the row hearts (the detail has its own), as Android's pane does.
+/// list, which then leaves out the top mover, as Android's pane does.
 struct MarketListView: View {
     let model: MarketListModel
     @Binding var selectedID: String?
@@ -28,16 +29,12 @@ struct MarketListView: View {
         }
         .toolbar {
             ToolbarItem {
-                Menu {
-                    Picker("Sort by", selection: Binding(
-                        get: { state.sort },
-                        set: { model.send(MarketListContractEvent.OnSortSelect(sort: $0)) }
-                    )) {
-                        Label("Market cap", systemImage: "chart.pie").tag(MarketListContractSort.marketCap)
-                        Label("Volume", systemImage: "chart.bar").tag(MarketListContractSort.volume)
-                    }
-                } label: {
-                    Label("Sort", systemImage: "arrow.up.arrow.down")
+                if state.marketList.isLoading {
+                    // The canvas's glass loader: the toolbar item renders as a glass circle.
+                    ProgressView()
+                        .accessibilityLabel(Text("Loading markets"))
+                } else {
+                    sortMenu(state)
                 }
             }
         }
@@ -57,6 +54,8 @@ struct MarketListView: View {
             if let mover = state.topMover, !wide {
                 Section {
                     TopMoverCard(market: mover) { selectedID = mover.id }
+                        .listRowInsets(EdgeInsets())
+                        .listRowBackground(Color.clear)
                 }
             }
             Section {
@@ -84,15 +83,31 @@ struct MarketListView: View {
                     }
                     .foregroundStyle(.secondary)
                 }
-                MarketRows(list: state.marketList, showsFavorite: !wide) { market in
-                    model.send(MarketListContractEvent.OnFavoriteClick(market: market))
-                }
-                .equatable()
+                MarketRows(list: state.marketList)
+                    .equatable()
             } header: {
                 Text(headerTitle(state.header))
+                    .font(.title2.bold())
+                    .foregroundStyle(.primary)
+                    .textCase(nil)
+                    .accessibilityAddTraits(.isHeader)
             }
         }
         .refreshable { await refreshAndWait() }
+    }
+
+    private func sortMenu(_ state: MarketListContractState) -> some View {
+        Menu {
+            Picker("Sort by", selection: Binding(
+                get: { state.sort },
+                set: { model.send(MarketListContractEvent.OnSortSelect(sort: $0)) }
+            )) {
+                Label("Market cap", systemImage: "chart.pie").tag(MarketListContractSort.marketCap)
+                Label("Volume", systemImage: "chart.bar").tag(MarketListContractSort.volume)
+            }
+        } label: {
+            Label("Sort markets", systemImage: "arrow.up.arrow.down")
+        }
     }
 
     private func refresh() {
@@ -123,59 +138,100 @@ struct MarketListView: View {
 /// state every second but keeps the same `LoadableData`.
 private struct MarketRows: View, Equatable {
     let list: LoadableData<NSArray>
-    let showsFavorite: Bool
-    let onFavoriteClick: (MarketModel) -> Void
 
     static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.list === rhs.list && lhs.showsFavorite == rhs.showsFavorite
+        lhs.list === rhs.list
     }
 
     var body: some View {
         ForEach(list.data as? [MarketModel] ?? [], id: \.id) { market in
             NavigationLink(value: market.id) {
-                MarketRow(market: market, onFavoriteClick: showsFavorite ? { onFavoriteClick(market) } : nil)
+                MarketRow(market: market)
             }
         }
     }
 }
 
-/// The biggest 24h gainer of all synced markets, whatever the filter. A button rather than a `NavigationLink`:
-/// the mover is often a row too, and two rows with one selection tag both highlight.
+/// The biggest 24h gainer of all synced markets, whatever the filter: a dark card with the 7-day trend as a
+/// gradient chart along its bottom. A button rather than a `NavigationLink`: the mover is often a row too, and two
+/// rows with one selection tag both highlight.
 private struct TopMoverCard: View {
     let market: MarketModel
     let onOpen: () -> Void
+    @ScaledMetric(relativeTo: .largeTitle) private var priceSize: CGFloat = 34
 
     var body: some View {
         Button(action: onOpen) {
             VStack(alignment: .leading, spacing: 10) {
-                Text("Top mover in top 250 · 24h")
-                    .font(.subheadline.weight(.medium))
-                    .foregroundStyle(.secondary)
-                HStack(spacing: 12) {
-                    MarketLogo(url: market.imageUrl, size: 40)
-                    VStack(alignment: .leading) {
-                        Text(market.symbol.uppercased()).font(.headline)
-                        Text(market.name).font(.subheadline).lineLimit(1)
-                    }
+                HStack {
+                    Text("Top Mover in Top 250 Today")
+                        .font(.footnote.weight(.semibold))
+                        .foregroundStyle(.white.opacity(0.78))
                     Spacer(minLength: 8)
-                    VStack(alignment: .trailing) {
-                        Text(market.currentPrice, format: priceFormat(market.currentPrice))
-                            .font(.title3.weight(.semibold))
-                            .monospacedDigit()
-                        TrendChange(change: market.priceChangePercentage24h)
-                            .font(.subheadline.weight(.semibold))
+                    TrendChange(change: market.priceChangePercentage24h)
+                        .font(.footnote.weight(.semibold))
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 4)
+                        .glassEffect(in: .capsule)
+                }
+                HStack(spacing: 12) {
+                    MarketLogo(url: market.imageUrl, size: 44)
+                    VStack(alignment: .leading) {
+                        Text(market.name).font(.title2.bold()).lineLimit(1)
+                        Text(market.symbol.uppercased())
+                            .font(.subheadline)
+                            .foregroundStyle(.white.opacity(0.72))
                     }
                 }
+                Text(market.currentPrice, format: priceFormat(market.currentPrice))
+                    .font(.system(size: priceSize, weight: .bold))
+                    .monospacedDigit()
+                    .padding(.bottom, 40)
+            }
+            .foregroundStyle(.white)
+            .padding(EdgeInsets(top: 18, leading: 18, bottom: 12, trailing: 18))
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(alignment: .bottom) {
                 if let up = market.isTrendingUp7d?.boolValue {
-                    Sparkline(points: market.sparkline7d.map(\.doubleValue), up: up)
-                        .frame(height: 48)
+                    MoverChart(points: market.sparkline7d.map(\.doubleValue), up: up)
+                        .frame(height: 96)
                 }
             }
-            .padding(.vertical, 4)
+            .background(Color(red: 0.11, green: 0.11, blue: 0.12))
+            .clipShape(.rect(cornerRadius: 28))
+            // The card is dark in both modes, so its glass and trend colors resolve as in dark mode.
+            .environment(\.colorScheme, .dark)
             .contentShape(.rect)
         }
         .buttonStyle(.plain)
+        .accessibilityElement(children: .combine)
         .accessibilityHint(Text("Opens \(market.name) details"))
+    }
+}
+
+/// The mover's 7-day prices as a line over a fading fill.
+private struct MoverChart: View {
+    let points: [Double]
+    let up: Bool
+
+    var body: some View {
+        let color = trendColor(up)
+        Chart(Array(points.enumerated()), id: \.offset) { point in
+            AreaMark(x: .value("Time", point.offset), y: .value("Price", point.element))
+                .foregroundStyle(.linearGradient(
+                    colors: [color.opacity(0.45), color.opacity(0)],
+                    startPoint: .top,
+                    endPoint: .bottom
+                ))
+            LineMark(x: .value("Time", point.offset), y: .value("Price", point.element))
+                .foregroundStyle(color)
+                .lineStyle(StrokeStyle(lineWidth: 2))
+        }
+        .chartXAxis(.hidden)
+        .chartYAxis(.hidden)
+        .chartYScale(domain: .automatic(includesZero: false))
+        .chartPlotStyle { $0.padding(.top, 8) }
+        .accessibilityHidden(true)
     }
 }
 
@@ -212,7 +268,8 @@ private struct MarketErrorPane: View {
                 Label(formatRetry(retryInSeconds), systemImage: waiting ? "timer" : "arrow.clockwise")
                     .monospacedDigit()
             }
-            .buttonStyle(.borderedProminent)
+            .buttonStyle(.glass)
+            .controlSize(.large)
             .disabled(waiting)
             Button("Open saved favorites", action: openFavorites)
         }
