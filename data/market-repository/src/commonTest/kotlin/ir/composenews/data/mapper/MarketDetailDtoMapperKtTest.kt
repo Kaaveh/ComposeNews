@@ -107,6 +107,6 @@ private infix fun MarketDetail.shouldBeEqual(expected: MarketDetailResponse) {
 private infix fun MarketDetail.MarketData.shouldBeEqual(expected: MarketDetailResponse.MarketData?) {
     high24hUSD shouldBe (expected?.high24h?.usd ?: 0.0)
     low24hUSD shouldBe (expected?.low24h?.usd ?: 0.0)
-    marketCapUSD shouldBe (expected?.marketCap?.usd ?: 0L)
+    marketCapUSD shouldBe expected?.marketCap?.usd
     marketCapRank shouldBe (expected?.marketCapRank ?: 0)
 }

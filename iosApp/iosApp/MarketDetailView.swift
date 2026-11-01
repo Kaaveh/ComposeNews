@@ -307,7 +307,7 @@ private struct MarketDataSection: View {
     private static func values(_ detail: MarketDetail) -> [String] {
         let data = detail.marketData
         return [
-            data.map { Double($0.marketCapUSD).formatted(compactUSD) } ?? "—",
+            data?.marketCapUSD.map { Double($0.int64Value).formatted(compactUSD) } ?? "—",
             data.map { formatPrice($0.high24hUSD) } ?? "—",
             data.map { formatPrice($0.low24hUSD) } ?? "—",
             "#\(data?.marketCapRank ?? detail.marketCapRank)",

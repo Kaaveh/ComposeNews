@@ -103,7 +103,7 @@ internal fun MarketData(
 private fun MarketDetail.values(): List<Pair<String, String>> {
     val data = marketData
     return listOf(
-        "Market Cap" to (data?.let { formatCompactUsd(it.marketCapUSD) } ?: NO_VALUE),
+        "Market Cap" to (data?.marketCapUSD?.let(::formatCompactUsd) ?: NO_VALUE),
         "Rank" to "#${data?.marketCapRank ?: marketCapRank}",
         "High 24h" to (data?.let { formatPrice(it.high24hUSD) } ?: NO_VALUE),
         "Low 24h" to (data?.let { formatPrice(it.low24hUSD) } ?: NO_VALUE),
