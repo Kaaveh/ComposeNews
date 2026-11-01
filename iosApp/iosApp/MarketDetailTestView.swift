@@ -26,6 +26,10 @@ struct MarketDetailTestView: View {
             model.send(MarketDetailContractEvent.GetMarketDetail(marketId: market.id))
             self.model = model
         }
+        // A sync or a favorite toggle brings a new copy of the same market.
+        .onChange(of: market) { _, market in
+            model?.send(MarketDetailContractEvent.SetMarket(market: market))
+        }
     }
 
     private func describe<T: AnyObject>(_ data: LoadableData<T>, _ loaded: (T) -> String) -> String {

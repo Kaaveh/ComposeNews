@@ -6,5 +6,6 @@ import org.koin.dsl.module
 
 val dataModule =
     module {
-        factory<MarketRepository> { MarketRepositoryImpl(get(), get()) }
+        // single: syncMarketList() shares one in-flight request between its callers.
+        single<MarketRepository> { MarketRepositoryImpl(get(), get()) }
     }

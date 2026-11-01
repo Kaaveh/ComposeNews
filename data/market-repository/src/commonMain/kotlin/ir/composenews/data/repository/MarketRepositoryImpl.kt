@@ -28,10 +28,15 @@ import ir.composenews.network.suspendOnSuccess
 import ir.composenews.network.toErrors
 import co.touchlab.kermit.Logger
 import ir.composenews.remotedatasource.api.MarketsApi
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
 
 /** CoinGecko's largest `per_page`: the whole list in one call. */
 private const val TOP_MARKETS = 250
@@ -52,7 +57,30 @@ class MarketRepositoryImpl(
     override fun getMarketById(id: String): Flow<Market?> =
         dao.getMarketById(id).map { entity -> entity?.toMarket() }
 
-    override suspend fun syncMarketList(): Resource<Unit, Errors> =
+    private val syncLock = Mutex()
+    private var syncInFlight: CompletableDeferred<Resource<Unit, Errors>>? = null
+
+    /**
+     * Overlapping calls (the launch sync and the list's own) share one request: CoinGecko's free tier can
+     * answer a second one with a 429.
+     */
+    override suspend fun syncMarketList(): Resource<Unit, Errors> {
+        val (sync, isOwner) = syncLock.withLock {
+            syncInFlight?.let { it to false }
+                ?: (CompletableDeferred<Resource<Unit, Errors>>().also { syncInFlight = it } to true)
+        }
+        if (!isOwner) return sync.await()
+        return try {
+            fetchMarketList().also { sync.complete(it) }
+        } catch (e: Throwable) {
+            sync.completeExceptionally(e)
+            throw e
+        } finally {
+            withContext(NonCancellable) { syncLock.withLock { syncInFlight = null } }
+        }
+    }
+
+    private suspend fun fetchMarketList(): Resource<Unit, Errors> =
         when (val response = api.getMarkets("usd", "market_cap_desc", TOP_MARKETS, 1, true)) {
             is ApiResponse.Success -> {
                 // An empty answer would clear every rank and blank the list, so keep what we have.

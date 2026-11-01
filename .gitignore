@@ -22,3 +22,4 @@ release\
 /sync/build/*
 .kotlin
 xcuserdata/
+iosApp/Configuration/Local.xcconfig

@@ -1,0 +1,4 @@
+// Machine-specific settings go in Local.xcconfig next to this file (gitignored), for example:
+//   DEVELOPMENT_TEAM = ABCDE12345     to run on a device; picking a team in Xcode writes it into project.pbxproj
+//   JAVA_HOME = /path/to/jdk          when the JDK (17+) is set only in your shell profile, which Xcode doesn't read
+#include? "Local.xcconfig"

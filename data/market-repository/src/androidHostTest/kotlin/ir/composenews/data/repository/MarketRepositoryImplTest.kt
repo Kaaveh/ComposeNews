@@ -32,6 +32,11 @@ import ir.composenews.remotedatasource.api.MarketsApi
 import ir.composenews.remotedatasource.dto.MarketChartResponse
 import ir.composenews.remotedatasource.dto.MarketDetailResponse
 import ir.composenews.remotedatasource.dto.MarketResponse
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import java.io.IOException
@@ -83,6 +88,20 @@ class MarketRepositoryImplTest : StringSpec({
             api.getMarkets("usd", "market_cap_desc", 250, 1, true)
             marketDao.replaceTopMarkets(listOf(marketEntities))
         }
+    }
+
+    "Given a sync is running, When SyncMarketList is called again, Then both share one request" {
+        val answer = CompletableDeferred<ApiResponse<List<MarketResponse>>>()
+        coEvery { api.getMarkets(any(), any(), any(), any(), any()) } coAnswers { answer.await() }
+
+        val results = coroutineScope {
+            val calls = List(2) { async(start = CoroutineStart.UNDISPATCHED) { repository.syncMarketList() } }
+            answer.complete(ApiResponse.Success(emptyList()))
+            calls.awaitAll()
+        }
+
+        results shouldBe List(2) { Resource.Success(Unit) }
+        coVerify(exactly = 1) { api.getMarkets(any(), any(), any(), any(), any()) }
     }
 
     "Given API call fails, When SyncMarketList is called, Then does not update database" {

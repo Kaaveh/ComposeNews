@@ -8,6 +8,7 @@
 
 /* Begin PBXFileReference section */
 		A10000000000000000000001 /* ComposeNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ComposeNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A10000000000000000000002 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -29,6 +30,7 @@
 			isa = PBXGroup;
 			children = (
 				A20000000000000000000001 /* iosApp */,
+				A40000000000000000000003 /* Configuration */,
 				A40000000000000000000002 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -39,6 +41,14 @@
 				A10000000000000000000001 /* ComposeNews.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A40000000000000000000003 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000002 /* Config.xcconfig */,
+			);
+			path = Configuration;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -122,7 +132,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"$SRCROOT/..\"\n./gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
+			shellScript = "set -e\n# Xcode doesn't read your shell profile. Without a JAVA_HOME (environment or Local.xcconfig),\n# use the JDK macOS knows about, else Android Studio's.\nif [ -z \"$JAVA_HOME\" ]; then\n  JAVA_HOME=\"$(/usr/libexec/java_home 2>/dev/null || echo '/Applications/Android Studio.app/Contents/jbr/Contents/Home')\"\n  export JAVA_HOME\nfi\ncd \"$SRCROOT/..\"\n./gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -181,6 +191,7 @@
 		};
 		A80000000000000000000003 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A10000000000000000000002 /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -213,6 +224,7 @@
 		};
 		A80000000000000000000004 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A10000000000000000000002 /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
