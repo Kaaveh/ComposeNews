@@ -1,12 +1,15 @@
 import Shared
 import SwiftUI
 
-/// Markets and Favorites, the same two destinations as Android's `NavigationSuiteScaffold`: a tab bar on
-/// iPhone, a sidebar on iPad.
+/// Markets and Favorites, the same two destinations as Android's `NavigationSuiteScaffold`: a glass tab bar on
+/// iPhone, a sidebar with the favorites count on iPad.
 struct RootView: View {
     enum Destination { case markets, favorites }
 
     @State private var destination = Destination.markets
+    // Here rather than in the tab: the sidebar badge needs the count before Favorites is ever opened.
+    @State private var favorites: FavoriteListModel?
+    @Environment(\.horizontalSizeClass) private var sizeClass
 
     var body: some View {
         TabView(selection: $destination) {
@@ -14,10 +17,22 @@ struct RootView: View {
                 MarketsTab { destination = .favorites }
             }
             Tab("Favorites", systemImage: "heart", value: .favorites) {
-                FavoritesTab { destination = .markets }
+                FavoritesTab(model: favorites) { destination = .markets }
             }
+            // The canvas badges the sidebar only; 0 hides it.
+            .badge(sizeClass == .regular ? Int(favorites?.state.count ?? 0) : 0)
         }
         .tabViewStyle(.sidebarAdaptable)
+        .tabViewSidebarHeader {
+            Text(verbatim: "ComposeNews")
+                .font(.title3.bold())
+        }
+        .task {
+            guard favorites == nil else { return }
+            let model = FavoriteListModel()
+            model.send(FavoriteListContractEvent.OnGetFavoriteList.shared)
+            favorites = model
+        }
     }
 }
 
@@ -48,8 +63,8 @@ private struct MarketsTab: View {
 }
 
 private struct FavoritesTab: View {
+    let model: FavoriteListModel?
     let browseMarkets: () -> Void
-    @State private var model: FavoriteListModel?
 
     var body: some View {
         MarketSplitView(title: "Favorites") { id in
@@ -60,12 +75,6 @@ private struct FavoritesTab: View {
             } else {
                 ProgressView()
             }
-        }
-        .task {
-            guard model == nil else { return }
-            let model = FavoriteListModel()
-            model.send(FavoriteListContractEvent.OnGetFavoriteList.shared)
-            self.model = model
         }
     }
 }
@@ -90,7 +99,7 @@ private struct MarketSplitView<Content: View>: View {
                 .navigationTitle(title)
         } detail: {
             if let selected {
-                MarketDetailView(market: selected).id(selected.id)
+                MarketDetailView(market: selected, wide: sizeClass == .regular).id(selected.id)
             } else {
                 ContentUnavailableView("Select a market", systemImage: "chart.line.uptrend.xyaxis")
             }

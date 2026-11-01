@@ -11,8 +11,27 @@
         }
       }
     },
-    "%d saved · swipe left to remove" : {
-
+    "%d markets" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d market"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d markets"
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "1D" : {
 
@@ -41,10 +60,13 @@
     "Add %@ to favorites" : {
 
     },
+    "Add to Favorites" : {
+
+    },
     "All" : {
 
     },
-    "Browse markets" : {
+    "Browse Markets" : {
 
     },
     "Check your connection and try again." : {
@@ -62,9 +84,6 @@
     "Favorites" : {
 
     },
-    "Favorites stay in sync in the background, even offline." : {
-
-    },
     "Filter" : {
 
     },
@@ -72,6 +91,9 @@
 
     },
     "High 24h" : {
+
+    },
+    "In Favorites" : {
 
     },
     "Loading chart" : {
@@ -104,16 +126,19 @@
     "Name" : {
 
     },
-    "No chart data" : {
+    "No Favorites Yet" : {
 
     },
-    "No favorites yet" : {
+    "No chart data" : {
 
     },
     "No markets" : {
 
     },
     "No markets match this filter" : {
+
+    },
+    "Open a market and tap Add to Favorites to keep it here." : {
 
     },
     "Open saved favorites" : {
@@ -152,16 +177,16 @@
     "Select a market" : {
 
     },
-    "Sort" : {
-
-    },
     "Sort by" : {
 
     },
     "Sort favorites by name, price or 24h change" : {
 
     },
-    "Tap the heart on any market to keep it here, ready at a glance." : {
+    "Sort markets" : {
+
+    },
+    "Swipe left on a market to remove it from Favorites." : {
 
     },
     "The server answered %d." : {
@@ -194,7 +219,7 @@
     "Top 250 · By volume" : {
 
     },
-    "Top mover in top 250 · 24h" : {
+    "Top Mover in Top 250 Today" : {
 
     },
     "Try again" : {

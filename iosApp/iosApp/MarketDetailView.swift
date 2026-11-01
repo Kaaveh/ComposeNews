@@ -2,10 +2,13 @@ import Charts
 import Shared
 import SwiftUI
 
-/// One market: header, the price chart for the picked range, and Market Data. The toolbar has Share and the
-/// favorite toggle.
+/// One market: header, the edge-to-edge price chart for the picked range, and Market Data. Back and Share are
+/// the toolbar's glass buttons; the favorite toggle is a glass capsule at the bottom on iPhone and sits next to
+/// Share on iPad.
 struct MarketDetailView: View {
     let market: MarketModel
+    /// The split view shows both columns (iPad): the favorite sits in the toolbar and the tab bar stays.
+    let wide: Bool
     // Created in `.task`, not here: SwiftUI evaluates a `@State` initial value on every rebuild of the struct.
     @State private var model: MarketDetailModel?
 
@@ -13,26 +16,38 @@ struct MarketDetailView: View {
         let state = model?.state
         // The ViewModel's copy follows the database's favorite flag; until it exists, the list's.
         let shown = state?.market.data ?? market
+        let favorite = FavoriteToggle(isFavorite: shown.isFavorite, name: shown.name) {
+            model?.send(MarketDetailContractEvent.OnFavoriteClick(market: shown))
+        }
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 MarketHeader(market: shown, state: state)
+                    .padding(.horizontal)
                 if let state {
-                    PriceChartCard(chart: state.marketChart, range: state.chartRange) { range in
+                    PriceChartSection(chart: state.marketChart, range: state.chartRange) { range in
                         model?.send(MarketDetailContractEvent.OnChartRangeSelect(range: range))
                     }
                     MarketDataSection(detail: state.marketDetail)
+                        .padding(.horizontal)
                 }
             }
-            .padding()
+            .padding(.vertical)
+        }
+        .background(Color(.systemGroupedBackground))
+        .safeAreaInset(edge: .bottom) {
+            if !wide {
+                favorite.controlSize(.large)
+            }
         }
         .toolbar {
-            ToolbarItemGroup {
+            ToolbarItem {
                 ShareLink(item: shareText(shown))
-                FavoriteButton(isFavorite: shown.isFavorite, name: shown.name) {
-                    model?.send(MarketDetailContractEvent.OnFavoriteClick(market: shown))
-                }
+            }
+            if wide {
+                ToolbarItem { favorite }
             }
         }
+        .toolbarVisibility(wide ? .automatic : .hidden, for: .tabBar)
         .navigationBarTitleDisplayMode(.inline)
         .task {
             // Once per view, so coming back to the screen doesn't fetch again.
@@ -52,17 +67,39 @@ struct MarketDetailView: View {
 
 /// Android's `shareText` in the locale's number formats: `Bitcoin (BTC): $67,412.80, ▲ 2.14% (24h)` and the
 /// CoinGecko page (Android always writes `67,412.80 $` and `2.14 %`).
-private func shareText(_ market: MarketModel) -> String {
-    let arrow = market.priceChangePercentage24h >= 0 ? "▲" : "▼"
-    let change = formatPercent(market.priceChangePercentage24h)
-    return "\(market.name) (\(market.symbol.uppercased())): \(formatPrice(market.currentPrice)), \(arrow) \(change) (24h)\n"
+func shareText(_ market: MarketModel) -> String {
+    "\(market.name) (\(market.symbol.uppercased())): \(formatPrice(market.currentPrice)), "
+        + "\(trendText(market.priceChangePercentage24h)) (24h)\n"
         + "https://www.coingecko.com/en/coins/\(market.id)"
+}
+
+/// `In Favorites` on accent-tinted glass when saved, `Add to Favorites` on clear glass when not. One button
+/// whose glass changes, so a tap morphs it and VoiceOver focus stays on it.
+private struct FavoriteToggle: View {
+    let isFavorite: Bool
+    let name: String
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Label(
+                isFavorite ? "In Favorites" : "Add to Favorites",
+                systemImage: isFavorite ? "heart.fill" : "heart"
+            )
+            .fontWeight(.semibold)
+            .foregroundStyle(isFavorite ? Color.white : Color.accentColor)
+        }
+        .buttonStyle(.glass(isFavorite ? .regular.tint(.accentColor) : .regular))
+        .accessibilityLabel(isFavorite ? Text("Remove \(name) from favorites") : Text("Add \(name) to favorites"))
+        .sensoryFeedback(.selection, trigger: isFavorite)
+    }
 }
 
 /// Logo, name, `BTC · Rank #1`, the price, and the change over the picked range in a capsule.
 private struct MarketHeader: View {
     let market: MarketModel
     let state: MarketDetailContractState?
+    @ScaledMetric(relativeTo: .largeTitle) private var priceSize: CGFloat = 44
 
     var body: some View {
         let range = state?.chartRange ?? .day
@@ -70,37 +107,32 @@ private struct MarketHeader: View {
         // Until the 1D chart answers, its change is the 24h change the list already has.
         let change = state?.rangeChange?.doubleValue ?? (range == .day ? market.priceChangePercentage24h : nil)
         VStack(alignment: .leading, spacing: 6) {
-            HStack(spacing: 12) {
-                MarketLogo(url: market.imageUrl, size: 48)
-                VStack(alignment: .leading) {
-                    Text(market.name)
-                        .font(.title2.bold())
-                        .accessibilityAddTraits(.isHeader)
-                    Group {
-                        if let rank {
-                            Text("\(market.symbol.uppercased()) · Rank #\(rank)")
-                        } else {
-                            Text(market.symbol.uppercased())
-                        }
+            HStack(spacing: 10) {
+                MarketLogo(url: market.imageUrl, size: 32)
+                Text(market.name)
+                    .font(.title3.weight(.semibold))
+                    .accessibilityAddTraits(.isHeader)
+                Group {
+                    if let rank {
+                        Text("\(market.symbol.uppercased()) · Rank #\(rank)")
+                    } else {
+                        Text(market.symbol.uppercased())
                     }
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
                 }
+                .foregroundStyle(.secondary)
             }
             Text(market.currentPrice, format: priceFormat(market.currentPrice))
-                .font(.largeTitle.bold())
+                .font(.system(size: priceSize, weight: .bold))
                 .monospacedDigit()
-                .padding(.top, 10)
-            HStack(spacing: 8) {
+                .minimumScaleFactor(0.5)
+                .lineLimit(1)
+            HStack(spacing: 6) {
                 if let change {
                     TrendChange(change: change)
-                        .font(.subheadline.weight(.semibold))
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 4)
-                        .background(trendColor(change >= 0).opacity(0.15), in: .capsule)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(trendColor(change >= 0))
                 }
                 Text(rangeLabel(range))
-                    .font(.subheadline)
                     .foregroundStyle(.secondary)
             }
         }
@@ -120,8 +152,8 @@ private func rangeLabel(_ range: MarketDetailContractChartRange, short: Bool = f
 
 private let chartHeight: CGFloat = 188
 
-/// The price line for the range and the 1D / 1W / 1M / 1Y picker under it.
-private struct PriceChartCard: View {
+/// The price line for the range, edge to edge, and the 1D / 1W / 1M / 1Y picker under it.
+private struct PriceChartSection: View {
     let chart: LoadableData<MarketChart>
     let range: MarketDetailContractChartRange
     let onRangeSelect: (MarketDetailContractChartRange) -> Void
@@ -130,7 +162,7 @@ private struct PriceChartCard: View {
         VStack(spacing: 12) {
             switch onEnum(of: chart) {
             case .initial, .loading:
-                RoundedRectangle(cornerRadius: 16)
+                Rectangle()
                     .fill(.quaternary)
                     .frame(height: chartHeight + 44)
                     .accessibilityLabel(Text("Loading chart"))
@@ -138,6 +170,7 @@ private struct PriceChartCard: View {
                 Text(errorMessage(error.error))
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
+                    .padding(.horizontal)
                     .frame(maxWidth: .infinity, minHeight: chartHeight + 44)
             case .loaded(let loaded):
                 PriceChart(points: loaded.data?.prices.compactMap(PricePoint.init) ?? [])
@@ -148,9 +181,8 @@ private struct PriceChartCard: View {
                 }
             }
             .pickerStyle(.segmented)
+            .padding(.horizontal)
         }
-        .padding(12)
-        .background(Color(.secondarySystemBackground), in: .rect(cornerRadius: 28))
     }
 }
 
@@ -195,6 +227,7 @@ private struct PriceChart: View {
                         .foregroundStyle(.secondary)
                 }
                 .accessibilityElement(children: .combine)
+                .padding(.horizontal)
                 Chart {
                     // By position: CoinGecko can send two points with one timestamp.
                     ForEach(Array(points.enumerated()), id: \.offset) { _, point in
@@ -222,10 +255,12 @@ private struct PriceChart: View {
                 .chartXSelection(value: $selectedDate)
                 .chartXAxis(.hidden)
                 .chartYScale(domain: low...high)
+                // Edge to edge: the price labels sit inside the plot instead of taking a gutter.
                 .chartYAxis {
                     AxisMarks(position: .trailing, values: .automatic(desiredCount: 3)) {
                         AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [4, 4]))
-                        AxisValueLabel(format: compactUSD)
+                        AxisValueLabel(format: compactUSD, anchor: .bottomTrailing)
+                            .offset(x: -16, y: -2)
                     }
                 }
                 .frame(height: chartHeight)
@@ -233,30 +268,32 @@ private struct PriceChart: View {
         } else {
             Text("No chart data")
                 .foregroundStyle(.secondary)
+                .padding(.horizontal)
                 .frame(maxWidth: .infinity, minHeight: chartHeight + 44)
         }
     }
 }
 
-/// `Market Data`: Market Cap, Rank, High 24h and Low 24h, in a 2×2 grid.
+/// `Market Data`: Market Cap, High 24h, Low 24h and Rank, as grouped rows.
 private struct MarketDataSection: View {
     let detail: LoadableData<MarketDetail>
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 8) {
             Text("Market Data")
-                .font(.title3.bold())
+                .font(.title2.bold())
                 .accessibilityAddTraits(.isHeader)
+                .padding(.horizontal, 4)
             switch onEnum(of: detail) {
             case .error(let error):
                 Text(errorMessage(error.error))
                     .foregroundStyle(.secondary)
             case .loaded(let loaded):
                 if let detail = loaded.data {
-                    tiles(Self.values(detail))
+                    rows(Self.values(detail))
                 }
             case .initial, .loading:
-                tiles(Self.placeholder)
+                rows(Self.placeholder)
                     .redacted(reason: .placeholder)
                     .accessibilityElement(children: .ignore)
                     .accessibilityLabel(Text("Loading market data"))
@@ -264,54 +301,35 @@ private struct MarketDataSection: View {
         }
     }
 
-    private static let placeholder = ["$1.23T", "#1", "$12,345.67", "$12,345.67"]
+    private static let placeholder = ["$1.23T", "$12,345.67", "$12,345.67", "#1"]
 
-    /// The four values in tile order; `—` when CoinGecko sent no market data.
+    /// The four values in row order; `—` when CoinGecko sent no market data.
     private static func values(_ detail: MarketDetail) -> [String] {
         let data = detail.marketData
         return [
             data.map { Double($0.marketCapUSD).formatted(compactUSD) } ?? "—",
-            "#\(data?.marketCapRank ?? detail.marketCapRank)",
             data.map { formatPrice($0.high24hUSD) } ?? "—",
             data.map { formatPrice($0.low24hUSD) } ?? "—",
+            "#\(data?.marketCapRank ?? detail.marketCapRank)",
         ]
     }
 
-    private func tiles(_ values: [String]) -> some View {
-        Grid(horizontalSpacing: 8, verticalSpacing: 8) {
-            GridRow {
-                StatTile(label: "Market Cap", systemImage: "chart.pie.fill", tint: .accentColor, value: values[0])
-                StatTile(label: "Rank", systemImage: "medal", tint: .secondary, value: values[1])
-            }
-            GridRow {
-                StatTile(label: "High 24h", systemImage: "arrow.up.right", tint: trendColor(true), value: values[2])
-                StatTile(label: "Low 24h", systemImage: "arrow.down.right", tint: trendColor(false), value: values[3])
+    private static let labels: [LocalizedStringKey] = ["Market Cap", "High 24h", "Low 24h", "Rank"]
+
+    private func rows(_ values: [String]) -> some View {
+        VStack(spacing: 0) {
+            ForEach(values.indices, id: \.self) { index in
+                if index > 0 { Divider() }
+                LabeledContent(Self.labels[index]) {
+                    Text(values[index])
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.primary)
+                        .monospacedDigit()
+                }
+                .frame(minHeight: 50)
             }
         }
-    }
-}
-
-private struct StatTile: View {
-    let label: LocalizedStringKey
-    let systemImage: String
-    let tint: Color
-    let value: String
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Label {
-                Text(label).foregroundStyle(.secondary)
-            } icon: {
-                Image(systemName: systemImage).foregroundStyle(tint)
-            }
-            .font(.subheadline)
-            Text(value)
-                .font(.title3.weight(.semibold))
-                .monospacedDigit()
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding()
-        .background(Color(.secondarySystemBackground), in: .rect(cornerRadius: 20))
-        .accessibilityElement(children: .combine)
+        .padding(.horizontal, 16)
+        .background(Color(.secondarySystemGroupedBackground), in: .rect(cornerRadius: 26))
     }
 }

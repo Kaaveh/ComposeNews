@@ -1,11 +1,13 @@
 import Shared
 import SwiftUI
 
-/// The saved markets, sorted by name, price or 24h change; a swipe to the left removes one.
+/// The saved markets, sorted by name, price or 24h change; a swipe to the left (or Edit) removes one.
 struct FavoriteListView: View {
     let model: FavoriteListModel
     @Binding var selectedID: String?
     let browseMarkets: () -> Void
+    // Owned here so removing the last favorite can leave edit mode: its Done button goes with the list.
+    @State private var editMode = EditMode.inactive
 
     var body: some View {
         let state = model.state
@@ -24,19 +26,24 @@ struct FavoriteListView: View {
                 let favorites = loaded.data as? [MarketModel] ?? []
                 if favorites.isEmpty {
                     ContentUnavailableView {
-                        Label("No favorites yet", systemImage: "heart")
+                        Label("No Favorites Yet", systemImage: "heart")
                     } description: {
-                        Text("Tap the heart on any market to keep it here, ready at a glance.")
+                        Text("Open a market and tap Add to Favorites to keep it here.")
                     } actions: {
-                        Button("Browse markets", action: browseMarkets)
-                            .buttonStyle(.borderedProminent)
+                        Button("Browse Markets", action: browseMarkets)
+                            .buttonStyle(.glassProminent)
+                            .controlSize(.large)
                     }
                 } else {
                     list(state, favorites: favorites)
                 }
             }
         }
+        .navigationSubtitle(state.count > 0 ? Text("\(state.count) markets") : Text(verbatim: ""))
         .toolbar {
+            if state.count > 0 {
+                ToolbarItem { EditButton() }
+            }
             ToolbarItem {
                 Menu {
                     Picker("Sort by", selection: Binding(
@@ -51,6 +58,10 @@ struct FavoriteListView: View {
                     Label("Sort favorites by name, price or 24h change", systemImage: "arrow.up.arrow.down")
                 }
             }
+        }
+        .environment(\.editMode, $editMode)
+        .onChange(of: state.count == 0) { _, empty in
+            if empty { editMode = .inactive }
         }
     }
 
@@ -70,10 +81,13 @@ struct FavoriteListView: View {
                         }
                     }
                 }
-            } header: {
-                Text("\(state.count) saved · swipe left to remove")
+                .onDelete { offsets in
+                    for index in offsets {
+                        model.send(FavoriteListContractEvent.OnFavoriteClick(market: favorites[index]))
+                    }
+                }
             } footer: {
-                Label("Favorites stay in sync in the background, even offline.", systemImage: "bell")
+                Text("Swipe left on a market to remove it from Favorites.")
             }
         }
     }
