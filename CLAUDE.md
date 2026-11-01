@@ -33,6 +33,8 @@ ComposeNews is a production-ready Android crypto application demonstrating moder
 | `library:designsystem` | Compose design system / theming |
 | `library:navigation` | Navigation utilities |
 | `konsist` | Architecture consistency (Konsist) tests |
+| `shared` | iOS umbrella framework `Shared` (iOS targets only, SKIE): `initKoin()`, ViewModel factories, `ViewModelOwner` |
+| `iosApp/` | SwiftUI app: `ScreenModel`, the `@Observable` owner of a screen's ViewModel (no Xcode project yet, #371) |
 
 KMP modules keep shared code in `commonMain` and Android-only code (`Context`, WorkManager, Room's Android driver) in `androidMain`; tests live in `commonTest`, or `androidHostTest` when they need the JVM. Konsist fails the build if any `commonMain` imports `androidx.compose.*` or `android.*`. `app`, `app-watch`, `app-tv`, the `feature:*:ui` modules, `core:ui` and `library:*` stay Android-only.
 
@@ -41,7 +43,7 @@ KMP modules keep shared code in `commonMain` and Android-only code (`Context`, W
 Dependencies are managed via the **version catalog** at `gradle/libs.versions.toml`.
 
 Module scripts apply a convention plugin from `build-logic/` (SDK levels, Java 17, test options, packaging, detekt, kotlinter), so they only hold their namespace and dependencies:
-`composenews.android.application`, `composenews.android.library`, `composenews.android.library.compose`, `composenews.kmp.library` (KMP, Android, `iosArm64` and `iosSimulatorArm64` targets), `composenews.kmp.room` (KSP + Room). `baselineprofile` (`com.android.test`) is the one module without one.
+`composenews.android.application`, `composenews.android.library`, `composenews.android.library.compose`, `composenews.kmp.library` (KMP, Android, `iosArm64` and `iosSimulatorArm64` targets), `composenews.kmp.ios` (KMP, iOS targets only: `shared`), `composenews.kmp.room` (KSP + Room). `baselineprofile` (`com.android.test`) is the one module without one.
 
 ```bash
 # Build

@@ -30,6 +30,10 @@ gradlePlugin {
             id = libs.plugins.composenews.kmp.library.get().pluginId
             implementationClass = "ir.composenews.buildlogic.KmpLibraryConventionPlugin"
         }
+        register("kmpIos") {
+            id = libs.plugins.composenews.kmp.ios.get().pluginId
+            implementationClass = "ir.composenews.buildlogic.KmpIosConventionPlugin"
+        }
         register("kmpRoom") {
             id = libs.plugins.composenews.kmp.room.get().pluginId
             implementationClass = "ir.composenews.buildlogic.KmpRoomConventionPlugin"
