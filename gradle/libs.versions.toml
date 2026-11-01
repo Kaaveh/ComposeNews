@@ -8,6 +8,8 @@ projectTargetSdkVersion = "36"
 projectCompileSdkVersion = "37"
 
 kotlin = "2.4.21"
+# SKIE supports a fixed list of Kotlin versions: bump Kotlin only once a SKIE release lists it (documentation/SwiftInterop.md)
+skie = "0.10.16"
 kotlinter = "5.4.2"
 kotlinxImmutableCollection = "0.4.0"
 androidGradlePlugin = "9.3.3"
@@ -172,12 +174,14 @@ android-kotlin-multiplatform-library = { id = "com.android.kotlin.multiplatform.
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 room = { id = "androidx.room", version.ref = "room" }
+skie = { id = "co.touchlab.skie", version.ref = "skie" }
 
 # Convention plugins (build-logic)
 composenews-android-application = { id = "composenews.android.application" }
 composenews-android-library = { id = "composenews.android.library" }
 composenews-android-library-compose = { id = "composenews.android.library.compose" }
 composenews-kmp-library = { id = "composenews.kmp.library" }
+composenews-kmp-ios = { id = "composenews.kmp.ios" }
 composenews-kmp-room = { id = "composenews.kmp.room" }
 
 [bundles]

@@ -5,6 +5,7 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalog
 import org.gradle.api.artifacts.VersionCatalogsExtension
+import org.gradle.api.tasks.SourceTask
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
@@ -13,6 +14,7 @@ import org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginE
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinCommonCompilerOptions
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompilerOptions
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
 internal val Project.libs: VersionCatalog
     get() = extensions.getByType<VersionCatalogsExtension>().named("libs")
@@ -29,6 +31,17 @@ internal fun Project.applyPlugin(alias: String) {
 internal fun Project.applyCodeQualityPlugins() {
     applyPlugin("detekt")
     applyPlugin("kotliner")
+}
+
+/** The iOS targets every KMP module builds. */
+internal fun KotlinMultiplatformExtension.iosTargets() {
+    iosArm64()
+    iosSimulatorArm64()
+}
+
+/** The plain `detekt` task only looks in src/main and src/test, which a KMP module doesn't have. */
+internal fun Project.detektKmpSources() {
+    tasks.named("detekt", SourceTask::class.java) { setSource(file("src")) }
 }
 
 /** Every Kotlin compilation, JVM or not. */

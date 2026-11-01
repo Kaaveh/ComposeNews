@@ -3,7 +3,6 @@ package ir.composenews.buildlogic
 import com.android.build.api.dsl.KotlinMultiplatformAndroidLibraryTarget
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.tasks.SourceTask
 import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.withType
@@ -32,8 +31,7 @@ class KmpLibraryConventionPlugin : Plugin<Project> {
                 compilerOptions.jvmTarget.set(JvmTarget.JVM_17)
             }
 
-            iosArm64()
-            iosSimulatorArm64()
+            iosTargets()
 
             compilerOptions.configureKotlin()
             sourceSets.commonTest.dependencies {
@@ -47,8 +45,7 @@ class KmpLibraryConventionPlugin : Plugin<Project> {
             }
         }
 
-        // The plain `detekt` task only looks in src/main and src/test, which a KMP module doesn't have.
-        tasks.named("detekt", SourceTask::class.java) { setSource(file("src")) }
+        detektKmpSources()
 
         // KMP has no `test` task, so CI's `./gradlew test` would skip the host tests.
         tasks.register("test") { dependsOn("testAndroid") }
