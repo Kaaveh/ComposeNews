@@ -41,7 +41,7 @@ KMP modules keep shared code in `commonMain` and Android-only code (`Context`, W
 Dependencies are managed via the **version catalog** at `gradle/libs.versions.toml`.
 
 Module scripts apply a convention plugin from `build-logic/` (SDK levels, Java 17, test options, packaging, detekt, kotlinter), so they only hold their namespace and dependencies:
-`composenews.android.application`, `composenews.android.library`, `composenews.android.library.compose`, `composenews.kmp.library` (KMP, Android target; iOS behind `composenews.ios`), `composenews.kmp.room` (KSP + Room). `baselineprofile` (`com.android.test`) is the one module without one.
+`composenews.android.application`, `composenews.android.library`, `composenews.android.library.compose`, `composenews.kmp.library` (KMP, Android, `iosArm64` and `iosSimulatorArm64` targets), `composenews.kmp.room` (KSP + Room). `baselineprofile` (`com.android.test`) is the one module without one.
 
 ```bash
 # Build
@@ -67,7 +67,7 @@ Module scripts apply a convention plugin from `build-logic/` (SDK levels, Java 1
 - **Repository pattern**: data layer abstracts remote + local sources
 - **Reactive**: Kotlin Coroutine Flows throughout (no LiveData)
 - **Market list**: the top 250 markets, synced in one call and read from Room as a `Flow<List<Market>>`; filter and sort run in the shared ViewModel (no Paging)
-- **Database**: Room KMP in `data:market-local`, on the system SQLite (`AndroidSQLiteDriver`) on Android (iOS will use `BundledSQLiteDriver`, #368); Android copies the legacy SQLDelight `MarketDatabase` file into `composenews.db` on first open (#360)
+- **Database**: Room KMP in `data:market-local`, on the system SQLite (`AndroidSQLiteDriver`) on Android and the bundled SQLite (`BundledSQLiteDriver`) on iOS; Android copies the legacy SQLDelight `MarketDatabase` file into `composenews.db` on first open (#360)
 - **HTTP**: Ktor client (KMP-ready, replacing Retrofit)
 
 ## Testing

@@ -8,8 +8,12 @@ kotlin {
     }
 
     sourceSets {
-        androidMain.dependencies {
+        commonMain.dependencies {
+            implementation(projects.core.base)
             implementation(projects.domain.market)
+            implementation(libs.koin.core)
+        }
+        androidMain.dependencies {
             libs.apply {
                 implementation(koin.android)
                 implementation(koin.workmanager)

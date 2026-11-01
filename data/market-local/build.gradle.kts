@@ -15,6 +15,9 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.koin.android)
         }
+        iosMain.dependencies {
+            implementation(libs.sqlite.bundled)
+        }
         androidHostTest.dependencies {
             libs.apply {
                 implementation(junit.ext)
