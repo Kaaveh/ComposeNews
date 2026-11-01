@@ -99,9 +99,9 @@ class BaselineProfileGenerator {
     }
 
     private fun MacrobenchmarkScope.favoriteScreenJourney() {
-        device.findObject(By.text("Favorite"))?.click()
+        device.findObject(By.text("Favorites"))?.click()
         device.wait(
-            Until.hasObject(By.text("Your favorite list is empty")),
+            Until.hasObject(By.text("No favorites yet")),
             FAVORITE_TIMEOUT_MILLIS,
         )
     }
