@@ -24,7 +24,7 @@ expect object MarketDatabaseConstructor : RoomDatabaseConstructor<MarketDatabase
     override fun initialize(): MarketDatabase
 }
 
-/** Android passes `AndroidSQLiteDriver` (the system SQLite); iOS will pass `BundledSQLiteDriver` (#368). */
+/** Android passes `AndroidSQLiteDriver` (the system SQLite); iOS passes `BundledSQLiteDriver`. */
 fun buildMarketDatabase(
     builder: RoomDatabase.Builder<MarketDatabase>,
     dispatchers: DispatcherProvider,

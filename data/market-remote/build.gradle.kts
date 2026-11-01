@@ -19,6 +19,9 @@ kotlin {
                 implementation(ktor.logging)
             }
         }
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+        }
         androidHostTest.dependencies {
             implementation(libs.ktor.client.okhttp)
         }

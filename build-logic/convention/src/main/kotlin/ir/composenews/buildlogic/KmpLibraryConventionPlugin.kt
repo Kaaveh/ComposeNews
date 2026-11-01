@@ -11,10 +11,9 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
 /**
- * Shared (KMP) library with an Android target. Each module sets `kotlin { android { namespace = ... } }`.
+ * Shared (KMP) library with Android and iOS targets. Each module sets `kotlin { android { namespace = ... } }`.
  *
- * iOS targets are off until #368; turn them on with `composenews.ios=true` in `gradle.properties`.
- * Kotest on iOS also needs the `io.kotest` Gradle plugin and KSP, which #368 adds.
+ * Kotest on iOS also needs the `io.kotest` Gradle plugin and KSP, which #373 adds.
  */
 class KmpLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
@@ -33,10 +32,8 @@ class KmpLibraryConventionPlugin : Plugin<Project> {
                 compilerOptions.jvmTarget.set(JvmTarget.JVM_17)
             }
 
-            if (iosEnabled) {
-                iosArm64()
-                iosSimulatorArm64()
-            }
+            iosArm64()
+            iosSimulatorArm64()
 
             compilerOptions.configureKotlin()
             sourceSets.commonTest.dependencies {
@@ -58,6 +55,3 @@ class KmpLibraryConventionPlugin : Plugin<Project> {
         tasks.withType<Test>().configureEach { useJUnitPlatform() }
     }
 }
-
-internal val Project.iosEnabled: Boolean
-    get() = providers.gradleProperty("composenews.ios").orNull.toBoolean()
