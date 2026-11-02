@@ -14,9 +14,9 @@ kotlinter = "5.4.2"
 kotlinxImmutableCollection = "0.4.0"
 androidGradlePlugin = "9.3.3"
 
-ktx = "1.17.0"
+ktx = "1.18.0"
 
-composeBOM = "2026.08.00"
+composeBOM = "2026.09.00"
 composeActivity = "1.13.0"
 composeCoil = "2.7.0"
 # Expressive components (ButtonGroup, LoadingIndicator) aren't in the BOM's 1.4.0; back to the BOM once 1.5.0 is stable
@@ -36,7 +36,7 @@ lifecycle = "2.11.0"
 navigationCompose = "2.9.7"
 nav3Core = "1.1.1"
 
-chucker = "4.3.0"
+chucker = "4.3.1"
 kotlinx-serialization = "1.11.0"
 
 room = "2.8.5"
